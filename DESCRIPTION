@@ -1,0 +1,46 @@
+Package: ndi
+Title: Neighborhood Deprivation Indices
+Version: 0.0.1
+Date: 2022-08-04
+Authors@R:
+    c(person(given = "Ian D.",
+             family = "Buller",
+             role = c("aut", "cre", "cph"),
+             email = "ian.buller@nih.gov",
+             comment = c(ORCID = "0000-0001-9477-8582")),
+      person(given = "NCI",
+             role = c("cph", "fnd")))
+Maintainer: Ian D. Buller <ian.buller@nih.gov>
+Description: Compute various neighborhood deprivation indices (NDI), including:
+             (1) based on Messer et al. (2006) <doi:10.1007/s11524-006-9094-x>
+             and (2) based on Andrews et al. (2020) <doi:10.1080/17445647.2020.1750066> 
+             and Slotman et al. (2022) <doi:10.1016/j.dib.2022.108002>
+             who uses variables chosen by Roux and Mair (2010)
+             <doi:10.1111/j.1749-6632.2009.05333.x>. Both are a decomposition
+             of multiple demographic characteristics from the U.S. Census Bureau
+             American Community Survey 5-year estimates.
+License: Apache License (>= 2.0)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
+Depends: 
+    R (>= 3.5.0)
+Imports: 
+    dplyr,
+    MASS,
+    psych,
+    stats,
+    stringr,
+    tidycensus,
+    tidyr
+Suggests: 
+    ggplot2,
+    testthat,
+    tigris,
+    R.rsp,
+    sf,
+    spelling
+VignetteBuilder: R.rsp
+Language: en-US
+URL: https://github.com/idblr/ndi
+BugReports: https://github.com/idblr/ndi/issues

@@ -1,0 +1,438 @@
+---
+title: "ndi: Neighborhood Deprivation Indices"
+author: 'Ian D. Buller (GitHub: @idblr)'
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ndi: Neighborhood Deprivation Indices}
+  %\VignetteEngine{R.rsp::asis}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, cache = FALSE, fig.show = "hold")
+```
+
+Start with the necessary packages for the vignette.
+
+```{r packages, results='hide'}
+loadedPackages <- c("ggplot2", "ndi", "sf", "tidycensus", "tigris")
+invisible(lapply(loadedPackages, library, character.only = TRUE))
+options(tigris_use_cache = TRUE)
+```
+
+Set your U.S. Census Bureau access key. Follow [this link](http://api.census.gov/data/key_signup.html) to obtain one. Specify your access key in the `messer()` or `powell_wiley()` functions using the `key` argument of the `get_acs()` function from the `tidycensus` package called within each or by using the `census_api_key()` function from the `tidycensus` package before running the `messer()` or `powell_wiley()` functions (see an example of the latter below).
+
+```{r access_key_private, echo=FALSE}
+source("../dev/private_key.R")
+tidycensus::census_api_key(private_key)
+```
+
+```{r access_key_public, eval=FALSE}
+tidycensus::census_api_key("...") # INSERT YOUR OWN KEY FROM U.S. CENSUS API
+```
+
+### Calculate NDI (Messer)
+
+Compute the NDI (Messer) values (2006-2010 5-year ACS) for Georgia, U.S.A., census tracts. This metric is based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) with the following socio-economic status (SES) variables: 
+
+| Characteristic | SES dimension | ACS table source | Description |
+| -------------- | ------------- | ---------------- | ----------- |
+| OCC | Occupation | C24030 | Percent males in management, science, and arts occupation |
+| CWD | Housing | B25014 | Percent of crowded housing |
+| POV | Poverty | B17017 | Percent of households in poverty |
+| FHH | Poverty | B25115 | Percent of female headed households with dependents |
+| PUB | Poverty | B19058 | Percent of households on public assistance |
+| U30 | Poverty | B19001 | Percent households earning <$30,000 per year |
+| EDU | Education | B06009 | Percent earning less than a high school education |
+| EMP | Employment | B23001 (2010 only); B23025 (2011 onward) | Percent unemployed |
+
+```{r messer}
+messer2010GA <- ndi::messer(state = "GA", year = 2010)
+```
+
+One output from `messer()` function is tibble containing the identification, geographic name, NDI (Messer) values, and raw census characteristics for each tract.
+
+```{r messer_out1}
+messer2010GA$ndi
+```
+
+A second output from `messer()` function is the results from the principal component analysis used to compute the NDI (Messer) values.
+
+```{r messer_out2}
+messer2010GA$pca
+```
+
+A third output from `messer()` function is a tibble containing a breakdown of the missingness of the census characteristics used to compute the NDI (Messer) values.
+
+```{r messer_out3}
+messer2010GA$missing
+```
+
+We can visualize the NDI (Messer) values geographically by linking them to spatial information from `tigris` and plotting with the `ggplot2` package suite.
+
+```{r messer_plot, fig.height=7, fig.width=7}
+# Obtain the 2010 counties from the "tigris" package
+county2010GA <- tigris::counties(state = "GA", year = 2010, cb = TRUE)
+# Remove first 9 characters from GEOID for compatibility with tigris information
+county2010GA$GEOID <- substring(county2010GA$GEO_ID, 10) 
+
+# Obtain the 2010 census tracts from the "tigris" package
+tract2010GA <- tigris::tracts(state = "GA", year = 2010, cb = TRUE)
+# Remove first 9 characters from GEOID for compatibility with tigris information
+tract2010GA$GEOID <- substring(tract2010GA$GEO_ID, 10) 
+
+# Join the NDI (Messer) values to the census tract geometry
+GA2010messer <- merge(tract2010GA, messer2010GA$ndi, by = "GEOID")
+
+# Visualize the NDI (Messer) values (2006-2010 5-year ACS) for Georgia, U.S.A., census tracts 
+## Continuous Index
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = GA2010messer, 
+                   ggplot2::aes(fill = NDI),
+                   size = 0.05,
+                   color = "white") +
+   ggplot2::geom_sf(data = county2010GA,
+                   fill = "transparent", 
+                   color = "white",
+                   size = 0.2) +
+  ggplot2::theme_minimal() +
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2006-2010 estimates") +
+  ggplot2::ggtitle("Neighborhood Deprivation Index (Messer)",
+                   subtitle = "Georgia, U.S.A., census tracts as the referent")
+
+## Categorical Index
+### Rename "9-NDI not avail" level as NA for plotting
+GA2010messer$NDIQuartNA <- factor(replace(as.character(GA2010messer$NDIQuart), 
+                                            GA2010messer$NDIQuart == "9-NDI not avail", NA),
+                                  c(levels(GA2010messer$NDIQuart)[-5], NA))
+
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = GA2010messer, 
+                   ggplot2::aes(fill = NDIQuartNA),
+                   size = 0.05,
+                   color = "white") +
+   ggplot2::geom_sf(data = county2010GA,
+                   fill = "transparent", 
+                   color = "white",
+                   size = 0.2) +
+  ggplot2::theme_minimal() + 
+  ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(reverse = TRUE),
+                                na.value = "grey80") +
+  ggplot2::labs(fill = "Index (Categorical)",
+                caption = "Source: U.S. Census ACS 2006-2010 estimates") +
+  ggplot2::ggtitle("Neighborhood Deprivation Index (Messer) Quartiles",
+                   subtitle = "Georgia, U.S.A., census tracts as the referent")
+```
+
+The results above are at the tract-level. The NDI (Messer) values can also be calculated at the county level. 
+
+```{r messer_county, fig.height=7, fig.width=7}
+messer2010GA_county <- ndi::messer(geo = "county", state = "GA", year = 2010)
+
+# Join the NDI (Messer) values to the county geometry
+GA2010messer_county <- merge(county2010GA, messer2010GA_county$ndi, by = "GEOID")
+
+# Visualize the NDI (Messer) values (2006-2010 5-year ACS) for Georgia, U.S.A., counties
+## Continuous Index
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = GA2010messer_county, 
+                   ggplot2::aes(fill = NDI),
+                   size = 0.20,
+                   color = "white") +
+  ggplot2::theme_minimal() + 
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2006-2010 estimates") +
+  ggplot2::ggtitle("Neighborhood Deprivation Index (Messer)",
+                   subtitle = "Georgia, U.S.A., counties as the referent")
+
+## Categorical Index
+
+### Rename "9-NDI not avail" level as NA for plotting
+GA2010messer_county$NDIQuartNA <- factor(replace(as.character(GA2010messer_county$NDIQuart), 
+                                            GA2010messer_county$NDIQuart == "9-NDI not avail", NA),
+                                         c(levels(GA2010messer_county$NDIQuart)[-5], NA))
+
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = GA2010messer_county, 
+                   ggplot2::aes(fill = NDIQuartNA),
+                   size = 0.20,
+                   color = "white") +
+  ggplot2::theme_minimal() + 
+  ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(reverse = TRUE),
+                                na.value = "grey80") +
+  ggplot2::labs(fill = "Index (Categorical)",
+                caption = "Source: U.S. Census ACS 2006-2010 estimates") +
+  ggplot2::ggtitle("Neighborhood Deprivation Index (Messer) Quartiles",
+                   subtitle = "Georgia, U.S.A., counties as the referent")
+```
+
+### Calculate NDI (Powell-Wiley)
+
+Compute the NDI (Powell-Wiley) values (2016-2020 5-year ACS) for Maryland, Virginia, Washington, D.C., and West Virginia census tracts. This metric is based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) with socio-economic status (SES) variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x):
+
+| Characteristic | SES dimension | ACS table source | Description |
+| -------------- | ------------- | ---------------- | ----------- |
+| MedHHInc | Wealth and income | B19013 | Median household income (dollars) |
+| PctRecvIDR | Wealth and income | B19054 | Percent of households receiving dividends, interest, or rental income |
+| PctPubAsst | Wealth and income | B19058 | Percent of households receiving public assistance |
+| MedHomeVal | Wealth and income | B25077 | Median home value (dollars) |
+| PctMgmtBusSciArt | Occupation | C24060 | Percent in a management, business, science, or arts occupation |
+| PctFemHeadKids | Occupation | B11005 | Percent of households that are female headed with any children under 18 years |
+| PctOwnerOcc | Housing conditions | DP04 | Percent of housing units that are owner occupied |
+| PctNoPhone | Housing conditions | DP04 | Percent of households without a telephone |
+| PctNComPlmb | Housing conditions | DP04 | Percent of households without complete plumbing facilities |
+| PctEducHSPlus | Education | S1501 | Percent with a high school degree or higher (population 25 years and over) |
+| PctEducBchPlus | Education | S1501 | Percent with a college degree or higher (population 25 years and over) |
+| PctFamBelowPov | Wealth and income | S1702 | Percent of families with incomes below the poverty level |
+| PctUnempl | Occupation | S2301 | Percent unemployed |
+
+More information about the [codebook](https://gis.cancer.gov/research/NeighDeprvIndex_Methods.pdf) and [computation](https://gis.cancer.gov/research/NeighDeprvIndex_Methods.pdf) of the NDI (Powell-Wiley) can be found on a [GIS Portal for Cancer Research](https://gis.cancer.gov/research/files.html#soc-dep) website.
+
+```{r powell_wiley}
+powell_wiley2020DMVW <- ndi::powell_wiley(state = c("DC", "MD", "VA", "WV"), year = 2020)
+```
+
+One output from `powell_wiley()` function is tibble containing the identification, geographic name, NDI (Powell-Wiley) values, and raw census characteristics for each tract.
+
+```{r powell_wiley_out1}
+powell_wiley2020DMVW$ndi
+```
+
+A second output from `powell_wiley()` function is the results from the principal component analysis used to compute the NDI (Powell-Wiley) values.
+
+```{r powell_wiley_out2}
+powell_wiley2020DMVW$pca
+```
+
+A third output from `powell_wiley()` function is a tibble containing a breakdown of the missingness of the census characteristics used to compute the NDI (Powell-Wiley) values.
+
+```{r powell_wiley_out3}
+powell_wiley2020DMVW$missing
+```
+
+A fourth output from `powell_wiley()` function is a character string or numeric value of a standardized Cronbach's alpha. A value greater than 0.7 is desired.
+
+```{r powell_wiley_out4}
+powell_wiley2020DMVW$cronbach
+```
+
+We can visualize the NDI (Powell-Wiley) values geographically by linking them to spatial information from `tigris` and plotting with the `ggplot2` package suite.
+
+```{r powell_wiley_plot, fig.height=4, fig.width=7}
+# Obtain the 2020 census tracts from the "tigris" package
+state2020 <- tigris::states(cb = TRUE)
+state2020DMVW <- state2020[state2020$STUSPS %in% c("DC", "MD", "VA", "WV"), ]
+tract2020D <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
+tract2020M <- tigris::tracts(state = "MD", year = 2020, cb = TRUE)
+tract2020V <- tigris::tracts(state = "VA", year = 2020, cb = TRUE)
+tract2020W <- tigris::tracts(state = "WV", year = 2020, cb = TRUE)
+tracts2020DMVW <- rbind(tract2020D, tract2020M, tract2020V, tract2020W)
+
+# Join the NDI (Powell-Wiley) values to the census tract geometry
+DMVW2020powell_wiley <- merge(tracts2020DMVW, powell_wiley2020DMVW$ndi, by = "GEOID")
+
+# Visualize the NDI (Powell-Wiley) values (2016-2020 5-year ACS) 
+## Maryland, Virginia, Washington, D.C., and West Virginia census tracts 
+## Continuous Index
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = DMVW2020powell_wiley, 
+                   ggplot2::aes(fill = NDI), 
+                   color = NA) +
+  ggplot2::geom_sf(data = state2020DMVW,
+                   fill = "transparent", 
+                   color = "white") +
+  ggplot2::theme_minimal() + 
+  ggplot2::scale_fill_viridis_c(na.value = "grey80") +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates")+
+  ggplot2::ggtitle("Neighborhood Deprivation Index (Powell-Wiley)",
+                   subtitle = "Maryland, Virginia, Washington, D.C., and West Virginia tracts as the referent")
+
+## Categorical Index (Population-weighted quintiles)
+### Rename "9-NDI not avail" level as NA for plotting
+DMVW2020powell_wiley$NDIQuintNA <- factor(replace(as.character(DMVW2020powell_wiley$NDIQuint), 
+                                            DMVW2020powell_wiley$NDIQuint == "9-NDI not avail", NA),
+                                     c(levels(DMVW2020powell_wiley$NDIQuint)[-6], NA))
+
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = DMVW2020powell_wiley, 
+                   ggplot2::aes(fill = NDIQuintNA), 
+                   color = NA) +
+  ggplot2::geom_sf(data = state2020DMVW,
+                   fill = "transparent", 
+                   color = "white") +
+  ggplot2::theme_minimal() + 
+  ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(reverse = TRUE),
+                                na.value = "grey80") +
+  ggplot2::labs(fill = "Index (Categorical)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates")+
+  ggplot2::ggtitle("Neighborhood Deprivation Index (Powell-Wiley) Population-weighted Quintiles",
+                   subtitle = "Maryland, Virginia, Washington, D.C., and West Virginia tracts as the referent")
+```
+
+Like the NDI (Messer), we also calculate county-level NDI (Powell-Wiley).
+
+```{r powell_wiley_county, fig.height=4, fig.width=7}
+# Obtain the 2020 counties from the "tigris" package
+county2010DMVW <- tigris::counties(state = c("DC", "MD", "VA", "WV"), year = 2020, cb = TRUE)
+
+# NDI (Powell-Wiley) at the county level (2016-2020)
+powell_wiley2020DMVW_county <- ndi::powell_wiley(geo = "county", state = c("DC", "MD", "VA", "WV"), year = 2020)
+
+# Join the NDI (Powell-Wiley) values to the county geometry
+DMVW2020powell_wiley_county <- merge(county2010DMVW, powell_wiley2020DMVW_county$ndi, by = "GEOID")
+
+# Visualize the NDI (Powell-Wiley) values (2016-2020 5-year ACS)
+## Maryland, Virginia, Washington, D.C., and West Virginia counties
+## Continuous Index
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = DMVW2020powell_wiley_county, 
+                   ggplot2::aes(fill = NDI),
+                   size = 0.20,
+                   color = "white") +
+  ggplot2::theme_minimal() + 
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates") +
+  ggplot2::ggtitle("Neighborhood Deprivation Index (Powell-Wiley)",
+                   subtitle = "Maryland, Virginia, Washington, D.C., and West Virginia counties as the referent")
+
+## Categorical Index
+
+### Rename "9-NDI not avail" level as NA for plotting
+DMVW2020powell_wiley_county$NDIQuintNA <- factor(replace(as.character(DMVW2020powell_wiley_county$NDIQuint), 
+                                            DMVW2020powell_wiley_county$NDIQuint == "9-NDI not avail", NA),
+                                         c(levels(DMVW2020powell_wiley_county$NDIQuint)[-6], NA))
+
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = DMVW2020powell_wiley_county, 
+                   ggplot2::aes(fill = NDIQuint),
+                   size = 0.20,
+                   color = "white") +
+  ggplot2::theme_minimal() + 
+  ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(reverse = TRUE),
+                                na.value = "grey80") +
+  ggplot2::labs(fill = "Index (Categorical)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates") +
+  ggplot2::ggtitle("Neighborhood Deprivation Index (Powell-Wiley) Population-weighted Quintiles",
+                   subtitle = "Maryland, Virginia, Washington, D.C., and West Virginia counties as the referent")
+```
+
+### Advanced Features
+
+#### Imputing missing census variables
+
+In the `messer()` and `powell_wiley()` functions, missing census characteristics can be imputed using the `missing` and `impute` arguments of the `pca()` and `fa()` functions in the `psych` package called within the `messer()` and `powell_wiley()` function, respectively. Impute values using the logical `imp` argument (currently only calls `impute = "median"` by default, which assigns the median values of each missing census variable for a geography).
+
+```{r powell_wiley_imp, results='hide', fig.height=7, fig.width=7}
+powell_wiley2020DC <- ndi::powell_wiley(state = "DC", year = 2020) # without imputation
+powell_wiley2020DCi <- ndi::powell_wiley(state = "DC", year = 2020, imp = TRUE) # with imputation
+
+table(is.na(powell_wiley2020DC$ndi$NDI)) # n=2 tracts without NDI (Powell-Wiley) values
+table(is.na(powell_wiley2020DCi$ndi$NDI)) # n=0 tracts without NDI (Powell-Wiley) values
+
+# Obtain the 2020 census tracts from the "tigris" package
+tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
+
+# Join the NDI (Powell-Wiley) values to the census tract geometry
+DC2020powell_wiley <- merge(tract2020DC, powell_wiley2020DC$ndi, by = "GEOID")
+DC2020powell_wiley <- merge(DC2020powell_wiley, powell_wiley2020DCi$ndi, by = "GEOID", suffixes = c("_nonimp", "_imp"))
+
+# Visualize the NDI (Powell-Wiley) values (2006-2010 5-year ACS) for Washington, D.C., census tracts
+## Continuous Index
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = DC2020powell_wiley, 
+                   ggplot2::aes(fill = NDI_nonimp),
+                   size = 0.2,
+                   color = "white") +
+  ggplot2::theme_minimal() + 
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates") +
+  ggplot2::ggtitle("Neighborhood Deprivation Index (Powell-Wiley), Non-Imputed",
+                   subtitle = "Washington, D.C., census tracts as the referent")
+
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = DC2020powell_wiley, 
+                   ggplot2::aes(fill = NDI_imp),
+                   size = 0.2,
+                   color = "white") +
+  ggplot2::theme_minimal() + 
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates") +
+  ggplot2::ggtitle("Neighborhood Deprivation Index (Powell-Wiley), Imputed",
+                   subtitle = "Washington, D.C., census tracts as the referent")
+
+## Categorical Index
+### Rename "9-NDI not avail" level as NA for plotting
+DC2020powell_wiley$NDIQuintNA_nonimp <- factor(replace(as.character(DC2020powell_wiley$NDIQuint_nonimp), 
+                                            DC2020powell_wiley$NDIQuint_nonimp == "9-NDI not avail", NA),
+                                         c(levels(DC2020powell_wiley$NDIQuint_nonimp)[-6], NA))
+
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = DC2020powell_wiley, 
+                   ggplot2::aes(fill = NDIQuintNA_nonimp),
+                   size = 0.2,
+                   color = "white") +
+  ggplot2::theme_minimal() + 
+  ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(reverse = TRUE),
+                                na.value = "grey80") +
+  ggplot2::labs(fill = "Index (Categorical)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates") +
+  ggplot2::ggtitle("Neighborhood Deprivation Index (Powell-Wiley) Quintiles, Non-Imputed",
+                   subtitle = "Washington, D.C., census tracts as the referent")
+
+### Rename "9-NDI not avail" level as NA for plotting
+DC2020powell_wiley$NDIQuintNA_imp <- factor(replace(as.character(DC2020powell_wiley$NDIQuint_imp), 
+                                            DC2020powell_wiley$NDIQuint_imp == "9-NDI not avail", NA),
+                                      c(levels(DC2020powell_wiley$NDIQuint_imp)[-6], NA))
+
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = DC2020powell_wiley, 
+                   ggplot2::aes(fill = NDIQuintNA_imp),
+                   size = 0.2,
+                   color = "white") +
+  ggplot2::theme_minimal() + 
+  ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(reverse = TRUE),
+                                na.value = "grey80") +
+  ggplot2::labs(fill = "Index (Categorical)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates") +
+  ggplot2::ggtitle("Neighborhood Deprivation Index (Powell-Wiley) Quintiles, Imputed",
+                   subtitle = "Washington, D.C., census tracts as the referent")
+```
+
+#### Assign the referent (U.S.-Standardized Metric)
+
+To conduct a contiguous US-standardized index, compute an NDI for all states as in the example below that replicates the nationally standardized NDI (Powell-Wiley) values (2013-2017 ACS-5) found in [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) and available from a [GIS Portal for Cancer Research](https://gis.cancer.gov/research/files.html#soc-dep) website. To replicate the nationally standardized NDI (Powell-Wiley) values (2006-2010 ACS-5) found in [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) change the `year` argument to `2010` (i.e., `year = 2010`).
+
+```{r national}
+us <- tigris::states()
+n51 <- c("Commonwealth of the Northern Mariana Islands", "Guam", "American Samoa",
+         "Puerto Rico", "United States Virgin Islands")
+y51 <- us$STUSPS[!(us$NAME %in% n51)]
+
+start_time <- Sys.time() # record start time
+powell_wiley2017US <- ndi::powell_wiley(state = y51, year = 2017)
+end_time <- Sys.time() # record end time
+time_srr <- end_time - start_time # Calculate run time
+powell_wiley2017US
+```
+
+```{r national_hist, fig.height=7, fig.width=7}
+ggplot2::ggplot(powell_wiley2017US$ndi, ggplot2::aes(x = NDI)) +
+  ggplot2::geom_histogram(color = "black", fill = "white") + 
+  ggplot2::theme_minimal() +
+  ggplot2::ggtitle("Histogram of US-standardized NDI (Powell-Wiley) values (2013-2017)",
+                   subtitle = "U.S. census tracts as the referent (including Alaska, Hawaii, and Washington, D.C.)")
+```
+The process to compute a US-standardized NDI (Powell-Wiley) took about `r round(time_srr, digits = 1)` minutes to run on an machine with the following features: 
+
+```{r system}
+sessionInfo()
+```

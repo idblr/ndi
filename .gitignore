@@ -18,7 +18,7 @@
 .Rproj.user/
 
 # produced vignettes
-vignettes/*.html
+# vignettes/*.html
 vignettes/*.pdf
 
 # OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
@@ -27,6 +27,7 @@ vignettes/*.pdf
 # knitr and R markdown default cache directories
 /*_cache/
 /cache/
+*_files/
 
 # Temporary files created by R markdown
 *.utf8.md
@@ -34,3 +35,18 @@ vignettes/*.pdf
 
 # Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
 rsconnect/
+
+# MAC OSX
+*.DS_Store
+
+# R installed data
+*.rds
+
+# Sandbox
+build.R
+
+# Private census key
+private_key.R
+
+# CRAN
+CRAN-SUBMISSION

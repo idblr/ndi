@@ -1,0 +1,95 @@
+citHeader("To cite ndi in publications, please use the following and include the version number:")
+
+citEntry(entry = "manual",
+  title         = "ndi: Neighborhood Deprivation Indices",
+  author        = personList(as.person("Ian D. Buller")),
+  publisher     = "The Comprehensive R Archive Network",
+  year          = "2022",
+  url           = "https://cran.r-project.org/package=ndi",
+  
+  textVersion = 
+  paste("Ian D. Buller (2022).", 
+        "ndi: Neighborhood Deprivation Indices.",
+        "The Comprehensive R Archive Network.",
+        "Accessed by: https://cran.r-project.org/package=ndi")
+)
+
+citEntry(entry = "Article",
+  title        = "The development of a standardized neighborhood deprivation index",
+  author       = personList(as.person("Lynne C. Messer"),
+                   as.person("Barbara A. Laraia"),
+                   as.person("Jay S. Kaufman"),
+                   as.person("Janet Eyster"),
+                   as.person("Claudia Holzman"),
+                   as.person("Jennifer Culhane"),
+                   as.person("Irma Elo"),
+                   as.person("Jessica Burke"),
+                   as.person("Patricia O'Campo")),
+  journal      = "Journal of Urban Health",
+  year         = "2006",
+  volume       = "83",
+  number       = "6",
+  pages        = "1041--1062",
+  doi          = "10.1007/s11524-006-9094-x",
+
+  textVersion  =
+  paste("Lynne C. Messer, Barbara A. Laraia, Jay S. Kaufman, Janet Eyster, Claudia Holzman, Jennifer Culhane, Irma Elo, Jessica Burke, Patricia O'Campo (2006).",
+        "The development of a standardized neighborhood deprivation index.",
+        "Journal of Urban Health, 83(6), 1041-1062.",
+        "DOI: 10.1007/s11524-006-9094-x"),
+
+  header       = "If you computed NDI (Messer) values, please also cite:"
+)
+
+citEntry(entry = "Article",
+  title        = "Geospatial analysis of neighborhood deprivation index (NDI) for the United States by county",
+  author       = personList(as.person("Marcus A. Andrews"),
+                   as.person("Kosuke Tomura"),
+                   as.person("Sophie E. Claudel"),
+                   as.person("Samantha Xu"),
+                   as.person("Joniqua N. Ceasar"),
+                   as.person("Billy S. Collins"),
+                   as.person("Steven Langerman"),
+                   as.person("Valerie M. Mitchell"),
+                   as.person("Yvonne Baumer"),
+                   as.person("Tiffany M. Powell-Wiley")),
+  journal      = "Journal of Maps",
+  year         = "2020",
+  volume       = "16",
+  issue        = "1",
+  pages        = "101-112",
+  doi          = "10.1080/17445647.2020.1750066",
+
+  textVersion  =
+  paste("Marcus A. Andrews, Kosuke Tomura, Sophie E. Claudel, Samantha Xu, Joniqua N. Ceasar, Billy S. Collins, Steven Langerman, Valerie M. Mitchell, Yvonne Baumer, Tiffany M. Powell-Wiley (2022).",
+        "Geospatial analysis of neighborhood deprivation index (NDI) for the United States by county.",
+        "Journal of Maps, 16(1), 101-112.",
+        "DOI: 10.1080/17445647.2020.1750066"),
+
+  header       = "If you computed NDI (Powell-Wiley) values, please also cite (1):"
+)
+
+citEntry(entry = "Article",
+  title        = "Environmental data and methods from the Accumulating Data to Optimally Predict Obesity Treatment (ADOPT) core measures environmental working group",
+  author       = personList(as.person("Beth A. Slotman"),
+                   as.person("David G Stinchcomb"),
+                   as.person("Tiffany M. Powell-Wiley"),
+                   as.person("Danielle M. Ostendorf"),
+                   as.person("Brian E. Saelens"),
+                   as.person("Amy A. Gorin"),
+                   as.person("Shannon N. Zenk"),
+                   as.person("David Berrigan")),
+  journal      = "Data in Brief",
+  year         = "2022",
+  volume       = "41",
+  pages        = "108002",
+  doi          = "10.1016/j.dib.2022.108002",
+
+  textVersion  =
+  paste("Beth A. Slotman, David G Stinchcomb, Tiffany M. Powell-Wiley, Danielle M. Ostendorf, Brian E. Saelens, Amy A. Gorin, Shannon N. Zenk, David Berrigan (2022).",
+        "The development of a standardized neighborhood deprivation index.",
+        "Data in Brief, 41, 108002.",
+        "DOI: 10.1016/j.dib.2022.108002"),
+
+  header       = "And (2):"
+)

@@ -1,0 +1,35 @@
+#' The ndi Package: Neighborhood Deprivation Indices
+#'
+#' Computes various geospatial neighborhood deprivation indices in the United States
+#'
+#' @details The 'ndi' package computes various neighborhood deprivation indices (NDI), including: (1) based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x} and (2) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} who uses variables chosen by Roux and Mair (2010)] \doi{10.1111/j.1749-6632.2009.05333.x}. Both are a decomposition of multiple demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates.
+#' 
+#' Key content of the 'ndi' package include:\cr
+#' 
+#' \bold{Neighborhood Deprivation Indices}
+#' 
+#' \code{\link{messer}} Computes NDI values based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x}.
+#' 
+#' \code{\link{powell_wiley}} Computes NDI values based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} who uses variables chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x}.
+#' 
+#' @name ndi-package
+#' @aliases ndi-package ndi
+#' @docType package
+#' 
+#' @section Dependencies: The 'ndi' package relies heavily upon \code{\link{tidycensus}} and \code{\link{psych}} for computing the neighborhood deprivation indices. The \code{\link{messer}} function builds upon code developed by Hruska et al. (2022) \doi{10.17605/OSF.IO/M2SAV} by fictionalizing, adding percent households earning <$30,000 per year to the NDI computation, and providing the option for computing the ACS-5 2006-2010 NDI values. There was no code companion to compute NDI included in Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} or Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002}, but the package maintainer worked directly with the authors to replicate their SAS code in R.
+#' 
+#' @author Ian D. Buller\cr \emph{Occupational and Environmental Epidemiology Branch, Division of Cancer Epidemiology and Genetics, National Cancer Institute, National Institutes of Health, Rockville, Maryland, USA.} \cr
+#' 
+#' Maintainer: I.D.B. \email{ian.buller@@nih.gov}
+#'
+#' @keywords package
+NULL
+
+#' @import dplyr
+#' @importFrom MASS ginv
+#' @importFrom psych alpha principal
+#' @importFrom stats complete.cases cor cov2cor loadings median promax quantile sd
+#' @importFrom stringr str_trim
+#' @importFrom tidycensus get_acs
+#' @importFrom tidyr gather separate
+NULL
