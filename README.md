@@ -40,10 +40,10 @@ To install the development version from GitHub:
 </thead>
 <tbody>
 <td><code>messer</code></td>
-<td>Compute NDI based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x).</td>
+<td>Compute NDI based on <a href="https://doi.org/10.1007/s11524-006-9094-x">Messer et al. (2006)</a>.</td>
 </tr>
 <td><code>powell_wiley</code></td>
-<td>Compute NDI based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) with variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x).</td>
+<td>Compute NDI based on <a href="https://doi.org/10.1080/17445647.2020.1750066">Andrews et al. (2020)</a> and <a href="https://doi.org/10.1016/j.dib.2022.108002x">Slotman et al. (2022)</a> with variables chosen by <a href="https://doi.org/10.1111/j.1749-6632.2009.05333.x">Roux and Mair (2010)</a>.</td>
 </tr>
 </tbody>
 <table>
@@ -119,11 +119,12 @@ ggplot2::ggplot() +
   ggplot2::geom_sf(data = DC2020messer, 
                    ggplot2::aes(fill = NDI),
                    color = "white") +
-  ggplot2::theme_minimal() + 
+  ggplot2::theme_bw() +  
   ggplot2::scale_fill_viridis_c() +
   ggplot2::labs(fill = "Index (Continuous)",
                 caption = "Source: U.S. Census ACS 2016-2020 estimates")+
-  ggplot2::ggtitle("Neighborhood Deprivation Index\nContinuous (Messer, non-imputed)", subtitle = "Washington, D.C. tracts as the referent")
+  ggplot2::ggtitle("Neighborhood Deprivation Index\nContinuous (Messer, non-imputed)",
+                   subtitle = "Washington, D.C. tracts as the referent")
 
 ## Categorical Index (Quartiles)
 ### Rename "9-NDI not avail" level as NA for plotting
@@ -136,12 +137,13 @@ ggplot2::ggplot() +
   ggplot2::geom_sf(data = DC2020messer, 
                    ggplot2::aes(fill = NDIQuartNA),
                    color = "white") +
-  ggplot2::theme_minimal() + 
+  ggplot2::theme_bw() + 
   ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(reverse = TRUE),
                                 na.value = "grey50") +
   ggplot2::labs(fill = "Index (Categorical)",
                 caption = "Source: U.S. Census ACS 2016-2020 estimates") +
-  ggplot2::ggtitle("Neighborhood Deprivation Index\nQuartiles (Messer, non-imputed)", subtitle = "Washington, D.C. tracts as the referent")
+  ggplot2::ggtitle("Neighborhood Deprivation Index\nQuartiles (Messer, non-imputed)",
+                   subtitle = "Washington, D.C. tracts as the referent")
 ```
 ![](man/figures/messer1.png)
 ![](man/figures/messer2.png)
@@ -186,11 +188,12 @@ ggplot2::ggplot() +
   ggplot2::geom_sf(data = DC2020powell_wiley, 
                    ggplot2::aes(fill = NDI.x),
                    color = "white") +
-  ggplot2::theme_minimal() + 
+  ggplot2::theme_bw() + 
   ggplot2::scale_fill_viridis_c() +
   ggplot2::labs(fill = "Index (Continuous)",
                 caption = "Source: U.S. Census ACS 2016-2020 estimates")+
-  ggplot2::ggtitle("Neighborhood Deprivation Index\nContinuous (Powell-Wiley, non-imputed)", subtitle = "Washington, D.C. tracts as the referent")
+  ggplot2::ggtitle("Neighborhood Deprivation Index\nContinuous (Powell-Wiley, non-imputed)",
+                   subtitle = "Washington, D.C. tracts as the referent")
 
 ## Non-imputed missing tracts (Categorical quintiles)
 ### Rename "9-NDI not avail" level as NA for plotting
@@ -203,7 +206,7 @@ ggplot2::ggplot() +
   ggplot2::geom_sf(data = DC2020powell_wiley, 
                    ggplot2::aes(fill = NDIQuintNA.x),
                    color = "white") +
-  ggplot2::theme_minimal() + 
+  ggplot2::theme_bw() + 
   ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(reverse = TRUE),
                                 na.value = "grey50") +
   ggplot2::labs(fill = "Index (Categorical)",
@@ -221,11 +224,12 @@ ggplot2::ggplot() +
   ggplot2::geom_sf(data = DC2020powell_wiley, 
                    ggplot2::aes(fill = NDI.y),
                    color = "white") +
-  ggplot2::theme_minimal() + 
+  ggplot2::theme_bw() + 
   ggplot2::scale_fill_viridis_c() +
   ggplot2::labs(fill = "Index (Continuous)",
                 caption = "Source: U.S. Census ACS 2016-2020 estimates")+
-  ggplot2::ggtitle("Neighborhood Deprivation Index\nContinuous (Powell-Wiley, imputed)", subtitle = "Washington, D.C. tracts as the referent")
+  ggplot2::ggtitle("Neighborhood Deprivation Index\nContinuous (Powell-Wiley, imputed)",
+                   subtitle = "Washington, D.C. tracts as the referent")
 
 ## Imputed missing tracts (Categorical quintiles)
 ### Rename "9-NDI not avail" level as NA for plotting
@@ -238,7 +242,7 @@ ggplot2::ggplot() +
   ggplot2::geom_sf(data = DC2020powell_wiley, 
                    ggplot2::aes(fill = NDIQuintNA.y),
                    color = "white") +
-  ggplot2::theme_minimal() + 
+  ggplot2::theme_bw() + 
   ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(reverse = TRUE),
                                 na.value = "grey50") +
   ggplot2::labs(fill = "Index (Categorical)",
@@ -271,7 +275,9 @@ Package was developed while the author was a postdoctoral fellow supported by th
 
 ### Acknowledgments
 
-The `messer()` function functionalizes the code found in [Hruska et al. (2022)](https://doi.org/10.1016/j.janxdis.2022.102529) available on an [OSF repository](https://doi.org/10.17605/OSF.IO/M2SAV), but with percent with income less than $30K added to the computation based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x). The `messer()` function also allows for the computation of NDI (Messer) of each year between 2010-2020 (when the U.S. census characteristics are available to-date). There was no code companion to compute NDI (Powell-Wiley) included in [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) or [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002), but the package maintainer worked directly with the latter manuscript authors to replicate their `SAS` code in `R` for the `powell-wiley()` function. When citing this package for publication, please follow:
+The `messer()` function functionalizes the code found in [Hruska et al. (2022)](https://doi.org/10.1016/j.janxdis.2022.102529) available on an [OSF repository](https://doi.org/10.17605/OSF.IO/M2SAV), but with percent with income less than $30K added to the computation based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x). The `messer()` function also allows for the computation of NDI (Messer) of each year between 2010-2020 (when the U.S. census characteristics are available to-date). There was no code companion to compute NDI (Powell-Wiley) included in [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) or [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002), but the package author worked directly with the latter manuscript authors to replicate their `SAS` code in `R` for the `powell_wiley()` function. Please note: the NDI (Wiley-Powell) values will not exactly match (but will highly correlate with) those found in [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) because the two studies used a different statistical platform (i.e., `SPSS` and `SAS`, respectively) that intrinsically calculate the principal component analysis differently from `R`.
+
+When citing this package for publication, please follow:
 
     citation("ndi")
 
