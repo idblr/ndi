@@ -2,14 +2,14 @@ ndi: Neighborhood Deprivation Indices <img src="man/figures/ndi.png" width="120"
 ===================================================
 
 <!-- badges: start -->
-<!-- [![CRAN
-version](https://www.r-pkg.org/badges/version-ago/ndi)](https://cran.r-project.org/package=ndi)
-[![CRAN RStudio mirror
-downloads](https://cranlogs.r-pkg.org/badges/grand-total/ndi?color=blue)](https://r-pkg.org/pkg/ndi) -->
+<!-- [![CRAN status](http://www.r-pkg.org/badges/version/ndi)](https://cran.r-project.org/package=ndi)
+[![CRAN version](https://www.r-pkg.org/badges/version-ago/ndi)](https://cran.r-project.org/package=ndi)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/ndi?color=blue)](https://r-pkg.org/pkg/ndi) -->
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![GitHub last commit](https://img.shields.io/github/last-commit/idblr/ndi)
 <!-- badges: end -->
 
-**Date repository last updated**: August 05, 2022
+**Date repository last updated**: August 10, 2022
 
 ### Overview
 
@@ -43,7 +43,7 @@ To install the development version from GitHub:
 <td>Compute NDI based on <a href="https://doi.org/10.1007/s11524-006-9094-x">Messer et al. (2006)</a>.</td>
 </tr>
 <td><code>powell_wiley</code></td>
-<td>Compute NDI based on <a href="https://doi.org/10.1080/17445647.2020.1750066">Andrews et al. (2020)</a> and <a href="https://doi.org/10.1016/j.dib.2022.108002x">Slotman et al. (2022)</a> with variables chosen by <a href="https://doi.org/10.1111/j.1749-6632.2009.05333.x">Roux and Mair (2010)</a>.</td>
+<td>Compute NDI based on <a href="https://doi.org/10.1080/17445647.2020.1750066">Andrews et al. (2020)</a> and <a href="https://doi.org/10.1016/j.dib.2022.108002">Slotman et al. (2022)</a> with variables chosen by <a href="https://doi.org/10.1111/j.1749-6632.2009.05333.x">Roux and Mair (2010)</a>.</td>
 </tr>
 </tbody>
 <table>
@@ -165,7 +165,7 @@ powell_wiley2020DCi <- powell_wiley(state = "DC", year = 2020, imp = TRUE) # imp
 powell_wiley2020DC$ndi
 
 # The results from the principal component analysis used to compute the NDI (Powell-Wiley) values
-powell_wiley2020DC$fa
+powell_wiley2020DC$pca
 
 # A tibble containing a breakdown of the missingingness of the census characteristics used to compute the NDI (Powell-Wiley) values
 powell_wiley2020DC$missing
@@ -271,7 +271,7 @@ table(ndi2020DC$NDIQuart, ndi2020DC$NDIQuint)
 
 ### Funding
 
-Package was developed while the author was a postdoctoral fellow supported by the [Cancer Prevention Fellowship Program](https://cpfp.cancer.gov/) at the [National Cancer Institute](https://www.cancer.gov/).
+This package was developed while the author was a postdoctoral fellow supported by the [Cancer Prevention Fellowship Program](https://cpfp.cancer.gov/) at the [National Cancer Institute](https://www.cancer.gov/).
 
 ### Acknowledgments
 

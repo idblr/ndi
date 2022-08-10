@@ -1,4 +1,7 @@
-## This is a new release
+## This is the first resubmission
+
+* Actions taken since previous submission based on feedback from Beni Altmann:
+  * Fixed invalid URL and typos in package README.md
 
 * Documentation for DESCRIPTION and README references the following DOI, which throws a NOTE but is a valid URL:
   * <https://doi.org/10.1111/j.1749-6632.2009.05333.x>
