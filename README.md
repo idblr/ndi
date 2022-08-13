@@ -2,18 +2,19 @@ ndi: Neighborhood Deprivation Indices <img src="man/figures/ndi.png" width="120"
 ===================================================
 
 <!-- badges: start -->
-<!-- [![CRAN status](http://www.r-pkg.org/badges/version/ndi)](https://cran.r-project.org/package=ndi)
+[![CRAN status](http://www.r-pkg.org/badges/version/ndi)](https://cran.r-project.org/package=ndi)
 [![CRAN version](https://www.r-pkg.org/badges/version-ago/ndi)](https://cran.r-project.org/package=ndi)
-[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/ndi?color=blue)](https://r-pkg.org/pkg/ndi) -->
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/ndi?color=blue)](https://r-pkg.org/pkg/ndi)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 ![GitHub last commit](https://img.shields.io/github/last-commit/idblr/ndi)
+[![DOI](https://zenodo.org/badge/521439746.svg)](https://zenodo.org/badge/latestdoi/521439746)
 <!-- badges: end -->
 
 **Date repository last updated**: August 10, 2022
 
 ### Overview
 
-The `ndi` package is a suite of `R` functions to compute various geospatial neighborhood deprivation indices (NDI) in the United States. Two types of NDI are available in the initial repository: (1) based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) who uses variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of various demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates pulled by the [tidycensus](https://CRAN.R-project.org/package=tidycensus) package.
+The `ndi` package is a suite of `R` functions to compute various geospatial neighborhood deprivation indices (NDI) in the United States. Two types of NDI are available in the initial repository: (1) based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) who use variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of various demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates pulled by the [tidycensus](https://CRAN.R-project.org/package=tidycensus) package.
 
 ### Installation
 
