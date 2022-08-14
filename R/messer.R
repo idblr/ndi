@@ -32,7 +32,7 @@
 #' @return An object of class 'list'. This is a named list with the following components:
 #' 
 #' \describe{
-#' \item{\code{ndi}}{An object of class 'tbl' for the GEOID, name, NDI (standardized), NDI (quartile), and raw census values of specified census tracts.}
+#' \item{\code{ndi}}{An object of class 'tbl' for the GEOID, name, NDI (standardized), NDI (quartile), and raw census values of specified census geographies.}
 #' \item{\code{pca}}{An object of class 'principal', returns the output of \code{\link[psych]{principal}} used to compute the NDI values.}
 #' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute the NDI.}
 #' }
@@ -64,7 +64,7 @@
 #' 
 messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, ...) {
   
-  # Check arugments
+  # Check arguments
   match.arg(geo, choices = c("county", "tract"))
   stopifnot(is.numeric(year), year %in% 2010:2020)
   

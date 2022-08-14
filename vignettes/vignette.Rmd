@@ -33,7 +33,7 @@ tidycensus::census_api_key(private_key)
 tidycensus::census_api_key("...") # INSERT YOUR OWN KEY FROM U.S. CENSUS API
 ```
 
-### Calculate NDI (Messer)
+### Compute NDI (Messer)
 
 Compute the NDI (Messer) values (2006-2010 5-year ACS) for Georgia, U.S.A., census tracts. This metric is based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) with the following socio-economic status (SES) variables: 
 
@@ -102,7 +102,7 @@ ggplot2::ggplot() +
   ggplot2::labs(fill = "Index (Continuous)",
                 caption = "Source: U.S. Census ACS 2006-2010 estimates") +
   ggplot2::ggtitle("Neighborhood Deprivation Index (Messer)",
-                   subtitle = "Georgia, U.S.A., census tracts as the referent")
+                   subtitle = "GA census tracts as the referent")
 
 ## Categorical Index
 ### Rename "9-NDI not avail" level as NA for plotting
@@ -125,7 +125,7 @@ ggplot2::ggplot() +
   ggplot2::labs(fill = "Index (Categorical)",
                 caption = "Source: U.S. Census ACS 2006-2010 estimates") +
   ggplot2::ggtitle("Neighborhood Deprivation Index (Messer) Quartiles",
-                   subtitle = "Georgia, U.S.A., census tracts as the referent")
+                   subtitle = "GA census tracts as the referent")
 ```
 
 The results above are at the tract-level. The NDI (Messer) values can also be calculated at the county level. 
@@ -148,7 +148,7 @@ ggplot2::ggplot() +
   ggplot2::labs(fill = "Index (Continuous)",
                 caption = "Source: U.S. Census ACS 2006-2010 estimates") +
   ggplot2::ggtitle("Neighborhood Deprivation Index (Messer)",
-                   subtitle = "Georgia, U.S.A., counties as the referent")
+                   subtitle = "GA counties as the referent")
 
 ## Categorical Index
 
@@ -168,12 +168,12 @@ ggplot2::ggplot() +
   ggplot2::labs(fill = "Index (Categorical)",
                 caption = "Source: U.S. Census ACS 2006-2010 estimates") +
   ggplot2::ggtitle("Neighborhood Deprivation Index (Messer) Quartiles",
-                   subtitle = "Georgia, U.S.A., counties as the referent")
+                   subtitle = "GA counties as the referent")
 ```
 
-### Calculate NDI (Powell-Wiley)
+### Compute NDI (Powell-Wiley)
 
-Compute the NDI (Powell-Wiley) values (2016-2020 5-year ACS) for Maryland, Virginia, Washington, D.C., and West Virginia census tracts. This metric is based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) with socio-economic status (SES) variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x):
+Compute the NDI (Powell-Wiley) values (2016-2020 5-year ACS) for Maryland, Virginia, Washington, D.C., and West Virginia, U.S.A., census tracts. This metric is based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) with socio-economic status (SES) variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x):
 
 | Characteristic | SES dimension | ACS table source | Description |
 | -------------- | ------------- | ---------------- | ----------- |
@@ -234,13 +234,13 @@ tract2020W <- tigris::tracts(state = "WV", year = 2020, cb = TRUE)
 tracts2020DMVW <- rbind(tract2020D, tract2020M, tract2020V, tract2020W)
 
 # Join the NDI (Powell-Wiley) values to the census tract geometry
-DMVW2020powell_wiley <- merge(tracts2020DMVW, powell_wiley2020DMVW$ndi, by = "GEOID")
+DMVW2020pw <- merge(tracts2020DMVW, powell_wiley2020DMVW$ndi, by = "GEOID")
 
 # Visualize the NDI (Powell-Wiley) values (2016-2020 5-year ACS) 
-## Maryland, Virginia, Washington, D.C., and West Virginia census tracts 
+## Maryland, Virginia, Washington, D.C., and West Virginia, U.S.A., census tracts 
 ## Continuous Index
 ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = DMVW2020powell_wiley, 
+  ggplot2::geom_sf(data = DMVW2020pw, 
                    ggplot2::aes(fill = NDI), 
                    color = NA) +
   ggplot2::geom_sf(data = state2020DMVW,
@@ -251,16 +251,16 @@ ggplot2::ggplot() +
   ggplot2::labs(fill = "Index (Continuous)",
                 caption = "Source: U.S. Census ACS 2016-2020 estimates")+
   ggplot2::ggtitle("Neighborhood Deprivation Index (Powell-Wiley)",
-                   subtitle = "Maryland, Virginia, Washington, D.C., and West Virginia tracts as the referent")
+                   subtitle = "DC, MD, VA, and WV tracts as the referent")
 
 ## Categorical Index (Population-weighted quintiles)
 ### Rename "9-NDI not avail" level as NA for plotting
-DMVW2020powell_wiley$NDIQuintNA <- factor(replace(as.character(DMVW2020powell_wiley$NDIQuint), 
-                                            DMVW2020powell_wiley$NDIQuint == "9-NDI not avail", NA),
-                                     c(levels(DMVW2020powell_wiley$NDIQuint)[-6], NA))
+DMVW2020pw$NDIQuintNA <- factor(replace(as.character(DMVW2020pw$NDIQuint), 
+                                        DMVW2020pw$NDIQuint == "9-NDI not avail", NA),
+                                c(levels(DMVW2020pw$NDIQuint)[-6], NA))
 
 ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = DMVW2020powell_wiley, 
+  ggplot2::geom_sf(data = DMVW2020pw, 
                    ggplot2::aes(fill = NDIQuintNA), 
                    color = NA) +
   ggplot2::geom_sf(data = state2020DMVW,
@@ -272,26 +272,28 @@ ggplot2::ggplot() +
   ggplot2::labs(fill = "Index (Categorical)",
                 caption = "Source: U.S. Census ACS 2016-2020 estimates")+
   ggplot2::ggtitle("Neighborhood Deprivation Index (Powell-Wiley) Population-weighted Quintiles",
-                   subtitle = "Maryland, Virginia, Washington, D.C., and West Virginia tracts as the referent")
+                   subtitle = "DC, MD, VA, and WV tracts as the referent")
 ```
 
-Like the NDI (Messer), we also calculate county-level NDI (Powell-Wiley).
+Like the NDI (Messer), we also compute county-level NDI (Powell-Wiley).
 
 ```{r powell_wiley_county, fig.height=4, fig.width=7}
 # Obtain the 2020 counties from the "tigris" package
-county2010DMVW <- tigris::counties(state = c("DC", "MD", "VA", "WV"), year = 2020, cb = TRUE)
+county2020DMVW <- tigris::counties(state = c("DC", "MD", "VA", "WV"), year = 2020, cb = TRUE)
 
 # NDI (Powell-Wiley) at the county level (2016-2020)
-powell_wiley2020DMVW_county <- ndi::powell_wiley(geo = "county", state = c("DC", "MD", "VA", "WV"), year = 2020)
+powell_wiley2020DMVW_county <- ndi::powell_wiley(geo = "county",
+                                                 state = c("DC", "MD", "VA", "WV"),
+                                                 year = 2020)
 
 # Join the NDI (Powell-Wiley) values to the county geometry
-DMVW2020powell_wiley_county <- merge(county2010DMVW, powell_wiley2020DMVW_county$ndi, by = "GEOID")
+DMVW2020pw_county <- merge(county2020DMVW, powell_wiley2020DMVW_county$ndi, by = "GEOID")
 
 # Visualize the NDI (Powell-Wiley) values (2016-2020 5-year ACS)
-## Maryland, Virginia, Washington, D.C., and West Virginia counties
+## Maryland, Virginia, Washington, D.C., and West Virginia, U.S.A., counties
 ## Continuous Index
 ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = DMVW2020powell_wiley_county, 
+  ggplot2::geom_sf(data = DMVW2020pw_county, 
                    ggplot2::aes(fill = NDI),
                    size = 0.20,
                    color = "white") +
@@ -300,17 +302,17 @@ ggplot2::ggplot() +
   ggplot2::labs(fill = "Index (Continuous)",
                 caption = "Source: U.S. Census ACS 2016-2020 estimates") +
   ggplot2::ggtitle("Neighborhood Deprivation Index (Powell-Wiley)",
-                   subtitle = "Maryland, Virginia, Washington, D.C., and West Virginia counties as the referent")
+                   subtitle = "DC, MD, VA, and WV counties as the referent")
 
 ## Categorical Index
 
 ### Rename "9-NDI not avail" level as NA for plotting
-DMVW2020powell_wiley_county$NDIQuintNA <- factor(replace(as.character(DMVW2020powell_wiley_county$NDIQuint), 
-                                            DMVW2020powell_wiley_county$NDIQuint == "9-NDI not avail", NA),
-                                         c(levels(DMVW2020powell_wiley_county$NDIQuint)[-6], NA))
+DMVW2020pw_county$NDIQuintNA <- factor(replace(as.character(DMVW2020pw_county$NDIQuint), 
+                                            DMVW2020pw_county$NDIQuint == "9-NDI not avail", NA),
+                                         c(levels(DMVW2020pw_county$NDIQuint)[-6], NA))
 
 ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = DMVW2020powell_wiley_county, 
+  ggplot2::geom_sf(data = DMVW2020pw_county, 
                    ggplot2::aes(fill = NDIQuint),
                    size = 0.20,
                    color = "white") +
@@ -320,7 +322,7 @@ ggplot2::ggplot() +
   ggplot2::labs(fill = "Index (Categorical)",
                 caption = "Source: U.S. Census ACS 2016-2020 estimates") +
   ggplot2::ggtitle("Neighborhood Deprivation Index (Powell-Wiley) Population-weighted Quintiles",
-                   subtitle = "Maryland, Virginia, Washington, D.C., and West Virginia counties as the referent")
+                   subtitle = "DC, MD, VA, and WV counties as the referent")
 ```
 
 ### Advanced Features
@@ -333,20 +335,20 @@ In the `messer()` and `powell_wiley()` functions, missing census characteristics
 powell_wiley2020DC <- ndi::powell_wiley(state = "DC", year = 2020) # without imputation
 powell_wiley2020DCi <- ndi::powell_wiley(state = "DC", year = 2020, imp = TRUE) # with imputation
 
-table(is.na(powell_wiley2020DC$ndi$NDI)) # n=2 tracts without NDI (Powell-Wiley) values
+table(is.na(powell_wiley2020DC$ndi$NDI)) # n=13 tracts without NDI (Powell-Wiley) values
 table(is.na(powell_wiley2020DCi$ndi$NDI)) # n=0 tracts without NDI (Powell-Wiley) values
 
 # Obtain the 2020 census tracts from the "tigris" package
 tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
 
 # Join the NDI (Powell-Wiley) values to the census tract geometry
-DC2020powell_wiley <- merge(tract2020DC, powell_wiley2020DC$ndi, by = "GEOID")
-DC2020powell_wiley <- merge(DC2020powell_wiley, powell_wiley2020DCi$ndi, by = "GEOID", suffixes = c("_nonimp", "_imp"))
+DC2020pw <- merge(tract2020DC, powell_wiley2020DC$ndi, by = "GEOID")
+DC2020pw <- merge(DC2020pw, powell_wiley2020DCi$ndi, by = "GEOID", suffixes = c("_nonimp", "_imp"))
 
-# Visualize the NDI (Powell-Wiley) values (2006-2010 5-year ACS) for Washington, D.C., census tracts
+# Visualize the NDI (Powell-Wiley) values (2016-2020 5-year ACS) for Washington, D.C., census tracts
 ## Continuous Index
 ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = DC2020powell_wiley, 
+  ggplot2::geom_sf(data = DC2020pw, 
                    ggplot2::aes(fill = NDI_nonimp),
                    size = 0.2,
                    color = "white") +
@@ -355,10 +357,10 @@ ggplot2::ggplot() +
   ggplot2::labs(fill = "Index (Continuous)",
                 caption = "Source: U.S. Census ACS 2016-2020 estimates") +
   ggplot2::ggtitle("Neighborhood Deprivation Index (Powell-Wiley), Non-Imputed",
-                   subtitle = "Washington, D.C., census tracts as the referent")
+                   subtitle = "DC census tracts as the referent")
 
 ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = DC2020powell_wiley, 
+  ggplot2::geom_sf(data = DC2020pw, 
                    ggplot2::aes(fill = NDI_imp),
                    size = 0.2,
                    color = "white") +
@@ -367,16 +369,16 @@ ggplot2::ggplot() +
   ggplot2::labs(fill = "Index (Continuous)",
                 caption = "Source: U.S. Census ACS 2016-2020 estimates") +
   ggplot2::ggtitle("Neighborhood Deprivation Index (Powell-Wiley), Imputed",
-                   subtitle = "Washington, D.C., census tracts as the referent")
+                   subtitle = "DC census tracts as the referent")
 
 ## Categorical Index
 ### Rename "9-NDI not avail" level as NA for plotting
-DC2020powell_wiley$NDIQuintNA_nonimp <- factor(replace(as.character(DC2020powell_wiley$NDIQuint_nonimp), 
-                                            DC2020powell_wiley$NDIQuint_nonimp == "9-NDI not avail", NA),
-                                         c(levels(DC2020powell_wiley$NDIQuint_nonimp)[-6], NA))
+DC2020pw$NDIQuintNA_nonimp <- factor(replace(as.character(DC2020pw$NDIQuint_nonimp), 
+                                            DC2020pw$NDIQuint_nonimp == "9-NDI not avail", NA),
+                                         c(levels(DC2020pw$NDIQuint_nonimp)[-6], NA))
 
 ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = DC2020powell_wiley, 
+  ggplot2::geom_sf(data = DC2020pw, 
                    ggplot2::aes(fill = NDIQuintNA_nonimp),
                    size = 0.2,
                    color = "white") +
@@ -386,15 +388,15 @@ ggplot2::ggplot() +
   ggplot2::labs(fill = "Index (Categorical)",
                 caption = "Source: U.S. Census ACS 2016-2020 estimates") +
   ggplot2::ggtitle("Neighborhood Deprivation Index (Powell-Wiley) Quintiles, Non-Imputed",
-                   subtitle = "Washington, D.C., census tracts as the referent")
+                   subtitle = "DC census tracts as the referent")
 
 ### Rename "9-NDI not avail" level as NA for plotting
-DC2020powell_wiley$NDIQuintNA_imp <- factor(replace(as.character(DC2020powell_wiley$NDIQuint_imp), 
-                                            DC2020powell_wiley$NDIQuint_imp == "9-NDI not avail", NA),
-                                      c(levels(DC2020powell_wiley$NDIQuint_imp)[-6], NA))
+DC2020pw$NDIQuintNA_imp <- factor(replace(as.character(DC2020pw$NDIQuint_imp), 
+                                            DC2020pw$NDIQuint_imp == "9-NDI not avail", NA),
+                                      c(levels(DC2020pw$NDIQuint_imp)[-6], NA))
 
 ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = DC2020powell_wiley, 
+  ggplot2::geom_sf(data = DC2020pw, 
                    ggplot2::aes(fill = NDIQuintNA_imp),
                    size = 0.2,
                    color = "white") +
@@ -404,7 +406,7 @@ ggplot2::ggplot() +
   ggplot2::labs(fill = "Index (Categorical)",
                 caption = "Source: U.S. Census ACS 2016-2020 estimates") +
   ggplot2::ggtitle("Neighborhood Deprivation Index (Powell-Wiley) Quintiles, Imputed",
-                   subtitle = "Washington, D.C., census tracts as the referent")
+                   subtitle = "DC census tracts as the referent")
 ```
 
 #### Assign the referent (U.S.-Standardized Metric)
@@ -429,9 +431,203 @@ ggplot2::ggplot(powell_wiley2017US$ndi, ggplot2::aes(x = NDI)) +
   ggplot2::geom_histogram(color = "black", fill = "white") + 
   ggplot2::theme_minimal() +
   ggplot2::ggtitle("Histogram of US-standardized NDI (Powell-Wiley) values (2013-2017)",
-                   subtitle = "U.S. census tracts as the referent (including Alaska, Hawaii, and Washington, D.C.)")
+                   subtitle = "U.S. census tracts as the referent (including AK, HI, and DC)")
 ```
-The process to compute a US-standardized NDI (Powell-Wiley) took about `r round(time_srr, digits = 1)` minutes to run on an machine with the following features: 
+The process to compute a US-standardized NDI (Powell-Wiley) took about `r round(time_srr, digits = 1)` minutes to run on a machine with the features listed at the end of the vignette.
+
+### Additional metrics socio-economic deprivation and disparity 
+
+Since version v0.1.1, the `ndi` package can compute additional metrics of socio-economic deprivation and disparity beyond neighborhood deprivation indices, including:
+
+1. `anthopolos()` function that computes the Racial Isolation Index (RI) based on [Anthopolos et al. (2011)](https://www.doi.org/10.1016/j.sste.2011.06.002) with data from the ACS-5.
+2. `bravo()` function that computes the Educational Isolation Index (EI) based on [Bravo et al. (2021)](https://www.doi.org/10.3390/ijerph18179384) with data from the ACS-5.
+3. `gini()` function that retrieves the Gini Index based on [Gini (1921)](https://www.doi.org/10.2307/2223319) from the ACS-5. 
+
+#### Compute Racial Isolation Index (RI)
+
+Compute the RI (Anthopolos) values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts. This metric is based on [Anthopolos et al. (2011)](https://www.doi.org/10.1016/j.sste.2011.06.002) that assessed the racial isolation of the population that identifies as non-Hispanic or Latino, Black or African American alone. Multiple racial/ethnic subgroups are available in the `anthopolos()` function, including:
+
+| ACS table source | racial/ethnic subgroup | character for `subgroup` argument |
+| -------------- | ------------- | ---------------- |
+| B03002_002 | Not Hispanic or Latino | NHoL |
+| B03002_003 | Not Hispanic or Latino, White alone | NHoLW |
+| B03002_004 | Not Hispanic or Latino, Black or African American alone | NHoLB |
+| B03002_005 | Not Hispanic or Latino, American Indian and Alaska Native alone | NHoLAIAN |
+| B03002_006 | Not Hispanic or Latino, Asian alone | NHoLA |
+| B03002_007 | Not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone | NHoLNHOPI |
+| B03002_008 | Not Hispanic or Latino, Some other race alone | NHoLSOR |
+| B03002_009 | Not Hispanic or Latino, Two or more races | NHoLTOMR |
+| B03002_010 | Not Hispanic or Latino, Two races including Some other race | NHoLTRiSOR |
+| B03002_011 | Not Hispanic or Latino, Two races excluding Some other race, and three or more races | NHoLTReSOR |
+| B03002_012 | Hispanic or Latino | HoL |
+| B03002_013 | Hispanic or Latino, White alone | HoLW |
+| B03002_014 | Hispanic or Latino, Black or African American alone | HoLB |
+| B03002_015 | Hispanic or Latino, American Indian and Alaska Native alone | HoLAIAN |
+| B03002_016 | Hispanic or Latino, Asian alone | HoLA |
+| B03002_017 | Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone | HoLNHOPI |
+| B03002_018 | Hispanic or Latino, Some other race alone | HoLSOR |
+| B03002_019 | Hispanic or Latino, Two or more races | HoLTOMR |
+| B03002_020 | Hispanic or Latino, Two races including Some other race | HoLTRiSOR |
+| B03002_021 | Hispanic or Latino, Two races excluding Some other race, and three or more races | HoLTReSOR |
+
+A census geography (and its neighbors) that has nearly all of its population who identify with the specified race/ethnicity subgroup(s) (e.g., Not Hispanic or Latino, Black or African American alone) will have an RI value that is close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population who identify with the specified race/ethnicity subgroup(s) (e.g., not Not Hispanic or Latino, Black or African American alone) will have an RI value that is close to 0.
+
+```{r anthopolos, fig.height=4, fig.width=7}
+anthopolos2010NC <- ndi::anthopolos(state = "NC", year = 2010, subgroup = "NHoLB")
+
+# Obtain the 2010 census tracts from the "tigris" package
+tract2010NC <- tigris::tracts(state = "NC", year = 2010, cb = TRUE)
+# Remove first 9 characters from GEOID for compatibility with tigris information
+tract2010NC$GEOID <- substring(tract2010NC$GEO_ID, 10) 
+
+# Obtain the 2010 counties from the "tigris" package
+county2010NC <- tigris::counties(state = "NC", year = 2010, cb = TRUE)
+
+# Join the RI (Anthopolos) values to the census tract geometry
+NC2010anthopolos <- merge(tract2010NC, anthopolos2010NC$ri, by = "GEOID")
+
+# Visualize the RI (Anthopolos) values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts 
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = NC2010anthopolos, 
+                   ggplot2::aes(fill = RI),
+                   size = 0.05,
+                   color = "white") +
+   ggplot2::geom_sf(data = county2010NC,
+                   fill = "transparent", 
+                   color = "white",
+                   size = 0.2) +
+  ggplot2::theme_minimal() +
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2006-2010 estimates") +
+  ggplot2::ggtitle("Racial Isolation Index (Anthopolos), non-Hispanic Black",
+                   subtitle = "NC census tracts (not corrected for edge effects)")
+```
+
+Current version of `ndi` package does not correct for edge effects (e.g., census geographies along the specified spatial extent border, coastline, or U.S.-Mexico / U.S.-Canada border) may have few neighboring census geographies and RI values in these census geographies may be unstable. A stop-gap solution for the former source of edge effect is to compute the RI for neighboring census geographies (i.e., the states bordering a study area of interest) and then use the estimates of the study area of interest.
+
+```{r anthopolos_edge, fig.height=4, fig.width=7}
+# Compute RI for all census tracts in neighboring states
+anthopolos2010GNSTV <- ndi::anthopolos(state = c("GA", "NC", "SC", "TN", "VA"),
+                                     year = 2010, subgroup = "NHoLB")
+
+# Crop to only North Carolina, U.S.A. census tracts
+anthopolos2010NCe <- anthopolos2010GNSTV$ri[anthopolos2010GNSTV$ri$GEOID %in% anthopolos2010NC$ri$GEOID, ]
+
+# Obtain the 2010 census tracts from the "tigris" package
+tract2010NC <- tigris::tracts(state = "NC", year = 2010, cb = TRUE)
+# Remove first 9 characters from GEOID for compatibility with tigris information
+tract2010NC$GEOID <- substring(tract2010NC$GEO_ID, 10) 
+
+# Obtain the 2010 counties from the "tigris" package
+county2010NC <- tigris::counties(state = "NC", year = 2010, cb = TRUE)
+
+# Join the RI (Anthopolos) values to the census tract geometry
+edgeNC2010anthopolos <- merge(tract2010NC, anthopolos2010NCe, by = "GEOID")
+
+# Visualize the RI (Anthopolos) values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts 
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = edgeNC2010anthopolos, 
+                   ggplot2::aes(fill = RI),
+                   size = 0.05,
+                   color = "white") +
+   ggplot2::geom_sf(data = county2010NC,
+                   fill = "transparent", 
+                   color = "white",
+                   size = 0.2) +
+  ggplot2::theme_minimal() +
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2006-2010 estimates") +
+  ggplot2::ggtitle("Racial Isolation Index (Anthopolos), non-Hispanic Black",
+                   subtitle = "NC census tracts (corrected for interstate edge effects)")
+```
+
+#### Compute Educational Isolation Index (EI)
+
+Compute the EI (Bravo) values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts. This metric is based on [Bravo et al. (2021)](https://www.doi.org/10.3390/ijerph18179384) that assessed the educational isolation of the population without a four-year college degree. Multiple educational attainment categories are available in the `bravo()` function, including:
+
+| ACS table source | educational attainment category | character for `subgroup` argument |
+| -------------- | ------------- | ---------------- |
+| B06009_002 | Less than high school graduate | LtHS |
+| B06009_003 | High school graduate (includes equivalency) | HSGiE |
+| B06009_004 | Some college or associate's degree | SCoAD |
+| B06009_005 | Bachelor's degree | BD |
+| B06009_006 | Graduate or professional degree | GoPD |
+
+A census geography (and its neighbors) that has nearly all of its population with the specified educational attainment category (e.g., a four-year college degree or more) will have an EI value that is close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population with the specified educational attainment category (e.g., with a four-year college degree) will have an EI value that is close to 0.
+
+```{r bravo, fig.height=4, fig.width=7}
+bravo2010NC <- ndi::bravo(state = "NC", year = 2010, subgroup = c("LtHS", "HSGiE", "SCoAD"))
+
+# Obtain the 2010 census tracts from the "tigris" package
+tract2010NC <- tigris::tracts(state = "NC", year = 2010, cb = TRUE)
+# Remove first 9 characters from GEOID for compatibility with tigris information
+tract2010NC$GEOID <- substring(tract2010NC$GEO_ID, 10) 
+
+# Obtain the 2010 counties from the "tigris" package
+county2010NC <- tigris::counties(state = "NC", year = 2010, cb = TRUE)
+
+# Join the RI (Bravo) values to the census tract geometry
+NC2010bravo <- merge(tract2010NC, bravo2010NC$ei, by = "GEOID")
+
+# Visualize the RI (Bravo) values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts 
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = NC2010bravo, 
+                   ggplot2::aes(fill = EI),
+                   size = 0.05,
+                   color = "white") +
+   ggplot2::geom_sf(data = county2010NC,
+                   fill = "transparent", 
+                   color = "white",
+                   size = 0.2) +
+  ggplot2::theme_minimal() +
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2006-2010 estimates") +
+  ggplot2::ggtitle("Educational Isolation Index (Bravo), without a four-year college degree",
+                   subtitle = "NC census tracts (not corrected for edge effects)")
+```
+
+Can correct for one source of edge effect in the same manner as shown for the RI (Anthopolos) metric.
+
+#### Retrieve the Educational Isolation Index (EI)
+
+Retrieve the Gini Index values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts. This metric is based on [Gini (1921)](https://www.doi.org/10.2307/2223319) and the `gini()` function retrieve the estimate from the ACS-5. 
+
+According to the [U.S. Census Bureau](https://www.census.gov/topics/income-poverty/income-inequality/about/metrics/gini-index.html): "The Gini Index is a summary measure of income inequality. The Gini coefficient incorporates the detailed shares data into a single statistic, which summarizes the dispersion of income across the entire income distribution. The Gini coefficient ranges from 0, indicating perfect equality (where everyone receives an equal share), to 1, perfect inequality (where only one recipient or group of recipients receives all the income). The Gini is based on the difference between the Lorenz curve (the observed cumulative income distribution) and the notion of a perfectly equal income distribution."
+
+```{r gini, fig.height=4, fig.width=7}
+gini2010NC <- ndi::gini(state = "NC", year = 2010)
+
+# Obtain the 2010 census tracts from the "tigris" package
+tract2010NC <- tigris::tracts(state = "NC", year = 2010, cb = TRUE)
+# Remove first 9 characters from GEOID for compatibility with tigris information
+tract2010NC$GEOID <- substring(tract2010NC$GEO_ID, 10) 
+
+# Obtain the 2010 counties from the "tigris" package
+county2010NC <- tigris::counties(state = "NC", year = 2010, cb = TRUE)
+
+# Join the Gini Index values to the census tract geometry
+NC2010gini <- merge(tract2010NC, gini2010NC$gini, by = "GEOID")
+
+# Visualize the Gini Index values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts 
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = NC2010gini, 
+                   ggplot2::aes(fill = gini),
+                   size = 0.05,
+                   color = "white") +
+   ggplot2::geom_sf(data = county2010NC,
+                   fill = "transparent", 
+                   color = "white",
+                   size = 0.2) +
+  ggplot2::theme_minimal() +
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2006-2010 estimates") +
+  ggplot2::ggtitle("Gini Index",
+                   subtitle = "NC census tracts")
+```
 
 ```{r system}
 sessionInfo()

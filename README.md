@@ -10,11 +10,11 @@ ndi: Neighborhood Deprivation Indices <img src="man/figures/ndi.png" width="120"
 [![DOI](https://zenodo.org/badge/521439746.svg)](https://zenodo.org/badge/latestdoi/521439746)
 <!-- badges: end -->
 
-**Date repository last updated**: August 10, 2022
+**Date repository last updated**: August 14, 2022
 
 ### Overview
 
-The `ndi` package is a suite of `R` functions to compute various geospatial neighborhood deprivation indices (NDI) in the United States. Two types of NDI are available in the initial repository: (1) based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) who use variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of various demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates pulled by the [tidycensus](https://CRAN.R-project.org/package=tidycensus) package.
+The `ndi` package is a suite of `R` functions to compute various metrics of socio-economic deprivation and disparity in the United States. Some metrics are considered "spatial" because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other metrics are "aspatial" because they only consider the value within each census geography. Two types of aspatial NDI are available: (1) based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) who use variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of various demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates (ACS-5; 2010-2020) pulled by the [tidycensus](https://CRAN.R-project.org/package=tidycensus) package. Using data from the ACS-5 (2009-2020), the `ndi` package can also (1) compute the spatial Racial Isolation Index (RI) based on [Anthopolos et al. (2011)](https://www.doi.org/10.1016/j.sste.2011.06.002), (2) the spatial Educational Isolation Index (EI) based on [Bravo et al. (2021)](https://www.doi.org/10.3390/ijerph18179384), and (3) retrieve the aspatial Gini Index based on [Gini (1921)](https://www.doi.org/10.2307/2223319). 
 
 ### Installation
 
@@ -40,11 +40,20 @@ To install the development version from GitHub:
 </tr>
 </thead>
 <tbody>
+<td><code>anthopolos</code></td>
+<td>Compute the Racial Isolation Index (RI) based on <a href="https://www.doi.org/10.1016/j.sste.2011.06.002">Anthopolos et al. (2011)</a>.</td>
+</tr>
+<td><code>bravo</code></td>
+<td>Compute the Educational Isolation Index (EI) based on <a href="https://www.doi.org/10.3390/ijerph18179384">Bravo et al. (2021)</a>.</td>
+</tr>
+<td><code>gini</code></td>
+<td>Retrieve the Gini Index based on <a href="https://www.doi.org/10.2307/2223319">Gini (1921)</a>.</td>
+</tr>
 <td><code>messer</code></td>
-<td>Compute NDI based on <a href="https://doi.org/10.1007/s11524-006-9094-x">Messer et al. (2006)</a>.</td>
+<td>Compute the Neighboorhood Deprivation Index (NDI) based on <a href="https://doi.org/10.1007/s11524-006-9094-x">Messer et al. (2006)</a>.</td>
 </tr>
 <td><code>powell_wiley</code></td>
-<td>Compute NDI based on <a href="https://doi.org/10.1080/17445647.2020.1750066">Andrews et al. (2020)</a> and <a href="https://doi.org/10.1016/j.dib.2022.108002">Slotman et al. (2022)</a> with variables chosen by <a href="https://doi.org/10.1111/j.1749-6632.2009.05333.x">Roux and Mair (2010)</a>.</td>
+<td>Compute the Neighboorhood Deprivation Index (NDI) based on <a href="https://doi.org/10.1080/17445647.2020.1750066">Andrews et al. (2020)</a> and <a href="https://doi.org/10.1016/j.dib.2022.108002">Slotman et al. (2022)</a> with variables chosen by <a href="https://doi.org/10.1111/j.1749-6632.2009.05333.x">Roux and Mair (2010)</a>.</td>
 </tr>
 </tbody>
 <table>
@@ -60,7 +69,7 @@ See also the list of [contributors](https://github.com/idblr/ndi/graphs/contribu
 ### Getting Started
 
 * Step 1: You must obtain a unique access key from the U.S. Census Bureau. Follow [this link](http://api.census.gov/data/key_signup.html) to obtain one.
-* Step 2: Specify your access key in the `messer()` or `powell_wiley()` functions using the `key` argument or by using the `census_api_key()` function from the `tidycensus` package before running the `messer()` or `powell_wiley()` functions (see an example below).
+* Step 2: Specify your access key in the `anthopolos()`, `bravo()`, `gini()`, `messer()`, or `powell_wiley()` functions using the internal `key` argument or by using the `census_api_key()` function from the `tidycensus` package before running the `anthopolos()`, `bravo()`, `gini()`, `messer()`, or `powell_wiley()` functions (see an example below).
 
 ### Usage
 
@@ -72,8 +81,8 @@ See also the list of [contributors](https://github.com/idblr/ndi/graphs/contribu
 library(ndi)
 library(ggplot2)
 library(sf)
-library(tidycensus) # a dependency for the "ndi"" package
-library(tigris) # a dependency for the "ndi"" package
+library(tidycensus) # a dependency for the "ndi" package
+library(tigris) # a dependency for the "ndi" package
 
 # -------- #
 # Settings #
@@ -269,6 +278,92 @@ cor(ndi2020DC$NDI.messer, ndi2020DC$NDI.powell_wiley, use = "complete.obs") # Pe
 # Check the similarity of the two NDI metrics (Messer and Powell-Wiley, imputed) as quartiles
 table(ndi2020DC$NDIQuart, ndi2020DC$NDIQuint)
 ```
+
+``` r
+# ------------------- #
+# Retrieve Gini Index #
+# ------------------- #
+
+# Gini Index based on Gini (1921) from the ACS-5
+gini2020DC <- gini(state = "DC", year = 2020)
+
+# Obtain the 2020 census tracts from the "tigris" package
+tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
+
+# Join the Gini Index values to the census tract geometry
+gini2020DC <- merge(tractsDC, gini2020DC$gini, by = "GEOID")
+
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = gini2020DC, 
+                   ggplot2::aes(fill = gini),
+                   color = "white") +
+  ggplot2::theme_bw() + 
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates")+
+  ggplot2::ggtitle("Gini Index\nGrey color denotes no data",
+                   subtitle = "Washington, D.C. tracts")
+```
+
+![](man/figures/gini.png)
+
+``` r
+# -------------------------------------------- #
+# Compute Racial Isoliation Index (Anthopolos) #
+# -------------------------------------------- #
+
+# Racial Isolation Index based on Anthopolos et al (2011)
+## Selected subgroup: Not Hispanic or Latino, Black or African American alone
+ri2020DC <- anthopolos(state = "DC", year = 2020, subgroup = "NHoLB")
+
+# Obtain the 2020 census tracts from the "tigris" package
+tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
+
+# Join the RI (Anthopolos) values to the census tract geometry
+ri2020DC <- merge(tractsDC, ri2020DC$ri, by = "GEOID")
+
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = ri2020DC, 
+                   ggplot2::aes(fill = RI),
+                   color = "white") +
+  ggplot2::theme_bw() + 
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates")+
+  ggplot2::ggtitle("Racial Isolation Index\nNot Hispanic or Latino, Black or African American alone (Anthopolos)",
+                   subtitle = "Washington, D.C. tracts (not corrected for edge effects)")
+```
+
+![](man/figures/ri.png)
+
+``` r
+# -------------------------------------------- #
+# Compute Educational Isoliation Index (Bravo) #
+# -------------------------------------------- #
+
+# Educational Isolation Index based on Bravo et al (2021)
+## Selected subgroup: without four-year college degree
+ei2020DC <- bravo(state = "DC", year = 2020, subgroup = c("LtHS", "HSGiE", "SCoAD"))
+
+# Obtain the 2020 census tracts from the "tigris" package
+tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
+
+# Join the EI (Bravo) values to the census tract geometry
+ei2020DC <- merge(tractsDC, ei2020DC$ei, by = "GEOID")
+
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = ei2020DC, 
+                   ggplot2::aes(fill = EI),
+                   color = "white") +
+  ggplot2::theme_bw() + 
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates")+
+  ggplot2::ggtitle("Educational Isolation Index\nWithout a four-year college degree (Bravo)",
+                   subtitle = "Washington, D.C. tracts (not corrected for edge effects)")
+```
+
+![](man/figures/ei.png)
 
 ### Funding
 

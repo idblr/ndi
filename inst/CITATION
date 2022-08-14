@@ -15,6 +15,69 @@ citEntry(entry = "manual",
 )
 
 citEntry(entry = "Article",
+  title        = "A spatial measure of neighborhood level racial isolation applied to low birthweight, preterm birth, and birthweight in North Carolina",
+  author       = personList(as.person("Rebecca Anthopolos"),
+                   as.person("Sherman A. James"),
+                   as.person("Alan E. Gelfand"),
+                   as.person("Marie Lynn Miranda")),
+  journal      = "Spatial and Spatio-temporal Epidemiology",
+  year         = "2011",
+  volume       = "2",
+  number       = "4",
+  pages        = "235--246",
+  doi          = "10.1016/j.sste.2011.06.002",
+
+  textVersion  =
+  paste("Rebecca Anthopolos, Sherman A. James, Alan E. Gelfand, Marie Lynn Miranda (2011).",
+        "A spatial measure of neighborhood level racial isolation applied to low birthweight, preterm birth, and birthweight in North Carolina.",
+        "Spatial and Spatio-temporal Epidemiology, 2(4), 235-246.",
+        "DOI: 10.1016/j.sste.2011.06.002"),
+
+  header       = "If you computed RI (Anthopolos) values, please also cite:"
+)
+
+citEntry(entry = "Article",
+  title        = "Assessing Disparity Using Measures of Racial and Educational Isolation",
+  author       = personList(as.person("Mercedes A. Bravo"),
+                   as.person("Man Chong Leong"),
+                   as.person("Alan E. Gelfand"),
+                   as.person("Marie Lynn Miranda")),
+  journal      = "International Journal of Environmental Research and Public Health",
+  year         = "2021",
+  volume       = "18",
+  number       = "17",
+  pages        = "9384",
+  doi          = "10.3390/ijerph18179384",
+
+  textVersion  =
+  paste("Mercedes A. Bravo, Man Chong Leong, Alan E. Gelfand, Marie Lynn Miranda (2021).",
+        "Assessing Disparity Using Measures of Racial and Educational Isolation.",
+        "International Journal of Environmental Research and Public Health, 18(17), 9384.",
+        "DOI: 10.3390/ijerph18179384"),
+
+  header       = "If you computed EI (Bravo) values, please also cite:"
+)
+
+citEntry(entry = "Article",
+  title        = "Measurement of Inequality of Incomes",
+  author       = personList(as.person("Corrado Gini")),
+  journal      = "The Economic Journal",
+  year         = "1921",
+  volume       = "31",
+  number       = "121",
+  pages        = "124-126",
+  doi          = "10.2307/2223319",
+
+  textVersion  =
+  paste("Corrado Gini (1921).",
+        "Measurement of Inequality of Incomes.",
+        "The Economic Journal, 31(121), 124-126.",
+        "DOI: 10.2307/2223319"),
+
+  header       = "If you retrieved Gini Index values, please also cite:"
+)
+
+citEntry(entry = "Article",
   title        = "The development of a standardized neighborhood deprivation index",
   author       = personList(as.person("Lynne C. Messer"),
                    as.person("Barbara A. Laraia"),

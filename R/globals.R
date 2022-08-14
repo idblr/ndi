@@ -23,4 +23,4 @@ globalVariables(c("CWD", "EDU", "EMP", "FHH", "GEOID", "MedHHInc", "MedHHIncE", 
                   "PctUnemp_7074FE", "PctUnemp_7074ME", "PctUnemp_75upME", "PctUnemp_denE",
                   "PctUnemp_numE", "PctUnempl", "PctUnemplE", "PctUnemplZ", "PctWorkClass",
                   "PctWorkClassZ", "TotalPop", "TotalPopulationE", "U30", "county", "logMedHHInc",
-                  "logMedHomeVal", "percent", "state", "total", "tract", "val", "variable"))
+                  "logMedHomeVal", "percent", "state", "total", "tract", "val", "variable", "giniE"))

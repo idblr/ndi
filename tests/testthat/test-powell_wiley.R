@@ -7,10 +7,10 @@ context("powell_wiley")
 test_that("powell_wiley throws error with invalid arguments", {
   
   # Unavailable geography
-  expect_error(powell_wiley(geo = "zcta", state = "DC", year = 2009, quiet = TRUE))
+  expect_error(powell_wiley(geo = "zcta", state = "DC", year = 2020, quiet = TRUE))
   
   # Unavailable year
-  expect_error(powell_wiley(state = "DC", year = 2009, quiet = TRUE))
+  expect_error(powell_wiley(state = "DC", year = 2005, quiet = TRUE))
   
   skip_if(Sys.getenv("CENSUS_API_KEY") == "")
   

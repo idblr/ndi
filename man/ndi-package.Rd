@@ -6,21 +6,27 @@
 \alias{ndi}
 \title{The ndi Package: Neighborhood Deprivation Indices}
 \description{
-Computes various geospatial neighborhood deprivation indices in the United States
+Computes various metrics of socio-economic deprivation and disparity in the United States based on information available from the U.S. Census Bureau.
 }
 \details{
-The 'ndi' package computes various neighborhood deprivation indices (NDI), including: (1) based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x} and (2) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} who uses variables chosen by Roux and Mair (2010)] \doi{10.1111/j.1749-6632.2009.05333.x}. Both are a decomposition of multiple demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates.
+The 'ndi' package computes various metrics of socio-economic deprivation and disparity in the United States. Some metrics are considered "spatial" because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other metrics are "aspatial" because they only consider the value within each census geography. Two types of aspatial neighborhood deprivation indices (NDI) are available: (1) based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x} and (2) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} who use variables chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x}. Both are a decomposition of multiple demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates. (ACS-5; 2010-2020). Using data from the ACS-5 (2009-2020), the package can also (1) compute the spatial Racial Isolation Index (RI) based on Anthopolos et al. (2011) \doi{10.1016/j.sste.2011.06.002}, (2) compute the spatial Educational Isolation Index (EI) based on Bravo et al. (2021) \doi{10.3390/ijerph18179384}, and (3) retrieve the aspatial Gini Index based on Gini (1921) \doi{10.2307/2223319}.
 
 Key content of the 'ndi' package include:\cr
 
-\bold{Neighborhood Deprivation Indices}
+\bold{Metrics of Socio-Economic Deprivation and Disparity}
 
-\code{\link{messer}} Computes NDI values based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x}.
+\code{\link{anthopolos}} Computes the spatial Racial Isolation Index (RI) based on Anthopolos (2011) \doi{10.1016/j.sste.2011.06.002}.
 
-\code{\link{powell_wiley}} Computes NDI values based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} who uses variables chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x}.
+\code{\link{bravo}} Computes the spatial Educational Isolation Index (EI) based on Bravo (2021) \doi{10.3390/ijerph18179384}.
+
+\code{\link{gini}} Retrieves the aspatial Gini Index based on Gini (1921) \doi{10.2307/2223319}.
+
+\code{\link{messer}} Computes the aspatial Neighborhood Deprivation Index (NDI) based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x}.
+
+\code{\link{powell_wiley}} Computes the aspatial Neighborhood Deprivation Index (NDI) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} who use variables chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x}.
 }
 \section{Dependencies}{
- The 'ndi' package relies heavily upon \code{\link{tidycensus}} and \code{\link{psych}} for computing the neighborhood deprivation indices. The \code{\link{messer}} function builds upon code developed by Hruska et al. (2022) \doi{10.17605/OSF.IO/M2SAV} by fictionalizing, adding percent households earning <$30,000 per year to the NDI computation, and providing the option for computing the ACS-5 2006-2010 NDI values. There was no code companion to compute NDI included in Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} or Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002}, but the package maintainer worked directly with the authors to replicate their SAS code in R.
+ The 'ndi' package relies heavily upon \code{\link{tidycensus}} and \code{\link{psych}} for computing the neighborhood deprivation indices. The \code{\link{messer}} function builds upon code developed by Hruska et al. (2022) \doi{10.17605/OSF.IO/M2SAV} by fictionalizing, adding percent households earning <$30,000 per year to the NDI computation, and providing the option for computing the ACS-5 2006-2010 NDI values. There is no code companion to compute NDI included in Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} or Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002}, respectively, but the package maintainer worked directly with the authors to replicate their SAS code in R. The spatial metrics RI and EI rely on the \code{\link{sf}} and \code{\link{Matrix}} packages to compute the geospatial adjacency matrix between census geographies. There is no code companion to compute RI or EI included in Anthopolos et al. (2011) \doi{10.1016/j.sste.2011.06.002} or Bravo et al. (2021) \doi{10.3390/ijerph18179384}, respectively.
 }
 
 \author{
