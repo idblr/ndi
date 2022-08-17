@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, cache = FAL
 Start with the necessary packages for the vignette.
 
 ```{r packages, results='hide'}
-loadedPackages <- c("ggplot2", "ndi", "sf", "tidycensus", "tigris")
+loadedPackages <- c("dplyr", "ggplot2", "ndi", "tidycensus", "tigris")
 invisible(lapply(loadedPackages, library, character.only = TRUE))
 options(tigris_use_cache = TRUE)
 ```
@@ -52,25 +52,25 @@ Compute the NDI (Messer) values (2006-2010 5-year ACS) for Georgia, U.S.A., cens
 messer2010GA <- ndi::messer(state = "GA", year = 2010)
 ```
 
-One output from `messer()` function is tibble containing the identification, geographic name, NDI (Messer) values, and raw census characteristics for each tract.
+One output from the `messer()` function is a tibble containing the identification, geographic name, NDI (Messer) values, and raw census characteristics for each tract.
 
 ```{r messer_out1}
 messer2010GA$ndi
 ```
 
-A second output from `messer()` function is the results from the principal component analysis used to compute the NDI (Messer) values.
+A second output from the `messer()` function is the results from the principal component analysis used to compute the NDI (Messer) values.
 
 ```{r messer_out2}
 messer2010GA$pca
 ```
 
-A third output from `messer()` function is a tibble containing a breakdown of the missingness of the census characteristics used to compute the NDI (Messer) values.
+A third output from the `messer()` function is a tibble containing a breakdown of the missingness of the census characteristics used to compute the NDI (Messer) values.
 
 ```{r messer_out3}
 messer2010GA$missing
 ```
 
-We can visualize the NDI (Messer) values geographically by linking them to spatial information from `tigris` and plotting with the `ggplot2` package suite.
+We can visualize the NDI (Messer) values geographically by linking them to spatial information from the `tigris` package and plotting with the `ggplot2` package suite.
 
 ```{r messer_plot, fig.height=7, fig.width=7}
 # Obtain the 2010 counties from the "tigris" package
@@ -84,7 +84,7 @@ tract2010GA <- tigris::tracts(state = "GA", year = 2010, cb = TRUE)
 tract2010GA$GEOID <- substring(tract2010GA$GEO_ID, 10) 
 
 # Join the NDI (Messer) values to the census tract geometry
-GA2010messer <- merge(tract2010GA, messer2010GA$ndi, by = "GEOID")
+GA2010messer <- dplyr::left_join(tract2010GA, messer2010GA$ndi, by = "GEOID")
 
 # Visualize the NDI (Messer) values (2006-2010 5-year ACS) for Georgia, U.S.A., census tracts 
 ## Continuous Index
@@ -128,13 +128,13 @@ ggplot2::ggplot() +
                    subtitle = "GA census tracts as the referent")
 ```
 
-The results above are at the tract-level. The NDI (Messer) values can also be calculated at the county level. 
+The results above are at the tract level. The NDI (Messer) values can also be calculated at the county level. 
 
 ```{r messer_county, fig.height=7, fig.width=7}
 messer2010GA_county <- ndi::messer(geo = "county", state = "GA", year = 2010)
 
 # Join the NDI (Messer) values to the county geometry
-GA2010messer_county <- merge(county2010GA, messer2010GA_county$ndi, by = "GEOID")
+GA2010messer_county <- dplyr::left_join(county2010GA, messer2010GA_county$ndi, by = "GEOID")
 
 # Visualize the NDI (Messer) values (2006-2010 5-year ACS) for Georgia, U.S.A., counties
 ## Continuous Index
@@ -197,31 +197,31 @@ More information about the [codebook](https://gis.cancer.gov/research/NeighDeprv
 powell_wiley2020DMVW <- ndi::powell_wiley(state = c("DC", "MD", "VA", "WV"), year = 2020)
 ```
 
-One output from `powell_wiley()` function is tibble containing the identification, geographic name, NDI (Powell-Wiley) values, and raw census characteristics for each tract.
+One output from the `powell_wiley()` function is a tibble containing the identification, geographic name, NDI (Powell-Wiley) values, and raw census characteristics for each tract.
 
 ```{r powell_wiley_out1}
 powell_wiley2020DMVW$ndi
 ```
 
-A second output from `powell_wiley()` function is the results from the principal component analysis used to compute the NDI (Powell-Wiley) values.
+A second output from the `powell_wiley()` function is the results from the principal component analysis used to compute the NDI (Powell-Wiley) values.
 
 ```{r powell_wiley_out2}
 powell_wiley2020DMVW$pca
 ```
 
-A third output from `powell_wiley()` function is a tibble containing a breakdown of the missingness of the census characteristics used to compute the NDI (Powell-Wiley) values.
+A third output from the `powell_wiley()` function is a tibble containing a breakdown of the missingness of the census characteristics used to compute the NDI (Powell-Wiley) values.
 
 ```{r powell_wiley_out3}
 powell_wiley2020DMVW$missing
 ```
 
-A fourth output from `powell_wiley()` function is a character string or numeric value of a standardized Cronbach's alpha. A value greater than 0.7 is desired.
+A fourth output from the `powell_wiley()` function is a character string or numeric value of a standardized Cronbach's alpha. A value greater than 0.7 is desired.
 
 ```{r powell_wiley_out4}
 powell_wiley2020DMVW$cronbach
 ```
 
-We can visualize the NDI (Powell-Wiley) values geographically by linking them to spatial information from `tigris` and plotting with the `ggplot2` package suite.
+We can visualize the NDI (Powell-Wiley) values geographically by linking them to spatial information from the `tigris` package and plotting with the `ggplot2` package suite.
 
 ```{r powell_wiley_plot, fig.height=4, fig.width=7}
 # Obtain the 2020 census tracts from the "tigris" package
@@ -234,7 +234,7 @@ tract2020W <- tigris::tracts(state = "WV", year = 2020, cb = TRUE)
 tracts2020DMVW <- rbind(tract2020D, tract2020M, tract2020V, tract2020W)
 
 # Join the NDI (Powell-Wiley) values to the census tract geometry
-DMVW2020pw <- merge(tracts2020DMVW, powell_wiley2020DMVW$ndi, by = "GEOID")
+DMVW2020pw <- dplyr::left_join(tracts2020DMVW, powell_wiley2020DMVW$ndi, by = "GEOID")
 
 # Visualize the NDI (Powell-Wiley) values (2016-2020 5-year ACS) 
 ## Maryland, Virginia, Washington, D.C., and West Virginia, U.S.A., census tracts 
@@ -287,7 +287,7 @@ powell_wiley2020DMVW_county <- ndi::powell_wiley(geo = "county",
                                                  year = 2020)
 
 # Join the NDI (Powell-Wiley) values to the county geometry
-DMVW2020pw_county <- merge(county2020DMVW, powell_wiley2020DMVW_county$ndi, by = "GEOID")
+DMVW2020pw_county <- dplyr::left_join(county2020DMVW, powell_wiley2020DMVW_county$ndi, by = "GEOID")
 
 # Visualize the NDI (Powell-Wiley) values (2016-2020 5-year ACS)
 ## Maryland, Virginia, Washington, D.C., and West Virginia, U.S.A., counties
@@ -329,7 +329,7 @@ ggplot2::ggplot() +
 
 #### Imputing missing census variables
 
-In the `messer()` and `powell_wiley()` functions, missing census characteristics can be imputed using the `missing` and `impute` arguments of the `pca()` and `fa()` functions in the `psych` package called within the `messer()` and `powell_wiley()` function, respectively. Impute values using the logical `imp` argument (currently only calls `impute = "median"` by default, which assigns the median values of each missing census variable for a geography).
+In the `messer()` and `powell_wiley()` functions, missing census characteristics can be imputed using the `missing` and `impute` arguments of the `pca()` function in the `psych` package called within the `messer()` and `powell_wiley()` functions. Impute values using the logical `imp` argument (currently only calls `impute = "median"` by default, which assigns the median values of each missing census variable for a geography).
 
 ```{r powell_wiley_imp, results='hide', fig.height=7, fig.width=7}
 powell_wiley2020DC <- ndi::powell_wiley(state = "DC", year = 2020) # without imputation
@@ -342,8 +342,8 @@ table(is.na(powell_wiley2020DCi$ndi$NDI)) # n=0 tracts without NDI (Powell-Wiley
 tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
 
 # Join the NDI (Powell-Wiley) values to the census tract geometry
-DC2020pw <- merge(tract2020DC, powell_wiley2020DC$ndi, by = "GEOID")
-DC2020pw <- merge(DC2020pw, powell_wiley2020DCi$ndi, by = "GEOID", suffixes = c("_nonimp", "_imp"))
+DC2020pw <- dplyr::left_join(tract2020DC, powell_wiley2020DC$ndi, by = "GEOID")
+DC2020pw <- dplyr::left_join(DC2020pw, powell_wiley2020DCi$ndi, by = "GEOID", suffix = c("_nonimp", "_imp"))
 
 # Visualize the NDI (Powell-Wiley) values (2016-2020 5-year ACS) for Washington, D.C., census tracts
 ## Continuous Index
@@ -427,12 +427,15 @@ powell_wiley2017US
 ```
 
 ```{r national_hist, fig.height=7, fig.width=7}
-ggplot2::ggplot(powell_wiley2017US$ndi, ggplot2::aes(x = NDI)) +
-  ggplot2::geom_histogram(color = "black", fill = "white") + 
+ggplot2::ggplot(powell_wiley2017US$ndi, 
+                ggplot2::aes(x = NDI)) +
+  ggplot2::geom_histogram(color = "black",
+                          fill = "white") + 
   ggplot2::theme_minimal() +
   ggplot2::ggtitle("Histogram of US-standardized NDI (Powell-Wiley) values (2013-2017)",
                    subtitle = "U.S. census tracts as the referent (including AK, HI, and DC)")
 ```
+
 The process to compute a US-standardized NDI (Powell-Wiley) took about `r round(time_srr, digits = 1)` minutes to run on a machine with the features listed at the end of the vignette.
 
 ### Additional metrics socio-economic deprivation and disparity 
@@ -442,6 +445,7 @@ Since version v0.1.1, the `ndi` package can compute additional metrics of socio-
 1. `anthopolos()` function that computes the Racial Isolation Index (RI) based on [Anthopolos et al. (2011)](https://www.doi.org/10.1016/j.sste.2011.06.002) with data from the ACS-5.
 2. `bravo()` function that computes the Educational Isolation Index (EI) based on [Bravo et al. (2021)](https://www.doi.org/10.3390/ijerph18179384) with data from the ACS-5.
 3. `gini()` function that retrieves the Gini Index based on [Gini (1921)](https://www.doi.org/10.2307/2223319) from the ACS-5. 
+4. `krieger()` function that computes the Index of Concentration at the Extremes based on based on [Feldman et al. (2015)](https://www.doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://www.doi.org/10.2105/AJPH.2015.302955) with data from the ACS-5. 
 
 #### Compute Racial Isolation Index (RI)
 
@@ -449,28 +453,28 @@ Compute the RI (Anthopolos) values (2006-2010 5-year ACS) for North Carolina, U.
 
 | ACS table source | racial/ethnic subgroup | character for `subgroup` argument |
 | -------------- | ------------- | ---------------- |
-| B03002_002 | Not Hispanic or Latino | NHoL |
-| B03002_003 | Not Hispanic or Latino, White alone | NHoLW |
-| B03002_004 | Not Hispanic or Latino, Black or African American alone | NHoLB |
-| B03002_005 | Not Hispanic or Latino, American Indian and Alaska Native alone | NHoLAIAN |
-| B03002_006 | Not Hispanic or Latino, Asian alone | NHoLA |
-| B03002_007 | Not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone | NHoLNHOPI |
-| B03002_008 | Not Hispanic or Latino, Some other race alone | NHoLSOR |
-| B03002_009 | Not Hispanic or Latino, Two or more races | NHoLTOMR |
-| B03002_010 | Not Hispanic or Latino, Two races including Some other race | NHoLTRiSOR |
-| B03002_011 | Not Hispanic or Latino, Two races excluding Some other race, and three or more races | NHoLTReSOR |
-| B03002_012 | Hispanic or Latino | HoL |
-| B03002_013 | Hispanic or Latino, White alone | HoLW |
+| B03002_002 | not Hispanic or Latino | NHoL |
+| B03002_003 | not Hispanic or Latino, white alone | NHoLW |
+| B03002_004 | not Hispanic or Latino, Black or African American alone | NHoLB |
+| B03002_005 | not Hispanic or Latino, American Indian and Alaska Native alone | NHoLAIAN |
+| B03002_006 | not Hispanic or Latino, Asian alone | NHoLA |
+| B03002_007 | not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone | NHoLNHOPI |
+| B03002_008 | not Hispanic or Latino, some other race alone | NHoLSOR |
+| B03002_009 | not Hispanic or Latino, two or more races | NHoLTOMR |
+| B03002_010 | not Hispanic or Latino, two races including some other race | NHoLTRiSOR |
+| B03002_011 | not Hispanic or Latino, two races excluding some other race, and three or more races | NHoLTReSOR |
+| B03002_012 | nispanic or Latino | HoL |
+| B03002_013 | Hispanic or Latino, white alone | HoLW |
 | B03002_014 | Hispanic or Latino, Black or African American alone | HoLB |
 | B03002_015 | Hispanic or Latino, American Indian and Alaska Native alone | HoLAIAN |
 | B03002_016 | Hispanic or Latino, Asian alone | HoLA |
-| B03002_017 | Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone | HoLNHOPI |
-| B03002_018 | Hispanic or Latino, Some other race alone | HoLSOR |
-| B03002_019 | Hispanic or Latino, Two or more races | HoLTOMR |
-| B03002_020 | Hispanic or Latino, Two races including Some other race | HoLTRiSOR |
-| B03002_021 | Hispanic or Latino, Two races excluding Some other race, and three or more races | HoLTReSOR |
+| B03002_017 | Hispanic or Latino, Native Hawaiian and other Pacific Islander alone | HoLNHOPI |
+| B03002_018 | Hispanic or Latino, some other race alone | HoLSOR |
+| B03002_019 | Hispanic or Latino, two or more races | HoLTOMR |
+| B03002_020 | Hispanic or Latino, two races including some other race | HoLTRiSOR |
+| B03002_021 | Hispanic or Latino, two races excluding some other race, and three or more races | HoLTReSOR |
 
-A census geography (and its neighbors) that has nearly all of its population who identify with the specified race/ethnicity subgroup(s) (e.g., Not Hispanic or Latino, Black or African American alone) will have an RI value that is close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population who identify with the specified race/ethnicity subgroup(s) (e.g., not Not Hispanic or Latino, Black or African American alone) will have an RI value that is close to 0.
+A census geography (and its neighbors) that has nearly all of its population who identify with the specified race/ethnicity subgroup(s) (e.g., Not Hispanic or Latino, Black or African American alone) will have an RI value close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population who identify with the specified race/ethnicity subgroup(s) (e.g., not Not Hispanic or Latino, Black or African American alone) will have an RI value close to 0.
 
 ```{r anthopolos, fig.height=4, fig.width=7}
 anthopolos2010NC <- ndi::anthopolos(state = "NC", year = 2010, subgroup = "NHoLB")
@@ -484,7 +488,7 @@ tract2010NC$GEOID <- substring(tract2010NC$GEO_ID, 10)
 county2010NC <- tigris::counties(state = "NC", year = 2010, cb = TRUE)
 
 # Join the RI (Anthopolos) values to the census tract geometry
-NC2010anthopolos <- merge(tract2010NC, anthopolos2010NC$ri, by = "GEOID")
+NC2010anthopolos <- dplyr::left_join(tract2010NC, anthopolos2010NC$ri, by = "GEOID")
 
 # Visualize the RI (Anthopolos) values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts 
 ggplot2::ggplot() + 
@@ -504,7 +508,7 @@ ggplot2::ggplot() +
                    subtitle = "NC census tracts (not corrected for edge effects)")
 ```
 
-Current version of `ndi` package does not correct for edge effects (e.g., census geographies along the specified spatial extent border, coastline, or U.S.-Mexico / U.S.-Canada border) may have few neighboring census geographies and RI values in these census geographies may be unstable. A stop-gap solution for the former source of edge effect is to compute the RI for neighboring census geographies (i.e., the states bordering a study area of interest) and then use the estimates of the study area of interest.
+The current version of the `ndi` package does not correct for edge effects (e.g., census geographies along the specified spatial extent border, coastline, or U.S.-Mexico / U.S.-Canada border) may have few neighboring census geographies, and RI values in these census geographies may be unstable. A stop-gap solution for the former source of edge effect is to compute the RI for neighboring census geographies (i.e., the states bordering a study area of interest) and then use the estimates of the study area of interest.
 
 ```{r anthopolos_edge, fig.height=4, fig.width=7}
 # Compute RI for all census tracts in neighboring states
@@ -523,7 +527,7 @@ tract2010NC$GEOID <- substring(tract2010NC$GEO_ID, 10)
 county2010NC <- tigris::counties(state = "NC", year = 2010, cb = TRUE)
 
 # Join the RI (Anthopolos) values to the census tract geometry
-edgeNC2010anthopolos <- merge(tract2010NC, anthopolos2010NCe, by = "GEOID")
+edgeNC2010anthopolos <- dplyr::left_join(tract2010NC, anthopolos2010NCe, by = "GEOID")
 
 # Visualize the RI (Anthopolos) values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts 
 ggplot2::ggplot() + 
@@ -549,13 +553,13 @@ Compute the EI (Bravo) values (2006-2010 5-year ACS) for North Carolina, U.S.A.,
 
 | ACS table source | educational attainment category | character for `subgroup` argument |
 | -------------- | ------------- | ---------------- |
-| B06009_002 | Less than high school graduate | LtHS |
-| B06009_003 | High school graduate (includes equivalency) | HSGiE |
-| B06009_004 | Some college or associate's degree | SCoAD |
+| B06009_002 | less than high school graduate | LtHS |
+| B06009_003 | high school graduate (includes equivalency) | HSGiE |
+| B06009_004 | some college or associate's degree | SCoAD |
 | B06009_005 | Bachelor's degree | BD |
-| B06009_006 | Graduate or professional degree | GoPD |
+| B06009_006 | graduate or professional degree | GoPD |
 
-A census geography (and its neighbors) that has nearly all of its population with the specified educational attainment category (e.g., a four-year college degree or more) will have an EI value that is close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population with the specified educational attainment category (e.g., with a four-year college degree) will have an EI value that is close to 0.
+A census geography (and its neighbors) that has nearly all of its population with the specified educational attainment category (e.g., a four-year college degree or more) will have an EI value close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population with the specified educational attainment category (e.g., with a four-year college degree) will have an EI value close to 0.
 
 ```{r bravo, fig.height=4, fig.width=7}
 bravo2010NC <- ndi::bravo(state = "NC", year = 2010, subgroup = c("LtHS", "HSGiE", "SCoAD"))
@@ -569,7 +573,7 @@ tract2010NC$GEOID <- substring(tract2010NC$GEO_ID, 10)
 county2010NC <- tigris::counties(state = "NC", year = 2010, cb = TRUE)
 
 # Join the RI (Bravo) values to the census tract geometry
-NC2010bravo <- merge(tract2010NC, bravo2010NC$ei, by = "GEOID")
+NC2010bravo <- dplyr::left_join(tract2010NC, bravo2010NC$ei, by = "GEOID")
 
 # Visualize the RI (Bravo) values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts 
 ggplot2::ggplot() + 
@@ -589,11 +593,11 @@ ggplot2::ggplot() +
                    subtitle = "NC census tracts (not corrected for edge effects)")
 ```
 
-Can correct for one source of edge effect in the same manner as shown for the RI (Anthopolos) metric.
+Can correct one source of edge effect in the same manner as shown for the RI (Anthopolos) metric.
 
-#### Retrieve the Educational Isolation Index (EI)
+#### Retrieve the Gini Index
 
-Retrieve the Gini Index values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts. This metric is based on [Gini (1921)](https://www.doi.org/10.2307/2223319) and the `gini()` function retrieve the estimate from the ACS-5. 
+Retrieve the Gini Index values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts. This metric is based on [Gini (1921)](https://www.doi.org/10.2307/2223319), and the `gini()` function retrieves the estimate from the ACS-5. 
 
 According to the [U.S. Census Bureau](https://www.census.gov/topics/income-poverty/income-inequality/about/metrics/gini-index.html): "The Gini Index is a summary measure of income inequality. The Gini coefficient incorporates the detailed shares data into a single statistic, which summarizes the dispersion of income across the entire income distribution. The Gini coefficient ranges from 0, indicating perfect equality (where everyone receives an equal share), to 1, perfect inequality (where only one recipient or group of recipients receives all the income). The Gini is based on the difference between the Lorenz curve (the observed cumulative income distribution) and the notion of a perfectly equal income distribution."
 
@@ -609,7 +613,7 @@ tract2010NC$GEOID <- substring(tract2010NC$GEO_ID, 10)
 county2010NC <- tigris::counties(state = "NC", year = 2010, cb = TRUE)
 
 # Join the Gini Index values to the census tract geometry
-NC2010gini <- merge(tract2010NC, gini2010NC$gini, by = "GEOID")
+NC2010gini <- dplyr::left_join(tract2010NC, gini2010NC$gini, by = "GEOID")
 
 # Visualize the Gini Index values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts 
 ggplot2::ggplot() + 
@@ -627,6 +631,99 @@ ggplot2::ggplot() +
                 caption = "Source: U.S. Census ACS 2006-2010 estimates") +
   ggplot2::ggtitle("Gini Index",
                    subtitle = "NC census tracts")
+```
+
+### Index of Concentration at the Extremes (ICE)
+
+Compute the Index of Concentration at the Extremes values (2006-2010 5-year ACS) for Wayne County, Michigan, U.S.A., census tracts. Wayne County is the home of Detroit, Michigan, a highly segregated city in the U.S. This metric is based on [Feldman et al. (2015)](https://www.doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://www.doi.org/10.2105/AJPH.2015.302955) who expanded the metric designed by Massey in a chapter of [Booth & Crouter (2001)](https://www.doi.org/10.4324/9781410600141) initially designed for residential segregation. The `krieger()` function computes five ICE metrics using the following ACS-5 groups:
+
+| ACS table group | ICE metric | Comparison
+| -------------- | ------------- | ---------------- |
+| B19001 | Income, "ICE_inc"| 80th income percentile vs. 20th income percentile |
+| B15002 | Education, "ICE_edu"| less than high school vs. four-year college degree or more |
+| B03002 | Race/Ethnicity, "ICE_rewb"| 80th income percentile vs. 20th income percentile |
+| B19001 & B19001B & B19001H | Income and race/ethnicity combined, "ICE_wbinc" | white non-Hispanic in 80th income percentile vs. black alone (including Hispanic) in 20th income percentile |
+| B19001 & B19001H | Income and race/ethnicity combined, "ICE_wpcinc"| white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile |
+
+ICE metrics can range in value from −1 (most deprived) to 1 (most privileged). A value of 0 can thus represent two possibilities: (1) none of the residents are in the most privileged or most deprived categories, or (2) an equal number of persons are in the most privileged and most deprived categories, and in both cases indicates that the area is not dominated by extreme concentrations of either of the two groups.
+
+```{r krieger, fig.height=5.5, fig.width=7}
+ice2020WC <- krieger(state = "MI", county = "Wayne", year = 2010)
+
+# Obtain the 2010 census tracts from the "tigris" package
+tract2010WC <- tigris::tracts(state = "MI", county = "Wayne", year = 2010, cb = TRUE)
+# Remove first 9 characters from GEOID for compatibility with tigris information
+tract2010WC$GEOID <- substring(tract2010WC$GEO_ID, 10) 
+
+# Join the ICEs (Krieger) values to the census tract geometry
+ice2020WC <- dplyr::left_join(tract2010WC, ice2020WC$ice, by = "GEOID")
+
+# Plot ICE for Income
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = ice2020WC, 
+                   ggplot2::aes(fill = ICE_inc),
+                   color = "white",
+                   size = 0.05) +
+  ggplot2::theme_bw() + 
+  ggplot2::scale_fill_gradient2(low = "#998ec3", mid = "#f7f7f7", high = "#f1a340", limits = c(-1,1)) +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2006-2010 estimates")+
+  ggplot2::ggtitle("Index of Concentration at the Extremes\nIncome (Krieger)",
+                   subtitle = "80th income percentile vs. 20th income percentile")
+
+# Plot ICE for Education
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = ice2020WC, 
+                   ggplot2::aes(fill = ICE_edu),
+                   color = "white",
+                   size = 0.05) +
+  ggplot2::theme_bw() + 
+  ggplot2::scale_fill_gradient2(low = "#998ec3", mid = "#f7f7f7", high = "#f1a340", limits = c(-1,1)) +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2006-2010 estimates")+
+  ggplot2::ggtitle("Index of Concentration at the Extremes\nEducation (Krieger)",
+                   subtitle = "less than high school vs. four-year college degree or more")
+
+# Plot ICE for Race/Ethnicity
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = ice2020WC, 
+                   ggplot2::aes(fill = ICE_rewb),
+                   color = "white",
+                   size = 0.05) +
+  ggplot2::theme_bw() + 
+  ggplot2::scale_fill_gradient2(low = "#998ec3", mid = "#f7f7f7", high = "#f1a340", limits = c(-1, 1)) +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2006-2010 estimates")+
+  ggplot2::ggtitle("Index of Concentration at the Extremes\nRace/Ethnicity (Krieger)",
+                   subtitle = "white non-Hispanic vs. black non-Hispanic")
+
+# Plot ICE for Income and Race/Ethnicity Combined
+## white non-Hispanic in 80th income percentile vs. black (including Hispanic) in 20th income percentile
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = ice2020WC, 
+                   ggplot2::aes(fill = ICE_wbinc),
+                   color = "white",
+                   size = 0.05) +
+  ggplot2::theme_bw() + 
+  ggplot2::scale_fill_gradient2(low = "#998ec3", mid = "#f7f7f7", high = "#f1a340", limits = c(-1, 1)) +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2006-2010 estimates")+
+  ggplot2::ggtitle("Index of Concentration at the Extremes\nIncome & race/ethnicity combined (Krieger)",
+                   subtitle = "white non-Hispanic in 80th inc ptcl vs. black alone in 20th inc pctl")
+
+# Plot ICE for Income and Race/Ethnicity Combined
+## white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = ice2020WC, 
+                   ggplot2::aes(fill = ICE_wpcinc),
+                   color = "white",
+                   size = 0.05) +
+  ggplot2::theme_bw() + 
+  ggplot2::scale_fill_gradient2(low = "#998ec3", mid = "#f7f7f7", high = "#f1a340", limits = c(-1, 1)) +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2006-2010 estimates")+
+  ggplot2::ggtitle("Index of Concentration at the Extremes\nIncome & race/ethnicity combined (Krieger)",
+                   subtitle = "white non-Hispanic (WNH) in 80th inc pctl vs. WNH in 20th inc pctl")
 ```
 
 ```{r system}

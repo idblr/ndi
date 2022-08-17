@@ -20,7 +20,7 @@ test_that("anthopolos throws error with invalid arguments", {
   # Incorrect state
   expect_error(anthopolos(state = "AB", year = 2020))
   
-  # Unavailable geography for DC (only 1 'county' in DC so, alone, NDI cannot be computed)
+  # Unavailable geography for DC (only 1 'county' in DC so, alone, RI cannot be computed)
   expect_error(anthopolos(geo = "county", state = "DC", year = 2009, quiet = TRUE))
   
 }

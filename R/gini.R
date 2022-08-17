@@ -3,13 +3,13 @@
 #' Retrieve the Gini Index values.
 #'
 #' @param geo Character string specifying the geography of the data either census tracts \code{geo = "tract"} (the default) or counties \code{geo = "county"}.
-#' @param year Numeric. The year to compute the estimate. The default is 2020 and the years between 2009 and 2020 are currently available.
+#' @param year Numeric. The year to compute the estimate. The default is 2020, and the years between 2009 and 2020 are currently available.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will retrieve the Gini Index of U.S. census tracts or counties for a specified geographical extent (e.g., entire U.S. or a single state) based on Gini (1921) \doi{10.2307/2223319}.
+#' @details This function will retrieve the Gini Index of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Gini (1921) \doi{10.2307/2223319}.
 #' 
-#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey estimate of the Gini Index (ACS: B19083). The estimate are available for 2009 through 2020 when ACS-5 data are available but are available from other U.S. Census Bureau surveys.
+#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey estimates of the Gini Index (ACS: B19083). The estimates are available for 2009 through 2020 when ACS-5 data are available but are available from other U.S. Census Bureau surveys.
 #' 
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #' 
@@ -25,7 +25,7 @@
 #' @import dplyr
 #' @importFrom stringr str_trim
 #' @importFrom tidycensus get_acs
-#' @importFrom tidyr gather separate
+#' @importFrom tidyr pivot_longer separate
 #' @export
 #' 
 #' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
@@ -72,15 +72,13 @@ gini <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
   # warning for missingness of census characteristics
   missingYN <- gini_vars %>%
     dplyr::select(gini)  %>%
-    tidyr::gather(key = "variable", value = "val") %>%
-    dplyr::mutate(missing = is.na(val)) %>%
+    tidyr::pivot_longer(cols = dplyr::everything(),
+                        names_to = "variable",
+                        values_to = "val") %>%
     dplyr::group_by(variable) %>%
-    dplyr::mutate(total = n()) %>%
-    dplyr::group_by(variable, total, missing) %>%
-    dplyr::count() %>%
-    dplyr::mutate(percent = round(n / total * 100,2),
-                  percent = paste0(percent," %")) %>%
-    dplyr::filter(missing == TRUE)
+    dplyr::summarise(total = dplyr::n(),
+                     n_missing = sum(is.na(val)),
+                     percent_missing = paste0(round(mean(is.na(val)) * 100, 2), " %"))
   
   if (quiet == FALSE) {
     # warning for missing census data

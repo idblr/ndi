@@ -10,7 +10,7 @@
 #'
 #' @details This function will compute the Neighborhood Deprivation Index (NDI) of U.S. census tracts or counties for a specified geographical referent (e.g., US-standardized) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002}.
 #' 
-#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for computation involving a factor analysis with the \code{\link[psych]{principal}} function. The yearly estimates are available 2010 and after when all census characteristics became available. The thirteen characteristics chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x} are:
+#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for computation involving a factor analysis with the \code{\link[psych]{principal}} function. The yearly estimates are available in 2010 and after when all census characteristics became available. The thirteen characteristics chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x} are:
 #' \itemize{
 #'  \item{MedHHInc (5B19013): }{median household income (dollars)}
 #'  \item{PctRecvIDR (B19054): }{percent of households receiving dividends, interest, or rental income}
@@ -39,7 +39,7 @@
 #' \item{\code{ndi}}{An object of class 'tbl' for the GEOID, name, NDI continuous, NDI quintiles, and raw census values of specified census geographies.}
 #' \item{\code{pca}}{An object of class 'principal', returns the output of \code{\link[psych]{principal}} used to compute the NDI values.}
 #' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute the NDI.}
-#' \item{\code{cronbach}}{An object of class 'character' or 'numeric' for the results of the Cronbach's alpha calculation. If only one factor is computed, a message is returned. If more than one factor is computed, the Cronbach's alpha is calculated and should check that it is >0.7 for respectable internal consistency between factors.}
+#' \item{\code{cronbach}}{An object of class 'character' or 'numeric' for the results of the Cronbach's alpha calculation. If only one factor is computed, a message is returned. If more than one factor is computed, Cronbach's alpha is calculated and should check that it is >0.7 for respectable internal consistency between factors.}
 #' }
 #' 
 #' @import dplyr 
@@ -48,7 +48,7 @@
 #' @importFrom stats complete.cases cor cov2cor loadings median promax quantile sd
 #' @importFrom stringr str_trim
 #' @importFrom tidycensus get_acs
-#' @importFrom tidyr gather separate
+#' @importFrom tidyr pivot_longer separate
 #' @export
 #' 
 #' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic referent selection (i.e., \code{state} and \code{county}).
@@ -158,23 +158,31 @@ powell_wiley <- function(geo = "tract", year, imp = FALSE, quiet = FALSE, ...) {
   
   # Run a factor analysis using Promax (oblique) rotation and a minimum Eigenvalue of 1
   nfa <- eigen(stats::cor(ndi_vars_pca, use = "complete.obs"))
-  nfa <- table(nfa$values > 1)[2] # count of factors with a minimum Eigenvalue of 1
+  nfa <- sum(nfa$values > 1) # count of factors with a minimum Eigenvalue of 1
   fit <- psych::principal(ndi_vars_pca, 
                           nfactors = nfa,
                           rotate = "none")
   fit_rotate <- stats::promax(stats::loadings(fit), m = 3)
   
   # Calculate the factors using only variables with an absolute loading score > 0.4 for the first factor
-  P_mat <- matrix(stats::loadings(fit_rotate), nrow = 13, ncol = nfa)
+  ## If number of factors > 2, use structure matrix, else pattern matrix
+  if (nfa > 1) {
+    P_mat <- matrix(stats::loadings(fit_rotate), nrow = 13, ncol = nfa)
+    
+    # Structure matrix (S_mat) from under-the-hood of the psych::principal() function
+    rot.mat <- fit_rotate$rotmat # rotation matrix
+    ui <- solve(rot.mat)
+    Phi <- cov2cor(ui %*% t(ui)) # interfactor correlation
+    S_mat <- P_mat %*% Phi # pattern matrix multiplied by interfactor correlation
+    
+  } else {
+    P_mat <- matrix(fit_rotate, nrow = 13, ncol = 1)
+    Phi <- 1
+    S_mat <- P_mat
+  }
   
   ## Variable correlation matrix (R_mat)
   R_mat <- as.matrix(cor(ndi_vars_pca[complete.cases(ndi_vars_pca), ]))
-  
-  # Structure matrix (S_mat) from under-the-hood of the psych::principal() function
-  rot.mat <- fit_rotate$rotmat # rotation matix
-  ui <- solve(rot.mat)
-  Phi <- cov2cor(ui %*% t(ui)) # interfactor correlation
-  S_mat <- P_mat %*% Phi # pattern matrix multiplied by interfactor correlation
   
   ## standardized score coefficients or weight matrix (B_mat)
   B_mat <- solve(R_mat, S_mat)
@@ -223,7 +231,7 @@ powell_wiley <- function(geo = "tract", year, imp = FALSE, quiet = FALSE, ...) {
   ndi_vars_NA <- ndi_vars[complete.cases(ndi_vars_scrs), ]
   ndi_vars_NA$NDI <- c(scrs)
   
-  ndi_vars_NDI <- merge(ndi_vars[ , c("GEOID", "TotalPop")], ndi_vars_NA[ , c("GEOID", "NDI")], by = "GEOID", all.x = TRUE)
+  ndi_vars_NDI <- dplyr::left_join(ndi_vars[ , c("GEOID", "TotalPop")], ndi_vars_NA[ , c("GEOID", "NDI")], by = "GEOID", all.x = TRUE)
   
   # Calculate Cronbach's alpha correlation coefficient among the factors and verify values are above 0.7. 
   if (nfa == 1) { 
@@ -238,15 +246,13 @@ powell_wiley <- function(geo = "tract", year, imp = FALSE, quiet = FALSE, ...) {
     dplyr::select(MedHHInc, PctRecvIDR, PctPubAsst, MedHomeVal, PctMgmtBusScArti,
                   PctFemHeadKids,PctOwnerOcc, PctNoPhone, PctNComPlmb, PctEducHSPlus,
                   PctEducBchPlus, PctFamBelowPov, PctUnempl, TotalPop) %>%
-    tidyr::gather(key = "variable", value = "val") %>%
-    dplyr::mutate(missing = is.na(val)) %>%
+    tidyr::pivot_longer(cols = dplyr::everything(),
+                        names_to = "variable",
+                        values_to = "val") %>%
     dplyr::group_by(variable) %>%
-    dplyr::mutate(total = n()) %>%
-    dplyr::group_by(variable, total, missing) %>%
-    dplyr::count() %>%
-    dplyr::mutate(percent = round(n / total * 100,2),
-                  percent = paste0(percent," %")) %>%
-    dplyr::filter(missing == TRUE)
+    dplyr::summarise(total = dplyr::n(),
+                     n_missing = sum(is.na(val)),
+                     percent_missing = paste0(round(mean(is.na(val)) * 100, 2), " %"))
   
   if (quiet == FALSE) {
     

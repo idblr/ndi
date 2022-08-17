@@ -1,29 +1,29 @@
 #' Racial Isolation Index based on Anthopolos et al. (2011) 
 #' 
-#' Compute the Racial Isolation Index (Anthopolos) values for selected subgroup(s).
+#' Compute the Racial Isolation Index (Anthopolos) values for a selected subgroup(s).
 #'
 #' @param geo Character string specifying the geography of the data either census tracts \code{geo = "tract"} (the default) or counties \code{geo = "county"}.
-#' @param year Numeric. The year to compute the estimate. The default is 2020 and the years between 2009 and 2020 are currently available.
+#' @param year Numeric. The year to compute the estimate. The default is 2020, and the years between 2009 and 2020 are currently available.
 #' @param subgroup Character string specifying the racial/ethnic subgroup(s). See Details for available choices.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the Racial Isolation Index (RI) of U.S. census tracts or counties for a specified geographical extent (e.g., entire U.S. or a single state) based on Anthopolos et al. (2011) \doi{10.1016/j.sste.2011.06.002} who originally designed the metric for the racial isolation of non-Hispanic Black individuals. This function provides the computation of RI for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#' @details This function will compute the Racial Isolation Index (RI) of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Anthopolos et al. (2011) \doi{10.1016/j.sste.2011.06.002} who originally designed the metric for the racial isolation of non-Hispanic Black individuals. This function provides the computation of RI for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #' 
-#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates available for 2009 through 2020 when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
+#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates are available for 2009 through 2020 when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
-#'  \item{B03002_002: }{Not Hispanic or Latino "NHoL"}
-#'  \item{B03002_003: }{Not Hispanic or Latino, White alone "NHoLW"}
-#'  \item{B03002_004: }{Not Hispanic or Latino, Black or African American alone "NHoLB"}
-#'  \item{B03002_005: }{Not Hispanic or Latino, American Indian and Alaska Native alone "NHoLAIAN"}
-#'  \item{B03002_006: }{Not Hispanic or Latino, Asian alone "NHoLA"}
-#'  \item{B03002_007: }{Not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone "NHoLNHOPI"}
-#'  \item{B03002_008: }{Not Hispanic or Latino, Some other race alone "NHoLSOR"}
-#'  \item{B03002_009: }{Not Hispanic or Latino, Two or more races "NHoLTOMR"}
-#'  \item{B03002_010: }{Not Hispanic or Latino, Two races including Some other race "NHoLTRiSOR"}
-#'  \item{B03002_011: }{Not Hispanic or Latino, Two races excluding Some other race, and three or more races "NHoLTReSOR"}
+#'  \item{B03002_002: }{not Hispanic or Latino "NHoL"}
+#'  \item{B03002_003: }{not Hispanic or Latino, white alone "NHoLW"}
+#'  \item{B03002_004: }{not Hispanic or Latino, Black or African American alone "NHoLB"}
+#'  \item{B03002_005: }{not Hispanic or Latino, American Indian and Alaska Native alone "NHoLAIAN"}
+#'  \item{B03002_006: }{not Hispanic or Latino, Asian alone "NHoLA"}
+#'  \item{B03002_007: }{not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone "NHoLNHOPI"}
+#'  \item{B03002_008: }{not Hispanic or Latino, Some other race alone "NHoLSOR"}
+#'  \item{B03002_009: }{not Hispanic or Latino, Two or more races "NHoLTOMR"}
+#'  \item{B03002_010: }{not Hispanic or Latino, Two races including Some other race "NHoLTRiSOR"}
+#'  \item{B03002_011: }{not Hispanic or Latino, Two races excluding Some other race, and three or more races "NHoLTReSOR"}
 #'  \item{B03002_012: }{Hispanic or Latino "HoL"}
-#'  \item{B03002_013: }{Hispanic or Latino, White alone "HoLW"}
+#'  \item{B03002_013: }{Hispanic or Latino, white alone "HoLW"}
 #'  \item{B03002_014: }{Hispanic or Latino, Black or African American alone "HoLB"}
 #'  \item{B03002_015: }{Hispanic or Latino, American Indian and Alaska Native alone "HoLAIAN"}
 #'  \item{B03002_016: }{Hispanic or Latino, Asian alone "HoLA"}
@@ -34,9 +34,9 @@
 #'  \item{B03002_021: }{Hispanic or Latino, Two races excluding Some other race, and three or more races "HoLTReSOR"}
 #' }
 #' 
-#' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output. NOTE: Current version does not correct for edge effects (e.g., census geographies along the specified spatial extent border, coastline, or U.S.-Mexico / U.S.-Canada border) may have few neighboring census geographies and RI values in these census geographies may be unstable. A stop-gap solution for the former source of edge effect is to compute the RI for neighboring census geographies (i.e., the states bordering a study area of interest) and then use the estimates of the study area of interest.
+#' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output. NOTE: Current version does not correct for edge effects (e.g., census geographies along the specified spatial extent border, coastline, or U.S.-Mexico / U.S.-Canada border) may have few neighboring census geographies, and RI values in these census geographies may be unstable. A stop-gap solution for the former source of edge effect is to compute the RI for neighboring census geographies (i.e., the states bordering a study area of interest) and then use the estimates of the study area of interest.
 #' 
-#' A census geography (and its neighbors) that has nearly all of its population who identify with the specified race/ethnicity subgroup(s) (e.g., non-Hispanic or Latino, Black or African American alone) will have an RI value that is close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population who identify with the specified race/ethnicity subgroup(s) (e.g., not non-Hispanic or Latino, Black or African American alone) will have an RI value that is close to 0.
+#' A census geography (and its neighbors) that has nearly all of its population who identify with the specified race/ethnicity subgroup(s) (e.g., non-Hispanic or Latino, Black or African American alone) will have an RI value close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population who identify with the specified race/ethnicity subgroup(s) (e.g., not non-Hispanic or Latino, Black or African American alone) will have an RI value close to 0.
 #' 
 #' @return An object of class 'list'. This is a named list with the following components:
 #' 
@@ -50,7 +50,7 @@
 #' @importFrom sf st_drop_geometry st_geometry st_intersects
 #' @importFrom stringr str_trim
 #' @importFrom tidycensus get_acs
-#' @importFrom tidyr gather separate
+#' @importFrom tidyr pivot_longer separate
 #' @export
 #' 
 #' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
@@ -160,19 +160,16 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
   ri_vars$RI <- unlist(RIim)
   
   # warning for missingness of census characteristics
-  missingYN <- ri_vars %>%
-    dplyr::select(in_names)
+  missingYN <- ri_vars[ , in_names]
   names(missingYN) <- out_names
   missingYN <- missingYN %>%
-    tidyr::gather(key = "variable", value = "val") %>%
-    dplyr::mutate(missing = is.na(val)) %>%
+    tidyr::pivot_longer(cols = dplyr::everything(),
+                        names_to = "variable",
+                        values_to = "val") %>%
     dplyr::group_by(variable) %>%
-    dplyr::mutate(total = n()) %>%
-    dplyr::group_by(variable, total, missing) %>%
-    dplyr::count() %>%
-    dplyr::mutate(percent = round(n / total * 100,2),
-                  percent = paste0(percent," %")) %>%
-    dplyr::filter(missing == TRUE)
+    dplyr::summarise(total = dplyr::n(),
+                     n_missing = sum(is.na(val)),
+                     percent_missing = paste0(round(mean(is.na(val)) * 100, 2), " %"))
   
   if (quiet == FALSE) {
     # warning for missing census data

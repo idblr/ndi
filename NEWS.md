@@ -1,9 +1,29 @@
 # ndi (development version)
 
+# ndi v0.1.2.9000
+
+### New Feature
+* Added `krieger()` function to compute the Index of Concentration at the Extremes (ICE) based on [Feldman et al. (2015)](https://www.doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://www.doi.org/10.2105/AJPH.2015.302955) for specified counties/tracts 2009-2020. 
+* Thank you for the suggestion, [David Berrigan](https://orcid.org/0000-0002-5333-179X).
+
+### Updates
+* Fixed bug in `powell_wiley()` function where the internal PCA will now run properly if only one factor has an eigenvalue above 1 thanks to a contribution by [Jacob Englert](https://github.com/jacobenglert)
+* Optimized the code to calculate missingness in all functions thanks to a contribution by [Jacob Englert](https://github.com/jacobenglert)
+* Updated vignette and README for new features
+* Fixed typos throughout documentation
+* Updated Description in DESCRIPTION and fixed typos
+* Updated 'package.R' with new details
+* Updated CITATION with new citations for the additional metric
+
 # ndi v0.1.1
+
+### New Features
 * Added `anthopolos()` function to compute the Racial Isolation Index (RI) based on based on [Anthopolos et al. (2011)](https://www.doi.org/10.1016/j.sste.2011.06.002) for specified counties/tracts 2009-2020
 * Added `bravo()` function to compute the Educational Isolation Index (EI) based on based on [Bravo et al. (2021)](https://www.doi.org/10.3390/ijerph18179384) for specified counties/tracts 2009-2020
 * Added `gini()` function to retrieve the Gini Index based on [Gini (1921)](https://www.doi.org/10.2307/2223319) for specified counties/tracts 2009-2020
+* Thank you for the suggestions, [Jessica Madrigal](https://orcid.org/0000-0001-5303-5109).
+
+### Updates
 * `Matrix` and `sf` are now Depends
 * Updated vignette and README for new features
 * Fixed typos throughout documentation

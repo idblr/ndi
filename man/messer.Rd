@@ -9,11 +9,11 @@ messer(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, ...)
 \arguments{
 \item{geo}{Character string specifying the geography of the data either census tracts \code{geo = "tract"} (the default) or counties \code{geo = "county"}.}
 
-\item{year}{Numeric. The year to compute the estimate. The default is 2020 and the years between 2010 and 2020 are currently available.}
+\item{year}{Numeric. The year to compute the estimate. The default is 2020, and the years between 2010 and 2020 are currently available.}
 
 \item{imp}{Logical. If TRUE, will impute missing census characteristics within the internal \code{\link[psych]{principal}}. If FALSE (the default), will not impute.}
 
-\item{quiet}{Logical. If TRUE, will display messages about potential missing census information and proportion of variance explained by principal component analysis. The default is FALSE.}
+\item{quiet}{Logical. If TRUE, will display messages about potential missing census information and the proportion of variance explained by principal component analysis. The default is FALSE.}
 
 \item{...}{Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics}
 }
@@ -32,14 +32,14 @@ Compute the Neighborhood Deprivation Index (Messer) values.
 \details{
 This function will compute the Neighborhood Deprivation Index (NDI) of U.S. census tracts or counties for a specified geographical referent (e.g., US-standardized) based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x}.
 
-The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for computation involving a principal component analysis with the \code{\link[psych]{principal}} function. The yearly estimates are available 2010 and after when all census characteristics became available. The eight characteristics are:
+The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for computation involving a principal component analysis with the \code{\link[psych]{principal}} function. The yearly estimates are available for 2010 and after when all census characteristics became available. The eight characteristics are:
 \itemize{
 \item{C24030: }{percent males in management, science, and arts occupation}
 \item{B25014: }{percent of crowded housing}
 \item{B17017: }{percent of households in poverty}
 \item{B25115: }{percent of female headed households with dependents}
 \item{B19058: }{percent of households on public assistance}
-\item{B19001: }{percent households earning <$30,000 per year}
+\item{B19001: }{percent of households earning <$30,000 per year}
 \item{B06009: }{percent earning less than a high school education}
 \item{B23025: }{percent unemployed (2011 onward)}
 \item{B23001: }{percent unemployed (2010 only)}

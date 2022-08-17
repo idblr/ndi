@@ -1,16 +1,20 @@
-citHeader("To cite ndi in publications, please use the following and include the version number:")
+citHeader("To cite ndi in publications, please use the following and include the version number and DOI:")
 
 citEntry(entry = "manual",
   title         = "ndi: Neighborhood Deprivation Indices",
   author        = personList(as.person("Ian D. Buller")),
   publisher     = "The Comprehensive R Archive Network",
   year          = "2022",
+  number        = "0.1.2.9000",
+  doi           = "10.5281/zenodo.6989030",
   url           = "https://cran.r-project.org/package=ndi",
   
   textVersion = 
-  paste("Ian D. Buller (2022).", 
+  paste("Ian D. Buller (2022).",
         "ndi: Neighborhood Deprivation Indices.",
         "The Comprehensive R Archive Network.",
+        "v0.1.2.9000.",
+        "DOI:10.5281/zenodo.6989030",
         "Accessed by: https://cran.r-project.org/package=ndi")
 )
 
@@ -31,7 +35,7 @@ citEntry(entry = "Article",
   paste("Rebecca Anthopolos, Sherman A. James, Alan E. Gelfand, Marie Lynn Miranda (2011).",
         "A spatial measure of neighborhood level racial isolation applied to low birthweight, preterm birth, and birthweight in North Carolina.",
         "Spatial and Spatio-temporal Epidemiology, 2(4), 235-246.",
-        "DOI: 10.1016/j.sste.2011.06.002"),
+        "DOI:10.1016/j.sste.2011.06.002"),
 
   header       = "If you computed RI (Anthopolos) values, please also cite:"
 )
@@ -53,7 +57,7 @@ citEntry(entry = "Article",
   paste("Mercedes A. Bravo, Man Chong Leong, Alan E. Gelfand, Marie Lynn Miranda (2021).",
         "Assessing Disparity Using Measures of Racial and Educational Isolation.",
         "International Journal of Environmental Research and Public Health, 18(17), 9384.",
-        "DOI: 10.3390/ijerph18179384"),
+        "DOI:10.3390/ijerph18179384"),
 
   header       = "If you computed EI (Bravo) values, please also cite:"
 )
@@ -65,16 +69,62 @@ citEntry(entry = "Article",
   year         = "1921",
   volume       = "31",
   number       = "121",
-  pages        = "124-126",
+  pages        = "124--126",
   doi          = "10.2307/2223319",
 
   textVersion  =
   paste("Corrado Gini (1921).",
         "Measurement of Inequality of Incomes.",
         "The Economic Journal, 31(121), 124-126.",
-        "DOI: 10.2307/2223319"),
+        "DOI:10.2307/2223319"),
 
   header       = "If you retrieved Gini Index values, please also cite:"
+)
+
+citEntry(entry = "Article",
+  title        = "Spatial social polarisation: using the Index of Concentration at the Extremes jointly for income and race/ethnicity to analyse risk of hypertension",
+  author       = personList(as.person("Justin M. Feldman"),
+                   as.person("Pamela D. Waterman"),
+                   as.person("Brent A. Coull"),
+                   as.person("Nancy Krieger")),
+  journal      = "Journal of Epidemiology and Community Health",
+  year         = "2015",
+  volume       = "69",
+  issue        = "12",
+  pages        = "1199--207",
+  doi          = "10.1136/jech-2015-205728",
+
+  textVersion  =
+  paste("Justin M. Feldman, Pamela D. Waterman, Brent A. Coull, Nancy Krieger (2015).",
+        "Spatial social polarisation: using the Index of Concentration at the Extremes jointly for income and race/ethnicity to analyse risk of hypertension.",
+        "Journal of Epidemiology and Community Health, 69(12), 1199-207.",
+        "DOI:10.1136/jech-2015-205728"),
+
+  header       = "If you computed ICE (Krieger) values, please also cite (1):"
+)
+
+citEntry(entry = "Article",
+  title        = "Public Health Monitoring of Privilege and Deprivation With the Index of Concentration at the Extremes",
+  author       = personList(as.person("Nancy Krieger"),
+                   as.person("Pamela D. Waterman"),
+                   as.person("Jasmina Spasojevic"),
+                   as.person("Wenhui Li"),
+                   as.person("Wenhui Li"),
+                   as.person("Gretchen Van Wye")),
+  journal      = "American Journal of Public Health ",
+  year         = "2016",
+  volume       = "106",
+  issue        = "2",
+  pages        = "256--263",
+  doi          = "10.2105/AJPH.2015.302955",
+
+  textVersion  =
+  paste("Beth A. Slotman, David G Stinchcomb, Tiffany M. Powell-Wiley, Danielle M. Ostendorf, Brian E. Saelens, Amy A. Gorin, Shannon N. Zenk, David Berrigan (2016).",
+        "Public Health Monitoring of Privilege and Deprivation With the Index of Concentration at the Extremes.",
+        "American Journal of Public Health, 106(2), 256-263.",
+        "DOI:10.2105/AJPH.2015.302955"),
+
+  header       = "And (2):"
 )
 
 citEntry(entry = "Article",
@@ -99,7 +149,7 @@ citEntry(entry = "Article",
   paste("Lynne C. Messer, Barbara A. Laraia, Jay S. Kaufman, Janet Eyster, Claudia Holzman, Jennifer Culhane, Irma Elo, Jessica Burke, Patricia O'Campo (2006).",
         "The development of a standardized neighborhood deprivation index.",
         "Journal of Urban Health, 83(6), 1041-1062.",
-        "DOI: 10.1007/s11524-006-9094-x"),
+        "DOI:10.1007/s11524-006-9094-x"),
 
   header       = "If you computed NDI (Messer) values, please also cite:"
 )
@@ -120,14 +170,14 @@ citEntry(entry = "Article",
   year         = "2020",
   volume       = "16",
   issue        = "1",
-  pages        = "101-112",
+  pages        = "101--112",
   doi          = "10.1080/17445647.2020.1750066",
 
   textVersion  =
   paste("Marcus A. Andrews, Kosuke Tomura, Sophie E. Claudel, Samantha Xu, Joniqua N. Ceasar, Billy S. Collins, Steven Langerman, Valerie M. Mitchell, Yvonne Baumer, Tiffany M. Powell-Wiley (2022).",
         "Geospatial analysis of neighborhood deprivation index (NDI) for the United States by county.",
         "Journal of Maps, 16(1), 101-112.",
-        "DOI: 10.1080/17445647.2020.1750066"),
+        "DOI:10.1080/17445647.2020.1750066"),
 
   header       = "If you computed NDI (Powell-Wiley) values, please also cite (1):"
 )
@@ -152,7 +202,7 @@ citEntry(entry = "Article",
   paste("Beth A. Slotman, David G Stinchcomb, Tiffany M. Powell-Wiley, Danielle M. Ostendorf, Brian E. Saelens, Amy A. Gorin, Shannon N. Zenk, David Berrigan (2022).",
         "The development of a standardized neighborhood deprivation index.",
         "Data in Brief, 41, 108002.",
-        "DOI: 10.1016/j.dib.2022.108002"),
+        "DOI:10.1016/j.dib.2022.108002"),
 
   header       = "And (2):"
 )

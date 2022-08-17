@@ -9,7 +9,7 @@ gini(geo = "tract", year = 2020, quiet = FALSE, ...)
 \arguments{
 \item{geo}{Character string specifying the geography of the data either census tracts \code{geo = "tract"} (the default) or counties \code{geo = "county"}.}
 
-\item{year}{Numeric. The year to compute the estimate. The default is 2020 and the years between 2009 and 2020 are currently available.}
+\item{year}{Numeric. The year to compute the estimate. The default is 2020, and the years between 2009 and 2020 are currently available.}
 
 \item{quiet}{Logical. If TRUE, will display messages about potential missing census information}
 
@@ -27,9 +27,9 @@ An object of class 'list'. This is a named list with the following components:
 Retrieve the Gini Index values.
 }
 \details{
-This function will retrieve the Gini Index of U.S. census tracts or counties for a specified geographical extent (e.g., entire U.S. or a single state) based on Gini (1921) \doi{10.2307/2223319}.
+This function will retrieve the Gini Index of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Gini (1921) \doi{10.2307/2223319}.
 
-The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey estimate of the Gini Index (ACS: B19083). The estimate are available for 2009 through 2020 when ACS-5 data are available but are available from other U.S. Census Bureau surveys.
+The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey estimates of the Gini Index (ACS: B19083). The estimates are available for 2009 through 2020 when ACS-5 data are available but are available from other U.S. Census Bureau surveys.
 
 Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 

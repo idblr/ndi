@@ -10,11 +10,11 @@ ndi: Neighborhood Deprivation Indices <img src="man/figures/ndi.png" width="120"
 [![DOI](https://zenodo.org/badge/521439746.svg)](https://zenodo.org/badge/latestdoi/521439746)
 <!-- badges: end -->
 
-**Date repository last updated**: August 14, 2022
+**Date repository last updated**: August 17, 2022
 
 ### Overview
 
-The `ndi` package is a suite of `R` functions to compute various metrics of socio-economic deprivation and disparity in the United States. Some metrics are considered "spatial" because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other metrics are "aspatial" because they only consider the value within each census geography. Two types of aspatial NDI are available: (1) based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) who use variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of various demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates (ACS-5; 2010-2020) pulled by the [tidycensus](https://CRAN.R-project.org/package=tidycensus) package. Using data from the ACS-5 (2009-2020), the `ndi` package can also (1) compute the spatial Racial Isolation Index (RI) based on [Anthopolos et al. (2011)](https://www.doi.org/10.1016/j.sste.2011.06.002), (2) the spatial Educational Isolation Index (EI) based on [Bravo et al. (2021)](https://www.doi.org/10.3390/ijerph18179384), and (3) retrieve the aspatial Gini Index based on [Gini (1921)](https://www.doi.org/10.2307/2223319). 
+The `ndi` package is a suite of `R` functions to compute various metrics of socio-economic deprivation and disparity in the United States. Some metrics are considered "spatial" because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other metrics are "aspatial" because they only consider the value within each census geography. Two types of aspatial NDI are available: (1) based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) who use variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of various demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates (ACS-5; 2010-2020) pulled by the [tidycensus](https://CRAN.R-project.org/package=tidycensus) package. Using data from the ACS-5 (2009-2020), the `ndi` package can also (1) compute the spatial Racial Isolation Index (RI) based on [Anthopolos et al. (2011)](https://www.doi.org/10.1016/j.sste.2011.06.002), (2) compute the spatial Educational Isolation Index (EI) based on [Bravo et al. (2021)](https://www.doi.org/10.3390/ijerph18179384), (3) the aspatial Index of Concentration at the Extremes (ICE) based on [Feldman et al. (2015)](https://www.doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://www.doi.org/10.2105/AJPH.2015.302955), and (4) retrieve the aspatial Gini Index based on [Gini (1921)](https://www.doi.org/10.2307/2223319).
 
 ### Installation
 
@@ -41,35 +41,46 @@ To install the development version from GitHub:
 </thead>
 <tbody>
 <td><code>anthopolos</code></td>
-<td>Compute the Racial Isolation Index (RI) based on <a href="https://www.doi.org/10.1016/j.sste.2011.06.002">Anthopolos et al. (2011)</a>.</td>
+<td>Compute the Racial Isolation Index (RI) based on <a href="https://www.doi.org/10.1016/j.sste.2011.06.002">Anthopolos et al. (2011)</a></td>
 </tr>
 <td><code>bravo</code></td>
-<td>Compute the Educational Isolation Index (EI) based on <a href="https://www.doi.org/10.3390/ijerph18179384">Bravo et al. (2021)</a>.</td>
+<td>Compute the Educational Isolation Index (EI) based on <a href="https://www.doi.org/10.3390/ijerph18179384">Bravo et al. (2021)</a></td>
 </tr>
 <td><code>gini</code></td>
-<td>Retrieve the Gini Index based on <a href="https://www.doi.org/10.2307/2223319">Gini (1921)</a>.</td>
+<td>Retrieve the Gini Index based on <a href="https://www.doi.org/10.2307/2223319">Gini (1921)</a></td>
+</tr>
+<td><code>krieger</code></td>
+<td>Compute the Index of Concentration at the Extremes (ICE) based on <a href="https://www.doi.org/10.1136/jech-2015-205728">Feldman et al. (2015)</a> and <a href="https://www.doi.org/10.2105/AJPH.2015.302955">Krieger et al. (2016)</a></td>
 </tr>
 <td><code>messer</code></td>
-<td>Compute the Neighboorhood Deprivation Index (NDI) based on <a href="https://doi.org/10.1007/s11524-006-9094-x">Messer et al. (2006)</a>.</td>
+<td>Compute the Neighboorhood Deprivation Index (NDI) based on <a href="https://doi.org/10.1007/s11524-006-9094-x">Messer et al. (2006)</a></td>
 </tr>
 <td><code>powell_wiley</code></td>
-<td>Compute the Neighboorhood Deprivation Index (NDI) based on <a href="https://doi.org/10.1080/17445647.2020.1750066">Andrews et al. (2020)</a> and <a href="https://doi.org/10.1016/j.dib.2022.108002">Slotman et al. (2022)</a> with variables chosen by <a href="https://doi.org/10.1111/j.1749-6632.2009.05333.x">Roux and Mair (2010)</a>.</td>
+<td>Compute the Neighboorhood Deprivation Index (NDI) based on <a href="https://doi.org/10.1080/17445647.2020.1750066">Andrews et al. (2020)</a> and <a href="https://doi.org/10.1016/j.dib.2022.108002">Slotman et al. (2022)</a> with variables chosen by <a href="https://doi.org/10.1111/j.1749-6632.2009.05333.x">Roux and Mair (2010)</a></td>
 </tr>
 </tbody>
 <table>
 
-The repository also includes the code to create the project hexsticker.
+The repository also includes the code to create the project hexagon sticker.
 
 ### Author
 
 * **Ian D. Buller** - *Occupational and Environmental Epidemiology Branch, Division of Cancer Epidemiology and Genetics, National Cancer Institute, National Institutes of Health, Rockville, Maryland* - [GitHub](https://github.com/idblr) - [ORCID](https://orcid.org/0000-0001-9477-8582)
 
-See also the list of [contributors](https://github.com/idblr/ndi/graphs/contributors) who participated in this package.
+See also the list of [contributors](https://github.com/idblr/ndi/graphs/contributors) who participated in this package, including:
+
+* **Jacob Englert** - *Biostatistics and Bioinformatics Doctoral Program, Laney Graduate School, Emory University, Atlanta, Georgia* - [GitHub](https://github.com/jacobenglert)
+
+Thank you to those who suggested additional metrics, including:
+
+* **Jessica Madrigal** - *Occupational and Environmental Epidemiology Branch, Division of Cancer Epidemiology and Genetics, National Cancer Institute, National Institutes of Health, Rockville, Maryland* - [ORCID](https://orcid.org/0000-0001-5303-5109)
+
+* **David Berrigan** - *Behavioral Research Program, Division of Cancer Control and Population Sciences, National Cancer Institute, National Institutes of Health, Rockville, Maryland* - [ORCID](https://orcid.org/0000-0002-5333-179X)
 
 ### Getting Started
 
-* Step 1: You must obtain a unique access key from the U.S. Census Bureau. Follow [this link](http://api.census.gov/data/key_signup.html) to obtain one.
-* Step 2: Specify your access key in the `anthopolos()`, `bravo()`, `gini()`, `messer()`, or `powell_wiley()` functions using the internal `key` argument or by using the `census_api_key()` function from the `tidycensus` package before running the `anthopolos()`, `bravo()`, `gini()`, `messer()`, or `powell_wiley()` functions (see an example below).
+* Step 1: Obtain a unique access key from the U.S. Census Bureau. Follow [this link](http://api.census.gov/data/key_signup.html) to obtain one.
+* Step 2: Specify your access key in the `anthopolos()`, `bravo()`, `gini()`, `krieger()`, `messer()`, or `powell_wiley()` functions using the internal `key` argument or by using the `census_api_key()` function from the `tidycensus` package before running the `anthopolos()`, `bravo()`, `gini()`, `krieger()`, `messer()`, or `powell_wiley()` functions (see an example below).
 
 ### Usage
 
@@ -80,9 +91,9 @@ See also the list of [contributors](https://github.com/idblr/ndi/graphs/contribu
 
 library(ndi)
 library(ggplot2)
-library(sf)
+library(sf) # dependency fo the "ndi" package
 library(tidycensus) # a dependency for the "ndi" package
-library(tigris) # a dependency for the "ndi" package
+library(tigris)
 
 # -------- #
 # Settings #
@@ -120,7 +131,7 @@ messer2020DC$missing
 tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
 
 # Join the NDI (Messer) values to the census tract geometry
-DC2020messer <- merge(tract2020DC, messer2020DC$ndi, by = "GEOID")
+DC2020messer <- dplyr::left_join(tract2020DC, messer2020DC$ndi, by = "GEOID")
 
 # Visualize the NDI (Messer) values (2016-2020 5-year ACS) for Washington, D.C. census tracts
 
@@ -188,8 +199,8 @@ powell_wiley2020DC$missing
 tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
 
 # Join the NDI (powell_wiley) values to the census tract geometry
-DC2020powell_wiley <- merge(tract2020DC, powell_wiley2020DC$ndi, by = "GEOID")
-DC2020powell_wiley <- merge(DC2020powell_wiley, powell_wiley2020DCi$ndi, by = "GEOID")
+DC2020powell_wiley <- dplyr::left_join(tract2020DC, powell_wiley2020DC$ndi, by = "GEOID")
+DC2020powell_wiley <- dplyr::left_join(DC2020powell_wiley, powell_wiley2020DCi$ndi, by = "GEOID")
 
 # Visualize the NDI (Powell-Wiley) values (2016-2020 5-year ACS) for Washington, D.C. census tracts
 
@@ -270,7 +281,7 @@ ggplot2::ggplot() +
 # --------------------------- #
 
 # Merge the two NDI metrics (Messer and Powell-Wiley, imputed)
-ndi2020DC <- merge(messer2020DC$ndi, powell_wiley2020DCi$ndi, by = "GEOID", suffixes = c(".messer", ".powell_wiley"))
+ndi2020DC <- dplyr::left_join(messer2020DC$ndi, powell_wiley2020DCi$ndi, by = "GEOID", suffixes = c(".messer", ".powell_wiley"))
 
 # Check the correlation the two NDI metrics (Messer and Powell-Wiley, imputed) as continuous values
 cor(ndi2020DC$NDI.messer, ndi2020DC$NDI.powell_wiley, use = "complete.obs") # Pearsons r = 0.975
@@ -291,7 +302,7 @@ gini2020DC <- gini(state = "DC", year = 2020)
 tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
 
 # Join the Gini Index values to the census tract geometry
-gini2020DC <- merge(tractsDC, gini2020DC$gini, by = "GEOID")
+gini2020DC <- dplyr::left_join(tract2020DC, gini2020DC$gini, by = "GEOID")
 
 ggplot2::ggplot() + 
   ggplot2::geom_sf(data = gini2020DC, 
@@ -320,7 +331,7 @@ ri2020DC <- anthopolos(state = "DC", year = 2020, subgroup = "NHoLB")
 tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
 
 # Join the RI (Anthopolos) values to the census tract geometry
-ri2020DC <- merge(tractsDC, ri2020DC$ri, by = "GEOID")
+ri2020DC <- dplyr::left_join(tract2020DC, ri2020DC$ri, by = "GEOID")
 
 ggplot2::ggplot() + 
   ggplot2::geom_sf(data = ri2020DC, 
@@ -349,7 +360,7 @@ ei2020DC <- bravo(state = "DC", year = 2020, subgroup = c("LtHS", "HSGiE", "SCoA
 tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
 
 # Join the EI (Bravo) values to the census tract geometry
-ei2020DC <- merge(tractsDC, ei2020DC$ei, by = "GEOID")
+ei2020DC <- dplyr::left_join(tract2020DC, ei2020DC$ei, by = "GEOID")
 
 ggplot2::ggplot() + 
   ggplot2::geom_sf(data = ei2020DC, 
@@ -365,13 +376,108 @@ ggplot2::ggplot() +
 
 ![](man/figures/ei.png)
 
+``` r
+# ------------------------------------------------ #
+# Index of Concentration at the Extremes (Krieger) #
+# ------------------------------------------------ #
+
+# Five Indices of Concentration at the Extremes based on Feldman et al. (2015) and Krieger et al (2016)
+
+ice2020DC <- krieger(state = "DC", year = 2020)
+
+# Obtain the 2020 census tracts from the "tigris" package
+tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
+
+# Join the ICEs (Krieger) values to the census tract geometry
+ice2020DC <- dplyr::left_join(tract2020DC, ice2020DC$ice, by = "GEOID")
+
+# Plot ICE for Income
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = ice2020DC, 
+                   ggplot2::aes(fill = ICE_inc),
+                   color = "white") +
+  ggplot2::theme_bw() + 
+  ggplot2::scale_fill_gradient2(low = "#998ec3", mid = "#f7f7f7", high = "#f1a340", limits = c(-1,1)) +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates")+
+  ggplot2::ggtitle("Index of Concentration at the Extremes\nIncome (Krieger)",
+                   subtitle = "80th income percentile vs. 20th income percentile")
+```
+
+![](man/figures/ice1.png)
+
+```r
+# Plot ICE for Education
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = ice2020DC, 
+                   ggplot2::aes(fill = ICE_edu),
+                   color = "white") +
+  ggplot2::theme_bw() + 
+  ggplot2::scale_fill_gradient2(low = "#998ec3", mid = "#f7f7f7", high = "#f1a340", limits = c(-1,1)) +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates")+
+  ggplot2::ggtitle("Index of Concentration at the Extremes\nEducation (Krieger)",
+                   subtitle = "less than high school vs. four-year college degree or more")
+```
+
+![](man/figures/ice2.png)
+
+```r
+# Plot ICE for Race/Ethnicity
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = ice2020DC, 
+                   ggplot2::aes(fill = ICE_rewb),
+                   color = "white") +
+  ggplot2::theme_bw() + 
+  ggplot2::scale_fill_gradient2(low = "#998ec3", mid = "#f7f7f7", high = "#f1a340", limits = c(-1, 1)) +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates")+
+  ggplot2::ggtitle("Index of Concentration at the Extremes\nRace/Ethnicity (Krieger)",
+                   subtitle = "white non-Hispanic vs. black non-Hispanic")
+```
+
+![](man/figures/ice3.png)
+
+```
+# Plot ICE for Income and Race/Ethnicity Combined
+## white non-Hispanic in 80th income percentile vs. black (including Hispanic) in 20th income percentile
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = ice2020DC, 
+                   ggplot2::aes(fill = ICE_wbinc),
+                   color = "white") +
+  ggplot2::theme_bw() + 
+  ggplot2::scale_fill_gradient2(low = "#998ec3", mid = "#f7f7f7", high = "#f1a340", limits = c(-1, 1)) +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates")+
+  ggplot2::ggtitle("Index of Concentration at the Extremes\nIncome and race/ethnicity combined (Krieger)",
+                   subtitle = "white non-Hispanic in 80th income percentile vs. black (incl. Hispanic) in 20th inc. percentile")
+```
+
+![](man/figures/ice4.png)
+
+```r
+# Plot ICE for Income and Race/Ethnicity Combined
+## white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = ice2020DC, 
+                   ggplot2::aes(fill = ICE_wpcinc),
+                   color = "white") +
+  ggplot2::theme_bw() + 
+  ggplot2::scale_fill_gradient2(low = "#998ec3", mid = "#f7f7f7", high = "#f1a340", limits = c(-1, 1)) +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates")+
+  ggplot2::ggtitle("Index of Concentration at the Extremes\nIncome and race/ethnicity combined (Krieger)",
+                   subtitle = "white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile")
+```
+![](man/figures/ice5.png)
+
 ### Funding
 
 This package was developed while the author was a postdoctoral fellow supported by the [Cancer Prevention Fellowship Program](https://cpfp.cancer.gov/) at the [National Cancer Institute](https://www.cancer.gov/).
 
 ### Acknowledgments
 
-The `messer()` function functionalizes the code found in [Hruska et al. (2022)](https://doi.org/10.1016/j.janxdis.2022.102529) available on an [OSF repository](https://doi.org/10.17605/OSF.IO/M2SAV), but with percent with income less than $30K added to the computation based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x). The `messer()` function also allows for the computation of NDI (Messer) of each year between 2010-2020 (when the U.S. census characteristics are available to-date). There was no code companion to compute NDI (Powell-Wiley) included in [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) or [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002), but the package author worked directly with the latter manuscript authors to replicate their `SAS` code in `R` for the `powell_wiley()` function. Please note: the NDI (Powell-Wiley) values will not exactly match (but will highly correlate with) those found in [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) because the two studies used a different statistical platform (i.e., `SPSS` and `SAS`, respectively) that intrinsically calculate the principal component analysis differently from `R`.
+The `messer()` function functionalizes the code found in [Hruska et al. (2022)](https://doi.org/10.1016/j.janxdis.2022.102529) available on an [OSF repository](https://doi.org/10.17605/OSF.IO/M2SAV), but with percent with income less than $30K added to the computation based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x). The `messer()` function also allows for the computation of NDI (Messer) for each year between 2010-2020 (when the U.S. census characteristics are available to date). There was no code companion to compute NDI (Powell-Wiley) included in [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) or [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002), but the package author worked directly with the latter manuscript authors to replicate their `SAS` code in `R` for the `powell_wiley()` function. Please note: the NDI (Powell-Wiley) values will not exactly match (but will highly correlate with) those found in [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) because the two studies used a different statistical platform (i.e., `SPSS` and `SAS`, respectively) that intrinsically calculate the principal component analysis differently from `R`.
 
 When citing this package for publication, please follow:
 
@@ -379,4 +485,4 @@ When citing this package for publication, please follow:
 
 ### Questions? Feedback?
 
-For questions about the package please contact the maintainer [Dr. Ian D. Buller](mailto:ian.buller@nih.gov) or [submit a new issue](https://github.com/idblr/ndi/issues). Confirmation of the computation, feedback, and feature collaboration is welcomed, especially from the authors of references cited above.
+For questions about the package, please contact the maintainer [Dr. Ian D. Buller](mailto:ian.buller@nih.gov) or [submit a new issue](https://github.com/idblr/ndi/issues). Confirmation of the computation, feedback, and feature collaboration is welcomed, especially from the authors of the references cited above.
