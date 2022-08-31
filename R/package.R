@@ -20,6 +20,10 @@
 #' 
 #' \code{\link{powell_wiley}} Computes the aspatial Neighborhood Deprivation Index (NDI) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} who use variables chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x}.
 #' 
+#' \bold{Pre-formatted U.S. Census Data}
+#' 
+#' \code{\link{DCtracts2020}} A sample dataset containing information about U.S. Census American Community Survey 5-year estimate data for the District of Columbia census tracts (2020). The data are obtained from the \code{\link[tidycensus]{get_acs}} function and formatted for the \code{\link{messer}} and \code{\link{powell_wiley}} functions input.
+#' 
 #' @name ndi-package
 #' @aliases ndi-package ndi
 #' @docType package

@@ -92,8 +92,7 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
   }
   
   ei_vars <- ei_vars %>% 
-    dplyr::mutate(county = stringr::str_trim(county),
-                  subgroup = rowSums(sf::st_drop_geometry(ei_vars[ , in_names[-1]])))
+    dplyr::mutate(subgroup = rowSums(sf::st_drop_geometry(ei_vars[ , in_names[-1]])))
   
   # Compute EI
   ## From Bravo et al. (2021) https://doi.org/10.3390/ijerph18179384
@@ -168,8 +167,8 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
   }
   
   ei <- ei %>%
-    dplyr::mutate(county = stringr::str_trim(county), 
-                  state = stringr::str_trim(state)) %>%
+    dplyr::mutate(state = stringr::str_trim(state),
+                  county = stringr::str_trim(county)) %>%
     dplyr::arrange(GEOID) %>%
     dplyr::as_tibble() 
   

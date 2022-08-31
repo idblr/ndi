@@ -189,8 +189,7 @@ krieger <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
   # A_{edu} = Less than high school / 12 year / GED
   # P_{edu} = Four-year college degree or more
   ice_vars <- ice_vars %>% 
-    dplyr::mutate(county = stringr::str_trim(county),
-                  A_edu = O25MBD + O25FBD + O25MMD + O25FMD + O25MPSD + 
+    dplyr::mutate(A_edu = O25MBD + O25FBD + O25MMD + O25FMD + O25MPSD + 
                           O25FPSD + O25MDD + O25FDD,
                   P_edu = O25MNSC + O25FNSC + O25MNt4G + O25FNt4G +
                           O25M5t6G + O25F5t6G + O25M7t8G + O25F7t8G +
@@ -295,8 +294,8 @@ krieger <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
   }
   
   ice <- ice %>%
-    dplyr::mutate(county = stringr::str_trim(county), 
-                  state = stringr::str_trim(state)) %>%
+    dplyr::mutate(state = stringr::str_trim(state),
+                  county = stringr::str_trim(county)) %>%
     dplyr::arrange(GEOID) %>%
     dplyr::as_tibble() 
   

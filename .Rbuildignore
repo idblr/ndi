@@ -7,3 +7,4 @@
 ^CRAN-RELEASE$
 ^CRAN-SUBMISSION$
 ^man/figures
+^data-raw$

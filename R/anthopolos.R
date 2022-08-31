@@ -125,8 +125,7 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
   }
   
   ri_vars <- ri_vars %>% 
-    dplyr::mutate(county = stringr::str_trim(county),
-                  subgroup = rowSums(sf::st_drop_geometry(ri_vars[ , in_names[-1]])))
+    dplyr::mutate(subgroup = rowSums(sf::st_drop_geometry(ri_vars[ , in_names[-1]])))
   
   # Compute RI
   ## From Anthopolos et al. (2011) https://doi.org/10.1016/j.sste.2011.06.002
@@ -201,8 +200,8 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
   }
   
   ri <- ri %>%
-    dplyr::mutate(county = stringr::str_trim(county), 
-                  state = stringr::str_trim(state)) %>%
+    dplyr::mutate(state = stringr::str_trim(state),
+                  county = stringr::str_trim(county)) %>%
     dplyr::arrange(GEOID) %>%
     dplyr::as_tibble() 
   

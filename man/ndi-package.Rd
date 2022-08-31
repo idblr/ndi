@@ -26,6 +26,10 @@ Key content of the 'ndi' package include:\cr
 \code{\link{messer}} Computes the aspatial Neighborhood Deprivation Index (NDI) based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x}.
 
 \code{\link{powell_wiley}} Computes the aspatial Neighborhood Deprivation Index (NDI) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} who use variables chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x}.
+
+\bold{Pre-formatted U.S. Census Data}
+
+\code{\link{DCtracts2020}} A sample dataset containing information about U.S. Census American Community Survey 5-year estimate data for the District of Columbia census tracts (2020). The data are obtained from the \code{\link[tidycensus]{get_acs}} function and formatted for the \code{\link{messer}} and \code{\link{powell_wiley}} functions input.
 }
 \section{Dependencies}{
  The 'ndi' package relies heavily upon \code{\link{tidycensus}} to retrieve data from the U.S. Census Bureau American Community Survey five-year estimates and the \code{\link{psych}} for computing the neighborhood deprivation indices. The \code{\link{messer}} function builds upon code developed by Hruska et al. (2022) \doi{10.17605/OSF.IO/M2SAV} by fictionalizing, adding the percent of households earning <$30,000 per year to the NDI computation, and providing the option for computing the ACS-5 2006-2010 NDI values. There is no code companion to compute NDI included in Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} or Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002}, but the package author worked directly with the Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} authors to replicate their SAS code in R. The spatial metrics RI and EI rely on the \code{\link{sf}} and \code{\link{Matrix}} packages to compute the geospatial adjacency matrix between census geographies. There is no code companion to compute RI or EI included in Anthopolos et al. (2011) \doi{10.1016/j.sste.2011.06.002} or Bravo et al. (2021) \doi{10.3390/ijerph18179384}, respectively.

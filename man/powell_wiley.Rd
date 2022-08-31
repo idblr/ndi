@@ -4,16 +4,25 @@
 \alias{powell_wiley}
 \title{Neighborhood Deprivation Index based on Andrews et al. (2020) and Slotman et al. (2022)}
 \usage{
-powell_wiley(geo = "tract", year, imp = FALSE, quiet = FALSE, ...)
+powell_wiley(
+  geo = "tract",
+  year = 2020,
+  imp = FALSE,
+  quiet = FALSE,
+  df = NULL,
+  ...
+)
 }
 \arguments{
 \item{geo}{Character string specifying the geography of the data either census tracts \code{geo = "tract"} (the default) or counties \code{geo = "county"}.}
 
-\item{year}{Numeric. The year to compute the estimate (2010-2020 currently available).}
+\item{year}{Numeric. The year to compute the estimate. The default is 2020, and the years 2010 onward are currently available.}
 
 \item{imp}{Logical. If TRUE, will impute missing census characteristics within the internal \code{\link[psych]{principal}} using median values of variables. If FALSE (the default), will not impute.}
 
 \item{quiet}{Logical. If TRUE, will display messages about potential missing census information, standardized Cronbach's alpha, and proportion of variance explained by principal component analysis. The default is FALSE.}
+
+\item{df}{Optional. Pass a pre-formatted \code{'dataframe'} or \code{'tibble'} with the desired variables through the function. Bypasses the data obtained by \code{\link[tidycensus]{get_acs}}. The default is NULL. See Details below.}
 
 \item{...}{Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics}
 }
@@ -55,8 +64,13 @@ Use the internal \code{state} and \code{county} arguments within the \code{\link
 The categorical NDI (Powell-Wiley) values are population-weighted quintiles of the continuous NDI (Powell-Wiley) values.
 
 Check if the proportion of variance explained by the first principal component is high (more than 0.5).
+
+Users can bypass \code{\link[tidycensus]{get_acs}} by specifying a pre-formatted data frame or tibble using the \code{df} argument. This function will compute an index using the first component of a principal component analysis (PCA) with a Promax (oblique) rotation and a minimum Eigenvalue of 1, omitting variables with absolute loading score < 0.4. The recommended structure of the data frame or tibble is an ID (e.g., GEOID) in the first feature (column), an estimate of the total population in the second feature (column), followed by the variables of interest (in any order) and no additional information (e.g., omit state or county names from the \code{df} argument input).
 }
 \examples{
+
+powell_wiley(df = DCtracts2020[ , -c(3:10)])
+
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
   

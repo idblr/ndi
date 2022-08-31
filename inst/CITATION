@@ -5,7 +5,7 @@ citEntry(entry = "manual",
   author        = personList(as.person("Ian D. Buller")),
   publisher     = "The Comprehensive R Archive Network",
   year          = "2022",
-  number        = "0.1.2.9000",
+  number        = "0.1.2.9001",
   doi           = "10.5281/zenodo.6989030",
   url           = "https://cran.r-project.org/package=ndi",
   
@@ -13,7 +13,7 @@ citEntry(entry = "manual",
   paste("Ian D. Buller (2022).",
         "ndi: Neighborhood Deprivation Indices.",
         "The Comprehensive R Archive Network.",
-        "v0.1.2.9000.",
+        "v0.1.2.9001.",
         "DOI:10.5281/zenodo.6989030",
         "Accessed by: https://cran.r-project.org/package=ndi")
 )

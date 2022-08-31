@@ -463,7 +463,7 @@ Compute the RI (Anthopolos) values (2006-2010 5-year ACS) for North Carolina, U.
 | B03002_009 | not Hispanic or Latino, two or more races | NHoLTOMR |
 | B03002_010 | not Hispanic or Latino, two races including some other race | NHoLTRiSOR |
 | B03002_011 | not Hispanic or Latino, two races excluding some other race, and three or more races | NHoLTReSOR |
-| B03002_012 | nispanic or Latino | HoL |
+| B03002_012 | Hispanic or Latino | HoL |
 | B03002_013 | Hispanic or Latino, white alone | HoLW |
 | B03002_014 | Hispanic or Latino, Black or African American alone | HoLB |
 | B03002_015 | Hispanic or Latino, American Indian and Alaska Native alone | HoLAIAN |

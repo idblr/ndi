@@ -6,6 +6,9 @@ context("messer")
 
 test_that("messer throws error with invalid arguments", {
   
+  # Not a data.frame or tibble for `df`
+  expect_error(messer(df = c("a", "b", "c")))
+  
   # Unavailable geography
   expect_error(messer(geo = "zcta", state = "DC", year = 2020, quiet = TRUE))
   
@@ -24,6 +27,8 @@ test_that("messer throws error with invalid arguments", {
 )   
 
 test_that("messer works", {  
+  
+  expect_message(messer(df = DCtracts2020[, -c(2, 11:ncol(DCtracts2020))]))
   
   skip_if(Sys.getenv("CENSUS_API_KEY") == "")
   

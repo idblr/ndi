@@ -1,14 +1,21 @@
 # ndi (development version)
 
-# ndi v0.1.2.9000
+# ndi v0.1.2.9001
 
-### New Feature
+### New Features
 * Added `krieger()` function to compute the Index of Concentration at the Extremes (ICE) based on [Feldman et al. (2015)](https://www.doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://www.doi.org/10.2105/AJPH.2015.302955) for specified counties/tracts 2009-2020. 
-* Thank you for the suggestion, [David Berrigan](https://orcid.org/0000-0002-5333-179X).
+* Thank you for the feature suggestion, [David Berrigan](https://orcid.org/0000-0002-5333-179X).
+* Added `df` argument for the `messer()` and `powell_wiley()` functions to specify a pre-formatted dataset input for the NDI computation
+* Thank you for the suggestion, [Chris Prener](https://github.com/chris-prener)
+* Added `DCtracts2020` a testing dataset for the `ndi` package and its documentation
 
 ### Updates
-* Fixed bug in `powell_wiley()` function where the internal PCA will now run properly if only one factor has an eigenvalue above 1 thanks to a contribution by [Jacob Englert](https://github.com/jacobenglert)
-* Optimized the code to calculate missingness in all functions thanks to a contribution by [Jacob Englert](https://github.com/jacobenglert)
+* Fixed bug in `powell_wiley()` function where the internal PCA will now run properly if only one factor has an eigenvalue above 1 
+* Optimized the code to calculate missingness in all functions
+* Thanks you for the suggested bug fixes, [Jacob Englert](https://github.com/jacobenglert)
+* Cleaned-up output formatting in functions
+* `usethis` is now Suggests and `LazyData` is set to 'true'
+* Updated tests for the `df` argument in `messer()` and `powell_wiley()` functions
 * Updated vignette and README for new features
 * Fixed typos throughout documentation
 * Updated Description in DESCRIPTION and fixed typos

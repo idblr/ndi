@@ -66,8 +66,7 @@ gini <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
   }
   
   gini_vars <- gini_vars %>%
-      dplyr::mutate(gini = giniE,
-                    county = stringr::str_trim(county))
+      dplyr::mutate(gini = giniE)
   
   # warning for missingness of census characteristics
   missingYN <- gini_vars %>%
@@ -98,8 +97,8 @@ gini <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
   }
   
   gini <- gini %>%
-    dplyr::mutate(county = stringr::str_trim(county), 
-                  state = stringr::str_trim(state)) %>%
+    dplyr::mutate(state = stringr::str_trim(state),
+                  county = stringr::str_trim(county)) %>%
     dplyr::arrange(GEOID) %>%
     dplyr::as_tibble() 
   
