@@ -10,7 +10,7 @@ ndi: Neighborhood Deprivation Indices <img src="man/figures/ndi.png" width="120"
 [![DOI](https://zenodo.org/badge/521439746.svg)](https://zenodo.org/badge/latestdoi/521439746)
 <!-- badges: end -->
 
-**Date repository last updated**: August 31, 2022
+**Date repository last updated**: September 13, 2022
 
 ### Overview
 
@@ -82,7 +82,7 @@ The repository also includes the code to create the project hexagon sticker.
 </thead>
 <tbody>
 <td><code>DCtracts2020</code></td>
-<td>A sample dataset containing information about U.S. Census American Community Survey 5-year estimate data for the District of Columbia census tracts (2020). The data are obtained from the <a href="https://cran.r-project.org/package=tidycensus">tidycensus</a> package and formatted for the `messer()` and `powell_wiley()` functions input.</td>
+<td>A sample dataset containing information about U.S. Census American Community Survey 5-year estimate data for the District of Columbia census tracts (2020). The data are obtained from the <a href="https://cran.r-project.org/package=tidycensus">tidycensus</a> package and formatted for the <code>messer()</code> and <code>powell_wiley()</code> functions input.</td>
 </tr>
 </tbody>
 <table>

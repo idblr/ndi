@@ -77,11 +77,14 @@
 powell_wiley <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, df = NULL, ...) {
   
   # Check arguments
-  match.arg(geo, choices = c("county", "tract"))
-  stopifnot(is.numeric(year), year > 2009) # all variables available in 2010 onward
   if (!is.null(df) & !inherits(df, c("tbl_df", "tbl", "data.frame"))) { stop("'df' must be class 'data.frame' or 'tbl'") }
   
   if (is.null(df)) {
+    
+    # Check additional arguments
+    match.arg(geo, choices = c("county", "tract"))
+    stopifnot(is.numeric(year), year > 2009) # all variables available in 2010 onward
+    
     # select census variables
     vars <- c(MedHHInc = "B19013_001",
               PctRecvIDR_num = "B19054_002", PctRecvIDR_den = "B19054_001",
