@@ -1,12 +1,13 @@
 # ndi (development version)
 
-# ndi v0.1.2.9001
+# ndi v0.1.2.9002
 
 ### New Features
 * Added `krieger()` function to compute the Index of Concentration at the Extremes (ICE) based on [Feldman et al. (2015)](https://www.doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://www.doi.org/10.2105/AJPH.2015.302955) for specified counties/tracts 2009-2020. 
 * Thank you for the feature suggestion, [David Berrigan](https://orcid.org/0000-0002-5333-179X).
 * Added `df` argument for the `messer()` and `powell_wiley()` functions to specify a pre-formatted dataset input for the NDI computation
-* Thank you for the suggestion, [Chris Prener](https://github.com/chris-prener)
+* Added `round_output` argument for the `messer()` and `powell_wiley()` functions to provide raw output as the default and rounded output as optional.
+* Thank you for the suggested enhancements, [Chris Prener](https://github.com/chris-prener)
 * Added `DCtracts2020` a testing dataset for the `ndi` package and its documentation
 
 ### Updates
@@ -16,7 +17,7 @@
 * Cleaned-up output formatting in functions
 * `usethis` is now Suggests and `LazyData` is set to 'true'
 * Updated tests for the `df` argument in `messer()` and `powell_wiley()` functions
-* Updated vignette and README for new features
+* Updated vignette and README with new features
 * Fixed typos throughout documentation
 * Updated Description in DESCRIPTION and fixed typos
 * Updated 'package.R' with new details

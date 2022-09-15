@@ -32,7 +32,9 @@ test_that("messer works", {
   
   skip_if(Sys.getenv("CENSUS_API_KEY") == "")
   
-  expect_message(messer(state = "DC", year = 2020)) 
+  expect_message(messer(state = "DC", year = 2020))
+
+  expect_message(messer(state = "DC", year = 2020, round_output = TRUE))
   
   expect_message(messer(state = "DC", year = 2020, imp = TRUE))
   

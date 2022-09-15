@@ -6,6 +6,7 @@
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2010 onward are currently available.
 #' @param imp Logical. If TRUE, will impute missing census characteristics within the internal \code{\link[psych]{principal}}. If FALSE (the default), will not impute. 
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information and the proportion of variance explained by principal component analysis. The default is FALSE.
+#' @param round_output Logical. If TRUE, will round the output of raw census and NDI values from the \code{\link[tidycensus]{get_acs}} at one and four significant digits, respectively. The default is FALSE.
 #' @param df Optional. Pass a pre-formatted \code{'dataframe'} or \code{'tibble'} with the desired variables through the function. Bypasses the data obtained by \code{\link[tidycensus]{get_acs}}. The default is NULL. See Details below.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
@@ -68,7 +69,7 @@
 #'   
 #' }
 #' 
-messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, df = NULL, ...) {
+messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round_output = FALSE, df = NULL, ...) {
   
   # Check arguments
   if (!is.null(df) & !inherits(df, c("tbl_df", "tbl", "data.frame"))) { stop("'df' must be class 'data.frame' or 'tbl'") }
@@ -200,9 +201,9 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, df = 
   
   # warning for missingness of census characteristics
   missingYN <- ndi_vars_pca %>%
-  tidyr::pivot_longer(cols = dplyr::everything(),
-                      names_to = "variable",
-                      values_to = "val") %>%
+    tidyr::pivot_longer(cols = dplyr::everything(),
+                        names_to = "variable",
+                        values_to = "val") %>%
     dplyr::group_by(variable) %>%
     dplyr::summarise(total = dplyr::n(),
                      n_missing = sum(is.na(val)),
@@ -240,16 +241,20 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, df = 
   
   if (is.null(df)) {
     # format output
-    ndi <- cbind(ndi_vars, NDIQuart) %>%
-      dplyr::mutate(OCC = round(OCC, digits = 1),
-                    CWD = round(CWD, digits = 1),
-                    POV = round(POV, digits = 1),
-                    FHH = round(FHH, digits = 1),
-                    PUB = round(PUB, digits = 1),
-                    U30 = round(U30, digits = 1),
-                    EDU = round(EDU, digits = 1),
-                    EMP = round(EMP, digits = 1),
-                    NDI = round(NDI, digits = 4))
+    if (round_output == TRUE) {
+      ndi <- cbind(ndi_vars, NDIQuart) %>%
+        dplyr::mutate(OCC = round(OCC, digits = 1),
+                      CWD = round(CWD, digits = 1),
+                      POV = round(POV, digits = 1),
+                      FHH = round(FHH, digits = 1),
+                      PUB = round(PUB, digits = 1),
+                      U30 = round(U30, digits = 1),
+                      EDU = round(EDU, digits = 1),
+                      EMP = round(EMP, digits = 1),
+                      NDI = round(NDI, digits = 4))
+    } else {
+      ndi <- cbind(ndi_vars, NDIQuart)
+    }
     
     if (geo == "tract") {
       ndi <- ndi %>%

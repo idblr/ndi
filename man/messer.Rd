@@ -4,7 +4,15 @@
 \alias{messer}
 \title{Neighborhood Deprivation Index based on Messer et al. (2006)}
 \usage{
-messer(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, df = NULL, ...)
+messer(
+  geo = "tract",
+  year = 2020,
+  imp = FALSE,
+  quiet = FALSE,
+  round_output = FALSE,
+  df = NULL,
+  ...
+)
 }
 \arguments{
 \item{geo}{Character string specifying the geography of the data either census tracts \code{geo = "tract"} (the default) or counties \code{geo = "county"}.}
@@ -14,6 +22,8 @@ messer(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, df = NULL, ...)
 \item{imp}{Logical. If TRUE, will impute missing census characteristics within the internal \code{\link[psych]{principal}}. If FALSE (the default), will not impute.}
 
 \item{quiet}{Logical. If TRUE, will display messages about potential missing census information and the proportion of variance explained by principal component analysis. The default is FALSE.}
+
+\item{round_output}{Logical. If TRUE, will round the output of raw census and NDI values from the \code{\link[tidycensus]{get_acs}} at one and four significant digits, respectively. The default is FALSE.}
 
 \item{df}{Optional. Pass a pre-formatted \code{'dataframe'} or \code{'tibble'} with the desired variables through the function. Bypasses the data obtained by \code{\link[tidycensus]{get_acs}}. The default is NULL. See Details below.}
 

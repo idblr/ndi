@@ -34,6 +34,8 @@ test_that("powell_wiley works", {
   
   expect_message(powell_wiley(state = "DC", year = 2020))
   
+  expect_message(powell_wiley(state = "DC", year = 2020, round_output = TRUE))
+  
   expect_message(powell_wiley(state = "DC", year = 2020, imp = TRUE))
   
   expect_silent(powell_wiley(state = "DC", year = 2020, quiet = TRUE))

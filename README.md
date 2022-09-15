@@ -10,7 +10,7 @@ ndi: Neighborhood Deprivation Indices <img src="man/figures/ndi.png" width="120"
 [![DOI](https://zenodo.org/badge/521439746.svg)](https://zenodo.org/badge/latestdoi/521439746)
 <!-- badges: end -->
 
-**Date repository last updated**: September 13, 2022
+**Date repository last updated**: September 15, 2022
 
 ### Overview
 

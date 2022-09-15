@@ -49,7 +49,7 @@ Compute the NDI (Messer) values (2006-2010 5-year ACS) for Georgia, U.S.A., cens
 | EMP | Employment | B23001 (2010 only); B23025 (2011 onward) | Percent unemployed |
 
 ```{r messer}
-messer2010GA <- ndi::messer(state = "GA", year = 2010)
+messer2010GA <- ndi::messer(state = "GA", year = 2010, round_output = TRUE)
 ```
 
 One output from the `messer()` function is a tibble containing the identification, geographic name, NDI (Messer) values, and raw census characteristics for each tract.
@@ -194,7 +194,7 @@ Compute the NDI (Powell-Wiley) values (2016-2020 5-year ACS) for Maryland, Virgi
 More information about the [codebook](https://gis.cancer.gov/research/NeighDeprvIndex_Methods.pdf) and [computation](https://gis.cancer.gov/research/NeighDeprvIndex_Methods.pdf) of the NDI (Powell-Wiley) can be found on a [GIS Portal for Cancer Research](https://gis.cancer.gov/research/files.html#soc-dep) website.
 
 ```{r powell_wiley}
-powell_wiley2020DMVW <- ndi::powell_wiley(state = c("DC", "MD", "VA", "WV"), year = 2020)
+powell_wiley2020DMVW <- ndi::powell_wiley(state = c("DC", "MD", "VA", "WV"), year = 2020, round_output = TRUE)
 ```
 
 One output from the `powell_wiley()` function is a tibble containing the identification, geographic name, NDI (Powell-Wiley) values, and raw census characteristics for each tract.

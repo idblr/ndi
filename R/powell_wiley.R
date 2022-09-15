@@ -6,6 +6,7 @@
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2010 onward are currently available.
 #' @param imp Logical. If TRUE, will impute missing census characteristics within the internal \code{\link[psych]{principal}} using median values of variables. If FALSE (the default), will not impute. 
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information, standardized Cronbach's alpha, and proportion of variance explained by principal component analysis. The default is FALSE.
+#' @param round_output Logical. If TRUE, will round the output of raw census and NDI values from the \code{\link[tidycensus]{get_acs}} at one and four significant digits, respectively. The default is FALSE.
 #' @param df Optional. Pass a pre-formatted \code{'dataframe'} or \code{'tibble'} with the desired variables through the function. Bypasses the data obtained by \code{\link[tidycensus]{get_acs}}. The default is NULL. See Details below.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
@@ -74,7 +75,7 @@
 #'   
 #' }
 #' 
-powell_wiley <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, df = NULL, ...) {
+powell_wiley <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round_output = FALSE, df = NULL, ...) {
   
   # Check arguments
   if (!is.null(df) & !inherits(df, c("tbl_df", "tbl", "data.frame"))) { stop("'df' must be class 'data.frame' or 'tbl'") }
@@ -303,18 +304,22 @@ powell_wiley <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE,
   
   if (is.null(df)) {
     # format output
-    ndi <- cbind(ndi_vars, NDIQuint) %>%
-      dplyr::mutate(PctRecvIDR = round(PctRecvIDR, digits = 1),
-                    PctPubAsst = round(PctPubAsst, digits = 1),
-                    PctMgmtBusScArti = round(PctMgmtBusScArti, digits = 1),
-                    PctFemHeadKids = round(PctFemHeadKids, digits = 1),
-                    PctOwnerOcc = round(PctOwnerOcc, digits = 1),
-                    PctNoPhone = round(PctNoPhone, digits = 1),
-                    PctNComPlmb = round(PctNComPlmb, digits = 1),
-                    PctEducHSPlus = round(PctEducHSPlus, digits = 1),
-                    PctEducBchPlus = round(PctEducBchPlus, digits = 1),
-                    PctFamBelowPov = round(PctFamBelowPov, digits = 1),
-                    PctUnempl = round(PctUnempl, digits = 1))
+    if (round_output == TRUE) {
+      ndi <- cbind(ndi_vars, NDIQuint) %>%
+        dplyr::mutate(PctRecvIDR = round(PctRecvIDR, digits = 1),
+                      PctPubAsst = round(PctPubAsst, digits = 1),
+                      PctMgmtBusScArti = round(PctMgmtBusScArti, digits = 1),
+                      PctFemHeadKids = round(PctFemHeadKids, digits = 1),
+                      PctOwnerOcc = round(PctOwnerOcc, digits = 1),
+                      PctNoPhone = round(PctNoPhone, digits = 1),
+                      PctNComPlmb = round(PctNComPlmb, digits = 1),
+                      PctEducHSPlus = round(PctEducHSPlus, digits = 1),
+                      PctEducBchPlus = round(PctEducBchPlus, digits = 1),
+                      PctFamBelowPov = round(PctFamBelowPov, digits = 1),
+                      PctUnempl = round(PctUnempl, digits = 1))
+    } else {
+      ndi <- cbind(ndi_vars, NDIQuint)
+    }
     
     if (geo == "tract") {
       ndi <- ndi %>%
