@@ -78,7 +78,7 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round
     
     # Check additional arguments
     match.arg(geo, choices = c("county", "tract"))
-    stopifnot(is.numeric(year), year > 2009) # all variables available in 2010 onward
+    stopifnot(is.numeric(year), year >= 2010) # all variables available 2010 onward
     
     # select census variables
     vars <- c(PctMenMgmtBusScArti_num1 = "C24030_018", PctMenMgmtBusScArti_num2 = "C24030_019",

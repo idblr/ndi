@@ -1,12 +1,13 @@
 ## This is the third resubmission
 
 * Actions taken since previous submission:
-  * Added `krieger()` function to compute the Index of Concentration at the Extremes (ICE) based on [Feldman et al. (2015)](https://www.doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://www.doi.org/10.2105/AJPH.2015.302955) for specified counties/tracts 2009-2020.
+  * Added `krieger()` function to compute the Index of Concentration at the Extremes (ICE) based on [Feldman et al. (2015)](https://www.doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://www.doi.org/10.2105/AJPH.2015.302955) for specified counties/tracts 2009 onward.
   * Added `round_output` argument for the `messer()` and `powell_wiley()` functions to provide raw output as the default and rounded output as optional.
   * Added `df` argument for the `messer()` and `powell_wiley()` functions to specify a pre-formatted dataset input for the NDI computation
   * Added `DCtracts2020` a testing dataset for the `ndi` package and its documentation
   * Fixed bug in `powell_wiley()` function where the internal PCA will now run properly if only one factor has an eigenvalue above 1 
-  * Optimized the code to calculate missingness in all functions thanks to a contribution by 
+  * Optimized the code to calculate missingness in all functions
+  * Relaxed `year` argument in functions to include any year after 2009 or 2010 for the indices
   * Cleaned-up output formatting in functions
   * `usethis` is now Suggests and `LazyData` is set to 'true'
   * Updated tests for the `df` argument in `messer()` and `powell_wiley()` functions

@@ -84,7 +84,7 @@ powell_wiley <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE,
     
     # Check additional arguments
     match.arg(geo, choices = c("county", "tract"))
-    stopifnot(is.numeric(year), year > 2009) # all variables available in 2010 onward
+    stopifnot(is.numeric(year), year >= 2010) # all variables available 2010 onward
     
     # select census variables
     vars <- c(MedHHInc = "B19013_001",

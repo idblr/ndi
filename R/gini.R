@@ -3,13 +3,13 @@
 #' Retrieve the Gini Index values.
 #'
 #' @param geo Character string specifying the geography of the data either census tracts \code{geo = "tract"} (the default) or counties \code{geo = "county"}.
-#' @param year Numeric. The year to compute the estimate. The default is 2020, and the years between 2009 and 2020 are currently available.
+#' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
 #' @details This function will retrieve the Gini Index of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Gini (1921) \doi{10.2307/2223319}.
 #' 
-#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey estimates of the Gini Index (ACS: B19083). The estimates are available for 2009 through 2020 when ACS-5 data are available but are available from other U.S. Census Bureau surveys.
+#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey estimates of the Gini Index (ACS: B19083). The estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys.
 #' 
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #' 
@@ -46,7 +46,7 @@ gini <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
   
   # Check arguments
   match.arg(geo, choices = c("county", "tract"))
-  stopifnot(is.numeric(year), year %in% 2009:2020)
+  stopifnot(is.numeric(year), year >= 2009) # the gini variable is available before and after 2009 but constrained for consistency with out indices (for now)
   
   # select census variable
   vars <- c(gini = "B19083_001")

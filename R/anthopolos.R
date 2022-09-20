@@ -3,14 +3,14 @@
 #' Compute the Racial Isolation Index (Anthopolos) values for a selected subgroup(s).
 #'
 #' @param geo Character string specifying the geography of the data either census tracts \code{geo = "tract"} (the default) or counties \code{geo = "county"}.
-#' @param year Numeric. The year to compute the estimate. The default is 2020, and the years between 2009 and 2020 are currently available.
+#' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
 #' @param subgroup Character string specifying the racial/ethnic subgroup(s). See Details for available choices.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
 #' @details This function will compute the Racial Isolation Index (RI) of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Anthopolos et al. (2011) \doi{10.1016/j.sste.2011.06.002} who originally designed the metric for the racial isolation of non-Hispanic Black individuals. This function provides the computation of RI for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #' 
-#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates are available for 2009 through 2020 when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
+#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
 #'  \item{B03002_002: }{not Hispanic or Latino "NHoL"}
 #'  \item{B03002_003: }{not Hispanic or Latino, white alone "NHoLW"}
@@ -71,7 +71,7 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
   
   # Check arguments
   match.arg(geo, choices = c("county", "tract"))
-  stopifnot(is.numeric(year), year %in% 2009:2020)
+  stopifnot(is.numeric(year), year >= 2009) # all variables available 2009 onward
   match.arg(subgroup, several.ok = TRUE,
             choices = c("NHoL", "NHoLW", "NHoLB", "NHoLAIAN", "NHoLA", "NHoLNHOPI",
                         "NHoLSOR", "NHoLTOMR", "NHoLTRiSOR", "NHoLTReSOR",

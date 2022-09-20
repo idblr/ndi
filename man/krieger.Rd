@@ -9,7 +9,7 @@ krieger(geo = "tract", year = 2020, quiet = FALSE, ...)
 \arguments{
 \item{geo}{Character string specifying the geography of the data either census tracts \code{geo = "tract"} (the default) or counties \code{geo = "county"}.}
 
-\item{year}{Numeric. The year to compute the estimate. The default is 2020, and the years between 2009 and 2020 are currently available.}
+\item{year}{Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.}
 
 \item{quiet}{Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.}
 
@@ -37,7 +37,7 @@ This function will compute the three Index of Concentration at the Extremes (ICE
 \item{Income and race/ethnicity combined}{white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile}
 }
 
-The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates are available for 2009 through 2020 when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The ACS-5 groups used in the computation of the five ICE metrics are:
+The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The ACS-5 groups used in the computation of the five ICE metrics are:
 \itemize{
 \item{B03002: }{HISPANIC OR LATINO ORIGIN BY RACE}
 \item{B15002: }{SEX BY EDUCATIONAL ATTAINMENT FOR THE POPULATION 25 YEARS AND OVER}

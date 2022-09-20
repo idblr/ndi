@@ -3,14 +3,14 @@
 #' Compute the Educational Isolation Index (Bravo) values for selected educational attainment category(ies).
 #'
 #' @param geo Character string specifying the geography of the data either census tracts \code{geo = "tract"} (the default) or counties \code{geo = "county"}.
-#' @param year Numeric. The year to compute the estimate. The default is 2020, and the years between 2009 and 2020 are currently available.
+#' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
 #' @param subgroup Character string specifying the educational attainment category(ies). See Details for available choices.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
 #' @details This function will compute the Educational Isolation Index (EI) of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Bravo et al. (2021) \doi{10.3390/ijerph18179384} who originally designed the metric for the educational isolation of individual without a college degree. This function provides the computation of EI for any of the U.S. Census Bureau educational attainment levels.
 #' 
-#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates are available for 2009 through 2020 when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The five educational attainment levels (U.S. Census Bureau definitions) are:
+#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The five educational attainment levels (U.S. Census Bureau definitions) are:
 #' \itemize{
 #'  \item{B06009_002: }{Less than high school graduate "LtHS"}
 #'  \item{B06009_003: }{High school graduate (includes equivalency) "HSGiE"}
@@ -56,7 +56,7 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
   
   # Check arguments
   match.arg(geo, choices = c("county", "tract"))
-  stopifnot(is.numeric(year), year %in% 2009:2020)
+  stopifnot(is.numeric(year), year >= 2009) # all variables available 2009 onward
   match.arg(subgroup, several.ok = TRUE,
             choices = c("LtHS", "HSGiE", "SCoAD", "BD", "GoPD"))
   
