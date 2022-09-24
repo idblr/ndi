@@ -7,6 +7,7 @@
   * Added `DCtracts2020` a testing dataset for the `ndi` package and its documentation
   * Fixed bug in `powell_wiley()` function where the internal PCA will now run properly if only one factor has an eigenvalue above 1 
   * Optimized the code to calculate missingness in all functions
+  * Fixed bug in `powell_wiley()` function where "PctNoPhone" before 2015 is "DP04_0074PE" and "DP04_0075PE" after
   * Relaxed `year` argument in functions to include any year after 2009 or 2010 for the indices
   * Cleaned-up output formatting in functions
   * `usethis` is now Suggests and `LazyData` is set to 'true'

@@ -48,10 +48,10 @@ gini <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
   match.arg(geo, choices = c("county", "tract"))
   stopifnot(is.numeric(year), year >= 2009) # the gini variable is available before and after 2009 but constrained for consistency with out indices (for now)
   
-  # select census variable
+  # Select census variable
   vars <- c(gini = "B19083_001")
   
-  # acquire Gini Index
+  # Acquire Gini Index
   gini_vars <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
                                                                      year = year, 
                                                                      output = "wide",
@@ -68,7 +68,7 @@ gini <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
   gini_vars <- gini_vars %>%
       dplyr::mutate(gini = giniE)
   
-  # warning for missingness of census characteristics
+  # Warning for missingness of census characteristics
   missingYN <- gini_vars %>%
     dplyr::select(gini)  %>%
     tidyr::pivot_longer(cols = dplyr::everything(),
@@ -80,7 +80,7 @@ gini <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
                      percent_missing = paste0(round(mean(is.na(val)) * 100, 2), " %"))
   
   if (quiet == FALSE) {
-    # warning for missing census data
+    # Warning for missing census data
     if (nrow(missingYN) != 0) {
       message("Warning: Missing census data")
     } else {

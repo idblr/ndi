@@ -1,6 +1,6 @@
 # ndi (development version)
 
-# ndi v0.1.2.9002
+# ndi v0.1.2.9003
 
 ### New Features
 * Added `krieger()` function to compute the Index of Concentration at the Extremes (ICE) based on [Feldman et al. (2015)](https://www.doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://www.doi.org/10.2105/AJPH.2015.302955) for specified counties/tracts 2009 onward. 
@@ -13,7 +13,9 @@
 ### Updates
 * Fixed bug in `powell_wiley()` function where the internal PCA will now run properly if only one factor has an eigenvalue above 1 
 * Optimized the code to calculate missingness in all functions
-* Thanks you for the suggested bug fixes, [Jacob Englert](https://github.com/jacobenglert)
+* Thank you for the suggested bug fixes, [Jacob Englert](https://github.com/jacobenglert)
+* Fixed bug in `powell_wiley()` function where "PctNoPhone" before 2015 is "DP04_0074PE" and "DP04_0075PE" after
+* Thank you for alerting this issue, [Jessica Gleason](https://orcid.org/0000-0001-9877-7931)
 * Relaxed `year` argument in functions to include any year after 2009 or 2010 for the indices
 * Cleaned-up output formatting in functions
 * `usethis` is now Suggests and `LazyData` is set to 'true'

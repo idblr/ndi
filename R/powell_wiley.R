@@ -86,7 +86,7 @@ powell_wiley <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE,
     match.arg(geo, choices = c("county", "tract"))
     stopifnot(is.numeric(year), year >= 2010) # all variables available 2010 onward
     
-    # select census variables
+    # Select census variables
     vars <- c(MedHHInc = "B19013_001",
               PctRecvIDR_num = "B19054_002", PctRecvIDR_den = "B19054_001",
               PctPubAsst_num = "B19058_002", PctPubAsst_den = "B19058_001",
@@ -107,7 +107,10 @@ powell_wiley <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE,
               PctUnempl = "S2301_C04_001",
               TotalPopulation = "B01001_001")
     
-    # acquire NDI variables
+    # Updated census variable definition(s)
+    if (year < 2015){ vars <- c(vars[-13], PctNoPhone = "DP04_0074P") }
+    
+    # Acquire NDI variables
     ndi_vars <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
                                                                       year = year,
                                                                       output = "wide",
@@ -256,7 +259,7 @@ powell_wiley <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE,
     crnbch <- cronbach$total$std.alpha
   }
   
-  # warning for missingness of census characteristics
+  # Warning for missingness of census characteristics
   missingYN <- ndi_vars_pca %>%
     tidyr::pivot_longer(cols = dplyr::everything(),
                         names_to = "variable",
@@ -268,19 +271,19 @@ powell_wiley <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE,
   
   if (quiet == FALSE) {
     
-    # warning for missing census data
+    # Warning for missing census data
     if (nrow(missingYN) != 0) {
       message("Warning: Missing census data")
     } else {
       returnValue(missingYN)
     }
     
-    # warning for Cronbach's alpha < 0.7
+    # Warning for Cronbach's alpha < 0.7
     if (cronbach$total$std.alpha < 0.7) {
       message("Warning: Cronbach's alpha correlation coefficient among the factors is less than 0.7.")
     }
     
-    # warning for proportion of variance explained by FA1
+    # Warning for proportion of variance explained by FA1
     if (fit_rotate$Vaccounted[2] < 0.50) {
       message("Warning: The proportion of variance explained by PC1 is less than 0.50.")
     }
@@ -303,7 +306,7 @@ powell_wiley <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE,
     dplyr::select(NDI, NDIQuint)
   
   if (is.null(df)) {
-    # format output
+    # Format output
     if (round_output == TRUE) {
       ndi <- cbind(ndi_vars, NDIQuint) %>%
         dplyr::mutate(PctRecvIDR = round(PctRecvIDR, digits = 1),

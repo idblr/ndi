@@ -63,7 +63,7 @@ krieger <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
   match.arg(geo, choices = c("county", "tract"))
   stopifnot(is.numeric(year), year >= 2009) # all variables available 2009 onward
   
-  # select census variables
+  # Select census variables
   vars <- c(TotalPopi = "B19001_001",
             TotalPopedu = "B15002_001",
             TotalPopre = "B03002_001",
@@ -117,7 +117,7 @@ krieger <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
             B2025bih = "B19001B_005",
             B2530bih = "B19001B_006")
   
-  # acquire ICE variables
+  # Acquire ICE variables
   ice_vars <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
                                                                     year = year, 
                                                                     output = "wide",
@@ -236,7 +236,7 @@ krieger <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
                   ICE_wbinc = (A_wbinc - P_wbinc) / TotalPop_inc,
                   ICE_wpcinc = (A_wpcinc - P_wpcinc) / TotalPop_inc)
   
-  # warning for missingness of census characteristics
+  # Warning for missingness of census characteristics
   missingYN <- ice_vars %>% 
     dplyr::select(U10i, B1015i, B1520i, B2025i, B2530i, B100125i, B125150i, 
                   B150200i, O200i, O25MNSC, O25FNSC,O25MNt4G, O25FNt4G,
@@ -256,7 +256,7 @@ krieger <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
                      percent_missing = paste0(round(mean(is.na(val)) * 100, 2), " %"))
   
   if (quiet == FALSE) {
-    # warning for missing census data
+    # Warning for missing census data
     if (nrow(missingYN) != 0) {
       message("Warning: Missing census data")
     } else {
@@ -264,7 +264,7 @@ krieger <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
     }
   }
   
-  # format output
+  # Format output
   if (geo == "tract") {
     ice <- ice_vars %>%
       dplyr::select(GEOID, state, county, tract,

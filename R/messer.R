@@ -80,7 +80,7 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round
     match.arg(geo, choices = c("county", "tract"))
     stopifnot(is.numeric(year), year >= 2010) # all variables available 2010 onward
     
-    # select census variables
+    # Select census variables
     vars <- c(PctMenMgmtBusScArti_num1 = "C24030_018", PctMenMgmtBusScArti_num2 = "C24030_019",
               PctMenMgmtBusScArti_den = "C24030_002",
               PctCrwdHH_num1 = "B25014_005", PctCrwdHH_num2 = "B25014_006", 
@@ -98,7 +98,7 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round
               PctUnemp_num = "B23025_005", PctUnemp_den = "B23025_003")
     
     if (year == 2010) {
-      # select census variables
+      # Select census variables
       vars <- c(vars[-c(26,27)], PctUnemp_den = "B23001_001",
                 PctUnemp_1619M = "B23001_008", PctUnemp_2021M = "B23001_015",
                 PctUnemp_2224M = "B23001_022", PctUnemp_2529M = "B23001_029",
@@ -114,7 +114,7 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round
                 PctUnemp_6264F = "B23001_157", PctUnemp_6569F = "B23001_162",
                 PctUnemp_7074F = "B23001_167", PctUnemp_75upF = "B23001_172")
       
-      # acquire NDI variables
+      # Acquire NDI variables
       ndi_vars <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
                                                                         year = year, 
                                                                         output = "wide",
@@ -150,7 +150,7 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round
                                PctUnemp_6264FE + PctUnemp_6569FE +
                                PctUnemp_7074FE + PctUnemp_75upME) / PctUnemp_denE)
     } else {
-      # acquire NDI variables
+      # Acquire NDI variables
       ndi_vars <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
                                                                         year = year, 
                                                                         output = "wide",
@@ -177,7 +177,7 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round
                       EMP = PctUnemp_numE / PctUnemp_denE)
     }
     
-    # generate NDI
+    # Generate NDI
     ndi_vars_pca <- ndi_vars %>%                           
       dplyr::select(OCC, CWD, POV, FHH, PUB, U30, EDU, EMP)
   } else {
@@ -186,12 +186,12 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round
     ndi_vars_pca <- df[ , -1] # omits the first feature (column) typically an ID (e.g., GEOID or FIPS)
   }
   
-  # replace infinite values as zero (typically because denominator is zero)
+  # Replace infinite values as zero (typically because denominator is zero)
   ndi_vars_pca <- do.call(data.frame,
                           lapply(ndi_vars_pca,
                                  function(x) replace(x, is.infinite(x), 0)))
   
-  # run principal component analysis
+  # Run principal component analysis
   pca <- psych::principal(ndi_vars_pca,
                           nfactors = 1,
                           n.obs = nrow(ndi_vars_pca), 
@@ -199,7 +199,7 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round
                           scores = TRUE,
                           missing = imp)
   
-  # warning for missingness of census characteristics
+  # Warning for missingness of census characteristics
   missingYN <- ndi_vars_pca %>%
     tidyr::pivot_longer(cols = dplyr::everything(),
                         names_to = "variable",
@@ -210,14 +210,14 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round
                      percent_missing = paste0(round(mean(is.na(val)) * 100, 2), " %"))
   
   if (quiet == FALSE) {
-    # warning for missing census data
+    # Warning for missing census data
     if (nrow(missingYN) != 0) {
       message("Warning: Missing census data")
     } else {
       returnValue(missingYN)
     }
     
-    # warning for proportion of variance explained by PC1
+    # Warning for proportion of variance explained by PC1
     if (pca$Vaccounted[2] < 0.50) {
       message("Warning: The proportion of variance explained by PC1 is less than 0.50.")
     }
@@ -240,7 +240,7 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round
     dplyr::select(NDI, NDIQuart)
   
   if (is.null(df)) {
-    # format output
+    # Format output
     if (round_output == TRUE) {
       ndi <- cbind(ndi_vars, NDIQuart) %>%
         dplyr::mutate(OCC = round(OCC, digits = 1),

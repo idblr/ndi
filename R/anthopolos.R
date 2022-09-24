@@ -78,7 +78,7 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
                         "HoL", "HoLW", "HoLB", "HoLAIAN", "HoLA", "HoLNHOPI",
                         "HoLSOR", "HoLTOMR", "HoLTRiSOR", "HoLTReSOR"))
   
-  # select census variables
+  # Select census variables
   vars <- c(TotalPop = "B03002_001",
             NHoL = "B03002_002",
             NHoLW = "B03002_003",
@@ -108,7 +108,7 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
   names(selected_vars) <- c("TotalPop", paste(prefix, suffix, sep = ""))
   in_names <- paste(names(selected_vars), "E", sep = "")
   
-  # acquire RI variables and sf geometries
+  # Acquire RI variables and sf geometries
   ri_vars <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
                                                                    year = year, 
                                                                    output = "wide",
@@ -158,7 +158,7 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
   }
   ri_vars$RI <- unlist(RIim)
   
-  # warning for missingness of census characteristics
+  # Warning for missingness of census characteristics
   missingYN <- ri_vars[ , in_names]
   names(missingYN) <- out_names
   missingYN <- missingYN %>%
@@ -171,7 +171,7 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
                      percent_missing = paste0(round(mean(is.na(val)) * 100, 2), " %"))
   
   if (quiet == FALSE) {
-    # warning for missing census data
+    # Warning for missing census data
     if (nrow(missingYN) != 0) {
       message("Warning: Missing census data")
     } else {
@@ -179,7 +179,7 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
     }
   }
   
-  # format output
+  # Format output
   if (geo == "tract") {
     ri <- ri_vars %>%
       dplyr::select(c("GEOID",

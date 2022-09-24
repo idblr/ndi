@@ -60,7 +60,7 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
   match.arg(subgroup, several.ok = TRUE,
             choices = c("LtHS", "HSGiE", "SCoAD", "BD", "GoPD"))
   
-  # select census variables
+  # Select census variables
   vars <- c(TotalPop = "B06009_001",
             LtHS = "B06009_002",
             HSGiE = "B06009_003",
@@ -75,7 +75,7 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
   names(selected_vars) <- c("TotalPop", paste(prefix, suffix, sep = ""))
   in_names <- paste(names(selected_vars), "E", sep = "")
   
-  # acquire EI variables and sf geometries
+  # Acquire EI variables and sf geometries
   ei_vars <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
                                                                    year = year, 
                                                                    output = "wide",
@@ -125,7 +125,7 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
   }
   ei_vars$EI <- unlist(EIim)
   
-  # warning for missingness of census characteristics
+  # Warning for missingness of census characteristics
   missingYN <- ei_vars[ , in_names]
   names(missingYN) <- out_names
   missingYN <- missingYN %>%
@@ -138,7 +138,7 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
                      percent_missing = paste0(round(mean(is.na(val)) * 100, 2), " %"))
   
   if (quiet == FALSE) {
-    # warning for missing census data
+    # Warning for missing census data
     if (nrow(missingYN) != 0) {
       message("Warning: Missing census data")
     } else {
@@ -146,7 +146,7 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
     }
   }
   
-  # format output
+  # Format output
   if (geo == "tract") {
     ei <- ei_vars %>%
       dplyr::select(c("GEOID",
