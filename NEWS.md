@@ -1,6 +1,6 @@
 # ndi (development version)
 
-# ndi v0.1.2.9003
+# ndi v0.1.2
 
 ### New Features
 * Added `krieger()` function to compute the Index of Concentration at the Extremes (ICE) based on [Feldman et al. (2015)](https://www.doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://www.doi.org/10.2105/AJPH.2015.302955) for specified counties/tracts 2009 onward. 
