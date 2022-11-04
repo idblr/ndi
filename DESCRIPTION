@@ -1,7 +1,7 @@
 Package: ndi
 Title: Neighborhood Deprivation Indices
-Version: 0.1.2
-Date: 2022-09-30
+Version: 0.1.3.9000
+Date: 2022-11-03
 Authors@R:
     c(person(given = "Ian D.",
              family = "Buller",
@@ -30,7 +30,8 @@ Description: Computes various metrics of socio-economic deprivation and disparit
              Index (EI) based on Bravo et al. (2021) <doi:10.3390/ijerph18179384>, 
              (3) compute the aspatial Index of Concentration at the Extremes (ICE) based on 
              Feldman et al. (2015) <doi:10.1136/jech-2015-205728> and Krieger et al. 
-             (2016) <doi:10.2105/AJPH.2015.302955>, and (4) retrieve the aspatial Gini 
+             (2016) <doi:10.2105/AJPH.2015.302955>, (4) compute the aspatial Dissimilarity Index
+             based on Duncan & Duncan (1955) <doi:10.2307/2088328>, and (5) retrieve the aspatial Gini 
              Index based on Gini (1921) <doi:10.2307/2223319>.
 License: Apache License (>= 2.0)
 Encoding: UTF-8
@@ -48,7 +49,8 @@ Imports:
     stats,
     stringr,
     tidycensus,
-    tidyr
+    tidyr,
+    utils
 Suggests: 
     ggplot2,
     testthat,

@@ -1,5 +1,21 @@
 # ndi (development version)
 
+# ndi v0.1.3.9000
+
+### New Features
+* Added `duncan()` function to compute the Dissimilarity Index (DI) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328) for specified counties/tracts 2009 onward.
+* Thank you for the feature suggestion, [Jessica Madrigal](https://orcid.org/0000-0001-5303-5109).
+* Added 'utils.R' file with internal `di_fun()` function for `duncan()` function
+
+### Updates
+* Fixed bug in `bravo()` function where ACS-5 data (2005-2009) are from the "B15002" question and "B06009" after
+* Fixed bug in missingness warning for all metrics
+* `utils` is now Imports
+* Updated vignette and README with new features
+* Updated Description in DESCRIPTION
+* Updated tests
+* Updated CITATION with new citation for the additional metric
+
 # ndi v0.1.2
 
 ### New Features
@@ -32,10 +48,10 @@
 * Added `anthopolos()` function to compute the Racial Isolation Index (RI) based on based on [Anthopolos et al. (2011)](https://www.doi.org/10.1016/j.sste.2011.06.002) for specified counties/tracts 2009 onward
 * Added `bravo()` function to compute the Educational Isolation Index (EI) based on based on [Bravo et al. (2021)](https://www.doi.org/10.3390/ijerph18179384) for specified counties/tracts 2009 onward
 * Added `gini()` function to retrieve the Gini Index based on [Gini (1921)](https://www.doi.org/10.2307/2223319) for specified counties/tracts 2009 onward
-* Thank you for the suggestions, [Jessica Madrigal](https://orcid.org/0000-0001-5303-5109).
+* Thank you for the feature suggestions, [Jessica Madrigal](https://orcid.org/0000-0001-5303-5109).
 
 ### Updates
-* `Matrix` and `sf` are now Depends
+* `Matrix` and `sf` are now Imports
 * Updated vignette and README for new features
 * Fixed typos throughout documentation
 * Updated Description in DESCRIPTION

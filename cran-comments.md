@@ -1,28 +1,21 @@
-## This is the third resubmission
+## This is the fourth resubmission
 
 * Actions taken since previous submission:
-  * Added `krieger()` function to compute the Index of Concentration at the Extremes (ICE) based on [Feldman et al. (2015)](https://www.doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://www.doi.org/10.2105/AJPH.2015.302955) for specified counties/tracts 2009 onward.
-  * Added `round_output` argument for the `messer()` and `powell_wiley()` functions to provide raw output as the default and rounded output as optional.
-  * Added `df` argument for the `messer()` and `powell_wiley()` functions to specify a pre-formatted dataset input for the NDI computation
-  * Added `DCtracts2020` a testing dataset for the `ndi` package and its documentation
-  * Fixed bug in `powell_wiley()` function where the internal PCA will now run properly if only one factor has an eigenvalue above 1 
-  * Optimized the code to calculate missingness in all functions
-  * Fixed bug in `powell_wiley()` function where "PctNoPhone" before 2015 is "DP04_0074PE" and "DP04_0075PE" after
-  * Relaxed `year` argument in functions to include any year after 2009 or 2010 for the indices
-  * Cleaned-up output formatting in functions
-  * `usethis` is now Suggests and `LazyData` is set to 'true'
-  * Updated tests for the `df` argument in `messer()` and `powell_wiley()` functions
+  * Added `duncan()` function to compute the Dissimilarity Index (DI) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328) for specified counties/tracts 2009 onward.
+  * Fixed bug in `bravo()` function where ACS-5 data (2005-2009) are from the "B15002" question and "B06009" after
+  * Fixed bug in missingness warning for all metrics
+  * `utils` is now Imports
   * Updated vignette and README with new features
-  * Fixed typos throughout documentation
-  * Updated Description in DESCRIPTION and fixed typos
-  * Updated 'package.R' with new details
-  * Updated CITATION with new citations for the additional metric
+  * Updated Description in DESCRIPTION
+  * Updated tests
+  * Updated CITATION with new citation for the additional metric
 
 * Documentation for DESCRIPTION, README, NEWS, and vignette references the following DOIs, which throws a NOTE but are a valid URL:
   * <https://doi.org/10.1111/j.1749-6632.2009.05333.x>
   * <https://doi.org/10.2307/2223319>
+  * <https://doi.org/10.2307/2088328>
   
-* Some tests and examples for `anthopolos()`, `bravo()`, `gini()`, `messer()` and `powell_wiley()` functions require require a Census API key so they are skipped if NULL or not run
+* Some tests and examples for `anthopolos()`, `bravo()`, `duncan()`, `gini()`, `krieger()`, `messer()`, and `powell_wiley()` functions require a Census API key so they are skipped if NULL or not run
 
 ## Test environments
 * local OS X install, R 4.2.1

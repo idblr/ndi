@@ -172,7 +172,7 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
   
   if (quiet == FALSE) {
     # Warning for missing census data
-    if (nrow(missingYN) != 0) {
+    if (sum(missingYN$n_missing) > 0) {
       message("Warning: Missing census data")
     } else {
       returnValue(missingYN)
@@ -187,7 +187,7 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
                       "county",
                       "tract",
                       "RI",
-                      in_names))
+                      dplyr::all_of(in_names)))
     names(ri) <- c("GEOID", "state", "county", "tract", "RI", out_names)
   } else {
     ri <- ri_vars %>%
@@ -195,7 +195,7 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
                       "state",
                       "county",
                       "RI",
-                      in_names))
+                      dplyr::all_of(in_names)))
     names(ri) <- c("GEOID", "state", "county", "RI", out_names)
   }
   

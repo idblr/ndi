@@ -18,6 +18,7 @@
 #'  \item{B06009_005: }{Bachelor's degree "BD"}
 #'  \item{B06009_006: }{Graduate or professional degree "GoPD"}
 #' }
+#' Note: If \code{year = 2009}, then the ACS-5 data (2005-2009) are from the "B15002" question.
 #' 
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output. NOTE: Current version does not correct for edge effects (e.g., census geographies along the specified spatial extent border, coastline, or U.S.-Mexico / U.S.-Canada border) may have few neighboring census geographies, and EI values in these census geographies may be unstable. A stop-gap solution for the former source of edge effect is to compute the EI for neighboring census geographies (i.e., the states bordering a study area of interest) and then use the estimates of the study area of interest.
 #' 
@@ -33,6 +34,7 @@
 #' @import dplyr
 #' @importFrom Matrix sparseMatrix
 #' @importFrom sf st_drop_geometry st_geometry st_intersects
+#' @importFrom stats setNames
 #' @importFrom stringr str_trim
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
@@ -69,9 +71,49 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
             GoPD = "B06009_006")
   
   selected_vars <- vars[c("TotalPop", subgroup)]
+  
+  if (year == 2009) {
+    vars <- matrix(c("TotalPop", "TotalPop", "B15002_001",
+                   "LtHS", "mNSC", "B15002_003", 
+                   "LtHS", "mNt4G", "B15002_004",
+                   "LtHS", "m5t6G", "B15002_005",
+                   "LtHS", "m7t8G", "B15002_006",
+                   "LtHS", "m9G", "B15002_007",
+                   "LtHS", "m10G", "B15002_008",
+                   "LtHS", "m11G", "B15002_009",
+                   "LtHS", "m12GND", "B15002_010",
+                   "HSGiE", "mHSGGEDoA", "B15002_011",
+                   "SCoAD", "mSClt1Y", "B15002_012",
+                   "SCoAD", "mSC1oMYND", "B15002_013",
+                   "SCoAD", "mAD", "B15002_014",
+                   "BD", "mBD", "B15002_015",
+                   "GoPD", "mMD", "B15002_016",
+                   "GoPD", "mPSD", "B15002_017",
+                   "GoPD", "mDD", "B15002_018",
+                   "LtHS", "fNSC", "B15002_020", 
+                   "LtHS", "fNt4G", "B15002_021",
+                   "LtHS", "f5t6G", "B15002_022",
+                   "LtHS", "f7t8G", "B15002_023",
+                   "LtHS", "f9G", "B15002_024",
+                   "LtHS", "f10G", "B15002_025",
+                   "LtHS", "f11G", "B15002_026",
+                   "LtHS", "f12GND", "B15002_027",
+                   "HSGiE", "fHSGGEDoA", "B15002_028",
+                   "SCoAD", "fSClt1Y", "B15002_029",
+                   "SCoAD", "fSC1oMYND", "B15002_030",
+                   "SCoAD", "fAD", "B15002_031",
+                   "BD", "fBD", "B15002_032",
+                   "GoPD", "fMD", "B15002_033",
+                   "GoPD", "fPSD", "B15002_034",
+                   "GoPD", "fDD", "B15002_035"), nrow = 33, ncol = 3, byrow = TRUE)
+    
+    selected_vars <- stats::setNames(vars[ vars[ , 1] %in% c("TotalPop", subgroup) , 3],
+                                     vars[ vars[ , 1] %in% c("TotalPop", subgroup) , 2])
+  }
+  
   out_names <- names(selected_vars) # save for output
   prefix <- "subgroup"
-  suffix <- seq(1:length(subgroup))
+  suffix <- seq(1:length(selected_vars[-1]))
   names(selected_vars) <- c("TotalPop", paste(prefix, suffix, sep = ""))
   in_names <- paste(names(selected_vars), "E", sep = "")
   
@@ -79,9 +121,8 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
   ei_vars <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
                                                                    year = year, 
                                                                    output = "wide",
-                                                                   variables = selected_vars, 
+                                                                   variables = selected_vars,
                                                                    geometry = TRUE, ...)))
-  
   
   if (geo == "tract") {
     ei_vars <- ei_vars %>%
@@ -139,7 +180,7 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
   
   if (quiet == FALSE) {
     # Warning for missing census data
-    if (nrow(missingYN) != 0) {
+    if (sum(missingYN$n_missing) > 0) {
       message("Warning: Missing census data")
     } else {
       returnValue(missingYN)
@@ -154,7 +195,7 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
                       "county",
                       "tract",
                       "EI",
-                      in_names))
+                      dplyr::all_of(in_names)))
     names(ei) <- c("GEOID", "state", "county", "tract", "EI", out_names)
   } else {
     ei <- ei_vars %>%
@@ -162,7 +203,7 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
                       "state",
                       "county",
                       "EI",
-                      in_names))
+                      dplyr::all_of(in_names)))
     names(ei) <- c("GEOID", "state", "county", "EI", out_names)
   }
   

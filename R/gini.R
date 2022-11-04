@@ -81,7 +81,7 @@ gini <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
   
   if (quiet == FALSE) {
     # Warning for missing census data
-    if (nrow(missingYN) != 0) {
+    if (sum(missingYN$n_missing) > 0) {
       message("Warning: Missing census data")
     } else {
       returnValue(missingYN)

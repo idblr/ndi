@@ -18,7 +18,7 @@ test_that("messer throws error with invalid arguments", {
   skip_if(Sys.getenv("CENSUS_API_KEY") == "")
   
   # Incorrect state
-  expect_error(messer(state = "AB", year = 2020))
+  expect_error(messer(state = "AB", year = 2020, quiet = TRUE))
   
   # Unavailable geography for DC (only 1 'county' in DC so, alone, NDI cannot be computed)
   expect_error(messer(geo = "county", state = "DC", year = 2009, quiet = TRUE))

@@ -558,6 +558,7 @@ Compute the EI (Bravo) values (2006-2010 5-year ACS) for North Carolina, U.S.A.,
 | B06009_004 | some college or associate's degree | SCoAD |
 | B06009_005 | Bachelor's degree | BD |
 | B06009_006 | graduate or professional degree | GoPD |
+Note: The ACS-5 data (2005-2009) uses the "B15002" question.
 
 A census geography (and its neighbors) that has nearly all of its population with the specified educational attainment category (e.g., a four-year college degree or more) will have an EI value close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population with the specified educational attainment category (e.g., with a four-year college degree) will have an EI value close to 0.
 
@@ -724,6 +725,65 @@ ggplot2::ggplot() +
                 caption = "Source: U.S. Census ACS 2006-2010 estimates")+
   ggplot2::ggtitle("Index of Concentration at the Extremes\nIncome & race/ethnicity combined (Krieger)",
                    subtitle = "white non-Hispanic (WNH) in 80th inc pctl vs. WNH in 20th inc pctl")
+```
+
+#### Compute Dissimilarity Index (DI)
+
+Compute the DI (Duncan) values (2006-2010 5-year ACS) for Pennsylvania, U.S.A., counties. This metric is based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328) that assessed the racial/ethnic isolation of students that identify as non-Hispanic or Latino, Black or African American alone compared to students that identify as non-Hispanic or Latino, white alone between schools and school districts. Multiple racial/ethnic subgroups are available in the `duncan()` function, including:
+
+| ACS table source | racial/ethnic subgroup | character for `subgroup` or `subgroup_ref` arguments |
+| -------------- | ------------- | ---------------- |
+| B03002_002 | not Hispanic or Latino | NHoL |
+| B03002_003 | not Hispanic or Latino, white alone | NHoLW |
+| B03002_004 | not Hispanic or Latino, Black or African American alone | NHoLB |
+| B03002_005 | not Hispanic or Latino, American Indian and Alaska Native alone | NHoLAIAN |
+| B03002_006 | not Hispanic or Latino, Asian alone | NHoLA |
+| B03002_007 | not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone | NHoLNHOPI |
+| B03002_008 | not Hispanic or Latino, some other race alone | NHoLSOR |
+| B03002_009 | not Hispanic or Latino, two or more races | NHoLTOMR |
+| B03002_010 | not Hispanic or Latino, two races including some other race | NHoLTRiSOR |
+| B03002_011 | not Hispanic or Latino, two races excluding some other race, and three or more races | NHoLTReSOR |
+| B03002_012 | Hispanic or Latino | HoL |
+| B03002_013 | Hispanic or Latino, white alone | HoLW |
+| B03002_014 | Hispanic or Latino, Black or African American alone | HoLB |
+| B03002_015 | Hispanic or Latino, American Indian and Alaska Native alone | HoLAIAN |
+| B03002_016 | Hispanic or Latino, Asian alone | HoLA |
+| B03002_017 | Hispanic or Latino, Native Hawaiian and other Pacific Islander alone | HoLNHOPI |
+| B03002_018 | Hispanic or Latino, some other race alone | HoLSOR |
+| B03002_019 | Hispanic or Latino, two or more races | HoLTOMR |
+| B03002_020 | Hispanic or Latino, two races including some other race | HoLTRiSOR |
+| B03002_021 | Hispanic or Latino, two races excluding some other race, and three or more races | HoLTReSOR |
+
+DI is a measure of the evenness of racial/ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. The DI metric can range in value from 0 to 1 and represents the proportion of racial/ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
+
+```{r duncan, fig.height=4, fig.width=7}
+duncan2010PA <- ndi::duncan(geo_large = "county", geo_small = "tract", state = "PA",
+                            year = 2010, subgroup = "NHoLB", subgroup_ref = "NHoLW")
+
+# Obtain the 2010 census counties from the "tigris" package
+county2010PA <- tigris::counties(state = "PA", year = 2010, cb = TRUE)
+# Remove first 9 characters from GEOID for compatibility with tigris information
+county2010PA$GEOID <- substring(county2010PA$GEO_ID, 10) 
+
+# Join the DI (Duncan) values to the census tract geometry
+PA2010duncan <- dplyr::left_join(county2010PA, duncan2010PA$di, by = "GEOID")
+
+# Visualize the DI (Duncan) values (2006-2010 5-year ACS) for PAorida, U.S.A., census tracts 
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = PA2010duncan, 
+                   ggplot2::aes(fill = DI),
+                   size = 0.05,
+                   color = "white") +
+   ggplot2::geom_sf(data = county2010PA,
+                    fill = "transparent", 
+                    color = "white",
+                    size = 0.2) +
+  ggplot2::theme_minimal() +
+  ggplot2::scale_fill_viridis_c(limits = c(0, 1)) +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2006-2010 estimates") +
+  ggplot2::ggtitle("Dissimilarity Index (Duncan)\nPennsylvania census tracts to counties",
+                   subtitle = "Black non-Hispanic vs. white non-Hispanic")
 ```
 
 ```{r system}

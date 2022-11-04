@@ -5,7 +5,7 @@ citEntry(entry = "manual",
   author        = personList(as.person("Ian D. Buller")),
   publisher     = "The Comprehensive R Archive Network",
   year          = "2022",
-  number        = "0.1.2",
+  number        = "0.1.3.9000",
   doi           = "10.5281/zenodo.6989030",
   url           = "https://cran.r-project.org/package=ndi",
   
@@ -13,7 +13,7 @@ citEntry(entry = "manual",
   paste("Ian D. Buller (2022).",
         "ndi: Neighborhood Deprivation Indices.",
         "The Comprehensive R Archive Network.",
-        "v0.1.2.",
+        "v0.1.3.9000.",
         "DOI:10.5281/zenodo.6989030",
         "Accessed by: https://cran.r-project.org/package=ndi")
 )
@@ -60,6 +60,26 @@ citEntry(entry = "Article",
         "DOI:10.3390/ijerph18179384"),
 
   header       = "If you computed EI (Bravo) values, please also cite:"
+)
+
+citEntry(entry = "Article",
+  title        = "A Methodological Analysis of Segregation Indexes",
+  author       = personList(as.person("Otis D. Duncan"),
+                   as.person("Beverly Duncan")),
+  journal      = "American Sociological Review",
+  year         = "1955",
+  volume       = "20",
+  number       = "2",
+  pages        = "210--217",
+  doi          = "10.2307/2088328",
+
+  textVersion  =
+  paste("Otis D. Duncan, Beverly Duncan (1955).",
+        "A Methodological Analysis of Segregation Indexes.",
+        "American Sociological Review, 20(2), 210-217.",
+        "DOI:10.2307/2088328"),
+
+  header       = "If you computed DI (Duncan) values, please also cite:"
 )
 
 citEntry(entry = "Article",

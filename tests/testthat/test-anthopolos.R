@@ -18,10 +18,7 @@ test_that("anthopolos throws error with invalid arguments", {
   skip_if(Sys.getenv("CENSUS_API_KEY") == "")
   
   # Incorrect state
-  expect_error(anthopolos(state = "AB", year = 2020))
-  
-  # Unavailable geography for DC (only 1 'county' in DC so, alone, RI cannot be computed)
-  expect_error(anthopolos(geo = "county", state = "DC", year = 2009, quiet = TRUE))
+  expect_error(anthopolos(state = "AB", year = 2020, subgroup = "NHoLB", quiet = TRUE))
   
 }
 )   
@@ -30,7 +27,7 @@ test_that("anthopolos works", {
   
   skip_if(Sys.getenv("CENSUS_API_KEY") == "")
   
-  expect_message(anthopolos(state = "DC", year = 2020, subgroup = c("NHoLB", "HoLB"))) 
+  expect_silent(anthopolos(state = "DC", year = 2020, subgroup = c("NHoLB", "HoLB"))) 
   
   expect_silent(anthopolos(state = "DC", year = 2020, subgroup = "NHoLB", quiet = TRUE))
   

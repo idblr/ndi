@@ -39,6 +39,7 @@ The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. 
 \item{B06009_005: }{Bachelor's degree "BD"}
 \item{B06009_006: }{Graduate or professional degree "GoPD"}
 }
+Note: If \code{year = 2009}, then the ACS-5 data (2005-2009) are from the "B15002" question.
 
 Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output. NOTE: Current version does not correct for edge effects (e.g., census geographies along the specified spatial extent border, coastline, or U.S.-Mexico / U.S.-Canada border) may have few neighboring census geographies, and EI values in these census geographies may be unstable. A stop-gap solution for the former source of edge effect is to compute the EI for neighboring census geographies (i.e., the states bordering a study area of interest) and then use the estimates of the study area of interest.
 
