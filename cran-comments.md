@@ -9,6 +9,7 @@
   * Updated Description in DESCRIPTION
   * Updated tests
   * Updated CITATION with new citation for the additional metric
+  * Updated maintainer contact information
 
 * Documentation for DESCRIPTION, README, NEWS, and vignette references the following DOIs, which throws a NOTE but are a valid URL:
   * <https://doi.org/10.1111/j.1749-6632.2009.05333.x>

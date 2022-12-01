@@ -39,7 +39,7 @@ An object of class 'list'. This is a named list with the following components:
 }
 }
 \description{
-Compute the Dissimilarity Index (Duncan & Duncan) values for a selected subgroup(s) and U.S. geographies
+Compute the Dissimilarity Index (Duncan) values for a selected subgroup(s) and U.S. geographies
 }
 \details{
 This function will compute the Dissimilarity Index (DI) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Duncan & Duncan (1955) \doi{10.2307/2088328}. This function provides the computation of DI for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).

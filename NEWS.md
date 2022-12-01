@@ -1,6 +1,6 @@
 # ndi (development version)
 
-# ndi v0.1.3.9000
+# ndi v0.1.3
 
 ### New Features
 * Added `duncan()` function to compute the Dissimilarity Index (DI) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328) for specified counties/tracts 2009 onward.
@@ -15,6 +15,7 @@
 * Updated Description in DESCRIPTION
 * Updated tests
 * Updated CITATION with new citation for the additional metric
+* Updated maintainer contact information
 
 # ndi v0.1.2
 

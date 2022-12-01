@@ -2,7 +2,7 @@
 #'
 #' Computes various metrics of socio-economic deprivation and disparity in the United States based on information available from the U.S. Census Bureau.
 #'
-#' @details The 'ndi' package computes various metrics of socio-economic deprivation and disparity in the United States. Some metrics are considered "spatial" because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other metrics are "aspatial" because they only consider the value within each census geography. Two types of aspatial neighborhood deprivation indices (NDI) are available: (1) based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x} and (2) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} who use variables chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x}. Both are a decomposition of multiple demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates (ACS-5; 2010 onward). Using data from the ACS-5 (2009 onward), the package can also (1) compute the spatial Racial Isolation Index (RI) based on Anthopolos et al. (2011) \doi{10.1016/j.sste.2011.06.002}, (2) compute the spatial Educational Isolation Index (EI) based on Bravo et al. (2021) \doi{10.3390/ijerph18179384}, (3) compute the aspatial Index of Concentration at the Extremes (ICE) based on Feldman et al. (2015) \doi{10.1136/jech-2015-205728} and Krieger et al. (2016) \doi{10.2105/AJPH.2015.302955}, (4) compute the aspatial Dissimilarity Index based on Duncan & Duncan (1955) \doi{10.2307/2088328}, and (5) retrieve the aspatial Gini Index based on Gini (1921) \doi{10.2307/2223319}.
+#' @details The 'ndi' package computes various metrics of socio-economic deprivation and disparity in the United States. Some metrics are considered "spatial" because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other metrics are "aspatial" because they only consider the value within each census geography. Two types of aspatial neighborhood deprivation indices (NDI) are available: (1) based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x} and (2) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} who use variables chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x}. Both are a decomposition of multiple demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates (ACS-5; 2006-2010 onward). Using data from the ACS-5 (2005-2009 onward), the package can also (1) compute the spatial Racial Isolation Index (RI) based on Anthopolos et al. (2011) \doi{10.1016/j.sste.2011.06.002}, (2) compute the spatial Educational Isolation Index (EI) based on Bravo et al. (2021) \doi{10.3390/ijerph18179384}, (3) compute the aspatial Index of Concentration at the Extremes (ICE) based on Feldman et al. (2015) \doi{10.1136/jech-2015-205728} and Krieger et al. (2016) \doi{10.2105/AJPH.2015.302955}, (4) compute the aspatial Dissimilarity Index based on Duncan & Duncan (1955) \doi{10.2307/2088328}, and (5) retrieve the aspatial Gini Index based on Gini (1921) \doi{10.2307/2223319}.
 #' 
 #' Key content of the 'ndi' package include:\cr
 #' 
@@ -12,9 +12,9 @@
 #' 
 #' \code{\link{bravo}} Computes the spatial Educational Isolation Index (EI) based on Bravo (2021) \doi{10.3390/ijerph18179384}.
 #' 
-#' \code{\link{gini}} Retrieves the aspatial Gini Index based on Gini (1921) \doi{10.2307/2223319}.
-#' 
 #' \code{\link{duncan}} Computes the aspatial Dissimilarity Index based on Duncan & Duncan (1955) \doi{10.2307/2088328}.
+#' 
+#' \code{\link{gini}} Retrieves the aspatial Gini Index based on Gini (1921) \doi{10.2307/2223319}.
 #' 
 #' \code{\link{krieger}} Computes the aspatial Index of Concentration at the Extremes based on Feldman et al. (2015) \doi{10.1136/jech-2015-205728} and Krieger et al. (2016) \doi{10.2105/AJPH.2015.302955}.
 #' 
@@ -34,7 +34,7 @@
 #' 
 #' @author Ian D. Buller\cr \emph{Occupational and Environmental Epidemiology Branch, Division of Cancer Epidemiology and Genetics, National Cancer Institute, National Institutes of Health, Rockville, Maryland, USA.} \cr
 #' 
-#' Maintainer: I.D.B. \email{ian.buller@@nih.gov}
+#' Maintainer: I.D.B. \email{ian.buller@@alumni.emory.edu}
 #'
 #' @keywords package
 NULL

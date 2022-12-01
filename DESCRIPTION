@@ -1,16 +1,16 @@
 Package: ndi
 Title: Neighborhood Deprivation Indices
-Version: 0.1.3.9000
-Date: 2022-11-03
+Version: 0.1.3
+Date: 2022-12-01
 Authors@R:
     c(person(given = "Ian D.",
              family = "Buller",
              role = c("aut", "cre", "cph"),
-             email = "ian.buller@nih.gov",
+             email = "ian.buller@alumni.emory.edu",
              comment = c(ORCID = "0000-0001-9477-8582")),
       person(given = "NCI",
              role = c("cph", "fnd")))
-Maintainer: Ian D. Buller <ian.buller@nih.gov>
+Maintainer: Ian D. Buller <ian.buller@alumni.emory.edu>
 Description: Computes various metrics of socio-economic deprivation and disparity in
              the United States. Some metrics are considered "spatial" because they 
              consider the values of neighboring (i.e., adjacent) census geographies in
@@ -23,8 +23,8 @@ Description: Computes various metrics of socio-economic deprivation and disparit
              who use variables chosen by Roux and Mair (2010)
              <doi:10.1111/j.1749-6632.2009.05333.x>. Both are a decomposition
              of multiple demographic characteristics from the U.S. Census Bureau
-             American Community Survey 5-year estimates (ACS-5; 2010 onward). Using data
-             from the ACS-5 (2009 onward), the package can also (1) compute the spatial
+             American Community Survey 5-year estimates (ACS-5; 2006-2010 onward). Using data
+             from the ACS-5 (2005-2009 onward), the package can also (1) compute the spatial
              Racial Isolation Index (RI) based on Anthopolos et al. (2011)
              <doi:10.1016/j.sste.2011.06.002>, (2) compute the spatial Educational Isolation
              Index (EI) based on Bravo et al. (2021) <doi:10.3390/ijerph18179384>, 

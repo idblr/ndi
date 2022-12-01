@@ -178,7 +178,6 @@ duncan <- function(geo_large = "county", geo_small = "tract", year = 2020, subgr
 
   # Compute DI
   ## From Duncan & Duncan (1955) https://doi.org/10.2307/2088328
-  ## SIMPLIFIED
   ## D_{jt} = 1/2 \sum_{i=1}^{k} | \frac{x_{ijt}}{X_{jt}}-\frac{y_{ijt}}{Y_{jt}}|
   ## Where for k smaller geographies:
   ## D_{jt} denotes the DI of larger geography j at time t

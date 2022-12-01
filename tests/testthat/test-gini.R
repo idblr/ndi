@@ -1,7 +1,7 @@
 context("gini")
 
 ###################
-# gin i testthat #
+# gini testthat #
 ###################
 
 test_that("gini throws error with invalid arguments", {

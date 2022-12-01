@@ -10,11 +10,11 @@ ndi: Neighborhood Deprivation Indices <img src="man/figures/ndi.png" width="120"
 [![DOI](https://zenodo.org/badge/521439746.svg)](https://zenodo.org/badge/latestdoi/521439746)
 <!-- badges: end -->
 
-**Date repository last updated**: November 03, 2022
+**Date repository last updated**: December 01, 2022
 
 ### Overview
 
-The `ndi` package is a suite of `R` functions to compute various metrics of socio-economic deprivation and disparity in the United States. Some metrics are considered "spatial" because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other metrics are "aspatial" because they only consider the value within each census geography. Two types of aspatial NDI are available: (1) based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) who use variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of various demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates (ACS-5; 2010 onward) pulled by the [tidycensus](https://CRAN.R-project.org/package=tidycensus) package. Using data from the ACS-5 (2009 onward), the `ndi` package can also (1) compute the spatial Racial Isolation Index (RI) based on [Anthopolos et al. (2011)](https://www.doi.org/10.1016/j.sste.2011.06.002), (2) compute the spatial Educational Isolation Index (EI) based on [Bravo et al. (2021)](https://www.doi.org/10.3390/ijerph18179384), (3) compute the aspatial Index of Concentration at the Extremes (ICE) based on [Feldman et al. (2015)](https://www.doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://www.doi.org/10.2105/AJPH.2015.302955), (4) compute the aspatial Dissimilarity Index (DI) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328), and (5) retrieve the aspatial Gini Index based on [Gini (1921)](https://www.doi.org/10.2307/2223319).
+The `ndi` package is a suite of `R` functions to compute various metrics of socio-economic deprivation and disparity in the United States. Some metrics are considered "spatial" because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other metrics are "aspatial" because they only consider the value within each census geography. Two types of aspatial NDI are available: (1) based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) who use variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of various demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates (ACS-5; 2006-2010 onward) pulled by the [tidycensus](https://CRAN.R-project.org/package=tidycensus) package. Using data from the ACS-5 (2005-2009 onward), the `ndi` package can also (1) compute the spatial Racial Isolation Index (RI) based on [Anthopolos et al. (2011)](https://www.doi.org/10.1016/j.sste.2011.06.002), (2) compute the spatial Educational Isolation Index (EI) based on [Bravo et al. (2021)](https://www.doi.org/10.3390/ijerph18179384), (3) compute the aspatial Index of Concentration at the Extremes (ICE) based on [Feldman et al. (2015)](https://www.doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://www.doi.org/10.2105/AJPH.2015.302955), (4) compute the aspatial Dissimilarity Index (DI) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328), and (5) retrieve the aspatial Gini Index based on [Gini (1921)](https://www.doi.org/10.2307/2223319).
 
 ### Installation
 
@@ -46,14 +46,14 @@ To install the development version from GitHub:
 <td><code>bravo</code></td>
 <td>Compute the Educational Isolation Index (EI) based on <a href="https://www.doi.org/10.3390/ijerph18179384">Bravo et al. (2021)</a></td>
 </tr>
+<td><code>duncan</code></td>
+<td>Compute the Dissimilarity Index (DI) based on <a href="https://doi.org/10.2307/2088328">Duncan & Duncan (1955)</a></td>
+</tr>
 <td><code>gini</code></td>
 <td>Retrieve the Gini Index based on <a href="https://www.doi.org/10.2307/2223319">Gini (1921)</a></td>
 </tr>
 <td><code>krieger</code></td>
 <td>Compute the Index of Concentration at the Extremes (ICE) based on <a href="https://www.doi.org/10.1136/jech-2015-205728">Feldman et al. (2015)</a> and <a href="https://www.doi.org/10.2105/AJPH.2015.302955">Krieger et al. (2016)</a></td>
-</tr>
-<td><code>duncan</code></td>
-<td>Compute the Dissimilarity Index (DI) based on <a href="https://doi.org/10.2307/2088328">Duncan & Duncan (1955)</a></td>
 </tr>
 <td><code>messer</code></td>
 <td>Compute the Neighboorhood Deprivation Index (NDI) based on <a href="https://doi.org/10.1007/s11524-006-9094-x">Messer et al. (2006)</a></td>
@@ -504,9 +504,9 @@ ggplot2::ggplot() +
 ![](man/figures/ice5.png)
 
 ```r
-# --------------------------------------------- #
+# ------------------------------------ #
 # Compute Dissimilarity Index (Duncan) #
-# --------------------------------------------- #
+# ------------------------------------ #
 
 # Dissimilarity Index based on Duncan & Duncan (1955)
 ## Selected subgroup comparison: Not Hispanic or Latino, Black or African American alone
@@ -551,4 +551,4 @@ When citing this package for publication, please follow:
 
 ### Questions? Feedback?
 
-For questions about the package, please contact the maintainer [Dr. Ian D. Buller](mailto:ian.buller@nih.gov) or [submit a new issue](https://github.com/idblr/ndi/issues). Confirmation of the computation, feedback, and feature collaboration is welcomed, especially from the authors of the references cited above.
+For questions about the package, please contact the maintainer [Dr. Ian D. Buller](mailto:ian.buller@alumni.emory.edu) or [submit a new issue](https://github.com/idblr/ndi/issues). Confirmation of the computation, feedback, and feature collaboration is welcomed, especially from the authors of the references cited above.
