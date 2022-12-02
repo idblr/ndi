@@ -27,7 +27,7 @@ test_that("anthopolos works", {
   
   skip_if(Sys.getenv("CENSUS_API_KEY") == "")
   
-  expect_silent(anthopolos(state = "DC", year = 2020, subgroup = c("NHoLB", "HoLB"))) 
+  expect_output(anthopolos(state = "DC", year = 2020, subgroup = c("NHoLB", "HoLB"))) 
   
   expect_silent(anthopolos(state = "DC", year = 2020, subgroup = "NHoLB", quiet = TRUE))
   

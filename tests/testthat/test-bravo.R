@@ -27,9 +27,7 @@ test_that("bravo works", {
   
   skip_if(Sys.getenv("CENSUS_API_KEY") == "")
   
-  expect_silent(bravo(state = "DC", year = 2009, subgroup = c("LtHS", "HSGiE"))) 
-  
-  expect_silent(bravo(state = "DC", year = 2020, subgroup = c("LtHS", "HSGiE"))) 
+  expect_output(bravo(state = "DC", year = 2009, subgroup = c("LtHS", "HSGiE")))
   
   expect_silent(bravo(state = "DC", year = 2020, subgroup = "LtHS", quiet = TRUE))
   

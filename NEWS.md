@@ -1,5 +1,16 @@
 # ndi (development version)
 
+# ndi v0.1.4.9000
+
+### New Features
+* None
+
+### Updates
+* Fixed bug in reverse dependency check failure for `anthopolos()` and `bravo()` functions removing `returnValue()` when data are not missing
+* Thank you, [Roger Bivand](https://github.com/rsbivand), for the catch. Relates to [ndi Issue #5](https://github.com/idblr/ndi/issues/5)
+* Updated `duncan()`, `gini()`, `krieger()`, `messer()`, and `powell_wiley()` for consistency in messaging when data are not missing
+* Updated tests for `anthopolos()` and `bravo()` if `Sys.getenv("CENSUS_API_KEY") != ""`
+
 # ndi v0.1.3
 
 ### New Features

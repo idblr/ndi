@@ -1,15 +1,10 @@
-## This is the fourth resubmission
+## This is the fifth resubmission
 
 * Actions taken since previous submission:
-  * Added `duncan()` function to compute the Dissimilarity Index (DI) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328) for specified counties/tracts 2009 onward.
-  * Fixed bug in `bravo()` function where ACS-5 data (2005-2009) are from the "B15002" question and "B06009" after
-  * Fixed bug in missingness warning for all metrics
-  * `utils` is now Imports
-  * Updated vignette and README with new features
-  * Updated Description in DESCRIPTION
-  * Updated tests
-  * Updated CITATION with new citation for the additional metric
-  * Updated maintainer contact information
+  * Fixed bug in reverse dependency check failure for `anthopolos()` and `bravo()` functions removing `returnValue()` when data are not missing
+  * Thank you, [Roger Bivand](https://github.com/rsbivand), for the catch. Relates to [ndi Issue #5](https://github.com/idblr/ndi/issues/5)
+  * Updated `duncan()`, `gini()`, `krieger()`, `messer()`, and `powell_wiley()` for consistency in messaging when data are not missing
+  * Updated tests for `anthopolos()` and `bravo()` if `Sys.getenv("CENSUS_API_KEY") != ""`
 
 * Documentation for DESCRIPTION, README, NEWS, and vignette references the following DOIs, which throws a NOTE but are a valid URL:
   * <https://doi.org/10.1111/j.1749-6632.2009.05333.x>

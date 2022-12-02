@@ -211,10 +211,8 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round
   
   if (quiet == FALSE) {
     # Warning for missing census data
-    if (sum(missingYN$n_missing) > 0) {
-      message("Warning: Missing census data")
-    } else {
-      returnValue(missingYN)
+    if (sum(missingYN$n_missing) > 0) { 
+      message("Warning: Missing census data") 
     }
     
     # Warning for proportion of variance explained by PC1

@@ -174,8 +174,6 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
     # Warning for missing census data
     if (sum(missingYN$n_missing) > 0) {
       message("Warning: Missing census data")
-    } else {
-      returnValue(missingYN)
     }
   }
   
