@@ -211,8 +211,6 @@ duncan <- function(geo_large = "county", geo_small = "tract", year = 2020, subgr
     # Warning for missing census data
     if (sum(missingYN$n_missing) > 0) {
       message("Warning: Missing census data")
-    } else {
-      returnValue(missingYN)
     }
   }
 

@@ -274,8 +274,6 @@ powell_wiley <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE,
     # Warning for missing census data
     if (sum(missingYN$n_missing) > 0) {
       message("Warning: Missing census data")
-    } else {
-      returnValue(missingYN)
     }
     
     # Warning for Cronbach's alpha < 0.7
