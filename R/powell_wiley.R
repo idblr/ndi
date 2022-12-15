@@ -249,7 +249,7 @@ powell_wiley <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE,
   ndi_vars_NA <- ndi_vars[complete.cases(ndi_vars_scrs), ]
   ndi_vars_NA$NDI <- c(scrs)
   
-  ndi_vars_NDI <- dplyr::left_join(ndi_vars[ , c("GEOID", "TotalPop")], ndi_vars_NA[ , c("GEOID", "NDI")], by = "GEOID", all.x = TRUE)
+  ndi_vars_NDI <- dplyr::left_join(ndi_vars[ , c("GEOID", "TotalPop")], ndi_vars_NA[ , c("GEOID", "NDI")], by = "GEOID")
   
   # Calculate Cronbach's alpha correlation coefficient among the factors and verify values are above 0.7. 
   if (nfa == 1) { 
