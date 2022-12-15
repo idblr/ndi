@@ -312,7 +312,7 @@ ggplot2::ggplot() +
 # --------------------------- #
 
 # Merge the two NDI metrics (Messer and Powell-Wiley, imputed)
-ndi2020DC <- dplyr::left_join(messer2020DC$ndi, powell_wiley2020DCi$ndi, by = "GEOID", suffixes = c(".messer", ".powell_wiley"))
+ndi2020DC <- dplyr::left_join(messer2020DC$ndi, powell_wiley2020DCi$ndi, by = "GEOID", suffix = c(".messer", ".powell_wiley"))
 
 # Check the correlation the two NDI metrics (Messer and Powell-Wiley, imputed) as continuous values
 cor(ndi2020DC$NDI.messer, ndi2020DC$NDI.powell_wiley, use = "complete.obs") # Pearsons r = 0.975
