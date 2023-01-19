@@ -5,7 +5,7 @@ citEntry(entry = "manual",
   author        = personList(as.person("Ian D. Buller")),
   publisher     = "The Comprehensive R Archive Network",
   year          = "2022",
-  number        = "0.1.4.9001",
+  number        = "0.1.4.9002",
   doi           = "10.5281/zenodo.6989030",
   url           = "https://cran.r-project.org/package=ndi",
   
@@ -13,7 +13,7 @@ citEntry(entry = "manual",
   paste("Ian D. Buller (2022).",
         "ndi: Neighborhood Deprivation Indices.",
         "The Comprehensive R Archive Network.",
-        "v0.1.4.9001.",
+        "v0.1.4.9002.",
         "DOI:10.5281/zenodo.6989030",
         "Accessed by: https://cran.r-project.org/package=ndi")
 )
@@ -57,6 +57,45 @@ citEntry(entry = "Article",
         "DOI:10.1016/0022-0531(70)90039-6"),
 
   header       = "If you computed AI (Atkinson) values, please also cite:"
+)
+
+citEntry(entry = "Book",
+  title        = "The Social Areas of Los Angeles: Analysis and Typology",
+  author       = personList(as.person("Eshref Shevky"),
+                   as.person("Marilyn Williams")),
+  year         = "1949",
+  edition      = "1st edition",
+  city         = "Los Angeles", 
+  publisher    = "John Randolph Haynes and Dora Haynes Foundation",
+  isbn         = "978-0-837-15637-8",
+
+  textVersion  =
+  paste("Eshref Shevky, Marilyn Williams (1949).",
+        "The Social Areas of Los Angeles: Analysis and Typology.",
+        "1st Ed.",
+        "Los Angeles:John Randolph Haynes and Dora Haynes Foundation.",
+        "ISBN-13:978-0-837-15637-8"),
+
+  header       = "If you computed II (Bell) values, please also cite (1):"
+)
+
+citEntry(entry = "Article",
+  title        = "A Probability Model for the Measurement of Ecological Segregation",
+  author       = personList(as.person("Wendell Bell")),
+  journal      = "Social Forces",
+  year         = "1954",
+  volume       = "32",
+  issue        = "4",
+  pages        = "357--364",
+  doi          = "10.2307/2574118",
+
+  textVersion  =
+  paste("Wendell Bell (1954).",
+        "A Probability Model for the Measurement of Ecological Segregation.",
+        "Social Forces, 32(4), 357-364.",
+        "DOI:10.2307/2574118"),
+
+  header       = "And (2):"
 )
 
 citEntry(entry = "Article",
@@ -242,6 +281,44 @@ citEntry(entry = "Article",
         "The development of a standardized neighborhood deprivation index.",
         "Data in Brief, 41, 108002.",
         "DOI:10.1016/j.dib.2022.108002"),
+
+  header       = "And (2):"
+)
+
+citEntry(entry = "Article",
+  title        = "A Probability Model for the Measurement of Ecological Segregation",
+  author       = personList(as.person("Wendell Bell")),
+  journal      = "Social Forces",
+  year         = "1954",
+  volume       = "32",
+  issue        = "4",
+  pages        = "357--364",
+  doi          = "10.2307/2574118",
+
+  textVersion  =
+  paste("Wendell Bell (1954).",
+        "A Probability Model for the Measurement of Ecological Segregation.",
+        "Social Forces, 32(4), 357-364.",
+        "DOI:10.2307/2574118"),
+
+  header       = "If you computed V (White) values, please also cite (1):"
+)
+
+citEntry(entry = "Article",
+  title        = "Segregation and Diversity Measures in Population Distribution",
+  author       = personList(as.person("Michael J. White")),
+  journal      = "Population Index",
+  year         = "1986",
+  volume       = "52",
+  issue        = "2",
+  pages        = "198--221",
+  doi          = "10.2307/3644339",
+
+  textVersion  =
+  paste("Michael J. White (1986).",
+        "Segregation and Diversity Measures in Population Distribution.",
+        "Population Index, 52(2), 198-221.",
+        "DOI:10.2307/3644339"),
 
   header       = "And (2):"
 )

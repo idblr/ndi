@@ -453,15 +453,15 @@ The process to compute a US-standardized NDI (Powell-Wiley) took about `r round(
 
 Since version v0.1.1, the `ndi` package can compute additional metrics of socio-economic deprivation and disparity beyond neighborhood deprivation indices, including:
 
-1. `anthopolos()` function that computes the Racial Isolation Index (RI) based on [Anthopolos et al. (2011)](https://www.doi.org/10.1016/j.sste.2011.06.002) with data from the ACS-5.
-2. `bravo()` function that computes the Educational Isolation Index (EI) based on [Bravo et al. (2021)](https://www.doi.org/10.3390/ijerph18179384) with data from the ACS-5.
-3. `gini()` function that retrieves the Gini Index based on [Gini (1921)](https://www.doi.org/10.2307/2223319) from the ACS-5. 
-4. `krieger()` function that computes the Index of Concentration at the Extremes based on based on [Feldman et al. (2015)](https://www.doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://www.doi.org/10.2105/AJPH.2015.302955) with data from the ACS-5. 5. `duncan()` function that computes the Dissimilarity Index based on on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328) with data from the ACS-5.
+1. `anthopolos()` function that computes the Racial Isolation Index (RI) based on [Anthopolos et al. (2011)](https://doi.org/10.1016/j.sste.2011.06.002) with data from the ACS-5.
+2. `bravo()` function that computes the Educational Isolation Index (EI) based on [Bravo et al. (2021)](https://doi.org/10.3390/ijerph18179384) with data from the ACS-5.
+3. `gini()` function that retrieves the Gini Index based on [Gini (1921)](https://doi.org/10.2307/2223319) from the ACS-5. 
+4. `krieger()` function that computes the Index of Concentration at the Extremes based on based on [Feldman et al. (2015)](https://doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://doi.org/10.2105/AJPH.2015.302955) with data from the ACS-5. 5. `duncan()` function that computes the Dissimilarity Index based on on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328) with data from the ACS-5.
 6. `atkinson()` function that computes the Atkinson Index based on on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6) with data from the ACS-5. 
 
 #### Compute Racial Isolation Index (RI)
 
-Compute the RI (Anthopolos) values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts. This metric is based on [Anthopolos et al. (2011)](https://www.doi.org/10.1016/j.sste.2011.06.002) that assessed the racial isolation of the population that identifies as non-Hispanic or Latino, Black or African American alone. Multiple racial/ethnic subgroups are available in the `anthopolos()` function, including:
+Compute the spatial RI (Anthopolos) values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts. This metric is based on [Anthopolos et al. (2011)](https://doi.org/10.1016/j.sste.2011.06.002) that assessed the racial isolation of the population that identifies as non-Hispanic or Latino, Black or African American alone. Multiple racial/ethnic subgroups are available in the `anthopolos()` function, including:
 
 | ACS table source | racial/ethnic subgroup | character for `subgroup` argument |
 | -------------- | ------------- | ---------------- |
@@ -486,7 +486,7 @@ Compute the RI (Anthopolos) values (2006-2010 5-year ACS) for North Carolina, U.
 | B03002_020 | Hispanic or Latino, two races including some other race | HoLTRiSOR |
 | B03002_021 | Hispanic or Latino, two races excluding some other race, and three or more races | HoLTReSOR |
 
-A census geography (and its neighbors) that has nearly all of its population who identify with the specified race/ethnicity subgroup(s) (e.g., Not Hispanic or Latino, Black or African American alone) will have an RI value close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population who identify with the specified race/ethnicity subgroup(s) (e.g., not Not Hispanic or Latino, Black or African American alone) will have an RI value close to 0.
+A census geography (and its neighbors) that has nearly all of its population who identify with the specified race/ethnicity subgroup(s) (e.g., Not Hispanic or Latino, Black or African American alone) will have an RI (Anthopolos) value close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population who identify with the specified race/ethnicity subgroup(s) (e.g., not Not Hispanic or Latino, Black or African American alone) will have an RI (Anthopolos) value close to 0.
 
 ```{r anthopolos_prep, results = 'hide'}
 anthopolos2010NC <- ndi::anthopolos(state = "NC", year = 2010, subgroup = "NHoLB")
@@ -522,10 +522,10 @@ ggplot2::ggplot() +
                    subtitle = "NC census tracts (not corrected for edge effects)")
 ```
 
-The current version of the `ndi` package does not correct for edge effects (e.g., census geographies along the specified spatial extent border, coastline, or U.S.-Mexico / U.S.-Canada border) may have few neighboring census geographies, and RI values in these census geographies may be unstable. A stop-gap solution for the former source of edge effect is to compute the RI for neighboring census geographies (i.e., the states bordering a study area of interest) and then use the estimates of the study area of interest.
+The current version of the `ndi` package does not correct for edge effects (e.g., census geographies along the specified spatial extent border, coastline, or U.S.-Mexico / U.S.-Canada border) may have few neighboring census geographies, and RI (Anthopolos) values in these census geographies may be unstable. A stop-gap solution for the former source of edge effect is to compute the RI (Anthopolos) for neighboring census geographies (i.e., the states bordering a study area of interest) and then use the estimates of the study area of interest.
 
 ```{r anthopolos_edge_prep, results = 'hide'}
-# Compute RI for all census tracts in neighboring states
+# Compute RI (Anthopolos) for all census tracts in neighboring states
 anthopolos2010GNSTV <- ndi::anthopolos(state = c("GA", "NC", "SC", "TN", "VA"),
                                      year = 2010, subgroup = "NHoLB")
 
@@ -565,7 +565,7 @@ ggplot2::ggplot() +
 
 #### Compute Educational Isolation Index (EI)
 
-Compute the EI (Bravo) values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts. This metric is based on [Bravo et al. (2021)](https://www.doi.org/10.3390/ijerph18179384) that assessed the educational isolation of the population without a four-year college degree. Multiple educational attainment categories are available in the `bravo()` function, including:
+Compute the spatial EI (Bravo) values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts. This metric is based on [Bravo et al. (2021)](https://doi.org/10.3390/ijerph18179384) that assessed the educational isolation of the population without a four-year college degree. Multiple educational attainment categories are available in the `bravo()` function, including:
 
 | ACS table source | educational attainment category | character for `subgroup` argument |
 | -------------- | ------------- | ---------------- |
@@ -576,7 +576,7 @@ Compute the EI (Bravo) values (2006-2010 5-year ACS) for North Carolina, U.S.A.,
 | B06009_006 | graduate or professional degree | GoPD |
 Note: The ACS-5 data (2005-2009) uses the "B15002" question.
 
-A census geography (and its neighbors) that has nearly all of its population with the specified educational attainment category (e.g., a four-year college degree or more) will have an EI value close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population with the specified educational attainment category (e.g., with a four-year college degree) will have an EI value close to 0.
+A census geography (and its neighbors) that has nearly all of its population with the specified educational attainment category (e.g., a four-year college degree or more) will have an EI (Bravo) value close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population with the specified educational attainment category (e.g., with a four-year college degree) will have an EI (Bravo) value close to 0.
 
 ```{r bravo_prep, results = 'hide'}
 bravo2010NC <- ndi::bravo(state = "NC", year = 2010, subgroup = c("LtHS", "HSGiE", "SCoAD"))
@@ -589,12 +589,12 @@ tract2010NC$GEOID <- substring(tract2010NC$GEO_ID, 10)
 # Obtain the 2010 counties from the "tigris" package
 county2010NC <- tigris::counties(state = "NC", year = 2010, cb = TRUE)
 
-# Join the RI (Bravo) values to the census tract geometry
+# Join the EI (Bravo) values to the census tract geometry
 NC2010bravo <- dplyr::left_join(tract2010NC, bravo2010NC$ei, by = "GEOID")
 ```
 
 ```{r bravo_plot, fig.height = 4, fig.width = 7}
-# Visualize the RI (Bravo) values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts 
+# Visualize the EI (Bravo) values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts 
 ggplot2::ggplot() + 
   ggplot2::geom_sf(data = NC2010bravo, 
                    ggplot2::aes(fill = EI),
@@ -616,9 +616,9 @@ Can correct one source of edge effect in the same manner as shown for the RI (An
 
 #### Retrieve the Gini Index
 
-Retrieve the Gini Index values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts. This metric is based on [Gini (1921)](https://www.doi.org/10.2307/2223319), and the `gini()` function retrieves the estimate from the ACS-5. 
+Retrieve the aspatial Gini Index values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts. This metric is based on [Gini (1921)](https://doi.org/10.2307/2223319), and the `gini()` function retrieves the estimate from the ACS-5. 
 
-According to the [U.S. Census Bureau](https://www.census.gov/topics/income-poverty/income-inequality/about/metrics/gini-index.html): "The Gini Index is a summary measure of income inequality. The Gini coefficient incorporates the detailed shares data into a single statistic, which summarizes the dispersion of income across the entire income distribution. The Gini coefficient ranges from 0, indicating perfect equality (where everyone receives an equal share), to 1, perfect inequality (where only one recipient or group of recipients receives all the income). The Gini is based on the difference between the Lorenz curve (the observed cumulative income distribution) and the notion of a perfectly equal income distribution."
+According to the [U.S. Census Bureau](https://census.gov/topics/income-poverty/income-inequality/about/metrics/gini-index.html): "The Gini Index is a summary measure of income inequality. The Gini coefficient incorporates the detailed shares data into a single statistic, which summarizes the dispersion of income across the entire income distribution. The Gini coefficient ranges from 0, indicating perfect equality (where everyone receives an equal share), to 1, perfect inequality (where only one recipient or group of recipients receives all the income). The Gini is based on the difference between the Lorenz curve (the observed cumulative income distribution) and the notion of a perfectly equal income distribution."
 
 ```{r gini_prep, results = 'hide'}
 gini2010NC <- ndi::gini(state = "NC", year = 2010)
@@ -656,7 +656,7 @@ ggplot2::ggplot() +
 
 ### Index of Concentration at the Extremes (ICE)
 
-Compute the Index of Concentration at the Extremes values (2006-2010 5-year ACS) for Wayne County, Michigan, U.S.A., census tracts. Wayne County is the home of Detroit, Michigan, a highly segregated city in the U.S. This metric is based on [Feldman et al. (2015)](https://www.doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://www.doi.org/10.2105/AJPH.2015.302955) who expanded the metric designed by Massey in a chapter of [Booth & Crouter (2001)](https://www.doi.org/10.4324/9781410600141) initially designed for residential segregation. The `krieger()` function computes five ICE metrics using the following ACS-5 groups:
+Compute the aspatial Index of Concentration at the Extremes values (2006-2010 5-year ACS) for Wayne County, Michigan, U.S.A., census tracts. Wayne County is the home of Detroit, Michigan, a highly segregated city in the U.S. This metric is based on [Feldman et al. (2015)](https://doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://doi.org/10.2105/AJPH.2015.302955) who expanded the metric designed by Massey in a chapter of [Booth & Crouter (2001)](https://doi.org/10.4324/9781410600141) initially designed for residential segregation. The `krieger()` function computes five ICE metrics using the following ACS-5 groups:
 
 | ACS table group | ICE metric | Comparison
 | -------------- | ------------- | ---------------- |
@@ -666,7 +666,7 @@ Compute the Index of Concentration at the Extremes values (2006-2010 5-year ACS)
 | B19001 & B19001B & B19001H | Income and race/ethnicity combined, "ICE_wbinc" | white non-Hispanic in 80th income percentile vs. black alone (including Hispanic) in 20th income percentile |
 | B19001 & B19001H | Income and race/ethnicity combined, "ICE_wpcinc"| white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile |
 
-ICE metrics can range in value from −1 (most deprived) to 1 (most privileged). A value of 0 can thus represent two possibilities: (1) none of the residents are in the most privileged or most deprived categories, or (2) an equal number of persons are in the most privileged and most deprived categories, and in both cases indicates that the area is not dominated by extreme concentrations of either of the two groups.
+ICE (Krieger) metrics can range in value from −1 (most deprived) to 1 (most privileged). A value of 0 can thus represent two possibilities: (1) none of the residents are in the most privileged or most deprived categories, or (2) an equal number of persons are in the most privileged and most deprived categories, and in both cases indicates that the area is not dominated by extreme concentrations of either of the two groups.
 
 ```{r krieger_prep, results = 'hide'}
 ice2020WC <- krieger(state = "MI", county = "Wayne", year = 2010)
@@ -676,7 +676,7 @@ tract2010WC <- tigris::tracts(state = "MI", county = "Wayne", year = 2010, cb = 
 # Remove first 9 characters from GEOID for compatibility with tigris information
 tract2010WC$GEOID <- substring(tract2010WC$GEO_ID, 10) 
 
-# Join the ICEs (Krieger) values to the census tract geometry
+# Join the ICE (Krieger) values to the census tract geometry
 ice2020WC <- dplyr::left_join(tract2010WC, ice2020WC$ice, by = "GEOID")
 ```
 
@@ -751,7 +751,7 @@ ggplot2::ggplot() +
 
 #### Compute racial/ethnic Dissimilarity Index (DI)
 
-Compute the DI (Duncan) values (2006-2010 5-year ACS) for Pennsylvania, U.S.A., counties from census tracts. This metric is based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328) that assessed the racial/ethnic isolation of students that identify as non-Hispanic or Latino, Black or African American alone compared to students that identify as non-Hispanic or Latino, white alone between schools and school districts. Multiple racial/ethnic subgroups are available in the `duncan()` function, including:
+Compute the aspatial racial/ethnic DI (Duncan) values (2006-2010 5-year ACS) for Pennsylvania, U.S.A., counties from census tracts. This metric is based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328) that assessed the racial/ethnic isolation of students that identify as non-Hispanic or Latino, Black or African American alone compared to students that identify as non-Hispanic or Latino, white alone between schools and school districts. Multiple racial/ethnic subgroups are available in the `duncan()` function, including:
 
 | ACS table source | racial/ethnic subgroup | character for `subgroup` or `subgroup_ref` arguments |
 | -------------- | ------------- | ---------------- |
@@ -776,7 +776,7 @@ Compute the DI (Duncan) values (2006-2010 5-year ACS) for Pennsylvania, U.S.A., 
 | B03002_020 | Hispanic or Latino, two races including some other race | HoLTRiSOR |
 | B03002_021 | Hispanic or Latino, two races excluding some other race, and three or more races | HoLTReSOR |
 
-DI is a measure of the evenness of racial/ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. The DI metric can range in value from 0 to 1 and represents the proportion of racial/ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
+DI (Duncan) is a measure of the evenness of racial/ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. DI (Duncan) can range in value from 0 to 1 and represents the proportion of racial/ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
 
 ```{r duncan_prep, results = 'hide'}
 duncan2010PA <- ndi::duncan(geo_large = "county", geo_small = "tract", state = "PA",
@@ -810,9 +810,9 @@ ggplot2::ggplot() +
                    subtitle = "Black non-Hispanic vs. white non-Hispanic")
 ```
 
-#### Compute Atkinson Index (AI)
+#### Compute aspatial income or racial/ethnic Atkinson Index (AI)
 
-Compute the AI (Atkinson) values (2017-2021 5-year ACS) for Kentucky, U.S.A., counties from census block groups. This metric is based on [Atkinson (1970)](https://doi.org/10.2307/2088328) that assessed the distribution of income within 12 counties but has since been adapted to study racial/ethnic segregation (see [James & Taeuber 1985](https://doi.org/10.2307/270845)). Multiple racial/ethnic subgroups are available in the `atkinson()` function, including:
+Compute the aspatial income or racial/ethnic AI (Atkinson) values (2017-2021 5-year ACS) for Kentucky, U.S.A., counties from census block groups. This metric is based on [Atkinson (1970)](https://doi.org/10.2307/2088328) that assessed the distribution of income within 12 counties but has since been adapted to study racial/ethnic segregation (see [James & Taeuber 1985](https://doi.org/10.2307/270845)). To compare median household income, specify `subgroup = "MedHHInc"` which will use the ACS-5 variable "B19013_001" in the computation. Multiple racial/ethnic subgroups are available in the `atkinson()` function, including:
 
 | ACS table source | racial/ethnic subgroup | character for `subgroup` argument |
 | -------------- | ------------- | ---------------- |
@@ -837,11 +837,9 @@ Compute the AI (Atkinson) values (2017-2021 5-year ACS) for Kentucky, U.S.A., co
 | B03002_020 | Hispanic or Latino, two races including some other race | HoLTRiSOR |
 | B03002_021 | Hispanic or Latino, two races excluding some other race, and three or more races | HoLTReSOR |
 
-To compare median household income, specify `subgroup = "MedHHInc"` which will use the ACS-5 variable "B19013_001" in the computation.
+AI (Atkinson) is a measure of the inequality and, in the context of residential race/ethnicity, segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. AI (Atkinson) can range in value from 0 to 1 and smaller values of the index indicate lower levels of inequality (e.g., less segregation).
 
-AI is a measure of the inequality and, in the context of residential race/ethnicity, segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. The AI metric can range in value from 0 to 1 and smaller values of the index indicate lower levels of inequality (e.g., less segregation).
-
-AI is sensitive to the choice of `epsilon` argument or the shape parameter that determines how to weight the increments to inequality (segregation) contributed by different proportions of the Lorenz curve. A user must explicitly decide how heavily to weight smaller geographical units at different points on the Lorenz curve (i.e., whether the index should take greater account of differences among areas of over- or under-representation). The `epsilon` argument must have values between 0 and 1.0. For `0 <= epsilon < 0.5` or less "inequality-averse," smaller geographical units with a subgroup proportion smaller than the subgroup proportion of the larger geographical unit contribute more to inequality ("over-representation"). For `0.5 < epsilon <= 1.0` or more "inequality-averse," smaller geographical units with a subgroup proportion larger than the subgroup proportion of the larger geographical unit contribute more to inequality ("under-representation"). If `epsilon = 0.5` (the default), units of over- and under-representation contribute equally to the index. See Section 2.3 of [Saint-Jacques et al. (2020)](https://www.doi.org/10.48550/arXiv.2002.05819) for one method to select `epsilon`. We choose `epsilon = 0.67` in the example below:
+AI (Atkinson) is sensitive to the choice of `epsilon` argument or the shape parameter that determines how to weight the increments to inequality (segregation) contributed by different proportions of the Lorenz curve. A user must explicitly decide how heavily to weight smaller geographical units at different points on the Lorenz curve (i.e., whether the index should take greater account of differences among areas of over- or under-representation). The `epsilon` argument must have values between 0 and 1.0. For `0 <= epsilon < 0.5` or less "inequality-averse," smaller geographical units with a subgroup proportion smaller than the subgroup proportion of the larger geographical unit contribute more to inequality ("over-representation"). For `0.5 < epsilon <= 1.0` or more "inequality-averse," smaller geographical units with a subgroup proportion larger than the subgroup proportion of the larger geographical unit contribute more to inequality ("under-representation"). If `epsilon = 0.5` (the default), units of over- and under-representation contribute equally to the index. See Section 2.3 of [Saint-Jacques et al. (2020)](https://doi.org/10.48550/arXiv.2002.05819) for one method to select `epsilon`. We choose `epsilon = 0.67` in the example below:
 
 ```{r atkinson_prep, results = 'hide'}
 atkinson2021KY <- ndi::atkinson(geo_large = "county", geo_small = "block group", state = "KY",
@@ -871,6 +869,124 @@ ggplot2::ggplot() +
                 caption = "Source: U.S. Census ACS 2017-2021 estimates") +
   ggplot2::ggtitle("Atkinson Index (Atkinson)\nKentucky census block groups to counties",
                    subtitle = expression(paste("Black non-Hispanic (", epsilon, " = 0.67)")))
+```
+
+#### Compute racial/ethnic Isolation Index (II)
+
+Compute the aspatial racial/ethnic II (Bell) values (2017-2021 5-year ACS) for Kentucky, U.S.A., counties from census block groups. This metric is based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and adapted by [Bell (1954)](https://doi.org/10.2307/2574118). Multiple racial/ethnic subgroups are available in the `bell()` function, including:
+
+| ACS table source | racial/ethnic subgroup | character for `subgroup` or or `subgroup_ref` argument |
+| -------------- | ------------- | ---------------- |
+| B03002_002 | not Hispanic or Latino | NHoL |
+| B03002_003 | not Hispanic or Latino, white alone | NHoLW |
+| B03002_004 | not Hispanic or Latino, Black or African American alone | NHoLB |
+| B03002_005 | not Hispanic or Latino, American Indian and Alaska Native alone | NHoLAIAN |
+| B03002_006 | not Hispanic or Latino, Asian alone | NHoLA |
+| B03002_007 | not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone | NHoLNHOPI |
+| B03002_008 | not Hispanic or Latino, some other race alone | NHoLSOR |
+| B03002_009 | not Hispanic or Latino, two or more races | NHoLTOMR |
+| B03002_010 | not Hispanic or Latino, two races including some other race | NHoLTRiSOR |
+| B03002_011 | not Hispanic or Latino, two races excluding some other race, and three or more races | NHoLTReSOR |
+| B03002_012 | Hispanic or Latino | HoL |
+| B03002_013 | Hispanic or Latino, white alone | HoLW |
+| B03002_014 | Hispanic or Latino, Black or African American alone | HoLB |
+| B03002_015 | Hispanic or Latino, American Indian and Alaska Native alone | HoLAIAN |
+| B03002_016 | Hispanic or Latino, Asian alone | HoLA |
+| B03002_017 | Hispanic or Latino, Native Hawaiian and other Pacific Islander alone | HoLNHOPI |
+| B03002_018 | Hispanic or Latino, some other race alone | HoLSOR |
+| B03002_019 | Hispanic or Latino, two or more races | HoLTOMR |
+| B03002_020 | Hispanic or Latino, two races including some other race | HoLTRiSOR |
+| B03002_021 | Hispanic or Latino, two races excluding some other race, and three or more races | HoLTReSOR |
+
+II (Bell) is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. II (Bell) can range in value from 0 to 1.
+
+```{r bell_prep, results = 'hide'}
+bell2021KY <- ndi::bell(geo_large = "county", geo_small = "tract", state = "KY",
+                                year = 2021, subgroup = "NHoLB", subgroup_ixn = "NHoLW")
+
+# Obtain the 2021 census counties from the "tigris" package
+county2021KY <- tigris::counties(state = "KY", year = 2021, cb = TRUE)
+
+# Join the II (Bell) values to the county geometry
+KY2021bell <- dplyr::left_join(county2021KY, bell2021KY$ii, by = "GEOID")
+```
+
+```{r bell_plot, fig.height = 4, fig.width = 7}
+# Visualize the II (Bell) values (2017-2021 5-year ACS) for Kentucky, U.S.A., counties
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = KY2021bell, 
+                   ggplot2::aes(fill = II),
+                   size = 0.05,
+                   color = "white") +
+   ggplot2::geom_sf(data = county2021KY,
+                    fill = "transparent", 
+                    color = "white",
+                    size = 0.2) +
+  ggplot2::theme_minimal() +
+  ggplot2::scale_fill_viridis_c(limits = c(0, 1)) +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2017-2021 estimates") +
+  ggplot2::ggtitle("Isolation Index (Bell)\nKentucky census tracts to counties",
+                   subtitle = "Black non-Hispanic vs. white non-Hispanic")
+```
+
+#### Compute Correlation Ratio (V)
+
+Compute the aspatial racial/ethnic V (White) values (2017-2021 5-year ACS) for Kentucky, U.S.A., counties from census tracts. This metric is based on [Bell (1954)](https://doi.org/10.2307/2574118) and adapted by [White (1986)](https://doi.org/10.2307/3644339). Multiple racial/ethnic subgroups are available in the `white()` function, including:
+
+| ACS table source | racial/ethnic subgroup | character for `subgroup` argument |
+| -------------- | ------------- | ---------------- |
+| B03002_002 | not Hispanic or Latino | NHoL |
+| B03002_003 | not Hispanic or Latino, white alone | NHoLW |
+| B03002_004 | not Hispanic or Latino, Black or African American alone | NHoLB |
+| B03002_005 | not Hispanic or Latino, American Indian and Alaska Native alone | NHoLAIAN |
+| B03002_006 | not Hispanic or Latino, Asian alone | NHoLA |
+| B03002_007 | not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone | NHoLNHOPI |
+| B03002_008 | not Hispanic or Latino, some other race alone | NHoLSOR |
+| B03002_009 | not Hispanic or Latino, two or more races | NHoLTOMR |
+| B03002_010 | not Hispanic or Latino, two races including some other race | NHoLTRiSOR |
+| B03002_011 | not Hispanic or Latino, two races excluding some other race, and three or more races | NHoLTReSOR |
+| B03002_012 | Hispanic or Latino | HoL |
+| B03002_013 | Hispanic or Latino, white alone | HoLW |
+| B03002_014 | Hispanic or Latino, Black or African American alone | HoLB |
+| B03002_015 | Hispanic or Latino, American Indian and Alaska Native alone | HoLAIAN |
+| B03002_016 | Hispanic or Latino, Asian alone | HoLA |
+| B03002_017 | Hispanic or Latino, Native Hawaiian and other Pacific Islander alone | HoLNHOPI |
+| B03002_018 | Hispanic or Latino, some other race alone | HoLSOR |
+| B03002_019 | Hispanic or Latino, two or more races | HoLTOMR |
+| B03002_020 | Hispanic or Latino, two races including some other race | HoLTRiSOR |
+| B03002_021 | Hispanic or Latino, two races excluding some other race, and three or more races | HoLTReSOR |
+
+V (White) removes the asymmetry from the Isolation Index (Bell) by controlling for the effect of population composition when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. The Isolation Index (Bell) is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation). V (White) can range in value from 0 to 1.
+
+```{r white_prep, results = 'hide'}
+white2021KY <- ndi::white(geo_large = "county", geo_small = "tract", state = "KY",
+                                year = 2021, subgroup = "NHoLB")
+
+# Obtain the 2021 census counties from the "tigris" package
+county2021KY <- tigris::counties(state = "KY", year = 2021, cb = TRUE)
+
+# Join the V (White) values to the county geometry
+KY2021white <- dplyr::left_join(county2021KY, white2021KY$v, by = "GEOID")
+```
+
+```{r white_plot, fig.height = 4, fig.width = 7}
+# Visualize the V (White) values (2017-2021 5-year ACS) for Kentucky, U.S.A., counties
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = KY2021white, 
+                   ggplot2::aes(fill = V),
+                   size = 0.05,
+                   color = "white") +
+   ggplot2::geom_sf(data = county2021KY,
+                    fill = "transparent", 
+                    color = "white",
+                    size = 0.2) +
+  ggplot2::theme_minimal() +
+  ggplot2::scale_fill_viridis_c(limits = c(0, 1)) +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2017-2021 estimates") +
+  ggplot2::ggtitle("Correlation Ratio (White)\nKentucky census tracts to counties",
+                   subtitle = "Black non-Hispanic")
 ```
 
 ```{r system}

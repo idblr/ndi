@@ -30,3 +30,29 @@ ai_fun <- function(x, epsilon, omit_NAs) {
     }
   }
 }
+
+# Internal function for aspatial Racial Isolation Index (Bell 1954)
+## Returns NA value if only one smaller geography in a larger geography
+ii_fun <- function(x, omit_NAs) {
+  xx <- x[ , c("TotalPopE", "subgroup", "subgroup_ixn")]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(xx), ] }
+  if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
+    NA
+  } else {
+    sum((xx$subgroup / sum(xx$subgroup, na.rm = TRUE)) * (xx$subgroup_ixn / xx$TotalPopE))
+  }
+}
+
+# Internal function for aspatial Correlation Ratio (White 1986)
+## Returns NA value if only one smaller geography in a larger geography
+v_fun <- function(x, omit_NAs) {
+  xx <- x[ , c("TotalPopE", "subgroup")]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(xx), ] }
+  if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
+    NA
+  } else {
+    xxx <- sum((xx$subgroup / sum(xx$subgroup, na.rm = TRUE)) * (xx$subgroup / xx$TotalPopE))
+    px <- sum(xx$subgroup, na.rm = TRUE) / sum(xx$TotalPopE, na.rm = TRUE)
+    (xxx - px) / (1 - px)
+  }
+}

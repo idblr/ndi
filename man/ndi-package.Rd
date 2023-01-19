@@ -9,7 +9,7 @@
 Computes various metrics of socio-economic deprivation and disparity in the United States based on information available from the U.S. Census Bureau.
 }
 \details{
-The 'ndi' package computes various metrics of socio-economic deprivation and disparity in the United States. Some metrics are considered "spatial" because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other metrics are "aspatial" because they only consider the value within each census geography. Two types of aspatial neighborhood deprivation indices (NDI) are available: (1) based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x} and (2) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} who use variables chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x}. Both are a decomposition of multiple demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates (ACS-5; 2006-2010 onward). Using data from the ACS-5 (2005-2009 onward), the package can also (1) compute the spatial Racial Isolation Index (RI) based on Anthopolos et al. (2011) \doi{10.1016/j.sste.2011.06.002}, (2) compute the spatial Educational Isolation Index (EI) based on Bravo et al. (2021) \doi{10.3390/ijerph18179384}, (3) compute the aspatial Index of Concentration at the Extremes (ICE) based on Feldman et al. (2015) \doi{10.1136/jech-2015-205728} and Krieger et al. (2016) \doi{10.2105/AJPH.2015.302955}, (4) compute the aspatial Atkinson Index based on Atkinson (1970) \doi{10.1016/0022-0531(70)90039-6}, (5) compute the aspatial Dissimilarity Index based on Duncan & Duncan (1955) \doi{10.2307/2088328}, and (6) retrieve the aspatial Gini Index based on Gini (1921) \doi{10.2307/2223319}.
+The 'ndi' package computes various metrics of socio-economic deprivation and disparity in the United States. Some metrics are considered "spatial" because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other metrics are "aspatial" because they only consider the value within each census geography. Two types of aspatial neighborhood deprivation indices (NDI) are available: (1) based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x} and (2) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} who use variables chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x}. Both are a decomposition of multiple demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates (ACS-5; 2006-2010 onward). Using data from the ACS-5 (2005-2009 onward), the package can also compute the (1) spatial Racial Isolation Index (RI) based on Anthopolos et al. (2011) \doi{10.1016/j.sste.2011.06.002}, (2) spatial Educational Isolation Index (EI) based on Bravo et al. (2021) \doi{10.3390/ijerph18179384}, (3) aspatial Index of Concentration at the Extremes (ICE) based on Feldman et al. (2015) \doi{10.1136/jech-2015-205728} and Krieger et al. (2016) \doi{10.2105/AJPH.2015.302955}, (4) aspatial racial/ethnic Dissimilarity Index based on Duncan & Duncan (1955) \doi{10.2307/2088328}, (5) aspatial income or racial/ethnic Atkinson Index based on Atkinson (1970) \doi{10.1016/0022-0531(70)90039-6}, (6) aspatial racial/ethnic Isolation Index (II) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and Bell (1954) \doi{10.2307/2574118}, and (7) aspatial racial/ethnic Correlation Ratio based on Bell (1954) \doi{10.2307/2574118} and White (1986) \doi{10.2307/3644339}. Also using data from the ACS-5 (2005-2009 onward), the package can retrieve the aspatial Gini Index based on Gini (1921) \doi{10.2307/2223319}.
 
 Key content of the 'ndi' package include:\cr
 
@@ -17,11 +17,13 @@ Key content of the 'ndi' package include:\cr
 
 \code{\link{anthopolos}} Computes the spatial Racial Isolation Index (RI) based on Anthopolos (2011) \doi{10.1016/j.sste.2011.06.002}.
 
-\code{\link{atkinson}} Computes the aspatial Atkinson Index (AI) based on Atkinson (1970) \doi{10.1016/0022-0531(70)90039-6}.
+\code{\link{atkinson}} Computes the aspatial income or racial/ethnic Atkinson Index (AI) based on Atkinson (1970) \doi{10.1016/0022-0531(70)90039-6}.
+
+\code{\link{bell}} Computes the aspatial racial/ethnic Isolation Index (II) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and Bell (1954) \doi{10.2307/2574118}.
 
 \code{\link{bravo}} Computes the spatial Educational Isolation Index (EI) based on Bravo (2021) \doi{10.3390/ijerph18179384}.
 
-\code{\link{duncan}} Computes the aspatial racial/ethnic Dissimilarity Index based on Duncan & Duncan (1955) \doi{10.2307/2088328}.
+\code{\link{duncan}} Computes the aspatial racial/ethnic Dissimilarity Index (DI) based on Duncan & Duncan (1955) \doi{10.2307/2088328}.
 
 \code{\link{gini}} Retrieves the aspatial Gini Index based on Gini (1921) \doi{10.2307/2223319}.
 
@@ -30,6 +32,8 @@ Key content of the 'ndi' package include:\cr
 \code{\link{messer}} Computes the aspatial Neighborhood Deprivation Index (NDI) based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x}.
 
 \code{\link{powell_wiley}} Computes the aspatial Neighborhood Deprivation Index (NDI) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} who use variables chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x}.
+
+\code{\link{white}} Computes the aspatial racial/ethnic Correlation Ratio (V) based on based on Bell (1954) \doi{10.2307/2574118} and White (1986) \doi{10.2307/3644339}.
 
 \bold{Pre-formatted U.S. Census Data}
 
