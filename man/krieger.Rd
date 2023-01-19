@@ -24,10 +24,10 @@ An object of class 'list'. This is a named list with the following components:
 }
 }
 \description{
-Compute the Index of Concentration at the Extremes (Krieger) values.
+Compute the aspatial Index of Concentration at the Extremes (Krieger).
 }
 \details{
-This function will compute the three Index of Concentration at the Extremes (ICE) of U.S. census tracts or counties for a specified geographical extent (e.g., entire U.S. or a single state) based on Feldman et al. (2015) \doi{10.1136/jech-2015-205728} and Krieger et al. (2016) \doi{10.2105/AJPH.2015.302955}. The authors expanded the metric designed by Massey in a chapter of Booth & Crouter (2001) \doi{10.4324/9781410600141} who initially designed the metric for residential segregation. This function computes five ICE metrics:
+This function will compute three aspatial Index of Concentration at the Extremes (ICE) of U.S. census tracts or counties for a specified geographical extent (e.g., entire U.S. or a single state) based on Feldman et al. (2015) \doi{10.1136/jech-2015-205728} and Krieger et al. (2016) \doi{10.2105/AJPH.2015.302955}. The authors expanded the metric designed by Massey in a chapter of Booth & Crouter (2001) \doi{10.4324/9781410600141} who initially designed the metric for residential segregation. This function computes five ICE metrics:
 
 \itemize{
 \item{Income}{80th income percentile vs. 20th income percentile}

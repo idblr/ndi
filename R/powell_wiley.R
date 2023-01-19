@@ -1,6 +1,6 @@
 #' Neighborhood Deprivation Index based on Andrews et al. (2020) and Slotman et al. (2022)
 #' 
-#' Compute the Neighborhood Deprivation Index (Powell-Wiley) values.
+#' Compute the aspatial Neighborhood Deprivation Index (Powell-Wiley).
 #'
 #' @param geo Character string specifying the geography of the data either census tracts \code{geo = "tract"} (the default) or counties \code{geo = "county"}.
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2010 onward are currently available.
@@ -10,7 +10,7 @@
 #' @param df Optional. Pass a pre-formatted \code{'dataframe'} or \code{'tibble'} with the desired variables through the function. Bypasses the data obtained by \code{\link[tidycensus]{get_acs}}. The default is NULL. See Details below.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the Neighborhood Deprivation Index (NDI) of U.S. census tracts or counties for a specified geographical referent (e.g., US-standardized) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002}.
+#' @details This function will compute the aspatial Neighborhood Deprivation Index (NDI) of U.S. census tracts or counties for a specified geographical referent (e.g., US-standardized) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002}.
 #' 
 #' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for computation involving a factor analysis with the \code{\link[psych]{principal}} function. The yearly estimates are available in 2010 and after when all census characteristics became available. The thirteen characteristics chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x} are:
 #' \itemize{
@@ -42,7 +42,7 @@
 #' \describe{
 #' \item{\code{ndi}}{An object of class 'tbl' for the GEOID, name, NDI continuous, NDI quintiles, and raw census values of specified census geographies.}
 #' \item{\code{pca}}{An object of class 'principal', returns the output of \code{\link[psych]{principal}} used to compute the NDI values.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute the NDI.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute NDI.}
 #' \item{\code{cronbach}}{An object of class 'character' or 'numeric' for the results of the Cronbach's alpha calculation. If only one factor is computed, a message is returned. If more than one factor is computed, Cronbach's alpha is calculated and should check that it is >0.7 for respectable internal consistency between factors.}
 #' }
 #' 
@@ -249,7 +249,7 @@ powell_wiley <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE,
   ndi_vars_NA <- ndi_vars[complete.cases(ndi_vars_scrs), ]
   ndi_vars_NA$NDI <- c(scrs)
   
-  ndi_vars_NDI <- dplyr::left_join(ndi_vars[ , c("GEOID", "TotalPop")], ndi_vars_NA[ , c("GEOID", "NDI")], by = "GEOID", all.x = TRUE)
+  ndi_vars_NDI <- dplyr::left_join(ndi_vars[ , c("GEOID", "TotalPop")], ndi_vars_NA[ , c("GEOID", "NDI")], by = "GEOID")
   
   # Calculate Cronbach's alpha correlation coefficient among the factors and verify values are above 0.7. 
   if (nfa == 1) { 

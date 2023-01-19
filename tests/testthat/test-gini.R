@@ -1,8 +1,8 @@
 context("gini")
 
-###################
+#################
 # gini testthat #
-###################
+#################
 
 test_that("gini throws error with invalid arguments", {
   

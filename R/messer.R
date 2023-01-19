@@ -1,6 +1,6 @@
 #' Neighborhood Deprivation Index based on Messer et al. (2006) 
 #' 
-#' Compute the Neighborhood Deprivation Index (Messer) values.
+#' Compute the aspatial Neighborhood Deprivation Index (Messer).
 #'
 #' @param geo Character string specifying the geography of the data either census tracts \code{geo = "tract"} (the default) or counties \code{geo = "county"}.
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2010 onward are currently available.
@@ -10,7 +10,7 @@
 #' @param df Optional. Pass a pre-formatted \code{'dataframe'} or \code{'tibble'} with the desired variables through the function. Bypasses the data obtained by \code{\link[tidycensus]{get_acs}}. The default is NULL. See Details below.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the Neighborhood Deprivation Index (NDI) of U.S. census tracts or counties for a specified geographical referent (e.g., US-standardized) based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x}.
+#' @details This function will compute the aspatial Neighborhood Deprivation Index (NDI) of U.S. census tracts or counties for a specified geographical referent (e.g., US-standardized) based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x}.
 #' 
 #' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for computation involving a principal component analysis with the \code{\link[psych]{principal}} function. The yearly estimates are available for 2010 and after when all census characteristics became available. The eight characteristics are:
 #' \itemize{
@@ -38,7 +38,7 @@
 #' \describe{
 #' \item{\code{ndi}}{An object of class 'tbl' for the GEOID, name, NDI (standardized), NDI (quartile), and raw census values of specified census geographies.}
 #' \item{\code{pca}}{An object of class 'principal', returns the output of \code{\link[psych]{principal}} used to compute the NDI values.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute the NDI.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute NDI.}
 #' }
 #' 
 #' @import dplyr

@@ -8,3 +8,4 @@
 ^CRAN-SUBMISSION$
 ^man/figures
 ^data-raw$
+^\.github$

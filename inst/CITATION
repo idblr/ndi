@@ -5,7 +5,7 @@ citEntry(entry = "manual",
   author        = personList(as.person("Ian D. Buller")),
   publisher     = "The Comprehensive R Archive Network",
   year          = "2022",
-  number        = "0.1.4.9000",
+  number        = "0.1.4.9001",
   doi           = "10.5281/zenodo.6989030",
   url           = "https://cran.r-project.org/package=ndi",
   
@@ -13,7 +13,7 @@ citEntry(entry = "manual",
   paste("Ian D. Buller (2022).",
         "ndi: Neighborhood Deprivation Indices.",
         "The Comprehensive R Archive Network.",
-        "v0.1.4.9000.",
+        "v0.1.4.9001.",
         "DOI:10.5281/zenodo.6989030",
         "Accessed by: https://cran.r-project.org/package=ndi")
 )
@@ -38,6 +38,25 @@ citEntry(entry = "Article",
         "DOI:10.1016/j.sste.2011.06.002"),
 
   header       = "If you computed RI (Anthopolos) values, please also cite:"
+)
+
+citEntry(entry = "Article",
+  title        = "On the measurement of inequality",
+  author       = personList(as.person("Anthony B. Atkinson")),
+  journal      = "Journal of economic theory",
+  year         = "1970",
+  volume       = "2",
+  number       = "3",
+  pages        = "244--263",
+  doi          = "10.1016/0022-0531(70)90039-6",
+
+  textVersion  =
+  paste("Anthony B. Atkinson (1970).",
+        "On the measurement of inequality.",
+        "Journal of economic theory, 2(3), 244-263.",
+        "DOI:10.1016/0022-0531(70)90039-6"),
+
+  header       = "If you computed AI (Atkinson) values, please also cite:"
 )
 
 citEntry(entry = "Article",

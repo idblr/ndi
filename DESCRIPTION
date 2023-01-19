@@ -1,7 +1,7 @@
 Package: ndi
 Title: Neighborhood Deprivation Indices
-Version: 0.1.4.9000
-Date: 2022-12-02
+Version: 0.1.4.9001
+Date: 2023-01-18
 Authors@R:
     c(person(given = "Ian D.",
              family = "Buller",
@@ -30,14 +30,16 @@ Description: Computes various metrics of socio-economic deprivation and disparit
              Index (EI) based on Bravo et al. (2021) <doi:10.3390/ijerph18179384>, 
              (3) compute the aspatial Index of Concentration at the Extremes (ICE) based on 
              Feldman et al. (2015) <doi:10.1136/jech-2015-205728> and Krieger et al. 
-             (2016) <doi:10.2105/AJPH.2015.302955>, (4) compute the aspatial Dissimilarity Index
-             based on Duncan & Duncan (1955) <doi:10.2307/2088328>, and (5) retrieve the aspatial Gini 
-             Index based on Gini (1921) <doi:10.2307/2223319>.
+             (2016) <doi:10.2105/AJPH.2015.302955>, (4) compute the aspatial racial/ethnic
+             Dissimilarity Index based on Duncan & Duncan (1955) <doi:10.2307/2088328>, (5)
+             compute the aspatial Atkinson Index based on Atkinson (1970) 
+             <doi:10.1016/0022-0531(70)90039-6>, and (6) retrieve the aspatial Gini Index 
+             based on Gini (1921) <doi:10.2307/2223319>.
 License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.2
 Depends: 
     R (>= 3.5.0)
 Imports: 
