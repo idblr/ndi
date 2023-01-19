@@ -1,14 +1,14 @@
 context("duncan")
 
-##########################
+###################
 # duncan testthat #
-##########################
+###################
 
 test_that("duncan throws error with invalid arguments", {
   
   # Unavailable geography
   expect_error(duncan(geo_small = "zcta", state = "DC", year = 2020,
-                      subgroup = "NHoLB", subgroup_ref = "NHoLW",quiet = TRUE))
+                      subgroup = "NHoLB", subgroup_ref = "NHoLW", quiet = TRUE))
   expect_error(duncan(geo_large = "block group", state = "DC", year = 2020,
                       subgroup = "NHoLB", subgroup_ref = "NHoLW", quiet = TRUE))
   

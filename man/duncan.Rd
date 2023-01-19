@@ -10,6 +10,7 @@ duncan(
   year = 2020,
   subgroup,
   subgroup_ref,
+  omit_NAs = TRUE,
   quiet = FALSE,
   ...
 )
@@ -25,6 +26,8 @@ duncan(
 
 \item{subgroup_ref}{Character string specifying the racial/ethnic subgroup(s) as the reference population. See Details for available choices.}
 
+\item{omit_NAs}{Logical. If FALSE, will compute index for a larger geographical unit only if all of its smaller geographical units have values. The default is TRUE.}
+
 \item{quiet}{Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.}
 
 \item{...}{Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics}
@@ -33,18 +36,18 @@ duncan(
 An object of class 'list'. This is a named list with the following components:
 
 \describe{
-\item{\code{di}}{An object of class 'tbl' for the GEOID, name, and DI metric at specified larger census geographies.}
+\item{\code{di}}{An object of class 'tbl' for the GEOID, name, and DI at specified larger census geographies.}
 \item{\code{di_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute the DI}
+\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute DI}
 }
 }
 \description{
-Compute the Dissimilarity Index (Duncan) values for a selected subgroup(s) and U.S. geographies
+Compute the aspatial Dissimilarity Index (Duncan) of selected racial/ethnic subgroup(s) and U.S. geographies
 }
 \details{
-This function will compute the Dissimilarity Index (DI) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Duncan & Duncan (1955) \doi{10.2307/2088328}. This function provides the computation of DI for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+This function will compute the aspatial Dissimilarity Index (DI) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Duncan & Duncan (1955) \doi{10.2307/2088328}. This function provides the computation of DI for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 
-The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
+The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 \itemize{
 \item{B03002_002: }{not Hispanic or Latino "NHoL"}
 \item{B03002_003: }{not Hispanic or Latino, white alone "NHoLW"}
@@ -70,7 +73,7 @@ The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. 
 
 Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 
-DI is a measure of the evenness of racial/ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. The DI metric can range in value from 0 to 1 and represents the proportion of racial/ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
+DI is a measure of the evenness of racial/ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. DI can range in value from 0 to 1 and represents the proportion of racial/ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
 
 Larger geographies available include state \code{geo_large = "state"}, county \code{geo_large = "county"}, and census tract \code{geo_large = "tract"} levels. Smaller geographies available include, county \code{geo_small = "county"}, census tract \code{geo_small = "tract"}, and census block group \code{geo_small = "block group"} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the DI value returned is NA.
 }
@@ -79,7 +82,7 @@ Larger geographies available include state \code{geo_large = "state"}, county \c
 # Wrapped in \dontrun{} because these examples require a Census API key.
   
   # Dissimilarity Index of non-Hispanic Black vs. non-Hispanic white populations
-  ## of census tracts within counties (2020)
+  ## of census tracts within Georgia, U.S.A., counties (2020)
   duncan(geo_large = "county", geo_small = "tract", state = "GA", year = 2020,
          subgroup = "NHoLB", subgroup_ref = "NHoLW")
   

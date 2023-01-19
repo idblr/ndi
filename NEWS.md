@@ -1,21 +1,26 @@
 # ndi (development version)
 
-# ndi v0.1.4.9000
+# ndi v0.1.4.9001
 
 ### New Features
-* None
+* Added `atkinson()` function to compute the Atkinson Index (AI) based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6) for specified counties/tracts 2009 onward
 
 ### Updates
 * Fixed bug in reverse dependency check failure for `anthopolos()` and `bravo()` functions removing `returnValue()` when data are not missing
 * Thank you, [Roger Bivand](https://github.com/rsbivand), for the catch. Relates to [ndi Issue #5](https://github.com/idblr/ndi/issues/5)
 * Updated `duncan()`, `gini()`, `krieger()`, `messer()`, and `powell_wiley()` for consistency in messaging when data are not missing
 * Updated tests for `anthopolos()` and `bravo()` if `Sys.getenv("CENSUS_API_KEY") != ""`
+* Added `omit_NAs` argument in `duncan()` function to choose if NA values will be included in its computation
+* In `duncan()` function, if any smaller geographic unit has zero counts the output for its larger geographic unit will be NA
+* Fixed bug in `duncan()` function for multiple `subgroup` and `subgroup_ref` selections
+* Updated documentation throughout
+* Added GitHub R-CMD-check
 
 # ndi v0.1.3
 
 ### New Features
-* Added `duncan()` function to compute the Dissimilarity Index (DI) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328) for specified counties/tracts 2009 onward.
-* Thank you for the feature suggestion, [Jessica Madrigal](https://orcid.org/0000-0001-5303-5109).
+* Added `duncan()` function to compute the Dissimilarity Index (DI) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328) for specified counties/tracts 2009 onward
+* Thank you for the feature suggestion, [Jessica Madrigal](https://orcid.org/0000-0001-5303-5109)
 * Added 'utils.R' file with internal `di_fun()` function for `duncan()` function
 
 ### Updates
@@ -31,8 +36,8 @@
 # ndi v0.1.2
 
 ### New Features
-* Added `krieger()` function to compute the Index of Concentration at the Extremes (ICE) based on [Feldman et al. (2015)](https://www.doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://www.doi.org/10.2105/AJPH.2015.302955) for specified counties/tracts 2009 onward. 
-* Thank you for the feature suggestion, [David Berrigan](https://orcid.org/0000-0002-5333-179X).
+* Added `krieger()` function to compute the Index of Concentration at the Extremes (ICE) based on [Feldman et al. (2015)](https://www.doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://www.doi.org/10.2105/AJPH.2015.302955) for specified counties/tracts 2009 onward 
+* Thank you for the feature suggestion, [David Berrigan](https://orcid.org/0000-0002-5333-179X)
 * Added `df` argument for the `messer()` and `powell_wiley()` functions to specify a pre-formatted dataset input for the NDI computation
 * Added `round_output` argument for the `messer()` and `powell_wiley()` functions to provide raw output as the default and rounded output as optional.
 * Thank you for the suggested enhancements, [Chris Prener](https://github.com/chris-prener)
@@ -60,7 +65,7 @@
 * Added `anthopolos()` function to compute the Racial Isolation Index (RI) based on based on [Anthopolos et al. (2011)](https://www.doi.org/10.1016/j.sste.2011.06.002) for specified counties/tracts 2009 onward
 * Added `bravo()` function to compute the Educational Isolation Index (EI) based on based on [Bravo et al. (2021)](https://www.doi.org/10.3390/ijerph18179384) for specified counties/tracts 2009 onward
 * Added `gini()` function to retrieve the Gini Index based on [Gini (1921)](https://www.doi.org/10.2307/2223319) for specified counties/tracts 2009 onward
-* Thank you for the feature suggestions, [Jessica Madrigal](https://orcid.org/0000-0001-5303-5109).
+* Thank you for the feature suggestions, [Jessica Madrigal](https://orcid.org/0000-0001-5303-5109)
 
 ### Updates
 * `Matrix` and `sf` are now Imports

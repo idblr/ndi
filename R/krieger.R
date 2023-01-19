@@ -1,13 +1,13 @@
 #' Index of Concentration at the Extremes based on Feldman et al. (2015) and Krieger et al. (2016) 
 #' 
-#' Compute the Index of Concentration at the Extremes (Krieger) values.
+#' Compute the aspatial Index of Concentration at the Extremes (Krieger).
 #'
 #' @param geo Character string specifying the geography of the data either census tracts \code{geo = "tract"} (the default) or counties \code{geo = "county"}.
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the three Index of Concentration at the Extremes (ICE) of U.S. census tracts or counties for a specified geographical extent (e.g., entire U.S. or a single state) based on Feldman et al. (2015) \doi{10.1136/jech-2015-205728} and Krieger et al. (2016) \doi{10.2105/AJPH.2015.302955}. The authors expanded the metric designed by Massey in a chapter of Booth & Crouter (2001) \doi{10.4324/9781410600141} who initially designed the metric for residential segregation. This function computes five ICE metrics:
+#' @details This function will compute three aspatial Index of Concentration at the Extremes (ICE) of U.S. census tracts or counties for a specified geographical extent (e.g., entire U.S. or a single state) based on Feldman et al. (2015) \doi{10.1136/jech-2015-205728} and Krieger et al. (2016) \doi{10.2105/AJPH.2015.302955}. The authors expanded the metric designed by Massey in a chapter of Booth & Crouter (2001) \doi{10.4324/9781410600141} who initially designed the metric for residential segregation. This function computes five ICE metrics:
 #' 
 #' \itemize{ 
 #' \item{Income}{80th income percentile vs. 20th income percentile}

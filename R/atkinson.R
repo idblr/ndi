@@ -1,19 +1,19 @@
-#' Dissimilarity Index based on Duncan & Duncan (1955) 
+#' Atkinson Index based on Atkinson (1970) 
 #' 
-#' Compute the aspatial Dissimilarity Index (Duncan) of selected racial/ethnic subgroup(s) and U.S. geographies
+#' Compute the aspatial Atkinson Index of income or selected racial/ethnic subgroup(s) and U.S. geographies.
 #'
 #' @param geo_large Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = "county"}.
 #' @param geo_small Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_large = "tract"}.
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
-#' @param subgroup Character string specifying the racial/ethnic subgroup(s) as the comparison population. See Details for available choices.
-#' @param subgroup_ref Character string specifying the racial/ethnic subgroup(s) as the reference population. See Details for available choices.
+#' @param subgroup Character string specifying the income or racial/ethnic subgroup(s) as the comparison population. See Details for available choices.
+#' @param epsilon Numerical. Shape parameter that denotes the aversion to inequality. Value must be between 0 and 1.0 (the default is 0.5).
 #' @param omit_NAs Logical. If FALSE, will compute index for a larger geographical unit only if all of its smaller geographical units have values. The default is TRUE.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the aspatial Dissimilarity Index (DI) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Duncan & Duncan (1955) \doi{10.2307/2088328}. This function provides the computation of DI for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#' @details This function will compute the aspatial Atkinson Index (AI) of income or selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Atkinson (1970) \doi{10.1016/0022-0531(70)90039-6}. This function provides the computation of AI for median household income and any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #' 
-#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
+#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. When \code{subgroup = "MedHHInc"}, the metric will be computed for median household income ("B19013_001"). The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
 #'  \item{B03002_002: }{not Hispanic or Latino "NHoL"}
 #'  \item{B03002_003: }{not Hispanic or Latino, white alone "NHoLW"}
@@ -36,24 +36,26 @@
 #'  \item{B03002_020: }{Hispanic or Latino, Two races including Some other race "HoLTRiSOR"}
 #'  \item{B03002_021: }{Hispanic or Latino, Two races excluding Some other race, and three or more races "HoLTReSOR"}
 #' }
-#' 
+#'
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #' 
-#' DI is a measure of the evenness of racial/ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. DI can range in value from 0 to 1 and represents the proportion of racial/ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
+#' AI is a measure of the evenness of residential inequality (e.g., racial/ethnic segregation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. The AI metric can range in value from 0 to 1 with smaller values indicating lower levels of inequality (e.g., less segregation).
 #' 
-#' Larger geographies available include state \code{geo_large = "state"}, county \code{geo_large = "county"}, and census tract \code{geo_large = "tract"} levels. Smaller geographies available include, county \code{geo_small = "county"}, census tract \code{geo_small = "tract"}, and census block group \code{geo_small = "block group"} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the DI value returned is NA.
+#' The \code{epsilon} argument that determines how to weight the increments to inequality contributed by different proportions of the Lorenz curve. A user must explicitly decide how heavily to weight smaller geographical units at different points on the Lorenz curve (i.e., whether the index should take greater account of differences among areas of over- or under-representation). The \code{epsilon} argument must have values between 0 and 1.0. For \code{0 <= epsilon < 0.5} or less "inequality-averse," smaller geographical units with a subgroup proportion smaller than the subgroup proportion of the larger geographical unit contribute more to inequality ("over-representation"). For \code{0.5 < epsilon <= 1.0} or more "inequality-averse," smaller geographical units with a subgroup proportion larger than the subgroup proportion of the larger geographical unit contribute more to inequality ("under-representation"). If \code{epsilon = 0.5} (the default), units of over- and under-representation contribute equally to the index. See Section 2.3 of Saint-Jacques et al. (2020) \doi{10.48550/arXiv.2002.05819} for one method to select \code{epsilon}.
+#' 
+#' Larger geographies available include state \code{geo_large = "state"}, county \code{geo_large = "county"}, and census tract \code{geo_large = "tract"} levels. Smaller geographies available include, county \code{geo_small = "county"}, census tract \code{geo_small = "tract"}, and census block group \code{geo_small = "block group"} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the AI value returned is NA.
 #' 
 #' @return An object of class 'list'. This is a named list with the following components:
 #' 
 #' \describe{
-#' \item{\code{di}}{An object of class 'tbl' for the GEOID, name, and DI at specified larger census geographies.}
-#' \item{\code{di_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute DI}
+#' \item{\code{ai}}{An object of class 'tbl' for the GEOID, name, and AI at specified larger census geographies.}
+#' \item{\code{ai_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute AI}
 #' }
 #' 
 #' @import dplyr
 #' @importFrom sf st_drop_geometry
-#' @importFrom stats complete.cases
+#' @importFrom stats na.omit
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
 #' @importFrom utils stack
@@ -65,14 +67,14 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'   
-#'   # Dissimilarity Index of non-Hispanic Black vs. non-Hispanic white populations
+#'   # Atkinson Index of non-Hispanic Black vs. non-Hispanic white populations
 #'   ## of census tracts within Georgia, U.S.A., counties (2020)
-#'   duncan(geo_large = "county", geo_small = "tract", state = "GA", year = 2020,
-#'          subgroup = "NHoLB", subgroup_ref = "NHoLW")
+#'   atkinson(geo_large = "county", geo_small = "tract", state = "GA", year = 2020,
+#'            subgroup = "NHoLB")
 #'   
 #' }
 #' 
-duncan <- function(geo_large = "county", geo_small = "tract", year = 2020, subgroup, subgroup_ref, omit_NAs = TRUE, quiet = FALSE, ...) {
+atkinson <- function(geo_large = "county", geo_small = "tract", year = 2020, subgroup, epsilon = 0.5, omit_NAs = TRUE, quiet = FALSE, ...) {
   
  # Check arguments
   match.arg(geo_large, choices = c("state", "county", "tract"))
@@ -82,12 +84,8 @@ duncan <- function(geo_large = "county", geo_small = "tract", year = 2020, subgr
             choices = c("NHoL", "NHoLW", "NHoLB", "NHoLAIAN", "NHoLA", "NHoLNHOPI",
                         "NHoLSOR", "NHoLTOMR", "NHoLTRiSOR", "NHoLTReSOR",
                         "HoL", "HoLW", "HoLB", "HoLAIAN", "HoLA", "HoLNHOPI",
-                        "HoLSOR", "HoLTOMR", "HoLTRiSOR", "HoLTReSOR"))
-  match.arg(subgroup_ref, several.ok = TRUE,
-            choices = c("NHoL", "NHoLW", "NHoLB", "NHoLAIAN", "NHoLA", "NHoLNHOPI",
-                        "NHoLSOR", "NHoLTOMR", "NHoLTRiSOR", "NHoLTReSOR",
-                        "HoL", "HoLW", "HoLB", "HoLAIAN", "HoLA", "HoLNHOPI",
-                        "HoLSOR", "HoLTOMR", "HoLTRiSOR", "HoLTReSOR"))
+                        "HoLSOR", "HoLTOMR", "HoLTRiSOR", "HoLTReSOR", "MedHHInc"))
+  stopifnot(is.numeric(epsilon), epsilon >= 0 , epsilon <= 1) # values between 0 and 1
   
   # Select census variables
   vars <- c(NHoL = "B03002_002",
@@ -109,15 +107,15 @@ duncan <- function(geo_large = "county", geo_small = "tract", year = 2020, subgr
             HoLSOR = "B03002_018",
             HoLTOMR = "B03002_019",
             HoLTRiSOR = "B03002_020",
-            HoLTReSOR = "B03002_021")
+            HoLTReSOR = "B03002_021",
+            MedHHInc = "B19013_001")
   
-  selected_vars <- vars[c(subgroup, subgroup_ref)]
+  selected_vars <- vars[subgroup]
   out_names <- names(selected_vars) # save for output
   in_subgroup <- paste(subgroup, "E", sep = "")
-  in_subgroup_ref <- paste(subgroup_ref, "E", sep = "")
   
-  # Acquire DI variables and sf geometries
-  di_data <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo_small,
+  # Acquire AI variables and sf geometries
+  ai_data <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo_small,
                                                                    year = year,
                                                                    output = "wide",
                                                                    variables = selected_vars,
@@ -126,79 +124,77 @@ duncan <- function(geo_large = "county", geo_small = "tract", year = 2020, subgr
   
   # Format output
   if (geo_small == "county") {
-    di_data <- sf::st_drop_geometry(di_data) %>%
+    ai_data <- sf::st_drop_geometry(ai_data) %>%
       tidyr::separate(NAME.y, into = c("county", "state"), sep = ",")
   }
   if (geo_small == "tract") {
-    di_data <- sf::st_drop_geometry(di_data) %>%
+    ai_data <- sf::st_drop_geometry(ai_data) %>%
       tidyr::separate(NAME.y, into = c("tract", "county", "state"), sep = ",") %>%
       dplyr::mutate(tract = gsub("[^0-9\\.]", "", tract))
   } 
   if (geo_small == "block group") {
-    di_data <- sf::st_drop_geometry(di_data) %>%
+    ai_data <- sf::st_drop_geometry(ai_data) %>%
       tidyr::separate(NAME.y, into = c("block.group", "tract", "county", "state"), sep = ",") %>%
       dplyr::mutate(tract = gsub("[^0-9\\.]", "", tract),
                     block.group = gsub("[^0-9\\.]", "", block.group))
   } 
   
-  # Grouping IDs for DI computation
+  # Grouping IDs for AI computation
   if (geo_large == "tract") {
-    di_vars <- di_data %>%
+    ai_vars <- ai_data %>%
       dplyr::mutate(oid = paste(.$STATEFP, .$COUNTYFP, .$TRACTCE, sep = ""),
                     state = stringr::str_trim(state),
                     county = stringr::str_trim(county))
   }
   if (geo_large == "county") {
-    di_vars <- di_data %>%
+    ai_vars <- ai_data %>%
       dplyr::mutate(oid = paste(.$STATEFP, .$COUNTYFP, sep = ""),
                     state = stringr::str_trim(state),
                     county = stringr::str_trim(county))
   }
   if (geo_large == "state") {
-    di_vars <- di_data %>%
+    ai_vars <- ai_data %>%
       dplyr::mutate(oid = .$STATEFP,
                     state = stringr::str_trim(state))
   }
 
   # Count of racial/ethnic subgroup populations
-  ## Count of racial/ethnic comparison subgroup population
+  ## Count of racial/ethnic subgroup population
   if (length(in_subgroup) == 1) {
-    di_vars <- di_vars %>%
+    ai_vars <- ai_vars %>%
       dplyr::mutate(subgroup = .[ , in_subgroup])
   } else {
-    di_vars <- di_vars %>%
+    ai_vars <- ai_vars %>%
       dplyr::mutate(subgroup = rowSums(.[ , in_subgroup]))
   }
-  ## Count of racial/ethnic reference subgroup population
-  if (length(in_subgroup_ref) == 1) {
-    di_vars <- di_vars %>%
-      dplyr::mutate(subgroup_ref = .[ , in_subgroup_ref])
-  } else {
-    di_vars <- di_vars %>%
-      dplyr::mutate(subgroup_ref = rowSums(.[ , in_subgroup_ref]))
-  }
 
-  # Compute DI
-  ## From Duncan & Duncan (1955) https://doi.org/10.2307/2088328
-  ## D_{jt} = 1/2 \sum_{i=1}^{k} | \frac{x_{ijt}}{X_{jt}}-\frac{y_{ijt}}{Y_{jt}}|
-  ## Where for k smaller geographies:
-  ## D_{jt} denotes the DI of larger geography j at time t
-  ## x_{ijt} denotes the racial/ethnic subgroup population of smaller geography i within larger geography j at time t
-  ## X_{jt} denotes the racial/ethnic subgroup population of larger geography j at time t
-  ## y_{ijt} denotes the racial/ethnic referent subgroup population of smaller geography i within larger geography j at time t
-  ## Y_{jt} denotes the racial/ethnic referent subgroup population of larger geography j at time t
+  # Compute AI
+  ## From Atkinson (1970) https://doi.org/10.1016/0022-0531(70)90039-6
+  ## A_{\epsilon}(x_{1},...,x_{n}) = \begin{Bmatrix}
+  ## 1 - (\frac{1}{n}\sum_{i=1}^{n}x_{i}^{1-\epsilon})^{1/(1-\epsilon)}/(\frac{1}{n}\sum_{i=1}^{n}x_{i}) & \mathrm{if\:} \epsilon \neq 1 \\
+  ## 1 - (\prod_{i=1}^{n}x_{i})^{1/n}/(\frac{1}{n}\sum_{i=1}^{n}x_{i}) & \mathrm{if\:} \epsilon = 1 \\
+  ## \end{Bmatrix}
+  ## Where the Atkinson index (A) is defined for a population subgroup count (x) of a given smaller geographical unit (i) for n smaller geographical units
+  ## and an inequality-aversion parameter (epsilon)
+  ## If denoting the Hölder mean (based on `Atkinson()` function in 'DescTools' package) by
+  ## M_{p}(x_{1},...,x_{n}) = \begin{Bmatrix}
+  ## (\frac{1}{n}\sum_{i=1}^{n}x_{i}^{p})^{1/p} & \mathrm{if\:} p \neq 0 \\
+  ## (\prod_{i=1}^{n}x_{i})^{1/n} & \mathrm{if\:} p = 0 \\
+  ## \end{Bmatrix}
+  ## then AI is
+  ## A_{\epsilon}(x_{1},...,x_{n}) = 1 - \frac{M_{1-\epsilon}(x_{1},...,x_{n})}{M_{1}(x_{1},...,x_{n})}
 
   ## Compute
-  DItmp <- di_vars %>%
-    split(., f = list(di_vars$oid)) %>%
-    lapply(., FUN = di_fun, omit_NAs = omit_NAs) %>%
+  AItmp <- ai_vars %>%
+    split(., f = list(ai_vars$oid)) %>%
+    lapply(., FUN = ai_fun, epsilon = epsilon, omit_NAs = omit_NAs) %>%
     utils::stack(.) %>%
-    dplyr::mutate(DI = values,
+    dplyr::mutate(AI = values,
                   oid = ind) %>%
-    dplyr::select(DI, oid)
+    dplyr::select(AI, oid)
 
   # Warning for missingness of census characteristics
-  missingYN <- di_vars[ , c(in_subgroup, in_subgroup_ref)]
+  missingYN <- as.data.frame(ai_vars[ , in_subgroup])
   names(missingYN) <- out_names
   missingYN <- missingYN %>%
     tidyr::pivot_longer(cols = dplyr::everything(),
@@ -218,40 +214,40 @@ duncan <- function(geo_large = "county", geo_small = "tract", year = 2020, subgr
 
   # Format output
   if (geo_large == "state") {
-    di <- merge(di_vars, DItmp) %>%
-      dplyr::select(oid, state, DI) %>%
+    ai <- merge(ai_vars, AItmp) %>%
+      dplyr::select(oid, state, AI) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, DI) %>%
+      dplyr::select(GEOID, state, AI) %>%
       .[.$GEOID != "NANA", ]
   }
   if (geo_large == "county") {
-    di <- merge(di_vars, DItmp) %>%
-      dplyr::select(oid, state, county, DI) %>%
+    ai <- merge(ai_vars, AItmp) %>%
+      dplyr::select(oid, state, county, AI) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, DI) %>%
+      dplyr::select(GEOID, state, county, AI) %>%
       .[.$GEOID != "NANA", ]
   }
   if (geo_large == "tract") {
-    di <- merge(di_vars, DItmp) %>%
-      dplyr::select(oid, state, county, tract, DI) %>%
+    ai <- merge(ai_vars, AItmp) %>%
+      dplyr::select(oid, state, county, tract, AI) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, tract, DI) %>%
+      dplyr::select(GEOID, state, county, tract, AI) %>%
       .[.$GEOID != "NANA", ]
   }
 
-  di <- di %>%
+  ai <- ai %>%
     dplyr::arrange(GEOID) %>%
     dplyr::as_tibble()
   
-  di_data <- di_data %>%
+  ai_data <- ai_data %>%
     dplyr::arrange(GEOID) %>%
     dplyr::as_tibble() 
 
-  out <- list(di = di,
-              di_data = di_data,
+  out <- list(ai = ai,
+              ai_data = ai_data,
               missing = missingYN)
   
   return(out)

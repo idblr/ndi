@@ -1,8 +1,8 @@
 context("powell_wiley")
 
-####################
+#########################
 # powell_wiley testthat #
-####################
+#########################
 
 test_that("powell_wiley throws error with invalid arguments", {
   

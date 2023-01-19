@@ -35,14 +35,14 @@ An object of class 'list'. This is a named list with the following components:
 \describe{
 \item{\code{ndi}}{An object of class 'tbl' for the GEOID, name, NDI (standardized), NDI (quartile), and raw census values of specified census geographies.}
 \item{\code{pca}}{An object of class 'principal', returns the output of \code{\link[psych]{principal}} used to compute the NDI values.}
-\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute the NDI.}
+\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute NDI.}
 }
 }
 \description{
-Compute the Neighborhood Deprivation Index (Messer) values.
+Compute the aspatial Neighborhood Deprivation Index (Messer).
 }
 \details{
-This function will compute the Neighborhood Deprivation Index (NDI) of U.S. census tracts or counties for a specified geographical referent (e.g., US-standardized) based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x}.
+This function will compute the aspatial Neighborhood Deprivation Index (NDI) of U.S. census tracts or counties for a specified geographical referent (e.g., US-standardized) based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x}.
 
 The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for computation involving a principal component analysis with the \code{\link[psych]{principal}} function. The yearly estimates are available for 2010 and after when all census characteristics became available. The eight characteristics are:
 \itemize{
