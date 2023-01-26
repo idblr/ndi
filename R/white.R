@@ -40,14 +40,14 @@
 #' 
 #' V removes the asymmetry from the Isolation Index (Bell) by controlling for the effect of population composition. The Isolation Index (Bell) is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation). V can range in value from 0 to 1.
 #' 
-#' Larger geographies available include state \code{geo_large = "state"}, county \code{geo_large = "county"}, and census tract \code{geo_large = "tract"} levels. Smaller geographies available include, county \code{geo_small = "county"}, census tract \code{geo_small = "tract"}, and census block group \code{geo_small = "block group"} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the DI value returned is NA.
+#' Larger geographies available include state \code{geo_large = "state"}, county \code{geo_large = "county"}, and census tract \code{geo_large = "tract"} levels. Smaller geographies available include, county \code{geo_small = "county"}, census tract \code{geo_small = "tract"}, and census block group \code{geo_small = "block group"} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the V value returned is NA.
 #' 
 #' @return An object of class 'list'. This is a named list with the following components:
 #' 
 #' \describe{
 #' \item{\code{v}}{An object of class 'tbl' for the GEOID, name, and V at specified larger census geographies.}
 #' \item{\code{v_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute V}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute V.}
 #' }
 #' 
 #' @import dplyr
@@ -64,10 +64,10 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'   
-#'   # Isolation of non-Hispanic Black and non-Hispanic white populations
+#'   # Isolation of non-Hispanic Black populations
 #'   ## of census tracts within Georgia, U.S.A., counties (2020)
-#'   white(geo_large = "county", geo_small = "tract", state = "GA", year = 2020,
-#'         subgroup = "NHoLB")
+#'   white(geo_large = "county", geo_small = "tract", state = "GA",
+#'         year = 2020, subgroup = "NHoLB")
 #'   
 #' }
 #' 
@@ -137,19 +137,19 @@ white <- function(geo_large = "county", geo_small = "tract", year = 2020, subgro
   
   # Grouping IDs for R computation
   if (geo_large == "tract") {
-    v_vars <- v_data %>%
+    v_data <- v_data %>%
       dplyr::mutate(oid = paste(.$STATEFP, .$COUNTYFP, .$TRACTCE, sep = ""),
                     state = stringr::str_trim(state),
                     county = stringr::str_trim(county))
   }
   if (geo_large == "county") {
-    v_vars <- v_data %>%
+    v_data <- v_data %>%
       dplyr::mutate(oid = paste(.$STATEFP, .$COUNTYFP, sep = ""),
                     state = stringr::str_trim(state),
                     county = stringr::str_trim(county))
   }
   if (geo_large == "state") {
-    v_vars <- v_data %>%
+    v_data <- v_data %>%
       dplyr::mutate(oid = .$STATEFP,
                     state = stringr::str_trim(state))
   }
@@ -157,10 +157,10 @@ white <- function(geo_large = "county", geo_small = "tract", year = 2020, subgro
   # Count of racial/ethnic subgroup populations
   ## Count of racial/ethnic comparison subgroup population
   if (length(in_subgroup) == 1) {
-    v_vars <- v_vars %>%
+    v_data <- v_data %>%
       dplyr::mutate(subgroup = .[ , in_subgroup])
   } else {
-    v_vars <- v_vars %>%
+    v_data <- v_data %>%
       dplyr::mutate(subgroup = rowSums(.[ , in_subgroup]))
   }
   
@@ -172,8 +172,8 @@ white <- function(geo_large = "county", geo_small = "tract", year = 2020, subgro
   ## P denotes the proportion of subgroup x of study (reference) area
   
   ## Compute
-  Vtmp <- v_vars %>%
-    split(., f = list(v_vars$oid)) %>%
+  Vtmp <- v_data %>%
+    split(., f = list(v_data$oid)) %>%
     lapply(., FUN = v_fun, omit_NAs = omit_NAs) %>%
     utils::stack(.) %>%
     dplyr::mutate(V = values,
@@ -181,7 +181,7 @@ white <- function(geo_large = "county", geo_small = "tract", year = 2020, subgro
     dplyr::select(V, oid)
   
   # Warning for missingness of census characteristics
-  missingYN <- v_vars[ , c("TotalPopE", in_subgroup)]
+  missingYN <- v_data[ , c("TotalPopE", in_subgroup)]
   names(missingYN) <- out_names
   missingYN <- missingYN %>%
     tidyr::pivot_longer(cols = dplyr::everything(),
@@ -201,7 +201,7 @@ white <- function(geo_large = "county", geo_small = "tract", year = 2020, subgro
   
   # Format output
   if (geo_large == "state") {
-    v <- merge(v_vars, Vtmp) %>%
+    v <- merge(v_data, Vtmp) %>%
       dplyr::select(oid, state, V) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
@@ -209,7 +209,7 @@ white <- function(geo_large = "county", geo_small = "tract", year = 2020, subgro
       .[.$GEOID != "NANA", ]
   }
   if (geo_large == "county") {
-    v <- merge(v_vars, Vtmp) %>%
+    v <- merge(v_data, Vtmp) %>%
       dplyr::select(oid, state, county, V) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
@@ -217,7 +217,7 @@ white <- function(geo_large = "county", geo_small = "tract", year = 2020, subgro
       .[.$GEOID != "NANA", ]
   }
   if (geo_large == "tract") {
-    v <- merge(v_vars, Vtmp) %>%
+    v <- merge(v_data, Vtmp) %>%
       dplyr::select(oid, state, county, tract, V) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%

@@ -42,7 +42,7 @@ An object of class 'list'. This is a named list with the following components:
 }
 }
 \description{
-Compute the aspatial Dissimilarity Index (Duncan) of selected racial/ethnic subgroup(s) and U.S. geographies
+Compute the aspatial Dissimilarity Index (Duncan & Duncan) of selected racial/ethnic subgroup(s) and U.S. geographies
 }
 \details{
 This function will compute the aspatial Dissimilarity Index (DI) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Duncan & Duncan (1955) \doi{10.2307/2088328}. This function provides the computation of DI for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
@@ -83,8 +83,8 @@ Larger geographies available include state \code{geo_large = "state"}, county \c
   
   # Dissimilarity Index of non-Hispanic Black vs. non-Hispanic white populations
   ## of census tracts within Georgia, U.S.A., counties (2020)
-  duncan(geo_large = "county", geo_small = "tract", state = "GA", year = 2020,
-         subgroup = "NHoLB", subgroup_ref = "NHoLW")
+  duncan(geo_large = "county", geo_small = "tract", state = "GA",
+         year = 2020, subgroup = "NHoLB", subgroup_ref = "NHoLW")
   
 }
 

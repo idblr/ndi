@@ -47,10 +47,12 @@
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'   
 #'   # Tract-level metric (2020)
-#'   bravo(geo = "tract", state = "GA", year = 2020, subgroup = c("LtHS", "HSGiE"))
+#'   bravo(geo = "tract", state = "GA", 
+#'         year = 2020, subgroup = c("LtHS", "HSGiE"))
 #'   
 #'   # County-level metric (2020)
-#'   bravo(geo = "county", state = "GA", year = 2020, subgroup = c("LtHS", "HSGiE"))
+#'   bravo(geo = "county", state = "GA",
+#'         year = 2020, subgroup = c("LtHS", "HSGiE"))
 #'   
 #' }
 #' 
@@ -118,22 +120,22 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
   in_names <- paste(names(selected_vars), "E", sep = "")
   
   # Acquire EI variables and sf geometries
-  ei_vars <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
+  ei_data <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
                                                                    year = year, 
                                                                    output = "wide",
                                                                    variables = selected_vars,
                                                                    geometry = TRUE, ...)))
   
   if (geo == "tract") {
-    ei_vars <- ei_vars %>%
+    ei_data <- ei_data %>%
       tidyr::separate(NAME, into = c("tract", "county", "state"), sep = ",") %>%
       dplyr::mutate(tract = gsub("[^0-9\\.]","", tract))
   } else {
-    ei_vars <- ei_vars %>% tidyr::separate(NAME, into = c("county", "state"), sep = ",") 
+    ei_data <- ei_data %>% tidyr::separate(NAME, into = c("county", "state"), sep = ",") 
   }
   
-  ei_vars <- ei_vars %>% 
-    dplyr::mutate(subgroup = rowSums(sf::st_drop_geometry(ei_vars[ , in_names[-1]])))
+  ei_data <- ei_data %>% 
+    dplyr::mutate(subgroup = rowSums(sf::st_drop_geometry(ei_data[ , in_names[-1]])))
   
   # Compute EI
   ## From Bravo et al. (2021) https://doi.org/10.3390/ijerph18179384
@@ -149,8 +151,8 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
   ### such that the weight of the index unit, i, is larger than the weights assigned to adjacent tracts
   
   ## Geospatial adjacency matrix (wij)
-  tmp <- sf::st_intersects(sf::st_geometry(ei_vars), sparse = TRUE)
-  names(tmp) <- as.character(seq_len(nrow(ei_vars)))
+  tmp <- sf::st_intersects(sf::st_geometry(ei_data), sparse = TRUE)
+  names(tmp) <- as.character(seq_len(nrow(ei_data)))
   tmpL <- length(tmp)
   tmpcounts <- unlist(Map(length, tmp))
   tmpi <- rep(1:tmpL, tmpcounts)
@@ -159,15 +161,15 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
   diag(wij) <- 1.5
   
   ## Compute
-  ei_vars <- sf::st_drop_geometry(ei_vars) # drop geometries (can join back later)
+  ei_data <- sf::st_drop_geometry(ei_data) # drop geometries (can join back later)
   EIim <- list()
   for (i in 1:dim(wij)[1]){
-    EIim[[i]] <- sum(as.matrix(wij[i, ])*ei_vars[ , "subgroup"]) / sum(as.matrix(wij[i, ])*ei_vars[, "TotalPopE"])
+    EIim[[i]] <- sum(as.matrix(wij[i, ])*ei_data[ , "subgroup"]) / sum(as.matrix(wij[i, ])*ei_data[, "TotalPopE"])
   }
-  ei_vars$EI <- unlist(EIim)
+  ei_data$EI <- unlist(EIim)
   
   # Warning for missingness of census characteristics
-  missingYN <- ei_vars[ , in_names]
+  missingYN <- ei_data[ , in_names]
   names(missingYN) <- out_names
   missingYN <- missingYN %>%
     tidyr::pivot_longer(cols = dplyr::everything(),
@@ -187,7 +189,7 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
   
   # Format output
   if (geo == "tract") {
-    ei <- ei_vars %>%
+    ei <- ei_data %>%
       dplyr::select(c("GEOID",
                       "state",
                       "county",
@@ -196,7 +198,7 @@ bravo <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...) {
                       dplyr::all_of(in_names)))
     names(ei) <- c("GEOID", "state", "county", "tract", "EI", out_names)
   } else {
-    ei <- ei_vars %>%
+    ei <- ei_data %>%
       dplyr::select(c("GEOID",
                       "state",
                       "county",

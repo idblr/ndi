@@ -60,10 +60,12 @@
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'   
 #'   # Tract-level metric (2020)
-#'   anthopolos(geo = "tract", state = "GA", year = 2020, subgroup = c("NHoLB", "HoLB"))
+#'   anthopolos(geo = "tract", state = "GA", 
+#'              year = 2020, subgroup = c("NHoLB", "HoLB"))
 #'   
 #'   # County-level metric (2020)
-#'   anthopolos(geo = "county", state = "GA", year = 2020, subgroup = c("NHoLB", "HoLB"))
+#'   anthopolos(geo = "county", state = "GA", 
+#'              year = 2020, subgroup = c("NHoLB", "HoLB"))
 #'   
 #' }
 #' 
@@ -109,7 +111,7 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
   in_names <- paste(names(selected_vars), "E", sep = "")
   
   # Acquire RI variables and sf geometries
-  ri_vars <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
+  ri_data <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
                                                                    year = year, 
                                                                    output = "wide",
                                                                    variables = selected_vars, 
@@ -117,15 +119,15 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
   
   
   if (geo == "tract") {
-    ri_vars <- ri_vars %>%
+    ri_data <- ri_data %>%
       tidyr::separate(NAME, into = c("tract", "county", "state"), sep = ",") %>%
       dplyr::mutate(tract = gsub("[^0-9\\.]","", tract))
   } else {
-    ri_vars <- ri_vars %>% tidyr::separate(NAME, into = c("county", "state"), sep = ",") 
+    ri_data <- ri_data %>% tidyr::separate(NAME, into = c("county", "state"), sep = ",") 
   }
   
-  ri_vars <- ri_vars %>% 
-    dplyr::mutate(subgroup = rowSums(sf::st_drop_geometry(ri_vars[ , in_names[-1]])))
+  ri_data <- ri_data %>% 
+    dplyr::mutate(subgroup = rowSums(sf::st_drop_geometry(ri_data[ , in_names[-1]])))
   
   # Compute RI
   ## From Anthopolos et al. (2011) https://doi.org/10.1016/j.sste.2011.06.002
@@ -141,8 +143,8 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
   ### such that the weight of the index unit, i, is larger than the weights assigned to adjacent tracts
   
   ## Geospatial adjacency matrix (wij)
-  tmp <- sf::st_intersects(sf::st_geometry(ri_vars), sparse = TRUE)
-  names(tmp) <- as.character(seq_len(nrow(ri_vars)))
+  tmp <- sf::st_intersects(sf::st_geometry(ri_data), sparse = TRUE)
+  names(tmp) <- as.character(seq_len(nrow(ri_data)))
   tmpL <- length(tmp)
   tmpcounts <- unlist(Map(length, tmp))
   tmpi <- rep(1:tmpL, tmpcounts)
@@ -151,15 +153,15 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
   diag(wij) <- 1.5
   
   ## Compute
-  ri_vars <- sf::st_drop_geometry(ri_vars) # drop geometries (can join back later)
+  ri_data <- sf::st_drop_geometry(ri_data) # drop geometries (can join back later)
   RIim <- list()
   for (i in 1:dim(wij)[1]){
-    RIim[[i]] <- sum(as.matrix(wij[i, ])*ri_vars[ , "subgroup"]) / sum(as.matrix(wij[i, ])*ri_vars[, "TotalPopE"])
+    RIim[[i]] <- sum(as.matrix(wij[i, ])*ri_data[ , "subgroup"]) / sum(as.matrix(wij[i, ])*ri_data[, "TotalPopE"])
   }
-  ri_vars$RI <- unlist(RIim)
+  ri_data$RI <- unlist(RIim)
   
   # Warning for missingness of census characteristics
-  missingYN <- ri_vars[ , in_names]
+  missingYN <- ri_data[ , in_names]
   names(missingYN) <- out_names
   missingYN <- missingYN %>%
     tidyr::pivot_longer(cols = dplyr::everything(),
@@ -179,7 +181,7 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
   
   # Format output
   if (geo == "tract") {
-    ri <- ri_vars %>%
+    ri <- ri_data %>%
       dplyr::select(c("GEOID",
                       "state",
                       "county",
@@ -188,7 +190,7 @@ anthopolos <- function(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
                       dplyr::all_of(in_names)))
     names(ri) <- c("GEOID", "state", "county", "tract", "RI", out_names)
   } else {
-    ri <- ri_vars %>%
+    ri <- ri_data %>%
       dplyr::select(c("GEOID",
                       "state",
                       "county",

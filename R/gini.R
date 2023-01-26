@@ -52,24 +52,24 @@ gini <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
   vars <- c(gini = "B19083_001")
   
   # Acquire Gini Index
-  gini_vars <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
+  gini_data <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
                                                                      year = year, 
                                                                      output = "wide",
                                                                      variables = vars, ...)))
   
   if (geo == "tract") {
-    gini_vars <- gini_vars %>%
+    gini_data <- gini_data %>%
       tidyr::separate(NAME, into = c("tract", "county", "state"), sep = ",") %>%
       dplyr::mutate(tract = gsub("[^0-9\\.]","", tract))
   } else {
-    gini_vars <- gini_vars %>% tidyr::separate(NAME, into = c("county", "state"), sep = ",") 
+    gini_data <- gini_data %>% tidyr::separate(NAME, into = c("county", "state"), sep = ",") 
   }
   
-  gini_vars <- gini_vars %>%
+  gini_data <- gini_data %>%
       dplyr::mutate(gini = giniE)
   
   # Warning for missingness of census characteristics
-  missingYN <- gini_vars %>%
+  missingYN <- gini_data %>%
     dplyr::select(gini)  %>%
     tidyr::pivot_longer(cols = dplyr::everything(),
                         names_to = "variable",
@@ -87,10 +87,10 @@ gini <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
   }
   
   if (geo == "tract") {
-    gini <- gini_vars %>%
+    gini <- gini_data %>%
       dplyr::select(GEOID,  state, county, tract, gini)
   } else {
-    gini <- gini_vars %>%
+    gini <- gini_data %>%
       dplyr::select(GEOID,  state, county, gini) 
   }
   

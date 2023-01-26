@@ -59,6 +59,47 @@ citEntry(entry = "Article",
   header       = "If you computed AI (Atkinson) values, please also cite:"
 )
 
+citEntry(entry = "Article",
+  title        = "Social Structure and Anomie",
+  author       = personList(as.person("Robert K. Merton")),
+  journal      = "American Sociological Review",
+  year         = "1938",
+  volume       = "3",
+  number       = "5",
+  pages        = "672--682",
+  doi          = "10.2307/2084686 ",
+
+  textVersion  =
+  paste("Robert K. Merton (1938).",
+        "Social Structure and Anomie.",
+        "American Sociological Review, 3(5), 672-682.",
+        "DOI:10.2307/2084686 "),
+
+  header       = "If you computed LQ (Sudano) values, please also cite (1):"
+)
+
+citEntry(entry = "Article",
+  title        = "Neighborhood racial residential segregation and changes in health or death among older adults",
+  author       = personList(as.person("Joseph J. Sudano"),
+                    as.person("Adam Perzynski")
+                    as.person("David W. Wong")
+                    as.person("Natalie Colabianchi")
+                    as.person("David Litaker")),
+  journal      = "Health & Place",
+  year         = "2013",
+  volume       = "19",
+  pages        = "80--88",
+  doi          = "10.1016/j.healthplace.2012.09.015",
+
+  textVersion  =
+  paste("Joseph J. Sudano, Adam Perzynski, David W. Wong, Natalie Colabianchi, David Litaker (2013).",
+        "Neighborhood racial residential segregation and changes in health or death among older adults.",
+        "Health & Place, 19, 80-88.",
+        "DOI:10.1016/j.healthplace.2012.09.015"),
+
+  header       = "And (2):"
+)
+
 citEntry(entry = "Book",
   title        = "The Social Areas of Los Angeles: Analysis and Typology",
   author       = personList(as.person("Eshref Shevky"),
@@ -283,6 +324,26 @@ citEntry(entry = "Article",
         "DOI:10.1016/j.dib.2022.108002"),
 
   header       = "And (2):"
+)
+
+citEntry(entry = "Article",
+  title        = "Measures Matter: The Local Exposure/Isolation (LEx/Is) Metrics and Relationships between Local-Level Segregation and Breast Cancer Survival",
+  author       = personList(as.person("Amin Bemanian"),
+                   as.person("Kirsten M.M. Beyer")),
+  journal      = "Cancer Epidemiology, Biomarkers & Prevention",
+  year         = "2017",
+  volume       = "26",
+  issue        = "4",
+  pages        = "516--524",
+  doi          = "10.1158/1055-9965.EPI-16-0926",
+
+  textVersion  =
+  paste("Amin Bemanian, Kirsten M.M. Beyer (2017).",
+        "Measures Matter: The Local Exposure/Isolation (LEx/Is) Metrics and Relationships between Local-Level Segregation and Breast Cancer Survival.",
+        "Cancer Epidemiology, Biomarkers & Prevention, 26(4), 516-524.",
+        "DOI:10.1158/1055-9965.EPI-16-0926"),
+
+  header       = "If you computed LEx/Is (Bemanian & Beyer) values, please also cite:"
 )
 
 citEntry(entry = "Article",

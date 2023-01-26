@@ -1,17 +1,16 @@
-#' Isolation Index based on Shevky & Williams (1949) and Bell (1954) 
+#' Location Quotient (LQ) based on Merton (1938) and Sudano et al. (2013) 
 #' 
-#' Compute the aspatial Isolation Index (Bell) of a selected racial/ethnic subgroup(s) and U.S. geographies.
+#' Compute the aspatial Location Quotient (Sudano) of a selected racial/ethnic subgroup(s) and U.S. geographies.
 #'
 #' @param geo_large Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = "county"}.
 #' @param geo_small Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_large = "tract"}.
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
 #' @param subgroup Character string specifying the racial/ethnic subgroup(s). See Details for available choices.
-#' @param subgroup_ixn Character string specifying the racial/ethnic subgroup(s) as the interaction population. If the same as \code{subgroup}, will compute the simple isolation of the group. See Details for available choices.
 #' @param omit_NAs Logical. If FALSE, will compute index for a larger geographical unit only if all of its smaller geographical units have values. The default is TRUE.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the aspatial Isolation Index (II) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and Bell (1954) \doi{10.2307/2574118}. This function provides the computation of II for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#' @details This function will compute the aspatial Location Quotient (LQ) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Merton (1939) \doi{10.2307/2084686} and Sudano et al. (2013) \doi{10.1016/j.healthplace.2012.09.015}. This function provides the computation of LQ for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #' 
 #' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
@@ -39,16 +38,16 @@
 #' 
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #' 
-#' II is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation). II can range in value from 0 to 1.
+#' LQ is some measure of relative racial homogeneity of each smaller geography within a larger geography. LQ can range in value from 0 to infinity because it is ratio of two proportions in which the numerator is the proportion of subgroup population in a smaller geography and the denominator is the proportion of subgroup population in its larger geography. For example, a smaller geography with an LQ of 5 means that the proportion of the subgroup population living in the smaller geography is five times the proportion of the subgroup population in its larger geography.
 #' 
-#' Larger geographies available include state \code{geo_large = "state"}, county \code{geo_large = "county"}, and census tract \code{geo_large = "tract"} levels. Smaller geographies available include, county \code{geo_small = "county"}, census tract \code{geo_small = "tract"}, and census block group \code{geo_small = "block group"} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the II value returned is NA.
+#' Larger geographies available include state \code{geo_large = "state"}, county \code{geo_large = "county"}, and census tract \code{geo_large = "tract"} levels. Smaller geographies available include, county \code{geo_small = "county"}, census tract \code{geo_small = "tract"}, and census block group \code{geo_small = "block group"} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the LQ value returned is NA.
 #' 
 #' @return An object of class 'list'. This is a named list with the following components:
 #' 
 #' \describe{
-#' \item{\code{ii}}{An object of class 'tbl' for the GEOID, name, and II at specified larger census geographies.}
-#' \item{\code{ii_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute II.}
+#' \item{\code{lq}}{An object of class 'tbl' for the GEOID, name, and LQ at specified smaller census geographies.}
+#' \item{\code{lq_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute LQ.}
 #' }
 #' 
 #' @import dplyr
@@ -65,25 +64,20 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'   
-#'   # Isolation of non-Hispanic Black vs. non-Hispanic white populations
+#'   # Isolation of non-Hispanic Black populations
 #'   ## of census tracts within Georgia, U.S.A., counties (2020)
-#'   bell(geo_large = "county", geo_small = "tract", state = "GA",
-#'        year = 2020, subgroup = "NHoLB", subgroup_ixn = "NHoLW")
+#'   sudano(geo_large = "state", geo_small = "county", state = "GA",
+#'          year = 2020, subgroup = "NHoLB")
 #'   
 #' }
 #' 
-bell <- function(geo_large = "county", geo_small = "tract", year = 2020, subgroup, subgroup_ixn, omit_NAs = TRUE, quiet = FALSE, ...) {
+sudano <- function(geo_large = "county", geo_small = "tract", year = 2020, subgroup, omit_NAs = TRUE, quiet = FALSE, ...) {
   
   # Check arguments
   match.arg(geo_large, choices = c("state", "county", "tract"))
   match.arg(geo_small, choices = c("county", "tract", "block group"))
   stopifnot(is.numeric(year), year >= 2009) # all variables available 2009 onward
   match.arg(subgroup, several.ok = TRUE,
-            choices = c("NHoL", "NHoLW", "NHoLB", "NHoLAIAN", "NHoLA", "NHoLNHOPI",
-                        "NHoLSOR", "NHoLTOMR", "NHoLTRiSOR", "NHoLTReSOR",
-                        "HoL", "HoLW", "HoLB", "HoLAIAN", "HoLA", "HoLNHOPI",
-                        "HoLSOR", "HoLTOMR", "HoLTRiSOR", "HoLTReSOR"))
-  match.arg(subgroup_ixn, several.ok = TRUE,
             choices = c("NHoL", "NHoLW", "NHoLB", "NHoLAIAN", "NHoLA", "NHoLNHOPI",
                         "NHoLSOR", "NHoLTOMR", "NHoLTRiSOR", "NHoLTReSOR",
                         "HoL", "HoLW", "HoLB", "HoLAIAN", "HoLA", "HoLNHOPI",
@@ -112,13 +106,12 @@ bell <- function(geo_large = "county", geo_small = "tract", year = 2020, subgrou
             HoLTRiSOR = "B03002_020",
             HoLTReSOR = "B03002_021")
   
-  selected_vars <- vars[c("TotalPop", subgroup, subgroup_ixn)]
+  selected_vars <- vars[c("TotalPop", subgroup)]
   out_names <- names(selected_vars) # save for output
   in_subgroup <- paste(subgroup, "E", sep = "")
-  in_subgroup_ixn <- paste(subgroup_ixn, "E", sep = "")
   
-  # Acquire II variables and sf geometries
-  ii_data <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo_small,
+  # Acquire LQ variables and sf geometries
+  lq_data <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo_small,
                                                                    year = year, 
                                                                    output = "wide",
                                                                    variables = selected_vars, 
@@ -127,36 +120,36 @@ bell <- function(geo_large = "county", geo_small = "tract", year = 2020, subgrou
   
   # Format output
   if (geo_small == "county") {
-    ii_data <- sf::st_drop_geometry(ii_data) %>%
+    lq_data <- sf::st_drop_geometry(lq_data) %>%
       tidyr::separate(NAME.y, into = c("county", "state"), sep = ",")
   }
   if (geo_small == "tract") {
-    ii_data <- sf::st_drop_geometry(ii_data) %>%
+    lq_data <- sf::st_drop_geometry(lq_data) %>%
       tidyr::separate(NAME.y, into = c("tract", "county", "state"), sep = ",") %>%
       dplyr::mutate(tract = gsub("[^0-9\\.]", "", tract))
   } 
   if (geo_small == "block group") {
-    ii_data <- sf::st_drop_geometry(ii_data) %>%
+    lq_data <- sf::st_drop_geometry(lq_data) %>%
       tidyr::separate(NAME.y, into = c("block.group", "tract", "county", "state"), sep = ",") %>%
       dplyr::mutate(tract = gsub("[^0-9\\.]", "", tract),
                     block.group = gsub("[^0-9\\.]", "", block.group))
   } 
   
-  # Grouping IDs for II computation
+  # Grouping IDs for R computation
   if (geo_large == "tract") {
-    ii_data <- ii_data %>%
+    lq_data <- lq_data %>%
       dplyr::mutate(oid = paste(.$STATEFP, .$COUNTYFP, .$TRACTCE, sep = ""),
                     state = stringr::str_trim(state),
                     county = stringr::str_trim(county))
   }
   if (geo_large == "county") {
-    ii_data <- ii_data %>%
+    lq_data <- lq_data %>%
       dplyr::mutate(oid = paste(.$STATEFP, .$COUNTYFP, sep = ""),
                     state = stringr::str_trim(state),
                     county = stringr::str_trim(county))
   }
   if (geo_large == "state") {
-    ii_data <- ii_data %>%
+    lq_data <- lq_data %>%
       dplyr::mutate(oid = .$STATEFP,
                     state = stringr::str_trim(state))
   }
@@ -164,42 +157,27 @@ bell <- function(geo_large = "county", geo_small = "tract", year = 2020, subgrou
   # Count of racial/ethnic subgroup populations
   ## Count of racial/ethnic comparison subgroup population
   if (length(in_subgroup) == 1) {
-    ii_data <- ii_data %>%
+    lq_data <- lq_data %>%
       dplyr::mutate(subgroup = .[ , in_subgroup])
   } else {
-    ii_data <- ii_data %>%
+    lq_data <- lq_data %>%
       dplyr::mutate(subgroup = rowSums(.[ , in_subgroup]))
   }
-  ## Count of racial/ethnic interaction subgroup population
-  if (length(in_subgroup_ixn) == 1) {
-    ii_data <- ii_data %>%
-      dplyr::mutate(subgroup_ixn = .[ , in_subgroup_ixn])
-  } else {
-    ii_data <- ii_data %>%
-      dplyr::mutate(subgroup_ixn = rowSums(.[ , in_subgroup_ixn]))
-  }
   
-  # Compute II
-  ## From Bell (1954) https://doi.org/10.2307/2574118
-  ## _{x}P_{y}^* = \sum_{i=1}^{k} \left (  \frac{x_{i}}{X}\right )\left (  \frac{y_{i}}{n_{i}}\right )
-  ## Where for k geographical units i:
-  ## X denotes the total number of subgroup population in study (reference) area
-  ## x_{i} denotes the number of subgroup population X in geographical unit i
-  ## y_{i} denotes the number of subgroup population Y in geographical unit i
-  ## n_{i} denotes the total population of geographical unit i
-  ## If x_{i} = y_{i}, then computes the average isolation experienced by members of subgroup population X 
+  # Compute LQ
+  ## From Sudano (2013) https://doi.org/10.1016/j.healthplace.2012.09.015
+  ## LQ_{im} = (x_{im}/X_{i})/(X_{m}/X)
+  ## for:
+  ## i smaller geography and subgroup m
   
   ## Compute
-  IItmp <- ii_data %>%
-    split(., f = list(ii_data$oid)) %>%
-    lapply(., FUN = ii_fun, omit_NAs = omit_NAs) %>%
-    utils::stack(.) %>%
-    dplyr::mutate(II = values,
-                  oid = ind) %>%
-    dplyr::select(II, oid)
+  LQtmp <- lq_data %>%
+    split(., f = list(lq_data$oid)) %>%
+    lapply(., FUN = lq_fun, omit_NAs = omit_NAs) %>%
+    do.call("rbind", .)
   
   # Warning for missingness of census characteristics
-  missingYN <- ii_data[ , c("TotalPopE", in_subgroup, in_subgroup_ixn)]
+  missingYN <- lq_data[ , c("TotalPopE", in_subgroup)]
   names(missingYN) <- out_names
   missingYN <- missingYN %>%
     tidyr::pivot_longer(cols = dplyr::everything(),
@@ -218,41 +196,37 @@ bell <- function(geo_large = "county", geo_small = "tract", year = 2020, subgrou
   }
   
   # Format output
-  if (geo_large == "state") {
-    ii <- merge(ii_data, IItmp) %>%
-      dplyr::select(oid, state, II) %>%
-      unique(.) %>%
-      dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, II) %>%
-      .[.$GEOID != "NANA", ]
+  lq <- merge(lq_data, LQtmp)
+  
+  if (geo_small == "state") {
+    lq <- lq %>%
+      dplyr::select(GEOID, state, LQ)
   }
-  if (geo_large == "county") {
-    ii <- merge(ii_data, IItmp) %>%
-      dplyr::select(oid, state, county, II) %>%
-      unique(.) %>%
-      dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, II) %>%
-      .[.$GEOID != "NANA", ]
+  if (geo_small == "county") {
+    lq <- lq %>%
+      dplyr::select(GEOID, state, county, LQ)
   }
-  if (geo_large == "tract") {
-    ii <- merge(ii_data, IItmp) %>%
-      dplyr::select(oid, state, county, tract, II) %>%
-      unique(.) %>%
-      dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, tract, II) %>%
-      .[.$GEOID != "NANA", ]
+  if (geo_small == "tract") {
+    lq <- lq %>%
+      dplyr::select(GEOID, state, county, tract, LQ)
+  }
+  if (geo_small == "block group") {
+    lq <- lq %>%
+      dplyr::select(GEOID, state, county, tract, block.group, LQ)
   }
   
-  ii <- ii %>%
+  lq <- lq %>%
+    unique(.) %>%
+    .[.$GEOID != "NANA", ] %>%
     dplyr::arrange(GEOID) %>%
     dplyr::as_tibble()
   
-  ii_data <- ii_data %>%
+  lq_data <- lq_data %>%
     dplyr::arrange(GEOID) %>%
     dplyr::as_tibble() 
   
-  out <- list(ii = ii,
-              ii_data = ii_data,
+  out <- list(lq = lq,
+              lq_data = lq_data,
               missing = missingYN)
   
   return(out)

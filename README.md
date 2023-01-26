@@ -12,11 +12,11 @@ ndi: Neighborhood Deprivation Indices <img src="man/figures/ndi.png" width="120"
 [![DOI](https://zenodo.org/badge/521439746.svg)](https://zenodo.org/badge/latestdoi/521439746)
 <!-- badges: end -->
 
-**Date repository last updated**: January 19, 2022
+**Date repository last updated**: January 26, 2023
 
 ### Overview
 
-The `ndi` package is a suite of `R` functions to compute various metrics of socio-economic deprivation and disparity in the United States. Some metrics are considered "spatial" because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other metrics are "aspatial" because they only consider the value within each census geography. Two types of aspatial NDI are available: (1) based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) who use variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of various demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates (ACS-5; 2006-2010 onward) pulled by the [tidycensus](https://CRAN.R-project.org/package=tidycensus) package. Using data from the ACS-5 (2005-2009 onward), the `ndi` package can also compute the (1) spatial Racial Isolation Index (RI) based on [Anthopolos et al. (2011)](https://doi.org/10.1016/j.sste.2011.06.002), (2) spatial Educational Isolation Index (EI) based on [Bravo et al. (2021)](https://doi.org/10.3390/ijerph18179384), (3) aspatial Index of Concentration at the Extremes (ICE) based on [Feldman et al. (2015)](https://doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://doi.org/10.2105/AJPH.2015.302955), (4) aspatial racial/ethnic Dissimilarity Index (DI) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328), (5) aspatial income or racial/ethnic Atkinson Index (DI) based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6), (6) aspatial racial/ethnic Isolation Index (II) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and [Bell (1954)](https://doi.org/10.2307/2574118), and (7) aspatial racial/ethnic Correlation Ratio based on [Bell (1954)](https://doi.org/10.2307/2574118) and [White (1986)](https://doi.org/10.2307/3644339). Also using data from the ACS-5 (2005-2009 onward), the `ndi` package can retrieve the aspatial Gini Index based on [Gini (1921)](https://doi.org/10.2307/2223319).
+The `ndi` package is a suite of `R` functions to compute various metrics of socio-economic deprivation and disparity in the United States. Some metrics are considered "spatial" because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other metrics are "aspatial" because they only consider the value within each census geography. Two types of aspatial NDI are available: (1) based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) who use variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of various demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates (ACS-5; 2006-2010 onward) pulled by the [tidycensus](https://CRAN.R-project.org/package=tidycensus) package. Using data from the ACS-5 (2005-2009 onward), the `ndi` package can also compute the (1) spatial Racial Isolation Index (RI) based on [Anthopolos et al. (2011)](https://doi.org/10.1016/j.sste.2011.06.002), (2) spatial Educational Isolation Index (EI) based on [Bravo et al. (2021)](https://doi.org/10.3390/ijerph18179384), (3) aspatial Index of Concentration at the Extremes (ICE) based on [Feldman et al. (2015)](https://doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://doi.org/10.2105/AJPH.2015.302955), (4) aspatial racial/ethnic Dissimilarity Index (DI) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328), (5) aspatial income or racial/ethnic Atkinson Index (DI) based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6), (6) aspatial racial/ethnic Isolation Index (II) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and [Bell (1954)](https://doi.org/10.2307/2574118), (7) aspatial racial/ethnic Correlation Ratio based on [Bell (1954)](https://doi.org/10.2307/2574118) and [White (1986)](https://doi.org/10.2307/3644339), (8) aspatial racial/ethnic Location Quotient based on [Merton (1939)](https://doi.org/10.2307/2084686) and [Sudano et al. (2013)](https://doi.org/10.1016/j.healthplace.2012.09.015), and (9) aspatial racial/ethnic Local Exposure and Isolation metric based on [Bemanian & Beyer (2017)](https://doi.org/10.1158/1055-9965.EPI-16-0926). Also using data from the ACS-5 (2005-2009 onward), the `ndi` package can retrieve the aspatial Gini Index based on [Gini (1921)](https://doi.org/10.2307/2223319).
 
 ### Installation
 
@@ -51,6 +51,9 @@ To install the development version from GitHub:
 <td><code>bell</code></td>
 <td>Compute the aspatial racial/ethnic Isolation Index (II) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and <a href="https://doi.org/10.2307/2574118">Bell (1954)</a></td>
 </tr>
+<td><code>bemanian_beyer</code></td>
+<td>Compute the aspatial racial/ethnic Local Exposure and Isolation (LEx/Is) metric based on <a href="https://doi.org/10.1158/1055-9965.EPI-16-0926">Bemanian & Beyer (2017)</a></td>
+</tr>
 <td><code>bravo</code></td>
 <td>Compute the spatial Educational Isolation Index (EI) based on <a href="https://doi.org/10.3390/ijerph18179384">Bravo et al. (2021)</a></td>
 </tr>
@@ -68,6 +71,9 @@ To install the development version from GitHub:
 </tr>
 <td><code>powell_wiley</code></td>
 <td>Compute the aspatial Neighborhood Deprivation Index (NDI) based on <a href="https://doi.org/10.1080/17445647.2020.1750066">Andrews et al. (2020)</a> and <a href="https://doi.org/10.1016/j.dib.2022.108002">Slotman et al. (2022)</a> with variables chosen by <a href="https://doi.org/10.1111/j.1749-6632.2009.05333.x">Roux and Mair (2010)</a></td>
+</tr>
+<td><code>sudano</code></td>
+<td>Compute the aspatial racial/ethnic Location Quotient (LQ) based on <a href="https://doi.org/10.2307/2084686">Merton (1938)</a> and <a href="https://doi.org/10.1016/j.healthplace.2012.09.015">Sudano et al. (2013)</a></td>
 </tr>
 <td><code>white</code></td>
 <td>Compute the aspatial racial/ethnic Correlation Ratio (V) based on <a href="https://doi.org/10.2307/2574118">Bell (1954)</a> and <a href="https://doi.org/10.2307/3644339">White (1986)</a></td>
@@ -122,7 +128,7 @@ Thank you to those who suggested additional metrics, including:
 ### Getting Started
 
 * Step 1: Obtain a unique access key from the U.S. Census Bureau. Follow [this link](http://api.census.gov/data/key_signup.html) to obtain one.
-* Step 2: Specify your access key in the `anthopolos()`, `atkinson()`, `bell()`, `bravo()`, `duncan()`, `gini()`, `krieger()`, `messer()`, `powell_wiley()`, or `white()` functions using the internal `key` argument or by using the `census_api_key()` function from the `tidycensus` package before running the `anthopolos()`, `atkinson()`, `bell()`, `bravo()`, `duncan()`, `gini()`, `krieger()`, `messer()`, `powell_wiley()`, or `white()` functions (see an example below).
+* Step 2: Specify your access key in the `anthopolos()`, `atkinson()`, `bell()`, `bemanian_beyer()`, `bravo()`, `duncan()`, `gini()`, `krieger()`, `messer()`, `powell_wiley()`, `sudano()`, or `white()` functions using the internal `key` argument or by using the `census_api_key()` function from the `tidycensus` package before running the `anthopolos()`, `atkinson()`, `bell()`, `bemanian_beyer()`, `bravo()`, `duncan()`, `gini()`, `krieger()`, `messer()`, `powell_wiley()`, `sudano()`, or `white()` functions (see an example below).
 
 ### Usage
 
@@ -515,23 +521,22 @@ ggplot2::ggplot() +
 ![](man/figures/ice5.png)
 
 ```r
-# ----------------------------------------------------------- #
-# Compute aspatial racial/ethnic Dissimilarity Index (Duncan) #
-# ----------------------------------------------------------- #
+# -------------------------------------------------------------------- #
+# Compute aspatial racial/ethnic Dissimilarity Index (Duncan & Duncan) #
+# -------------------------------------------------------------------- #
 
 # Dissimilarity Index based on Duncan & Duncan (1955)
 ## Selected subgroup comparison: Not Hispanic or Latino, Black or African American alone
 ## Selected subgroup reference: Not Hispanic or Latino, white alone
 ## Selected large geography: census tract
 ## Selected small geography: census block group
-di2020DC <- duncan(geo_large = "tract", geo_small = "block group",
-                   state = "DC", year = 2020,
-                   subgroup = "NHoLB", subgroup_ref = "NHoLW")
+di2020DC <- duncan(geo_large = "tract", geo_small = "block group", state = "DC",
+                   year = 2020, subgroup = "NHoLB", subgroup_ref = "NHoLW")
 
 # Obtain the 2020 census tracts from the "tigris" package
 tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
 
-# Join the DI (Duncan) values to the census tract geometry
+# Join the DI (Duncan & Duncan) values to the census tract geometry
 di2020DC <- dplyr::left_join(tract2020DC, di2020DC$di, by = "GEOID")
 
 ggplot2::ggplot() + 
@@ -542,7 +547,7 @@ ggplot2::ggplot() +
   ggplot2::scale_fill_viridis_c(limits = c(0, 1)) +
   ggplot2::labs(fill = "Index (Continuous)",
                 caption = "Source: U.S. Census ACS 2016-2020 estimates")+
-  ggplot2::ggtitle("Dissimilarity Index (Duncan)\nWashington, D.C. census block groups to tracts",
+  ggplot2::ggtitle("Dissimilarity Index (Duncan & Duncan)\nWashington, D.C. census block groups to tracts",
                    subtitle = "Black non-Hispanic vs. white non-Hispanic")
 ```
 
@@ -558,13 +563,13 @@ ggplot2::ggplot() +
 ## Selected large geography: census tract
 ## Selected small geography: census block group
 ## Default epsilon (0.5 or over- and under-representation contribute equally)
-ai2020DC <- atkinson(geo_large = "tract", geo_small = "block group",
-                     state = "DC", year = 2020, subgroup = "NHoLB")
+ai2020DC <- atkinson(geo_large = "tract", geo_small = "block group", state = "DC",
+                     year = 2020, subgroup = "NHoLB")
 
 # Obtain the 2020 census tracts from the "tigris" package
 tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
 
-# Join the DI (Duncan) values to the census tract geometry
+# Join the AI (Atkinson) values to the census tract geometry
 ai2020DC <- dplyr::left_join(tract2020DC, ai2020DC$ai, by = "GEOID")
 
 ggplot2::ggplot() + 
@@ -591,13 +596,13 @@ ggplot2::ggplot() +
 ## Selected interaction subgroup: Not Hispanic or Latino, Black or African American alone
 ## Selected large geography: census tract
 ## Selected small geography: census block group
-ii2020DC <- bell(geo_large = "tract", geo_small = "block group",
-                 state = "DC", year = 2020, subgroup = "NHoLB", subgroup_ixn = "NHoLW")
+ii2020DC <- bell(geo_large = "tract", geo_small = "block group", state = "DC",
+                 year = 2020, subgroup = "NHoLB", subgroup_ixn = "NHoLW")
 
 # Obtain the 2020 census tracts from the "tigris" package
 tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
 
-# Join the DI (Duncan) values to the census tract geometry
+# Join the II (Bell) values to the census tract geometry
 ii2020DC <- dplyr::left_join(tract2020DC, ii2020DC$ii, by = "GEOID")
 
 ggplot2::ggplot() + 
@@ -623,13 +628,13 @@ ggplot2::ggplot() +
 ## Selected subgroup: Not Hispanic or Latino, Black or African American alone
 ## Selected large geography: census tract
 ## Selected small geography: census block group
-v2020DC <- white(geo_large = "tract", geo_small = "block group",
-                 state = "DC", year = 2020, subgroup = "NHoLB")
+v2020DC <- white(geo_large = "tract", geo_small = "block group", state = "DC",
+                 year = 2020, subgroup = "NHoLB")
 
 # Obtain the 2020 census tracts from the "tigris" package
 tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
 
-# Join the DI (Duncan) values to the census tract geometry
+# Join the V (White) values to the census tract geometry
 v2020DC <- dplyr::left_join(tract2020DC, v2020DC$v, by = "GEOID")
 
 ggplot2::ggplot() + 
@@ -646,9 +651,74 @@ ggplot2::ggplot() +
 
 ![](man/figures/v.png)
 
+```r
+# --------------------------------------------------------- #
+# Compute aspatial racial/ethnic Location Quotient (Sudano) #
+# --------------------------------------------------------- #
+
+# Location Quotient based on Merton (1938) and Sudano (2013)
+## Selected subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected large geography: state
+## Selected small geography: census tract
+lq2020DC <- sudano(geo_large = "state", geo_small = "tract", state = "DC",
+                   year = 2020, subgroup = "NHoLB")
+
+# Obtain the 2020 census tracts from the "tigris" package
+tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
+
+# Join the LQ (Sudano) values to the census tract geometry
+lq2020DC <- dplyr::left_join(tract2020DC, lq2020DC$lq, by = "GEOID")
+
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = lq2020DC, 
+                   ggplot2::aes(fill = LQ),
+                   color = "white") +
+  ggplot2::theme_bw() + 
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates") +
+  ggplot2::ggtitle('Location Quotient (Sudano)\nWashington, D.C. census tracts vs. "state"',
+                   subtitle = "Black non-Hispanic")
+```
+
+![](man/figures/lq.png)
+
+```r
+# ------------------------------------------------------------------------------------- #
+# Compute aspatial racial/ethnic Local Exposure and Isolation (Bemanian & Beyer) metric #
+# ------------------------------------------------------------------------------------- #
+
+# Local Exposure and Isolation metric based on Bemanian & Beyer (2017)
+## Selected subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected interaction subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected large geography: state
+## Selected small geography: census tract
+lexis2020DC <- bemanian_beyer(geo_large = "state", geo_small = "tract", state = "DC",
+                              year = 2020, subgroup = "NHoLB", subgroup_ixn = "NHoLW")
+
+# Obtain the 2020 census tracts from the "tigris" package
+tract2020DC <- tigris::tracts(state = "DC", year = 2020, cb = TRUE)
+
+# Join the LEx/Is (Bemanian & Beyer) values to the census tract geometry
+lexis2020DC <- dplyr::left_join(tract2020DC, lexis2020DC$lexis, by = "GEOID")
+
+ggplot2::ggplot() + 
+  ggplot2::geom_sf(data = lexis2020DC, 
+                   ggplot2::aes(fill = LExIs),
+                   color = "white") +
+  ggplot2::theme_bw() + 
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::labs(fill = "Index (Continuous)",
+                caption = "Source: U.S. Census ACS 2016-2020 estimates") +
+  ggplot2::ggtitle('Local Exposure and Isolation (Bemanian & Beyer) metric\nWashington, D.C. census block groups to tracts',
+                   subtitle = "Black non-Hispanic vs. white non-Hispanic")
+```
+
+![](man/figures/lexis.png)
+
 ### Funding
 
-This package was originally developed while the author was a postdoctoral fellow supported by the [Cancer Prevention Fellowship Program](https://cpfp.cancer.gov) at the [National Cancer Institute](https://cancer.gov). Any modifications since December 05, 2022 were made while the author was an employee of Social & Scientific Systems, Inc., a division of [DLH Corporation](https://dlhcorp.com).
+This package was originally developed while the author was a postdoctoral fellow supported by the [Cancer Prevention Fellowship Program](https://cpfp.cancer.gov) at the [National Cancer Institute](https://www.cancer.gov). Any modifications since December 05, 2022 were made while the author was an employee of Social & Scientific Systems, Inc., a division of [DLH Corporation](https://www.dlhcorp.com).
 
 ### Acknowledgments
 

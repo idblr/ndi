@@ -118,20 +118,20 @@ krieger <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
             B2530bih = "B19001B_006")
   
   # Acquire ICE variables
-  ice_vars <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
+  ice_data <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
                                                                     year = year, 
                                                                     output = "wide",
                                                                     variables = vars, ...)))
 
   if (geo == "tract") {
-    ice_vars <- ice_vars %>%
+    ice_data <- ice_data %>%
       tidyr::separate(NAME, into = c("tract", "county", "state"), sep = ",") %>%
       dplyr::mutate(tract = gsub("[^0-9\\.]","", tract))
   } else {
-    ice_vars <- ice_vars %>% tidyr::separate(NAME, into = c("county", "state"), sep = ",") 
+    ice_data <- ice_data %>% tidyr::separate(NAME, into = c("county", "state"), sep = ",") 
   }
   
-  ice_vars <- ice_vars %>%
+  ice_data <- ice_data %>%
     dplyr::mutate(TotalPop_inc = TotalPopiE,
                   TotalPop_edu = TotalPopeduE,
                   TotalPop_re = TotalPopreE,
@@ -188,7 +188,7 @@ krieger <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
   # Sum educational attainment categories
   # A_{edu} = Less than high school / 12 year / GED
   # P_{edu} = Four-year college degree or more
-  ice_vars <- ice_vars %>% 
+  ice_data <- ice_data %>% 
     dplyr::mutate(A_edu = O25MBD + O25FBD + O25MMD + O25FMD + O25MPSD + 
                           O25FPSD + O25MDD + O25FDD,
                   P_edu = O25MNSC + O25FNSC + O25MNt4G + O25FNt4G +
@@ -204,7 +204,7 @@ krieger <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
   ## According to U.S. Census Bureau Table A-4a
   ## "Selected Measures of Household Income Dispersion: 1967 to 2020"
   if (year < 2016) { 
-    ice_vars <- ice_vars %>% 
+    ice_data <- ice_data %>% 
       dplyr::mutate(A_inc = B100125i + B125150i + B150200i + O200i,
                     P_inc = U10i + B1015i + B1520i + B2025i,
                     A_wbinc = B100125nhw + B125150nhw + B150200nhw + O200nhw,
@@ -212,7 +212,7 @@ krieger <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
                     A_wpcinc = B100125nhw + B125150nhw + B150200nhw + O200nhw,
                     P_wpcinc = U10nhw + B1015nhw + B1520nhw + B2025nhw)
   } else {
-    ice_vars <- ice_vars %>% 
+    ice_data <- ice_data %>% 
       dplyr::mutate(A_inc = B125150i + B150200i + O200i,
                     P_inc = U10i + B1015i + B1520i + B2025i + B2530i,
                     A_wbinc = B125150nhw + B150200nhw + O200nhw,
@@ -229,7 +229,7 @@ krieger <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
   ## P_{i} denotes the count within the highest extreme (e.g., households in 80th income percentile)
   ## T_{i} denotes the total population in region i (TotalPop)
   
-  ice_vars <- ice_vars %>% 
+  ice_data <- ice_data %>% 
     dplyr::mutate(ICE_inc = (A_inc - P_inc) / TotalPop_inc,
                   ICE_edu = (A_edu - P_edu) / TotalPop_edu,
                   ICE_rewb = (NHoLW - NHoLB) / TotalPop_re,
@@ -237,7 +237,7 @@ krieger <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
                   ICE_wpcinc = (A_wpcinc - P_wpcinc) / TotalPop_inc)
   
   # Warning for missingness of census characteristics
-  missingYN <- ice_vars %>% 
+  missingYN <- ice_data %>% 
     dplyr::select(U10i, B1015i, B1520i, B2025i, B2530i, B100125i, B125150i, 
                   B150200i, O200i, O25MNSC, O25FNSC,O25MNt4G, O25FNt4G,
                   O25M5t6G, O25F5t6G, O25M7t8G, O25F7t8G, O25M9G, O25F9G,
@@ -264,7 +264,7 @@ krieger <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
   
   # Format output
   if (geo == "tract") {
-    ice <- ice_vars %>%
+    ice <- ice_data %>%
       dplyr::select(GEOID, state, county, tract,
                     ICE_inc, ICE_edu, ICE_rewb, ICE_wbinc, ICE_wpcinc,
                     U10i, B1015i, B1520i, B2025i, B2530i, B100125i, B125150i, 
@@ -277,7 +277,7 @@ krieger <- function(geo = "tract", year = 2020, quiet = FALSE, ...) {
                     B150200nhw, O200nhw, U10bih, B1015bih, B1520bih, B2025bih,
                     B2530bih, TotalPop_inc, TotalPop_edu, TotalPop_re)
   } else {
-    ice <- ice_vars %>%
+    ice <- ice_data %>%
       dplyr::select(GEOID, state, county, 
                     ICE_inc, ICE_edu, ICE_rewb, ICE_wbinc, ICE_wpcinc,
                     U10i, B1015i, B1520i, B2025i, B2530i, B100125i, B125150i, 

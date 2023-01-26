@@ -67,10 +67,10 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'   
-#'   # Atkinson Index of non-Hispanic Black vs. non-Hispanic white populations
+#'   # Atkinson Index of non-Hispanic Black populations
 #'   ## of census tracts within Georgia, U.S.A., counties (2020)
-#'   atkinson(geo_large = "county", geo_small = "tract", state = "GA", year = 2020,
-#'            subgroup = "NHoLB")
+#'   atkinson(geo_large = "county", geo_small = "tract", state = "GA",
+#'            year = 2020, subgroup = "NHoLB")
 #'   
 #' }
 #' 
@@ -141,19 +141,19 @@ atkinson <- function(geo_large = "county", geo_small = "tract", year = 2020, sub
   
   # Grouping IDs for AI computation
   if (geo_large == "tract") {
-    ai_vars <- ai_data %>%
+    ai_data <- ai_data %>%
       dplyr::mutate(oid = paste(.$STATEFP, .$COUNTYFP, .$TRACTCE, sep = ""),
                     state = stringr::str_trim(state),
                     county = stringr::str_trim(county))
   }
   if (geo_large == "county") {
-    ai_vars <- ai_data %>%
+    ai_data <- ai_data %>%
       dplyr::mutate(oid = paste(.$STATEFP, .$COUNTYFP, sep = ""),
                     state = stringr::str_trim(state),
                     county = stringr::str_trim(county))
   }
   if (geo_large == "state") {
-    ai_vars <- ai_data %>%
+    ai_data <- ai_data %>%
       dplyr::mutate(oid = .$STATEFP,
                     state = stringr::str_trim(state))
   }
@@ -161,10 +161,10 @@ atkinson <- function(geo_large = "county", geo_small = "tract", year = 2020, sub
   # Count of racial/ethnic subgroup populations
   ## Count of racial/ethnic subgroup population
   if (length(in_subgroup) == 1) {
-    ai_vars <- ai_vars %>%
+    ai_data <- ai_data %>%
       dplyr::mutate(subgroup = .[ , in_subgroup])
   } else {
-    ai_vars <- ai_vars %>%
+    ai_data <- ai_data %>%
       dplyr::mutate(subgroup = rowSums(.[ , in_subgroup]))
   }
 
@@ -185,8 +185,8 @@ atkinson <- function(geo_large = "county", geo_small = "tract", year = 2020, sub
   ## A_{\epsilon}(x_{1},...,x_{n}) = 1 - \frac{M_{1-\epsilon}(x_{1},...,x_{n})}{M_{1}(x_{1},...,x_{n})}
 
   ## Compute
-  AItmp <- ai_vars %>%
-    split(., f = list(ai_vars$oid)) %>%
+  AItmp <- ai_data %>%
+    split(., f = list(ai_data$oid)) %>%
     lapply(., FUN = ai_fun, epsilon = epsilon, omit_NAs = omit_NAs) %>%
     utils::stack(.) %>%
     dplyr::mutate(AI = values,
@@ -194,7 +194,7 @@ atkinson <- function(geo_large = "county", geo_small = "tract", year = 2020, sub
     dplyr::select(AI, oid)
 
   # Warning for missingness of census characteristics
-  missingYN <- as.data.frame(ai_vars[ , in_subgroup])
+  missingYN <- as.data.frame(ai_data[ , in_subgroup])
   names(missingYN) <- out_names
   missingYN <- missingYN %>%
     tidyr::pivot_longer(cols = dplyr::everything(),
@@ -214,7 +214,7 @@ atkinson <- function(geo_large = "county", geo_small = "tract", year = 2020, sub
 
   # Format output
   if (geo_large == "state") {
-    ai <- merge(ai_vars, AItmp) %>%
+    ai <- merge(ai_data, AItmp) %>%
       dplyr::select(oid, state, AI) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
@@ -222,7 +222,7 @@ atkinson <- function(geo_large = "county", geo_small = "tract", year = 2020, sub
       .[.$GEOID != "NANA", ]
   }
   if (geo_large == "county") {
-    ai <- merge(ai_vars, AItmp) %>%
+    ai <- merge(ai_data, AItmp) %>%
       dplyr::select(oid, state, county, AI) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
@@ -230,7 +230,7 @@ atkinson <- function(geo_large = "county", geo_small = "tract", year = 2020, sub
       .[.$GEOID != "NANA", ]
   }
   if (geo_large == "tract") {
-    ai <- merge(ai_vars, AItmp) %>%
+    ai <- merge(ai_data, AItmp) %>%
       dplyr::select(oid, state, county, tract, AI) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%

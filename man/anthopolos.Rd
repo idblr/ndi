@@ -64,10 +64,12 @@ A census geography (and its neighbors) that has nearly all of its population who
 # Wrapped in \dontrun{} because these examples require a Census API key.
   
   # Tract-level metric (2020)
-  anthopolos(geo = "tract", state = "GA", year = 2020, subgroup = c("NHoLB", "HoLB"))
+  anthopolos(geo = "tract", state = "GA", 
+             year = 2020, subgroup = c("NHoLB", "HoLB"))
   
   # County-level metric (2020)
-  anthopolos(geo = "county", state = "GA", year = 2020, subgroup = c("NHoLB", "HoLB"))
+  anthopolos(geo = "county", state = "GA", 
+             year = 2020, subgroup = c("NHoLB", "HoLB"))
   
 }
 

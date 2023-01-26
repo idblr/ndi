@@ -1,6 +1,6 @@
 #' Dissimilarity Index based on Duncan & Duncan (1955) 
 #' 
-#' Compute the aspatial Dissimilarity Index (Duncan) of selected racial/ethnic subgroup(s) and U.S. geographies
+#' Compute the aspatial Dissimilarity Index (Duncan & Duncan) of selected racial/ethnic subgroup(s) and U.S. geographies
 #'
 #' @param geo_large Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = "county"}.
 #' @param geo_small Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_large = "tract"}.
@@ -67,8 +67,8 @@
 #'   
 #'   # Dissimilarity Index of non-Hispanic Black vs. non-Hispanic white populations
 #'   ## of census tracts within Georgia, U.S.A., counties (2020)
-#'   duncan(geo_large = "county", geo_small = "tract", state = "GA", year = 2020,
-#'          subgroup = "NHoLB", subgroup_ref = "NHoLW")
+#'   duncan(geo_large = "county", geo_small = "tract", state = "GA",
+#'          year = 2020, subgroup = "NHoLB", subgroup_ref = "NHoLW")
 #'   
 #' }
 #' 
@@ -143,19 +143,19 @@ duncan <- function(geo_large = "county", geo_small = "tract", year = 2020, subgr
   
   # Grouping IDs for DI computation
   if (geo_large == "tract") {
-    di_vars <- di_data %>%
+    di_data <- di_data %>%
       dplyr::mutate(oid = paste(.$STATEFP, .$COUNTYFP, .$TRACTCE, sep = ""),
                     state = stringr::str_trim(state),
                     county = stringr::str_trim(county))
   }
   if (geo_large == "county") {
-    di_vars <- di_data %>%
+    di_data <- di_data %>%
       dplyr::mutate(oid = paste(.$STATEFP, .$COUNTYFP, sep = ""),
                     state = stringr::str_trim(state),
                     county = stringr::str_trim(county))
   }
   if (geo_large == "state") {
-    di_vars <- di_data %>%
+    di_data <- di_data %>%
       dplyr::mutate(oid = .$STATEFP,
                     state = stringr::str_trim(state))
   }
@@ -163,18 +163,18 @@ duncan <- function(geo_large = "county", geo_small = "tract", year = 2020, subgr
   # Count of racial/ethnic subgroup populations
   ## Count of racial/ethnic comparison subgroup population
   if (length(in_subgroup) == 1) {
-    di_vars <- di_vars %>%
+    di_data <- di_data %>%
       dplyr::mutate(subgroup = .[ , in_subgroup])
   } else {
-    di_vars <- di_vars %>%
+    di_data <- di_data %>%
       dplyr::mutate(subgroup = rowSums(.[ , in_subgroup]))
   }
   ## Count of racial/ethnic reference subgroup population
   if (length(in_subgroup_ref) == 1) {
-    di_vars <- di_vars %>%
+    di_data <- di_data %>%
       dplyr::mutate(subgroup_ref = .[ , in_subgroup_ref])
   } else {
-    di_vars <- di_vars %>%
+    di_data <- di_data %>%
       dplyr::mutate(subgroup_ref = rowSums(.[ , in_subgroup_ref]))
   }
 
@@ -189,8 +189,8 @@ duncan <- function(geo_large = "county", geo_small = "tract", year = 2020, subgr
   ## Y_{jt} denotes the racial/ethnic referent subgroup population of larger geography j at time t
 
   ## Compute
-  DItmp <- di_vars %>%
-    split(., f = list(di_vars$oid)) %>%
+  DItmp <- di_data %>%
+    split(., f = list(di_data$oid)) %>%
     lapply(., FUN = di_fun, omit_NAs = omit_NAs) %>%
     utils::stack(.) %>%
     dplyr::mutate(DI = values,
@@ -198,7 +198,7 @@ duncan <- function(geo_large = "county", geo_small = "tract", year = 2020, subgr
     dplyr::select(DI, oid)
 
   # Warning for missingness of census characteristics
-  missingYN <- di_vars[ , c(in_subgroup, in_subgroup_ref)]
+  missingYN <- di_data[ , c(in_subgroup, in_subgroup_ref)]
   names(missingYN) <- out_names
   missingYN <- missingYN %>%
     tidyr::pivot_longer(cols = dplyr::everything(),
@@ -218,7 +218,7 @@ duncan <- function(geo_large = "county", geo_small = "tract", year = 2020, subgr
 
   # Format output
   if (geo_large == "state") {
-    di <- merge(di_vars, DItmp) %>%
+    di <- merge(di_data, DItmp) %>%
       dplyr::select(oid, state, DI) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
@@ -226,7 +226,7 @@ duncan <- function(geo_large = "county", geo_small = "tract", year = 2020, subgr
       .[.$GEOID != "NANA", ]
   }
   if (geo_large == "county") {
-    di <- merge(di_vars, DItmp) %>%
+    di <- merge(di_data, DItmp) %>%
       dplyr::select(oid, state, county, DI) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
@@ -234,7 +234,7 @@ duncan <- function(geo_large = "county", geo_small = "tract", year = 2020, subgr
       .[.$GEOID != "NANA", ]
   }
   if (geo_large == "tract") {
-    di <- merge(di_vars, DItmp) %>%
+    di <- merge(di_data, DItmp) %>%
       dplyr::select(oid, state, county, tract, DI) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%

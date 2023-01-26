@@ -40,4 +40,4 @@ globalVariables(c("CWD", "EDU", "EMP", "FHH", "GEOID", "MedHHInc", "MedHHIncE", 
                   "O25MNSCE", "O25MNt4G", "O25MNt4GE", "O25MPSD", "O25MPSDE", "P_edu", "P_inc", "P_wbinc",
                   "P_wpcinc", "TotalPop_edu", "TotalPop_inc", "TotalPop_re", "TotalPopeduE",
                   "TotalPopiE", "TotalPopreE", "U10bih", "U10bihE", "U10i", "U10iE", "U10nhw", "U10nhwE", "NAME.y",
-                  ".", "values", "ind", "oid", "block.group", "DI", "AI", "II", "V"))
+                  ".", "values", "ind", "oid", "block.group", "DI", "AI", "II", "V", "LQ", "LExIs"))

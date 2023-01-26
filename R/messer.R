@@ -115,20 +115,20 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round
                 PctUnemp_7074F = "B23001_167", PctUnemp_75upF = "B23001_172")
       
       # Acquire NDI variables
-      ndi_vars <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
+      ndi_data <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
                                                                         year = year, 
                                                                         output = "wide",
                                                                         variables = vars, ...)))
       
       if (geo == "tract") {
-        ndi_vars <- ndi_vars %>%
+        ndi_data <- ndi_data %>%
           tidyr::separate(NAME, into = c("tract", "county", "state"), sep = ",") %>%
           dplyr::mutate(tract = gsub("[^0-9\\.]","", tract))
       } else {
-        ndi_vars <- ndi_vars %>% tidyr::separate(NAME, into = c("county", "state"), sep = ",")
+        ndi_data <- ndi_data %>% tidyr::separate(NAME, into = c("county", "state"), sep = ",")
       }
       
-      ndi_vars <- ndi_vars %>%
+      ndi_data <- ndi_data %>%
         dplyr::mutate(OCC = (PctMenMgmtBusScArti_num1E + PctMenMgmtBusScArti_num2E) / PctMenMgmtBusScArti_denE,
                       CWD = (PctCrwdHH_num1E + PctCrwdHH_num2E + PctCrwdHH_num3E +
                                PctCrwdHH_num4E + PctCrwdHH_num5E + PctCrwdHH_num6E) / PctCrwdHH_denE,
@@ -151,20 +151,20 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round
                                PctUnemp_7074FE + PctUnemp_75upME) / PctUnemp_denE)
     } else {
       # Acquire NDI variables
-      ndi_vars <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
+      ndi_data <- suppressMessages(suppressWarnings(tidycensus::get_acs(geography = geo,
                                                                         year = year, 
                                                                         output = "wide",
                                                                         variables = vars, ...)))
       
       if (geo == "tract") {
-        ndi_vars <- ndi_vars %>%
+        ndi_data <- ndi_data %>%
           tidyr::separate(NAME, into = c("tract", "county", "state"), sep = ",") %>%
           dplyr::mutate(tract = gsub("[^0-9\\.]","", tract))
       } else {
-        ndi_vars <- ndi_vars %>% tidyr::separate(NAME, into = c("county", "state"), sep = ",") 
+        ndi_data <- ndi_data %>% tidyr::separate(NAME, into = c("county", "state"), sep = ",") 
       }
       
-      ndi_vars <- ndi_vars %>%
+      ndi_data <- ndi_data %>%
         dplyr::mutate(OCC = (PctMenMgmtBusScArti_num1E + PctMenMgmtBusScArti_num2E) / PctMenMgmtBusScArti_denE,
                       CWD = (PctCrwdHH_num1E + PctCrwdHH_num2E + PctCrwdHH_num3E +
                                PctCrwdHH_num4E + PctCrwdHH_num5E + PctCrwdHH_num6E) / PctCrwdHH_denE,
@@ -178,29 +178,29 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round
     }
     
     # Generate NDI
-    ndi_vars_pca <- ndi_vars %>%                           
+    ndi_data_pca <- ndi_data %>%                           
       dplyr::select(OCC, CWD, POV, FHH, PUB, U30, EDU, EMP)
   } else {
     # If inputing pre-formatted data: 
-    ndi_vars <- dplyr::as_tibble(df)
-    ndi_vars_pca <- df[ , -1] # omits the first feature (column) typically an ID (e.g., GEOID or FIPS)
+    ndi_data <- dplyr::as_tibble(df)
+    ndi_data_pca <- df[ , -1] # omits the first feature (column) typically an ID (e.g., GEOID or FIPS)
   }
   
   # Replace infinite values as zero (typically because denominator is zero)
-  ndi_vars_pca <- do.call(data.frame,
-                          lapply(ndi_vars_pca,
+  ndi_data_pca <- do.call(data.frame,
+                          lapply(ndi_data_pca,
                                  function(x) replace(x, is.infinite(x), 0)))
   
   # Run principal component analysis
-  pca <- psych::principal(ndi_vars_pca,
+  pca <- psych::principal(ndi_data_pca,
                           nfactors = 1,
-                          n.obs = nrow(ndi_vars_pca), 
+                          n.obs = nrow(ndi_data_pca), 
                           covar = FALSE,
                           scores = TRUE,
                           missing = imp)
   
   # Warning for missingness of census characteristics
-  missingYN <- ndi_vars_pca %>%
+  missingYN <- ndi_data_pca %>%
     tidyr::pivot_longer(cols = dplyr::everything(),
                         names_to = "variable",
                         values_to = "val") %>%
@@ -240,7 +240,7 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round
   if (is.null(df)) {
     # Format output
     if (round_output == TRUE) {
-      ndi <- cbind(ndi_vars, NDIQuart) %>%
+      ndi <- cbind(ndi_data, NDIQuart) %>%
         dplyr::mutate(OCC = round(OCC, digits = 1),
                       CWD = round(CWD, digits = 1),
                       POV = round(POV, digits = 1),
@@ -251,7 +251,7 @@ messer <- function(geo = "tract", year = 2020, imp = FALSE, quiet = FALSE, round
                       EMP = round(EMP, digits = 1),
                       NDI = round(NDI, digits = 4))
     } else {
-      ndi <- cbind(ndi_vars, NDIQuart)
+      ndi <- cbind(ndi_data, NDIQuart)
     }
     
     if (geo == "tract") {

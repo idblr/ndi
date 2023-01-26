@@ -50,10 +50,12 @@ A census geography (and its neighbors) that has nearly all of its population wit
 # Wrapped in \dontrun{} because these examples require a Census API key.
   
   # Tract-level metric (2020)
-  bravo(geo = "tract", state = "GA", year = 2020, subgroup = c("LtHS", "HSGiE"))
+  bravo(geo = "tract", state = "GA", 
+        year = 2020, subgroup = c("LtHS", "HSGiE"))
   
   # County-level metric (2020)
-  bravo(geo = "county", state = "GA", year = 2020, subgroup = c("LtHS", "HSGiE"))
+  bravo(geo = "county", state = "GA",
+        year = 2020, subgroup = c("LtHS", "HSGiE"))
   
 }
 
