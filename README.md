@@ -156,7 +156,7 @@ tidycensus::census_api_key("...") # INSERT YOUR OWN KEY FROM U.S. CENSUS API
 # ---------------------- #
 
 # Compute the NDI (Messer) values (2016-2020 5-year ACS) for Washington, D.C. census tracts
-messer2020DC <- ndi::messer(state = "DC", year = 2020)
+messer2020DC <- messer(state = "DC", year = 2020)
 
 # ------------------------------ #
 # Outputs from messer() function #
