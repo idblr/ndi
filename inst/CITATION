@@ -5,7 +5,7 @@ citEntry(entry = "manual",
   author        = personList(as.person("Ian D. Buller")),
   publisher     = "The Comprehensive R Archive Network",
   year          = "2022",
-  number        = "0.1.4.9002",
+  number        = "0.1.4",
   doi           = "10.5281/zenodo.6989030",
   url           = "https://cran.r-project.org/package=ndi",
   
@@ -13,7 +13,7 @@ citEntry(entry = "manual",
   paste("Ian D. Buller (2022).",
         "ndi: Neighborhood Deprivation Indices.",
         "The Comprehensive R Archive Network.",
-        "v0.1.4.9002.",
+        "v0.1.4.",
         "DOI:10.5281/zenodo.6989030",
         "Accessed by: https://cran.r-project.org/package=ndi")
 )
@@ -81,9 +81,9 @@ citEntry(entry = "Article",
 citEntry(entry = "Article",
   title        = "Neighborhood racial residential segregation and changes in health or death among older adults",
   author       = personList(as.person("Joseph J. Sudano"),
-                    as.person("Adam Perzynski")
-                    as.person("David W. Wong")
-                    as.person("Natalie Colabianchi")
+                    as.person("Adam Perzynski"),
+                    as.person("David W. Wong"),
+                    as.person("Natalie Colabianchi"),
                     as.person("David Litaker")),
   journal      = "Health & Place",
   year         = "2013",

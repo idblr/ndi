@@ -1,6 +1,6 @@
 # ndi (development version)
 
-# ndi v0.1.4.9003
+## ndi v0.1.4
 
 ### New Features
 * Added `atkinson()` function to compute the aspatial income or racial/ethnic Atkinson Index (AI) based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6) for specified counties/tracts 2009 onward
@@ -21,7 +21,7 @@
 * Updated documentation throughout
 * Added GitHub R-CMD-check
 
-# ndi v0.1.3
+## ndi v0.1.3
 
 ### New Features
 * Added `duncan()` function to compute the Dissimilarity Index (DI) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328) for specified counties/tracts 2009 onward
@@ -38,7 +38,7 @@
 * Updated CITATION with new citation for the additional metric
 * Updated maintainer contact information
 
-# ndi v0.1.2
+## ndi v0.1.2
 
 ### New Features
 * Added `krieger()` function to compute the Index of Concentration at the Extremes (ICE) based on [Feldman et al. (2015)](https://doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://doi.org/10.2105/AJPH.2015.302955) for specified counties/tracts 2009 onward 
@@ -64,7 +64,7 @@
 * Updated 'package.R' with new details
 * Updated CITATION with new citations for the additional metric
 
-# ndi v0.1.1
+## ndi v0.1.1
 
 ### New Features
 * Added `anthopolos()` function to compute the Racial Isolation Index (RI) based on based on [Anthopolos et al. (2011)](https://doi.org/10.1016/j.sste.2011.06.002) for specified counties/tracts 2009 onward
@@ -80,8 +80,8 @@
 * Updated 'package.R' with new details and section
 * Updated CITATION with new citations for the additional metrics
 
-# ndi v0.1.0
+## ndi v0.1.0
 * Fixed invalid URL and typos in package README.md
 
-# ndi v0.0.1
+## ndi v0.0.1
 * Initial CRAN submission

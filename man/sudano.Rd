@@ -42,7 +42,7 @@ An object of class 'list'. This is a named list with the following components:
 Compute the aspatial Location Quotient (Sudano) of a selected racial/ethnic subgroup(s) and U.S. geographies.
 }
 \details{
-This function will compute the aspatial Location Quotient (LQ) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Merton (1939) \doi{10.2307/2084686} and Sudano et al. (2013) \doi{10.1016/j.healthplace.2012.09.015}. This function provides the computation of LQ (Sudano) for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+This function will compute the aspatial Location Quotient (LQ) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Merton (1939) \doi{10.2307/2084686} and Sudano et al. (2013) \doi{10.1016/j.healthplace.2012.09.015}. This function provides the computation of LQ for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 
 The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 \itemize{
@@ -70,7 +70,7 @@ The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. 
 
 Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 
-LQ (Sudano) is some measure of relative racial homogeneity of each smaller geography within a larger geography. LQ can range in value from 0 to infinity because it is ratio of two proportions in which the numerator is the proportion of subgroup population in a smaller geography and the denominator is the proportion of subgroup population in its larger geography. For example, a smaller geography with an LQ of 5 means that the proportion of the subgroup population living in the smaller geography is five times the proportion of the subgroup population in its larger geography.
+LQ is some measure of relative racial homogeneity of each smaller geography within a larger geography. LQ can range in value from 0 to infinity because it is ratio of two proportions in which the numerator is the proportion of subgroup population in a smaller geography and the denominator is the proportion of subgroup population in its larger geography. For example, a smaller geography with an LQ of 5 means that the proportion of the subgroup population living in the smaller geography is five times the proportion of the subgroup population in its larger geography.
 
 Larger geographies available include state \code{geo_large = "state"}, county \code{geo_large = "county"}, and census tract \code{geo_large = "tract"} levels. Smaller geographies available include, county \code{geo_small = "county"}, census tract \code{geo_small = "tract"}, and census block group \code{geo_small = "block group"} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the LQ value returned is NA.
 }

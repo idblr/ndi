@@ -12,7 +12,7 @@
 
 <meta name="author" content="Ian D. Buller (GitHub: @idblr)" />
 
-<meta name="date" content="2023-01-26" />
+<meta name="date" content="2023-02-01" />
 
 <title>ndi: Neighborhood Deprivation Indices</title>
 
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">ndi: Neighborhood Deprivation Indices</h1>
 <h4 class="author">Ian D. Buller (GitHub: <span class="citation">@idblr</span>)</h4>
-<h4 class="date">2023-01-26</h4>
+<h4 class="date">2023-02-01</h4>
 
 
 
@@ -810,19 +810,19 @@ characteristics used to compute the NDI (Powell-Wiley) values.</p>
 <pre><code>## # A tibble: 13 × 4
 ##    variable        total n_missing percent_missing
 ##    &lt;chr&gt;           &lt;int&gt;     &lt;int&gt; &lt;chr&gt;          
-##  1 logMedHHInc      4425        73 1.65 %         
-##  2 logMedHomeVal    4425       148 3.34 %         
-##  3 PctEducLTBchZ    4425        47 1.06 %         
-##  4 PctEducLTHSZ     4425        47 1.06 %         
-##  5 PctFamBelowPovZ  4425        63 1.42 %         
-##  6 PctFemHeadKidsZ  4425        60 1.36 %         
-##  7 PctNComPlmbZ     4425        60 1.36 %         
-##  8 PctNoIDRZ        4425        60 1.36 %         
-##  9 PctNoPhoneZ      4425        60 1.36 %         
-## 10 PctNotOwnerOccZ  4425        60 1.36 %         
-## 11 PctPubAsstZ      4425        60 1.36 %         
-## 12 PctUnemplZ       4425        57 1.29 %         
-## 13 PctWorkClassZ    4425        57 1.29 %</code></pre>
+##  1 PctEducLTBchZ    4425        47 1.06 %         
+##  2 PctEducLTHSZ     4425        47 1.06 %         
+##  3 PctFamBelowPovZ  4425        63 1.42 %         
+##  4 PctFemHeadKidsZ  4425        60 1.36 %         
+##  5 PctNComPlmbZ     4425        60 1.36 %         
+##  6 PctNoIDRZ        4425        60 1.36 %         
+##  7 PctNoPhoneZ      4425        60 1.36 %         
+##  8 PctNotOwnerOccZ  4425        60 1.36 %         
+##  9 PctPubAsstZ      4425        60 1.36 %         
+## 10 PctUnemplZ       4425        57 1.29 %         
+## 11 PctWorkClassZ    4425        57 1.29 %         
+## 12 logMedHHInc      4425        73 1.65 %         
+## 13 logMedHomeVal    4425       148 3.34 %</code></pre>
 <p>A fourth output from the <code>powell_wiley()</code> function is a
 character string or numeric value of a standardized Cronbach’s alpha. A
 value greater than 0.7 is desired.</p>
@@ -1047,7 +1047,7 @@ al. (2020)</a> change the <code>year</code> argument to
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">subtitle =</span> <span class="st">&quot;U.S. census tracts as the referent (including AK, HI, and DC)&quot;</span>)</span></code></pre></div>
 <p><img src="data:image/png;base64,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ccMTrJ2D9+JH8H8fceTm5NkPpz45CW7U32Tsb3WOs9x7MPo986Xtmsb65LTmdnsCRdBRvKanlZvBq/y77X1R65NT4MMiADlBUCgaBIWiQVAoGgSFokFQKJoyBP266HJ0L2M9BE1fj+45gKDp69E9BxA0fT265wCCpq9H9xxA0PT16J4DGwn6NUAkgggajJ2eA2KX2+3uIWj6enTPAQRNX4/uOYCg6evRPQcQNH09uucAgqavR/ccQND09eieAwiavh7dcwBB09ejew4gaPp6dM8BBE1fj+45gKDp69E9BxA0fT265wCCpq9H9xxA0PT16J4DCJq+Ht1zAEHT16N7DiBo+np0zwEETV+P7jmAoOnrdeVmFjapF4ayRg9B09frBTWXIegKCJq+HoI6gKDp6yGoAwiavh6COoCg6eshqAMImr4egjqAoOnrIagDCJq+HoI6gKDp6yGoAwiavh6COoCg6eshqAMImr4egjqAoOnrIagDCJq+HoI6gKDp6yGoAwiavh6COoCg6eshqAMImr4egjqAoOnrIagDCJq+HoI6gKDp6yGoAwiavh6COoCg6eshqAMImr4egjqAoOnrIagDCJq+3qigHr81stOjh6Dp67nNoAhaADs9xOvLIej1IGj6egjqAIKmr4egDiBo+noI6gCCpq+HoA4gaPp6COoAgqavh6AOIGj6egjqAIKmr4egDiBo+noI6gCCpq+HoA4gaPp6COoAgqavh6AOIGj6egjqAIKmr4egDiBo+noI6gCCpq+HoA4gaPp6COoAgqavh6AOIGj6egjqAIKmr4egDiBo+noI6gCCpq+HoA4gaPp6COoAgqavh6AOIGj6egjqwMjmv3h4+OefCnH5weHd56sPgdnpIV5fbpqg1/5a006P3oigX9wX39x9/uLhffHsDTF8CM1OD/H6cp4zKII2XH70WD2cv/d4+LBRkxZ2eogVk364DkFXWC/o+fv/Wh/iz99/Li4//HT4oJoGByadXk4SNPeWpGCCoO/er+2sjvK1ksOHtSFPdnoOUIQTdOXfOz16YzOoZeoczqDB2OkhViCoDyPnoH/buMg5KILmrDd+FV9NmC8e3pOX7/pDaHZ6iBUI6sOIoJcfHP7FY+6DBquHoD7wTlKyegjqA4Imq4egPiBosnoI6gOCJquHoD4gaLJ6COoDgiarh6A+IGiyegjqA4Imq4egPiBosnoI6gOCJquHoD4gaLJ6COoDgiarh6A+IGiyegjqA4Imq4egPiBosnoI6gOCJquHoD4gaLJ6COoDgiarh6A+IGiyegjqA4Imq4egPiBosnoI6gOCJquHoD4gaLJ6COoDgiarh6A+IGiyegjqA4Imq4egPiBosnoI6gOCJquHoD4gaLJ6COoDgiarh6A+IGiyegjqA4Imq4egPiBosnoI6gOCJquHoD4gaLJ6COoDgiarh6A+IGiyegjqA4Imq4egPiBosnoI6gOCJquHoD4gaLJ6COoDgiarh6A+IGiyegjqA4Imq4egPiBopHozE3MdS8zjmR0cvR4EjVTPxzTP2A6OXg+CRqqHoGHqIWikeggaph6CRqqHoGHqIWikeggaph6CRqqHoGHqIWikeggaph6CRqqHoGHqIWikeggaph6CRqqHoGHqIWikeggaph6CRqqHoGHqIWikeggaph6CRqqHoGHqIWikeggaph6CRqqHoGHqIWikeggaph6CRqqHoGHqIWikeggaph6CRqqHoGHqIWikeggaph6CRqqHoGHqIWikeggaph6CRqqHoGHqIWikejEFnfKjEP6UMHo9CBqpXsIZ1P6UNyWMXg+CRqqHoGHqbbRlX8NaEguae3ODM7KxGWAGDR7zp4TR60HQSPUQNEw9BI1UD0HD1EPQSPUQNEw9BI1UD0HD1EPQSPUQNEw9BI1UD0HD1EPQSPUQNEw9BI1UD0HD1EPQSPUQNEw9BI1UD0HD1EPQSPUQNEw9BI1UD0HD1EPQSPUQNEw9BI1UD0HD1EPQSPUQNEw9BI1UD0HD1EPQSPUQNEw9BI1UD0HD1EPQSPUQNEw9BI1UD0HD1EPQSPUQNEw9BI1UD0HD1EPQSPUQNEw9BI1UD0HD1EPQSPUQNEw9BI1UD0HD1EPQSPUQNEw9BA1Rb9IvdiKoDwgaol5M0xC0ABA0eMwfBDVB0OAxfxDUBEGDx/xBUBMEDR7zB0FNEDR4zB8ENUHQ4DF/ENQEQYPH/EFQEwQNHvMHQU0QNHjMHwQ1QdDgMX8Q1ARBg8f8QVATBA0e8wdBTRA0eMwfBDVB0OAxfxDUBEGDx/xBUBMEDR7zB0FNEDR4zB8ENUHQ4DF/ENQEQYPH/EFQEwQNHvMHQU0QNHjMHwQ1QdDgMX8Q1ARBg8f8QVATBA0e8wdBTRA0eMwfBDVB0OAxfxDUBEGDx/xBUBMEDR7zB0FNEDR4zB8ENUHQ4DF/ENQEQYPH/EFQEwQNHvMHQU0QNHjMHwQ1QdDgMX8Q1ARBg8f8QVATBA0e8wdBTRA0eMwfBDVB0OAxfxDUBEGDx/xBUBMEDR7zB0FNEDR4zB8ENUHQ4DF/ENQEQYPH/NkiQV88vC/E5QeHd5+vPgRmuwSd8n+ORdBA9Ua37Nnh/UbSZ2+sPIRmywQ1VkDQaPXGtuz8r//mvrj86LE4f+/x8GGjJi0gaPCYP1sj6It/+bdqvjx//7m4/PDT4YNq+mZSoqC5xyQ4IxureHavPqB/c7dRcviwPuQHM2jwmD/bMoNWk+WLa2bQYCBo8Jg/2yLos8Oae5yDImjOetfeZnrx8J68fNcfQoOgwWP+bJmg3AdF0Jz1eCfJvR6CJqyHoO71EDRhPQR1r4egCeshqHs9BE1YD0Hd6yFownoI6l4PQRPWQ1D3egiasB6CutdD0IT1ENS9XomCTvkM9UQQ1ARBE8SmgqAmCJogNhUENUHQBLGpIKgJgiaITQVBTRA0QWwqCGqCoAliU0FQEwRNEJsKgpogaILYVBDUBEETxKaCoCYImiA2FQQ1QdAEsakgqAmCJohNBUFNEDRBbCoIaoKgCWJTQVATBE0QmwqCmiBogthUyhX04ui4fljeerRRSQ8QNEFsKghqgqAJYlMpVdDT7ssC80275AyCJohNpVRBuxk0AwiaIDaVcgXNB4ImiE2lYEHP9ptDPOeg4/Vym3ZjBb06SX/2KUHQBLGplCso56DT6uU27cYKenWCoFPq5Tbtxgqa4w6oBEETxKZSrqAXRzMukibUy23ajRU0HwiaIDYVBDVB0ASxqZQrKIf4afVym3ZjBZVcvPlgo4o+IGiC2FRKF1Qsbz/dqKQHCJogNpXyBeUQP14vt2k3XdAFM6jOlB8vRtBo9SwXSXucg+qUZ9qNFTQfCJogNhUENUHQBLGplCxo87WPg40KeoGgCWJTKVjQ0/r6/eIovaEImiA2lXIF5VudNsozDUERVKM8026soBzibZRn2s0VlIskC+WZdoMFzQWCJohNBUFNEDRBbCoFC3p1cpDnu8cImiA2lYIFXdRu5jAUQRPEplKuoNxmslGeaQiKoBrlmXZjBeU+qI3yTLu5gool90ENyjPtBguaCwRNEJsKgpogaILYVBDUBEETxKaCoCYImiA2FQQ1QdAEsakgqAmCJohNBUFNEDRBbCoIaoKgCWJTQVATBE0QmwqCmiBogthUENQEQRPEprJDgn59EyjPtGmx3OO2ISMbmwFm0ASxqezQDBoMBE0QmwqCmiBogthUENQEQRPEpoKgJgiaIDYVBDVB0ASxqSCoCYImiE0FQU0QNEFsKghqUo6gfv9PDwSNVg9Bh/gJgqDR6iHokN0RdMKhwA6CmiBonpgVBDVB0DwxKwhqgqB5YlYQ1ARB88SsIKgJguaJWUFQEwTNE7OCoCYImidmBUFNEDRPzAqCmiBonpgVBDVB0DwxKwhqgqB5YlYQ1ARB88SsIKgJguaJWUFQEwTNE7OCoCYImidmBUFNEDRPzAqCmiBonpgVBDVB0DwxKwhqgqB5YlYQ1ARB88SsIKgJguaJWUFQEwTNE7OCoCYImidmBUFNEDRPzAqCmiBonpgVBDVB0DwxKwhqgqB5YlYQ1ARB88SsIKgJguaJWUFQEwTNE7OCoCYImidmBUFNEDRPzAqCmiBonpgVBDVB0DwxKwhqgqB5YlYQ1ARB88SsIKhJJkEt/6MBBEVQC7kEnfLUVpiGoHFB0DwxKwhqgqB5YlYQ1ARB88SsIKgJguaJWUFQEwTNE7OCoCYImidmBUFNEDRPzAqCmiBonpgVBDVB0DwxKwhqgqB5YlYQ1ARB88SsIKgJguaJWUFQEwTNE7OCoCYImidmBUFNEDRPzAqCmiBonpgVBDVB0DwxKwhqgqB5YlYQ1ARB88SsIKgJguaJWUFQEwTNE7OCoCYImidmBUFNEDRPzAqCmiBonpiVrRH0/N3Dw/tCXH5wePf56kNgEDRPzMq2CHr54afi/Mefvnh4Xzx7QwwfQoOgeWJWtkXQb2oPv7h/+dFjcf7e4+HDRk1aQNA8MSvbImhNNYuev//cfFBNbzk3TNDcw+3EyMb2vHh4T3xzt1Fy+DAW8oEZNEVsym/5iW2aQS8/uFddKo3MoMFA0FJiYosEPX+3uoYXnIN6PbOtMbE9gko/m8N8c/muP4QGQUuJie0R9NlhzX3ug3o9s60xsT2CpiSJoJOuERAUQS2kEXTCMwiKoDYQtJSYQFAbCFpKTCCoDQQtJSYQ1AaClhITCGoDQUuJCQS1gaClxASC2kDQUmICQW0gaCkxgaA2ELSUmEBQGwhaSkwgqA0ELSUmENQGgpYSEwhqA0FLiQkEtYGgpcQEgtpA0FJiAkFtIGgpMYGgNhC0lJhAUBsIWkpMIKgNBC0lJhDUBoKWEhMIagNBS4kJBLWBoKXEBILaQNBSYgJBbSBoKTGBoDYQtJSYQFAbEQSd8kM3CGo+haA2YghqPIugU55CUBsIWkpMIKgNBC0lJhDUBoKWEhMIagNBS4kJBLWBoKXEBILaQNBSYgJBbSBoKTGBoDYQtJSYQFAbCFpKTCCoDQQtJSYQ1AaClhITCGoDQUuJCQS1gaClxASC2kDQUmICQW0gaCkxgaA2ELSUmEBQGwhaSkwgqA0EzRSzfS8GQU0QtKAYgpogaEExBDVB0IJiCGqCoAXFENQEQQuKIagJghYUQ1ATBC0ohqAmCFpQDEFNELSgGIKaIGhBMQQ1QdCCYghqgqAFxRDUBEELiiGoCYIWFENQk03HxPKxMQT1jSGoycaCTnkKQaethKAmCFpQDEFNELSgGIKaIGhBMQQ1QdCCYghqgqAFxRDUBEELiiGoCYIWFENQEwQtKIagJghaUGyHBP26FHLv6dztB4zl3pWKkV5ngBm0oNgOzaDBQNCCYghqgqAFxRDUBEELiiGoCYIWFENQEwQtKIagJghaUAxBTRC0oBiCmiBoQTEENUHQgmIIaoKgBcUQ1ARBC4ohqAmCFhRDUBMELSiGoCZu2zDlZ0QQ1DuGoCaOgk54BkG9YwhqgqAFxRDUBEELiiGoCYIWFENQEwQtKIagJghaUAxBTRC0oBiCmiBoQTEENUHQgmIIaoKgxcSmvEvnBoLm39O5208ccwNB8++y3O0jaGQQdKtibiBo/l2Wu30EjQyCblXMDQTNv8tyt4+gkUHQrYq5gaD5d1nu9hE0Mgi6VTE3dl1Qv/+RMYJGjLmx84J6PYOgEWNuIGj+XZa7fQSNDIJuVcwNBM2/y3K3j6CRQdCtirmBoPl3We72ETQyCLpVMTcQNP8uy90+gkYGQbcq5gaC5t9ludtH0Mgg6FbF3EDQ/Lssd/sIGhkE3aqYGwiaf5flbh9BI4OgWxVzY6cEtXz4cxt2We72ETQyvaDmsm3YZbnbR9DIIOhWxdxA0Pyx3O0jaGQQdKtibiBo/lju9hE0Mgi6VTE3EDR/LHf7CBoZBC04tumPLm+xoOX9X2ER1C82xjYLOuGZ7GO/De1nj42BoPljudvPHhsDQfPHcrefPTYGguaP5W4/e2wMBM0fy91+9tgYCJo/lrv97LExEDR/LHf72WNjIGj+WO72s8fGQND8sdztZ4+NsTWCbsNveSOoX2yM7RHU65mtiOVuP3tsDATNH8vdfuqY08dHEDR/LHf7BcZ60gp6+cHh3eehmso9iAgaL9aTVNAXD++LZ29MqbudX3BH0FCxnqSCXn70WJy/99irbnmDiKDBYiPTUVJBz99/Li4//FQ1vR7bDAowZEQgT0G/uasLGozNXmSxy9G9jPU2mkGDsdNDHLvcbncv1jmoGzs9xLHL7Xb3nK/i7027indjp4c4drnd7l7C+6Aj7PQQxy63291L+E7SCDs9xLHL7Xb3EDR9PbrnAIKmr0f3HEDQ9PXongMImr4e3XMAQdPXo3sOIGj6enTPAQRNX4/uOYCg6evRPQcQNH09uucAgqavR/ccQND09eieAwiavh7dcwBB09ejew4gaPp6dM8BBE1fj+45gKDp69E9BxA0fT265wCCpq9H9xxA0PT16J4DZQgKsAYEhaJBUCgaBIWiQVAoGgSFokFQKBoEhaJBUCiaXRT0/N3Dw/u5O7GOOD8PGIzixm4HBa1/Afr8x8F/BToMk/83KXkob+x2UNBv6v3/RVHTQE+kn6gORXljt4OC1hguQokAAAFFSURBVET4Hf0wRPqR/5CU1b3dFLT+pfIyifS/SQlIYWO3Y4J+cXj4Rn0hUtQY6xQ/g5Y2djsmaMP5uyWdRA0p/By0vLHbQUGLG2OdSP+blFCUN3Y7KOizw5rSBlpR9n3Q8sZuBwWFXQJBoWgQFIoGQaFoEBSKBkGhaBA0KhdH8/pheevR1cmspv7n2Z0Hmbu1RSBoVC6OZseiFfSg+uPq5PZTBHUBQaNycfT9P32qCVo9cYygLiBoVCofFwe6oOJ0jqAuIGhUKkHPXnmkC7q8/RRBHUDQqNRH9NODgaC3HiGoAwgalVrQizcfMIN6g6BRqQWtTjs1QRecgzqBoFFpBL36u4+5ivcFQaPSCCqWM+6D+oKgUZGCikX3TlJtKYI6gKBQNAgKRYOgUDQICkWDoFA0CApFg6BQNAgKRYOgUDQICkXz/8ntqrqFBGbrAAAAAElFTkSuQmCC" /><!-- --></p>
 <p>The process to compute a US-standardized NDI (Powell-Wiley) took
-about 2.6 minutes to run on a machine with the features listed at the
+about 2.5 minutes to run on a machine with the features listed at the
 end of the vignette.</p>
 </div>
 </div>
@@ -1071,10 +1071,10 @@ Concentration at the Extremes based on based on <a href="https://doi.org/10.1136
 al. (2015)</a> and <a href="https://doi.org/10.2105/AJPH.2015.302955">Krieger et
 al. (2016)</a></li>
 <li><code>duncan()</code> function that computes the Dissimilarity Index
-based on on <a href="https://doi.org/10.2307/2088328">Duncan &amp;
-Duncan (1955)</a></li>
+based on <a href="https://doi.org/10.2307/2088328">Duncan &amp; Duncan
+(1955)</a></li>
 <li><code>atkinson()</code> function that computes the Atkinson Index
-based on on <a href="https://doi.org/10.1016/0022-0531(70)90039-6">Atkinson
+based on <a href="https://doi.org/10.1016/0022-0531(70)90039-6">Atkinson
 (1970)</a></li>
 <li><code>bell()</code> function that computes the aspatial
 racial/ethnic Isolation Index (II) based on Shevky &amp; Williams (1949;
@@ -2606,30 +2606,29 @@ the larger geography.</p>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] tigris_2.0       tidycensus_1.3.1 ndi_0.1.4.9003   ggplot2_3.4.0   
-## [5] dplyr_1.0.10     knitr_1.42      
+## [1] tigris_2.0.1     tidycensus_1.3.2 ndi_0.1.4        ggplot2_3.4.0   
+## [5] dplyr_1.1.0      knitr_1.42      
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_1.0.9         lattice_0.20-45    tidyr_1.2.1        class_7.3-20      
-##  [5] assertthat_0.2.1   digest_0.6.31      psych_2.2.9        utf8_1.2.2        
-##  [9] R6_2.5.1           evaluate_0.20      e1071_1.7-12       highr_0.10        
-## [13] httr_1.4.4         pillar_1.8.1       rlang_1.0.6        curl_5.0.0        
-## [17] uuid_1.1-0         rstudioapi_0.14    car_3.1-1          jquerylib_0.1.4   
-## [21] Matrix_1.4-1       rmarkdown_2.20     labeling_0.4.2     readr_2.1.3       
-## [25] stringr_1.5.0      munsell_0.5.0      proxy_0.4-27       compiler_4.2.1    
-## [29] xfun_0.36          pkgconfig_2.0.3    mnormt_2.1.1       htmltools_0.5.4   
-## [33] tidyselect_1.2.0   tibble_3.1.8       viridisLite_0.4.1  fansi_1.0.3       
-## [37] tzdb_0.3.0         crayon_1.5.2       withr_2.5.0        sf_1.0-9          
-## [41] wk_0.7.1           MASS_7.3-58.1      rappdirs_0.3.3     grid_4.2.1        
-## [45] nlme_3.1-157       jsonlite_1.8.4     gtable_0.3.1       lifecycle_1.0.3   
-## [49] DBI_1.1.3          magrittr_2.0.3     units_0.8-1        scales_1.2.1      
-## [53] KernSmooth_2.23-20 cli_3.4.1          stringi_1.7.12     cachem_1.0.6      
-## [57] carData_3.0-5      farver_2.1.1       xml2_1.3.3         bslib_0.4.2       
-## [61] ellipsis_0.3.2     generics_0.1.3     vctrs_0.5.1        s2_1.1.2          
-## [65] tools_4.2.1        Cairo_1.6-0        glue_1.6.2         purrr_1.0.1       
-## [69] hms_1.1.2          abind_1.4-5        parallel_4.2.1     fastmap_1.1.0     
-## [73] yaml_2.3.6         colorspace_2.0-3   classInt_0.4-8     rvest_1.0.3       
-## [77] sass_0.4.4</code></pre>
+##  [1] Rcpp_1.0.10        lattice_0.20-45    tidyr_1.3.0        class_7.3-20      
+##  [5] digest_0.6.31      psych_2.2.9        utf8_1.2.2         R6_2.5.1          
+##  [9] evaluate_0.20      e1071_1.7-12       highr_0.10         httr_1.4.4        
+## [13] pillar_1.8.1       rlang_1.0.6        curl_5.0.0         uuid_1.1-0        
+## [17] rstudioapi_0.14    car_3.1-1          jquerylib_0.1.4    Matrix_1.4-1      
+## [21] rmarkdown_2.20     labeling_0.4.2     readr_2.1.3        stringr_1.5.0     
+## [25] munsell_0.5.0      proxy_0.4-27       compiler_4.2.1     xfun_0.36         
+## [29] pkgconfig_2.0.3    mnormt_2.1.1       htmltools_0.5.4    tidyselect_1.2.0  
+## [33] tibble_3.1.8       viridisLite_0.4.1  fansi_1.0.4        tzdb_0.3.0        
+## [37] crayon_1.5.2       withr_2.5.0        sf_1.0-9           wk_0.7.1          
+## [41] MASS_7.3-58.1      rappdirs_0.3.3     grid_4.2.1         nlme_3.1-157      
+## [45] jsonlite_1.8.4     gtable_0.3.1       lifecycle_1.0.3    DBI_1.1.3         
+## [49] magrittr_2.0.3     units_0.8-1        scales_1.2.1       KernSmooth_2.23-20
+## [53] cli_3.6.0          stringi_1.7.12     cachem_1.0.6       carData_3.0-5     
+## [57] farver_2.1.1       xml2_1.3.3         bslib_0.4.2        ellipsis_0.3.2    
+## [61] generics_0.1.3     vctrs_0.5.2        s2_1.1.2           tools_4.2.1       
+## [65] Cairo_1.6-0        glue_1.6.2         purrr_1.0.1        hms_1.1.2         
+## [69] abind_1.4-5        parallel_4.2.1     fastmap_1.1.0      yaml_2.3.6        
+## [73] colorspace_2.1-0   classInt_0.4-8     rvest_1.0.3        sass_0.4.4</code></pre>
 </div>
 </div>
 
