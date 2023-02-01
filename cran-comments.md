@@ -15,6 +15,7 @@
   * In `duncan()` function, if any smaller geographic unit has zero counts the output for its larger geographic unit will be NA
   * Fixed bug in `duncan()` function for multiple `subgroup` and `subgroup_ref` selections
   * Updated documentation throughout
+  * Updated citation style for CITATION file
 
 * Documentation for DESCRIPTION, README, NEWS, and vignette references the following DOIs, which throws a NOTE but are a valid URL:
   * <https://doi.org/10.1111/j.1749-6632.2009.05333.x>

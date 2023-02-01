@@ -20,6 +20,7 @@
 * Fixed bug in `duncan()` function for multiple `subgroup` and `subgroup_ref` selections
 * Updated documentation throughout
 * Added GitHub R-CMD-check
+* Updated citation style for CITATION file
 
 ## ndi v0.1.3
 
