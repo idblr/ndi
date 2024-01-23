@@ -1,4 +1,4 @@
-#' Neighborhood Deprivation Index based on Andrews et al. (2020) and Slotman et al. (2022)
+#' Neighborhood Deprivation Index based on Andrews _et al._ (2020) and Slotman _et al._ (2022)
 #' 
 #' Compute the aspatial Neighborhood Deprivation Index (Powell-Wiley).
 #'
@@ -10,26 +10,26 @@
 #' @param df Optional. Pass a pre-formatted \code{'dataframe'} or \code{'tibble'} with the desired variables through the function. Bypasses the data obtained by \code{\link[tidycensus]{get_acs}}. The default is NULL. See Details below.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the aspatial Neighborhood Deprivation Index (NDI) of U.S. census tracts or counties for a specified geographical referent (e.g., US-standardized) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002}.
+#' @details This function will compute the aspatial Neighborhood Deprivation Index (NDI) of U.S. census tracts or counties for a specified geographical referent (e.g., US-standardized) based on Andrews _et al._ (2020) \doi{10.1080/17445647.2020.1750066} and Slotman _et al._ (2022) \doi{10.1016/j.dib.2022.108002}.
 #' 
 #' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for computation involving a factor analysis with the \code{\link[psych]{principal}} function. The yearly estimates are available in 2010 and after when all census characteristics became available. The thirteen characteristics chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x} are:
 #' \itemize{
-#'  \item{MedHHInc (5B19013): }{median household income (dollars)}
-#'  \item{PctRecvIDR (B19054): }{percent of households receiving dividends, interest, or rental income}
-#'  \item{PctPubAsst (B19058): }{percent of households receiving public assistance}
-#'  \item{MedHomeVal (B25077): }{median home value (dollars)}
-#'  \item{PctMgmtBusScArti (C24060): }{percent in a management, business, science, or arts occupation}
-#'  \item{PctFemHeadKids (B11005): }{percent of households that are female headed with any children under 18 years}
-#'  \item{PctOwnerOcc (DP04): }{percent of housing units that are owner occupied}
-#'  \item{PctNoPhone (DP04): }{percent of households without a telephone}
-#'  \item{PctNComPlm (DP04): }{percent of households without complete plumbing facilities}
-#'  \item{PctEducHSPlus (S1501): }{percent with a high school degree or higher (population 25 years and over)}
-#'  \item{PctEducBchPlus (S1501): }{percent with a college degree or higher (population 25 years and over)}
-#'  \item{PctFamBelowPov (S1702): }{percent of families with incomes below the poverty level}
-#'  \item{PctUnempl (S2301): }{percent unemployed}
+#'  \item **MedHHInc (B19013)**: median household income (dollars)
+#'  \item **PctRecvIDR (B19054)**: percent of households receiving dividends, interest, or rental income
+#'  \item **PctPubAsst (B19058)**: percent of households receiving public assistance
+#'  \item **MedHomeVal (B25077)**: median home value (dollars)
+#'  \item **PctMgmtBusScArti (C24060)**: percent in a management, business, science, or arts occupation
+#'  \item **PctFemHeadKids (B11005)**: percent of households that are female headed with any children under 18 years
+#'  \item **PctOwnerOcc (DP04)**: percent of housing units that are owner occupied
+#'  \item **PctNoPhone (DP04)**: percent of households without a telephone
+#'  \item **PctNComPlm (DP04)**: percent of households without complete plumbing facilities
+#'  \item **PctEducHSPlus (S1501)**: percent with a high school degree or higher (population 25 years and over)
+#'  \item **PctEducBchPlus (S1501)**: percent with a college degree or higher (population 25 years and over)
+#'  \item **PctFamBelowPov (S1702)**: percent of families with incomes below the poverty level
+#'  \item **PctUnempl (S2301)**: percent unemployed
 #' }
 #' 
-#' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify the referent for standardizing the NDI (Powell-Wiley) values. For example, if all U.S. states are specified for the \code{state} argument, then the output would be a U.S.-standardized index. Please note: the NDI (Powell-Wiley) values will not exactly match (but will highly correlate with) those found in Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} because the two studies used a different statistical platform (i.e., SPSS and SAS, respectively) that intrinsically calculate the principal component analysis differently from R.
+#' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify the referent for standardizing the NDI (Powell-Wiley) values. For example, if all U.S. states are specified for the \code{state} argument, then the output would be a U.S.-standardized index. Please note: the NDI (Powell-Wiley) values will not exactly match (but will highly correlate with) those found in Andrews _et al._ (2020) \doi{10.1080/17445647.2020.1750066} and Slotman _et al._ (2022) \doi{10.1016/j.dib.2022.108002} because the two studies used a different statistical platform (i.e., SPSS and SAS, respectively) that intrinsically calculate the principal component analysis differently from R.
 #' 
 #' The categorical NDI (Powell-Wiley) values are population-weighted quintiles of the continuous NDI (Powell-Wiley) values. 
 #' 

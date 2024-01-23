@@ -2,16 +2,16 @@ bibentry(bibtype = "manual",
   title          = "ndi: Neighborhood Deprivation Indices",
   author         = c(as.person("Ian D. Buller")),
   publisher      = "The Comprehensive R Archive Network",
-  year           = "2022",
-  number         = "0.1.4",
+  year           = "2024",
+  number         = "0.1.5",
   doi            = "10.5281/zenodo.6989030",
   url            = "https://cran.r-project.org/package=ndi",
   
   textVersion    = 
-  paste("Ian D. Buller (2022).",
+  paste("Ian D. Buller (2024).",
         "ndi: Neighborhood Deprivation Indices.",
         "The Comprehensive R Archive Network.",
-        "v0.1.4.",
+        "v0.1.5.",
         "DOI:10.5281/zenodo.6989030",
         "Accessed by: https://cran.r-project.org/package=ndi"),
         
@@ -298,7 +298,7 @@ bibentry(bibtype = "Article",
 
   textVersion    =
   paste("Beth A. Slotman, David G Stinchcomb, Tiffany M. Powell-Wiley, Danielle M. Ostendorf, Brian E. Saelens, Amy A. Gorin, Shannon N. Zenk, David Berrigan (2022).",
-        "The development of a standardized neighborhood deprivation index.",
+        "Environmental data and methods from the Accumulating Data to Optimally Predict Obesity Treatment (ADOPT) core measures environmental working group.",
         "Data in Brief, 41, 108002.",
         "DOI:10.1016/j.dib.2022.108002"),
 

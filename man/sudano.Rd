@@ -2,7 +2,7 @@
 % Please edit documentation in R/sudano.R
 \name{sudano}
 \alias{sudano}
-\title{Location Quotient (LQ) based on Merton (1938) and Sudano et al. (2013)}
+\title{Location Quotient (LQ) based on Merton (1938) and Sudano \emph{et al.} (2013)}
 \usage{
 sudano(
   geo_large = "county",
@@ -42,30 +42,30 @@ An object of class 'list'. This is a named list with the following components:
 Compute the aspatial Location Quotient (Sudano) of a selected racial/ethnic subgroup(s) and U.S. geographies.
 }
 \details{
-This function will compute the aspatial Location Quotient (LQ) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Merton (1939) \doi{10.2307/2084686} and Sudano et al. (2013) \doi{10.1016/j.healthplace.2012.09.015}. This function provides the computation of LQ for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+This function will compute the aspatial Location Quotient (LQ) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Merton (1939) \doi{10.2307/2084686} and Sudano \emph{et al.} (2013) \doi{10.1016/j.healthplace.2012.09.015}. This function provides the computation of LQ for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 
 The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 \itemize{
-\item{B03002_002: }{not Hispanic or Latino "NHoL"}
-\item{B03002_003: }{not Hispanic or Latino, white alone "NHoLW"}
-\item{B03002_004: }{not Hispanic or Latino, Black or African American alone "NHoLB"}
-\item{B03002_005: }{not Hispanic or Latino, American Indian and Alaska Native alone "NHoLAIAN"}
-\item{B03002_006: }{not Hispanic or Latino, Asian alone "NHoLA"}
-\item{B03002_007: }{not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone "NHoLNHOPI"}
-\item{B03002_008: }{not Hispanic or Latino, Some other race alone "NHoLSOR"}
-\item{B03002_009: }{not Hispanic or Latino, Two or more races "NHoLTOMR"}
-\item{B03002_010: }{not Hispanic or Latino, Two races including Some other race "NHoLTRiSOR"}
-\item{B03002_011: }{not Hispanic or Latino, Two races excluding Some other race, and three or more races "NHoLTReSOR"}
-\item{B03002_012: }{Hispanic or Latino "HoL"}
-\item{B03002_013: }{Hispanic or Latino, white alone "HoLW"}
-\item{B03002_014: }{Hispanic or Latino, Black or African American alone "HoLB"}
-\item{B03002_015: }{Hispanic or Latino, American Indian and Alaska Native alone "HoLAIAN"}
-\item{B03002_016: }{Hispanic or Latino, Asian alone "HoLA"}
-\item{B03002_017: }{Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone "HoLNHOPI"}
-\item{B03002_018: }{Hispanic or Latino, Some other race alone "HoLSOR"}
-\item{B03002_019: }{Hispanic or Latino, Two or more races "HoLTOMR"}
-\item{B03002_020: }{Hispanic or Latino, Two races including Some other race "HoLTRiSOR"}
-\item{B03002_021: }{Hispanic or Latino, Two races excluding Some other race, and three or more races "HoLTReSOR"}
+\item \strong{B03002_002}: not Hispanic or Latino \code{"NHoL"}
+\item \strong{B03002_003}: not Hispanic or Latino, white alone \code{"NHoLW"}
+\item \strong{B03002_004}: not Hispanic or Latino, Black or African American alone \code{"NHoLB"}
+\item \strong{B03002_005}: not Hispanic or Latino, American Indian and Alaska Native alone \code{"NHoLAIAN"}
+\item \strong{B03002_006}: not Hispanic or Latino, Asian alone \code{"NHoLA"}
+\item \strong{B03002_007}: not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{"NHoLNHOPI"}
+\item \strong{B03002_008}: not Hispanic or Latino, Some other race alone \code{"NHoLSOR"}
+\item \strong{B03002_009}: not Hispanic or Latino, Two or more races \code{"NHoLTOMR"}
+\item \strong{B03002_010}: not Hispanic or Latino, Two races including Some other race \code{"NHoLTRiSOR"}
+\item \strong{B03002_011}: not Hispanic or Latino, Two races excluding Some other race, and three or more races \code{"NHoLTReSOR"}
+\item \strong{B03002_012}: Hispanic or Latino \code{"HoL"}
+\item \strong{B03002_013}: Hispanic or Latino, white alone \code{"HoLW"}
+\item \strong{B03002_014}: Hispanic or Latino, Black or African American alone \code{"HoLB"}
+\item \strong{B03002_015}: Hispanic or Latino, American Indian and Alaska Native alone \code{"HoLAIAN"}
+\item \strong{B03002_016}: Hispanic or Latino, Asian alone \code{"HoLA"}
+\item \strong{B03002_017}: Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{"HoLNHOPI"}
+\item \strong{B03002_018}: Hispanic or Latino, Some other race alone \code{"HoLSOR"}
+\item \strong{B03002_019}: Hispanic or Latino, Two or more races \code{"HoLTOMR"}
+\item \strong{B03002_020}: Hispanic or Latino, Two races including Some other race \code{"HoLTRiSOR"}
+\item \strong{B03002_021}: Hispanic or Latino, Two races excluding Some other race, and three or more races \code{"HoLTReSOR"}
 }
 
 Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.

@@ -1,4 +1,4 @@
-#' Index of Concentration at the Extremes based on Feldman et al. (2015) and Krieger et al. (2016) 
+#' Index of Concentration at the Extremes based on Feldman _et al._ (2015) and Krieger _et al._ (2016) 
 #' 
 #' Compute the aspatial Index of Concentration at the Extremes (Krieger).
 #'
@@ -7,23 +7,23 @@
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute three aspatial Index of Concentration at the Extremes (ICE) of U.S. census tracts or counties for a specified geographical extent (e.g., entire U.S. or a single state) based on Feldman et al. (2015) \doi{10.1136/jech-2015-205728} and Krieger et al. (2016) \doi{10.2105/AJPH.2015.302955}. The authors expanded the metric designed by Massey in a chapter of Booth & Crouter (2001) \doi{10.4324/9781410600141} who initially designed the metric for residential segregation. This function computes five ICE metrics:
+#' @details This function will compute three aspatial Index of Concentration at the Extremes (ICE) of U.S. census tracts or counties for a specified geographical extent (e.g., entire U.S. or a single state) based on Feldman _et al._ (2015) \doi{10.1136/jech-2015-205728} and Krieger _et al._ (2016) \doi{10.2105/AJPH.2015.302955}. The authors expanded the metric designed by Massey in a chapter of Booth & Crouter (2001) \doi{10.4324/9781410600141} who initially designed the metric for residential segregation. This function computes five ICE metrics:
 #' 
 #' \itemize{ 
-#' \item{Income}{80th income percentile vs. 20th income percentile}
-#' \item{Education}{less than high school vs. four-year college degree or more}
-#' \item{Race/Ethnicity}{white non-Hispanic vs. black non-Hispanic}
-#' \item{Income and race/ethnicity combined}{white non-Hispanic in 80th income percentile vs. black alone (including Hispanic) in 20th income percentile}
-#' \item{Income and race/ethnicity combined}{white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile}
+#' \item **Income**: 80th income percentile vs. 20th income percentile
+#' \item **Education**: less than high school vs. four-year college degree or more
+#' \item **Race/Ethnicity**: white non-Hispanic vs. black non-Hispanic
+#' \item **Income and race/ethnicity combined**: white non-Hispanic in 80th income percentile vs. black alone (including Hispanic) in 20th income percentile
+#' \item **Income and race/ethnicity combined**: white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile
 #' }
 #' 
 #' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The ACS-5 groups used in the computation of the five ICE metrics are:
 #' \itemize{
-#'  \item{B03002: }{HISPANIC OR LATINO ORIGIN BY RACE}
-#'  \item{B15002: }{SEX BY EDUCATIONAL ATTAINMENT FOR THE POPULATION 25 YEARS AND OVER}
-#'  \item{B19001: }{HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 20XX INFLATION-ADJUSTED DOLLARS)}
-#'  \item{B19001B: }{HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 20XX INFLATION-ADJUSTED DOLLARS) (BLACK OR AFRICAN AMERICAN ALONE HOUSEHOLDER)}
-#'  \item{B19001H: }{HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 20XX INFLATION-ADJUSTED DOLLARS) (WHITE ALONE, NOT HISPANIC OR LATINO HOUSEHOLDER)}
+#'  \item **B03002**: HISPANIC OR LATINO ORIGIN BY RACE
+#'  \item **B15002**: SEX BY EDUCATIONAL ATTAINMENT FOR THE POPULATION 25 YEARS AND OVER
+#'  \item **B19001**: HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 20XX INFLATION-ADJUSTED DOLLARS)
+#'  \item **B19001B**: HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 20XX INFLATION-ADJUSTED DOLLARS) (BLACK OR AFRICAN AMERICAN ALONE HOUSEHOLDER)
+#'  \item **B19001H**: HOUSEHOLD INCOME IN THE PAST 12 MONTHS (IN 20XX INFLATION-ADJUSTED DOLLARS) (WHITE ALONE, NOT HISPANIC OR LATINO HOUSEHOLDER)
 #' }
 #' 
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.

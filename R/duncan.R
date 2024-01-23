@@ -15,26 +15,26 @@
 #' 
 #' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
-#'  \item{B03002_002: }{not Hispanic or Latino "NHoL"}
-#'  \item{B03002_003: }{not Hispanic or Latino, white alone "NHoLW"}
-#'  \item{B03002_004: }{not Hispanic or Latino, Black or African American alone "NHoLB"}
-#'  \item{B03002_005: }{not Hispanic or Latino, American Indian and Alaska Native alone "NHoLAIAN"}
-#'  \item{B03002_006: }{not Hispanic or Latino, Asian alone "NHoLA"}
-#'  \item{B03002_007: }{not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone "NHoLNHOPI"}
-#'  \item{B03002_008: }{not Hispanic or Latino, Some other race alone "NHoLSOR"}
-#'  \item{B03002_009: }{not Hispanic or Latino, Two or more races "NHoLTOMR"}
-#'  \item{B03002_010: }{not Hispanic or Latino, Two races including Some other race "NHoLTRiSOR"}
-#'  \item{B03002_011: }{not Hispanic or Latino, Two races excluding Some other race, and three or more races "NHoLTReSOR"}
-#'  \item{B03002_012: }{Hispanic or Latino "HoL"}
-#'  \item{B03002_013: }{Hispanic or Latino, white alone "HoLW"}
-#'  \item{B03002_014: }{Hispanic or Latino, Black or African American alone "HoLB"}
-#'  \item{B03002_015: }{Hispanic or Latino, American Indian and Alaska Native alone "HoLAIAN"}
-#'  \item{B03002_016: }{Hispanic or Latino, Asian alone "HoLA"}
-#'  \item{B03002_017: }{Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone "HoLNHOPI"}
-#'  \item{B03002_018: }{Hispanic or Latino, Some other race alone "HoLSOR"}
-#'  \item{B03002_019: }{Hispanic or Latino, Two or more races "HoLTOMR"}
-#'  \item{B03002_020: }{Hispanic or Latino, Two races including Some other race "HoLTRiSOR"}
-#'  \item{B03002_021: }{Hispanic or Latino, Two races excluding Some other race, and three or more races "HoLTReSOR"}
+#'  \item **B03002_002**: not Hispanic or Latino \code{"NHoL"}
+#'  \item **B03002_003**: not Hispanic or Latino, white alone \code{"NHoLW"}
+#'  \item **B03002_004**: not Hispanic or Latino, Black or African American alone \code{"NHoLB"}
+#'  \item **B03002_005**: not Hispanic or Latino, American Indian and Alaska Native alone \code{"NHoLAIAN"}
+#'  \item **B03002_006**: not Hispanic or Latino, Asian alone \code{"NHoLA"}
+#'  \item **B03002_007**: not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{"NHoLNHOPI"}
+#'  \item **B03002_008**: not Hispanic or Latino, Some other race alone \code{"NHoLSOR"}
+#'  \item **B03002_009**: not Hispanic or Latino, Two or more races \code{"NHoLTOMR"}
+#'  \item **B03002_010**: not Hispanic or Latino, Two races including Some other race \code{"NHoLTRiSOR"}
+#'  \item **B03002_011**: not Hispanic or Latino, Two races excluding Some other race, and three or more races \code{"NHoLTReSOR"}
+#'  \item **B03002_012**: Hispanic or Latino \code{"HoL"}
+#'  \item **B03002_013**: Hispanic or Latino, white alone \code{"HoLW"}
+#'  \item **B03002_014**: Hispanic or Latino, Black or African American alone \code{"HoLB"}
+#'  \item **B03002_015**: Hispanic or Latino, American Indian and Alaska Native alone \code{"HoLAIAN"}
+#'  \item **B03002_016**: Hispanic or Latino, Asian alone \code{"HoLA"}
+#'  \item **B03002_017**: Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{"HoLNHOPI"}
+#'  \item **B03002_018**: Hispanic or Latino, Some other race alone \code{"HoLSOR"}
+#'  \item **B03002_019**: Hispanic or Latino, Two or more races \code{"HoLTOMR"}
+#'  \item **B03002_020**: Hispanic or Latino, Two races including Some other race \code{"HoLTRiSOR"}
+#'  \item **B03002_021**: Hispanic or Latino, Two races excluding Some other race, and three or more races \code{"HoLTReSOR"}
 #' }
 #' 
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
@@ -48,7 +48,7 @@
 #' \describe{
 #' \item{\code{di}}{An object of class 'tbl' for the GEOID, name, and DI at specified larger census geographies.}
 #' \item{\code{di_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute DI}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute DI.}
 #' }
 #' 
 #' @import dplyr

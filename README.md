@@ -7,16 +7,16 @@ ndi: Neighborhood Deprivation Indices <img src="man/figures/ndi.png" width="120"
 [![CRAN version](https://r-pkg.org/badges/version-ago/ndi)](https://cran.r-project.org/package=ndi)
 [![CRAN RStudio mirror downloads total](https://cranlogs.r-pkg.org/badges/grand-total/ndi?color=blue)](https://r-pkg.org/pkg/ndi)
 [![CRAN RStudio mirror downloads monthly ](http://cranlogs.r-pkg.org/badges/ndi)](https://r-pkg.org:443/pkg/ndi)
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/license/apache-2-0/)
 ![GitHub last commit](https://img.shields.io/github/last-commit/idblr/ndi)
 [![DOI](https://zenodo.org/badge/521439746.svg)](https://zenodo.org/badge/latestdoi/521439746)
 <!-- badges: end -->
 
-**Date repository last updated**: February 01, 2023
+**Date repository last updated**: January 23, 2024
 
 ### Overview
 
-The `ndi` package is a suite of `R` functions to compute various metrics of socio-economic deprivation and disparity in the United States. Some metrics are considered "spatial" because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other metrics are "aspatial" because they only consider the value within each census geography. Two types of aspatial NDI are available: (1) based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) who use variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of various demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates (ACS-5; 2006-2010 onward) pulled by the [tidycensus](https://CRAN.R-project.org/package=tidycensus) package. Using data from the ACS-5 (2005-2009 onward), the `ndi` package can also compute the (1) spatial Racial Isolation Index (RI) based on [Anthopolos et al. (2011)](https://doi.org/10.1016/j.sste.2011.06.002), (2) spatial Educational Isolation Index (EI) based on [Bravo et al. (2021)](https://doi.org/10.3390/ijerph18179384), (3) aspatial Index of Concentration at the Extremes (ICE) based on [Feldman et al. (2015)](https://doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://doi.org/10.2105/AJPH.2015.302955), (4) aspatial racial/ethnic Dissimilarity Index (DI) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328), (5) aspatial income or racial/ethnic Atkinson Index (DI) based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6), (6) aspatial racial/ethnic Isolation Index (II) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and [Bell (1954)](https://doi.org/10.2307/2574118), (7) aspatial racial/ethnic Correlation Ratio based on [Bell (1954)](https://doi.org/10.2307/2574118) and [White (1986)](https://doi.org/10.2307/3644339), (8) aspatial racial/ethnic Location Quotient based on [Merton (1939)](https://doi.org/10.2307/2084686) and [Sudano et al. (2013)](https://doi.org/10.1016/j.healthplace.2012.09.015), and (9) aspatial racial/ethnic Local Exposure and Isolation metric based on [Bemanian & Beyer (2017)](https://doi.org/10.1158/1055-9965.EPI-16-0926). Also using data from the ACS-5 (2005-2009 onward), the `ndi` package can retrieve the aspatial Gini Index based on [Gini (1921)](https://doi.org/10.2307/2223319).
+The `ndi` package is a suite of `R` functions to compute various metrics of socio-economic deprivation and disparity in the United States. Some metrics are considered "spatial" because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other metrics are "aspatial" because they only consider the value within each census geography. Two types of aspatial NDI are available: (1) based on [Messer _et al._ (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on [Andrews _et al._ (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman _et al._ (2022)](https://doi.org/10.1016/j.dib.2022.108002) who use variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of various demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates (ACS-5; 2006-2010 onward) pulled by the [tidycensus](https://CRAN.R-project.org/package=tidycensus) package. Using data from the ACS-5 (2005-2009 onward), the `ndi` package can also compute the (1) spatial Racial Isolation Index (RI) based on [Anthopolos _et al._ (2011)](https://doi.org/10.1016/j.sste.2011.06.002), (2) spatial Educational Isolation Index (EI) based on [Bravo _et al._ (2021)](https://doi.org/10.3390/ijerph18179384), (3) aspatial Index of Concentration at the Extremes (ICE) based on [Feldman _et al._ (2015)](https://doi.org/10.1136/jech-2015-205728) and [Krieger _et al._ (2016)](https://doi.org/10.2105/AJPH.2015.302955), (4) aspatial racial/ethnic Dissimilarity Index (DI) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328), (5) aspatial income or racial/ethnic Atkinson Index (DI) based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6), (6) aspatial racial/ethnic Isolation Index (II) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and [Bell (1954)](https://doi.org/10.2307/2574118), (7) aspatial racial/ethnic Correlation Ratio based on [Bell (1954)](https://doi.org/10.2307/2574118) and [White (1986)](https://doi.org/10.2307/3644339), (8) aspatial racial/ethnic Location Quotient based on [Merton (1939)](https://doi.org/10.2307/2084686) and [Sudano _et al._ (2013)](https://doi.org/10.1016/j.healthplace.2012.09.015), and (9) aspatial racial/ethnic Local Exposure and Isolation metric based on [Bemanian & Beyer (2017)](https://doi.org/10.1158/1055-9965.EPI-16-0926). Also using data from the ACS-5 (2005-2009 onward), the `ndi` package can retrieve the aspatial Gini Index based on [Gini (1921)](https://doi.org/10.2307/2223319).
 
 ### Installation
 
@@ -43,7 +43,7 @@ To install the development version from GitHub:
 </thead>
 <tbody>
 <td><code>anthopolos</code></td>
-<td>Compute the spatial Racial Isolation Index (RI) based on <a href="https://doi.org/10.1016/j.sste.2011.06.002">Anthopolos et al. (2011)</a></td>
+<td>Compute the spatial Racial Isolation Index (RI) based on <a href="https://doi.org/10.1016/j.sste.2011.06.002">Anthopolos _et al._ (2011)</a></td>
 </tr>
 <td><code>atkinson</code></td>
 <td>Compute the aspatial Atkinson Index (AI) based on <a href="https://doi.org/10.1016/0022-0531(70)90039-6">Atkinson (1970)</a></td>
@@ -55,7 +55,7 @@ To install the development version from GitHub:
 <td>Compute the aspatial racial/ethnic Local Exposure and Isolation (LEx/Is) metric based on <a href="https://doi.org/10.1158/1055-9965.EPI-16-0926">Bemanian & Beyer (2017)</a></td>
 </tr>
 <td><code>bravo</code></td>
-<td>Compute the spatial Educational Isolation Index (EI) based on <a href="https://doi.org/10.3390/ijerph18179384">Bravo et al. (2021)</a></td>
+<td>Compute the spatial Educational Isolation Index (EI) based on <a href="https://doi.org/10.3390/ijerph18179384">Bravo _et al._ (2021)</a></td>
 </tr>
 <td><code>duncan</code></td>
 <td>Compute the aspatial racial/ethnic Dissimilarity Index (DI) based on <a href="https://doi.org/10.2307/2088328">Duncan & Duncan (1955)</a></td>
@@ -64,16 +64,16 @@ To install the development version from GitHub:
 <td>Retrieve the aspatial Gini Index based on <a href="https://doi.org/10.2307/2223319">Gini (1921)</a></td>
 </tr>
 <td><code>krieger</code></td>
-<td>Compute the aspatial Index of Concentration at the Extremes (ICE) based on <a href="https://doi.org/10.1136/jech-2015-205728">Feldman et al. (2015)</a> and <a href="https://doi.org/10.2105/AJPH.2015.302955">Krieger et al. (2016)</a></td>
+<td>Compute the aspatial Index of Concentration at the Extremes (ICE) based on <a href="https://doi.org/10.1136/jech-2015-205728">Feldman _et al._ (2015)</a> and <a href="https://doi.org/10.2105/AJPH.2015.302955">Krieger _et al._ (2016)</a></td>
 </tr>
 <td><code>messer</code></td>
-<td>Compute the aspatial Neighborhood Deprivation Index (NDI) based on <a href="https://doi.org/10.1007/s11524-006-9094-x">Messer et al. (2006)</a></td>
+<td>Compute the aspatial Neighborhood Deprivation Index (NDI) based on <a href="https://doi.org/10.1007/s11524-006-9094-x">Messer _et al._ (2006)</a></td>
 </tr>
 <td><code>powell_wiley</code></td>
-<td>Compute the aspatial Neighborhood Deprivation Index (NDI) based on <a href="https://doi.org/10.1080/17445647.2020.1750066">Andrews et al. (2020)</a> and <a href="https://doi.org/10.1016/j.dib.2022.108002">Slotman et al. (2022)</a> with variables chosen by <a href="https://doi.org/10.1111/j.1749-6632.2009.05333.x">Roux and Mair (2010)</a></td>
+<td>Compute the aspatial Neighborhood Deprivation Index (NDI) based on <a href="https://doi.org/10.1080/17445647.2020.1750066">Andrews _et al._ (2020)</a> and <a href="https://doi.org/10.1016/j.dib.2022.108002">Slotman _et al._ (2022)</a> with variables chosen by <a href="https://doi.org/10.1111/j.1749-6632.2009.05333.x">Roux and Mair (2010)</a></td>
 </tr>
 <td><code>sudano</code></td>
-<td>Compute the aspatial racial/ethnic Location Quotient (LQ) based on <a href="https://doi.org/10.2307/2084686">Merton (1938)</a> and <a href="https://doi.org/10.1016/j.healthplace.2012.09.015">Sudano et al. (2013)</a></td>
+<td>Compute the aspatial racial/ethnic Location Quotient (LQ) based on <a href="https://doi.org/10.2307/2084686">Merton (1938)</a> and <a href="https://doi.org/10.1016/j.healthplace.2012.09.015">Sudano _et al._ (2013)</a></td>
 </tr>
 <td><code>white</code></td>
 <td>Compute the aspatial racial/ethnic Correlation Ratio (V) based on <a href="https://doi.org/10.2307/2574118">Bell (1954)</a> and <a href="https://doi.org/10.2307/3644339">White (1986)</a></td>
@@ -722,7 +722,7 @@ This package was originally developed while the author was a postdoctoral fellow
 
 ### Acknowledgments
 
-The `messer()` function functionalizes the code found in [Hruska et al. (2022)](https://doi.org/10.1016/j.janxdis.2022.102529) available on an [OSF repository](https://doi.org/10.17605/OSF.IO/M2SAV), but with percent with income less than $30K added to the computation based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x). The `messer()` function also allows for the computation of NDI (Messer) for each year between 2010-2020 (when the U.S. census characteristics are available to date). There was no code companion to compute NDI (Powell-Wiley) included in [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) or [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002), but the package author worked directly with the latter manuscript authors to replicate their `SAS` code in `R` for the `powell_wiley()` function. Please note: the NDI (Powell-Wiley) values will not exactly match (but will highly correlate with) those found in [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) because the two studies used a different statistical platform (i.e., `SPSS` and `SAS`, respectively) that intrinsically calculate the principal component analysis differently from `R`. The internal function to calculate the Atkinson Index is based on the `Atkinson()` function in the [DescTools](https://cran.r-project.org/package=DescTools) package.
+The `messer()` function functionalizes the code found in [Hruska _et al._ (2022)](https://doi.org/10.1016/j.janxdis.2022.102529) available on an [OSF repository](https://doi.org/10.17605/OSF.IO/M2SAV), but with percent with income less than $30K added to the computation based on [Messer _et al._ (2006)](https://doi.org/10.1007/s11524-006-9094-x). The `messer()` function also allows for the computation of NDI (Messer) for each year between 2010-2020 (when the U.S. census characteristics are available to date). There was no code companion to compute NDI (Powell-Wiley) included in [Andrews _et al._ (2020)](https://doi.org/10.1080/17445647.2020.1750066) or [Slotman _et al._ (2022)](https://doi.org/10.1016/j.dib.2022.108002), but the package author worked directly with the latter manuscript authors to replicate their `SAS` code in `R` for the `powell_wiley()` function. Please note: the NDI (Powell-Wiley) values will not exactly match (but will highly correlate with) those found in [Andrews _et al._ (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman _et al._ (2022)](https://doi.org/10.1016/j.dib.2022.108002) because the two studies used a different statistical platform (i.e., `SPSS` and `SAS`, respectively) that intrinsically calculate the principal component analysis differently from `R`. The internal function to calculate the Atkinson Index is based on the `Atkinson()` function in the [DescTools](https://cran.r-project.org/package=DescTools) package.
 
 When citing this package for publication, please follow:
 
