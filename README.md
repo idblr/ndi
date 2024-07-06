@@ -296,7 +296,8 @@ DC2020powell_wiley <- tract2020DC
 DC2020powell_wiley <- DC2020powell_wiley
   left_join(powell_wiley2020DCi$ndi, by = 'GEOID')
 
-# Visualize the NDI (Powell-Wiley) values (2016-2020 5-year ACS) for Washington, D.C. census tracts
+# Visualize the NDI (Powell-Wiley) values (2016-2020 5-year ACS) for
+# Washington, D.C. census tracts
 
 ## Non-imputed missing tracts (Continuous)
 ggplot() +
@@ -419,8 +420,8 @@ ndi2020DC <- messer2020DC$ndi %>%
     suffix = c('.messer', '.powell_wiley')
   )
 
-# Check the correlation the two NDI metrics (Messer and Powell-Wiley, imputed) as continuous values
-cor(ndi2020DC$NDI.messer, ndi2020DC$NDI.powell_wiley, use = 'complete.obs') # Pearsons r = 0.975
+# Check the correlation of two NDI metrics (Messer & Powell-Wiley, imputed) as continuous values
+cor(ndi2020DC$NDI.messer, ndi2020DC$NDI.powell_wiley, use = 'complete.obs') # Pearson's r=0.975
 
 # Check the similarity of the two NDI metrics (Messer and Powell-Wiley, imputed) as quartiles
 table(ndi2020DC$NDIQuart, ndi2020DC$NDIQuint)
@@ -490,7 +491,8 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Racial Isolation Index\nNot Hispanic or Latino, Black or African American alone (Anthopolos)',
+    'Racial Isolation Index\n
+    Not Hispanic or Latino, Black or African American alone (Anthopolos)',
     subtitle = 'Washington, D.C. tracts (not corrected for edge effects)'
   )
 ```
@@ -953,7 +955,8 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Local Exposure and Isolation (Bemanian & Beyer) metric\nWashington, D.C. census block groups to tracts',
+    'Local Exposure and Isolation (Bemanian & Beyer) metric\n
+    Washington, D.C. census block groups to tracts',
     subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
 ```
