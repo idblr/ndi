@@ -1,10 +1,12 @@
-## This is the sixth resubmission
+## This is the seventh resubmission
 
 * Actions taken since previous submission:
-  * 'DescTools' is now Suggests to fix Rd cross-references NOTE
-  * Fixed 'lost braces in \itemize' NOTE for `anthopolos()`, `atkinson()`, `bell()`, `bemanian_beyer()`, `bravo()`, `duncan()`, `krieger()`, `messer()`, `powell_wiley()`, `sudano()`, and `white()` functions
-  * Fixed 'Moved Permanently' content by replacing the old URL with the new URL
-  * Fixed citation for Slotman _et al._ (2022) in CITATION
+  * Added `hoover()` function to compute the aspatial racial/ethnic Delta (DEL) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089)
+  * Fixed bug in `bell()`, `bemanian_beyer()`, `duncan()`, `sudano()`, and `white()` when a smaller geography contains n=0 total population, will assign a value of zero (0) in the internal calculation instead of NA
+  * 'package.R' deprecated. Replaced with 'ndi-package.R'.
+  * Re-formatted code and documentation throughout for consistent readability
+  * Updated documentation about value range of V (White) from `{0 to 1}` to `{-Inf to Inf}`
+  * Updated examples in vignette (& README) an example for `hoover()` and a larger variety of U.S. states
 
 * Documentation for DESCRIPTION, README, NEWS, and vignette references the following DOIs, which throws a NOTE but are a valid URL:
   * <https://doi.org/10.1111/j.1749-6632.2009.05333.x>
@@ -15,10 +17,10 @@
   * <https://doi.org/10.2307/3644339>
   * <https://doi.org/10.2307/2084686>
   
-* Some tests and examples for `anthopolos()`, `atkinson()`, `bell()`, `bemanian_beyer()`, `bravo()`, `duncan()`, `gini()`, `krieger()`, `messer()`, `powell_wiley()`, `sudano()`, and `white()` functions require a Census API key so they are skipped if NULL or not run
+* Some tests and examples for `anthopolos()`, `atkinson()`, `bell()`, `bemanian_beyer()`, `bravo()`, `duncan()`, `gini()`, `hoover()`, `krieger()`, `messer()`, `powell_wiley()`, `sudano()`, and `white()` functions require a Census API key so they are skipped if NULL or not run
 
 ## Test environments
-* local Windows install, R 4.2.1
+* local Windows install, R 4.4.0
 * win-builder, (devel, release, oldrelease)
 * Rhub
   * Fedora Linux, R-devel, clang, gfortran

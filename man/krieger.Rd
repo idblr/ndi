@@ -2,12 +2,12 @@
 % Please edit documentation in R/krieger.R
 \name{krieger}
 \alias{krieger}
-\title{Index of Concentration at the Extremes based on Feldman \emph{et al.} (2015) and Krieger \emph{et al.} (2016)}
+\title{Index of Concentration at the Extremes based on Feldman et al. (2015) and Krieger et al. (2016)}
 \usage{
 krieger(geo = "tract", year = 2020, quiet = FALSE, ...)
 }
 \arguments{
-\item{geo}{Character string specifying the geography of the data either census tracts \code{geo = "tract"} (the default) or counties \code{geo = "county"}.}
+\item{geo}{Character string specifying the geography of the data either census tracts \code{geo = 'tract'} (the default) or counties \code{geo = 'county'}.}
 
 \item{year}{Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.}
 
@@ -27,7 +27,7 @@ An object of class 'list'. This is a named list with the following components:
 Compute the aspatial Index of Concentration at the Extremes (Krieger).
 }
 \details{
-This function will compute three aspatial Index of Concentration at the Extremes (ICE) of U.S. census tracts or counties for a specified geographical extent (e.g., entire U.S. or a single state) based on Feldman \emph{et al.} (2015) \doi{10.1136/jech-2015-205728} and Krieger \emph{et al.} (2016) \doi{10.2105/AJPH.2015.302955}. The authors expanded the metric designed by Massey in a chapter of Booth & Crouter (2001) \doi{10.4324/9781410600141} who initially designed the metric for residential segregation. This function computes five ICE metrics:
+This function will compute three aspatial Index of Concentration at the Extremes (ICE) of U.S. census tracts or counties for a specified geographical extent (e.g., entire U.S. or a single state) based on Feldman et al. (2015) \doi{10.1136/jech-2015-205728} and Krieger et al. (2016) \doi{10.2105/AJPH.2015.302955}. The authors expanded the metric designed by Massey in a chapter of Booth & Crouter (2001) \doi{10.4324/9781410600141} who initially designed the metric for residential segregation. This function computes five ICE metrics:
 
 \itemize{
 \item \strong{Income}: 80th income percentile vs. 20th income percentile
@@ -53,13 +53,13 @@ ICE metrics can range in value from -1 (most deprived) to 1 (most privileged). A
 \examples{
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
-  
+
   # Tract-level metric (2020)
-  krieger(geo = "tract", state = "GA", year = 2020)
-  
+  krieger(geo = 'tract', state = 'GA', year = 2020)
+
   # County-level metric (2020)
-  krieger(geo = "county", state = "GA", year = 2020)
-  
+  krieger(geo = 'county', state = 'GA', year = 2020)
+
 }
 
 }

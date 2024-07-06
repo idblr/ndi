@@ -16,9 +16,9 @@ bell(
 )
 }
 \arguments{
-\item{geo_large}{Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = "county"}.}
+\item{geo_large}{Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = 'county'}.}
 
-\item{geo_small}{Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_large = "tract"}.}
+\item{geo_small}{Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_large = 'tract'}.}
 
 \item{year}{Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.}
 
@@ -49,43 +49,49 @@ This function will compute the aspatial Isolation Index (II) of selected racial/
 
 The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 \itemize{
-\item \strong{B03002_002}: not Hispanic or Latino \code{"NHoL"}
-\item \strong{B03002_003}: not Hispanic or Latino, white alone \code{"NHoLW"}
-\item \strong{B03002_004}: not Hispanic or Latino, Black or African American alone \code{"NHoLB"}
-\item \strong{B03002_005}: not Hispanic or Latino, American Indian and Alaska Native alone \code{"NHoLAIAN"}
-\item \strong{B03002_006}: not Hispanic or Latino, Asian alone \code{"NHoLA"}
-\item \strong{B03002_007}: not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{"NHoLNHOPI"}
-\item \strong{B03002_008}: not Hispanic or Latino, Some other race alone \code{"NHoLSOR"}
-\item \strong{B03002_009}: not Hispanic or Latino, Two or more races \code{"NHoLTOMR"}
-\item \strong{B03002_010}: not Hispanic or Latino, Two races including Some other race \code{"NHoLTRiSOR"}
-\item \strong{B03002_011}: not Hispanic or Latino, Two races excluding Some other race, and three or more races \code{"NHoLTReSOR"}
-\item \strong{B03002_012}: Hispanic or Latino \code{"HoL"}
-\item \strong{B03002_013}: Hispanic or Latino, white alone \code{"HoLW"}
-\item \strong{B03002_014}: Hispanic or Latino, Black or African American alone \code{"HoLB"}
-\item \strong{B03002_015}: Hispanic or Latino, American Indian and Alaska Native alone \code{"HoLAIAN"}
-\item \strong{B03002_016}: Hispanic or Latino, Asian alone \code{"HoLA"}
-\item \strong{B03002_017}: Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{"HoLNHOPI"}
-\item \strong{B03002_018}: Hispanic or Latino, Some other race alone \code{"HoLSOR"}
-\item \strong{B03002_019}: Hispanic or Latino, Two or more races \code{"HoLTOMR"}
-\item \strong{B03002_020}: Hispanic or Latino, Two races including Some other race \code{"HoLTRiSOR"}
-\item \strong{B03002_021}: Hispanic or Latino, Two races excluding Some other race, and three or more races \code{"HoLTReSOR"}
+\item \strong{B03002_002}: not Hispanic or Latino \code{'NHoL'}
+\item \strong{B03002_003}: not Hispanic or Latino, white alone \code{'NHoLW'}
+\item \strong{B03002_004}: not Hispanic or Latino, Black or African American alone \code{'NHoLB'}
+\item \strong{B03002_005}: not Hispanic or Latino, American Indian and Alaska Native alone \code{'NHoLAIAN'}
+\item \strong{B03002_006}: not Hispanic or Latino, Asian alone \code{'NHoLA'}
+\item \strong{B03002_007}: not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{'NHoLNHOPI'}
+\item \strong{B03002_008}: not Hispanic or Latino, Some other race alone \code{'NHoLSOR'}
+\item \strong{B03002_009}: not Hispanic or Latino, Two or more races \code{'NHoLTOMR'}
+\item \strong{B03002_010}: not Hispanic or Latino, Two races including Some other race \code{'NHoLTRiSOR'}
+\item \strong{B03002_011}: not Hispanic or Latino, Two races excluding Some other race, and three or more races \code{'NHoLTReSOR'}
+\item \strong{B03002_012}: Hispanic or Latino \code{'HoL'}
+\item \strong{B03002_013}: Hispanic or Latino, white alone \code{'HoLW'}
+\item \strong{B03002_014}: Hispanic or Latino, Black or African American alone \code{'HoLB'}
+\item \strong{B03002_015}: Hispanic or Latino, American Indian and Alaska Native alone \code{'HoLAIAN'}
+\item \strong{B03002_016}: Hispanic or Latino, Asian alone \code{'HoLA'}
+\item \strong{B03002_017}: Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{'HoLNHOPI'}
+\item \strong{B03002_018}: Hispanic or Latino, Some other race alone \code{'HoLSOR'}
+\item \strong{B03002_019}: Hispanic or Latino, Two or more races \code{'HoLTOMR'}
+\item \strong{B03002_020}: Hispanic or Latino, Two races including Some other race \code{'HoLTRiSOR'}
+\item \strong{B03002_021}: Hispanic or Latino, Two races excluding Some other race, and three or more races \code{'HoLTReSOR'}
 }
 
 Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 
 II is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation). II can range in value from 0 to 1.
 
-Larger geographies available include state \code{geo_large = "state"}, county \code{geo_large = "county"}, and census tract \code{geo_large = "tract"} levels. Smaller geographies available include, county \code{geo_small = "county"}, census tract \code{geo_small = "tract"}, and census block group \code{geo_small = "block group"} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the II value returned is NA.
+Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, and census tract \code{geo_large = 'tract'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the II value returned is NA.
 }
 \examples{
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
-  
+
   # Isolation of non-Hispanic Black vs. non-Hispanic white populations
   ## of census tracts within Georgia, U.S.A., counties (2020)
-  bell(geo_large = "county", geo_small = "tract", state = "GA",
-       year = 2020, subgroup = "NHoLB", subgroup_ixn = "NHoLW")
-  
+  bell(
+    geo_large = 'county',
+    geo_small = 'tract',
+    state = 'GA',
+    year = 2020,
+    subgroup = 'NHoLB',
+    subgroup_ixn = 'NHoLW'
+   )
+
 }
 
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/powell_wiley.R
 \name{powell_wiley}
 \alias{powell_wiley}
-\title{Neighborhood Deprivation Index based on Andrews \emph{et al.} (2020) and Slotman \emph{et al.} (2022)}
+\title{Neighborhood Deprivation Index based on Andrews et al. (2020) and Slotman et al. (2022)}
 \usage{
 powell_wiley(
   geo = "tract",
@@ -15,7 +15,7 @@ powell_wiley(
 )
 }
 \arguments{
-\item{geo}{Character string specifying the geography of the data either census tracts \code{geo = "tract"} (the default) or counties \code{geo = "county"}.}
+\item{geo}{Character string specifying the geography of the data either census tracts \code{geo = 'tract'} (the default) or counties \code{geo = 'county'}.}
 
 \item{year}{Numeric. The year to compute the estimate. The default is 2020, and the years 2010 onward are currently available.}
 
@@ -43,7 +43,7 @@ An object of class 'list'. This is a named list with the following components:
 Compute the aspatial Neighborhood Deprivation Index (Powell-Wiley).
 }
 \details{
-This function will compute the aspatial Neighborhood Deprivation Index (NDI) of U.S. census tracts or counties for a specified geographical referent (e.g., US-standardized) based on Andrews \emph{et al.} (2020) \doi{10.1080/17445647.2020.1750066} and Slotman \emph{et al.} (2022) \doi{10.1016/j.dib.2022.108002}.
+This function will compute the aspatial Neighborhood Deprivation Index (NDI) of U.S. census tracts or counties for a specified geographical referent (e.g., US-standardized) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002}.
 
 The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for computation involving a factor analysis with the \code{\link[psych]{principal}} function. The yearly estimates are available in 2010 and after when all census characteristics became available. The thirteen characteristics chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x} are:
 \itemize{
@@ -62,7 +62,7 @@ The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. 
 \item \strong{PctUnempl (S2301)}: percent unemployed
 }
 
-Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify the referent for standardizing the NDI (Powell-Wiley) values. For example, if all U.S. states are specified for the \code{state} argument, then the output would be a U.S.-standardized index. Please note: the NDI (Powell-Wiley) values will not exactly match (but will highly correlate with) those found in Andrews \emph{et al.} (2020) \doi{10.1080/17445647.2020.1750066} and Slotman \emph{et al.} (2022) \doi{10.1016/j.dib.2022.108002} because the two studies used a different statistical platform (i.e., SPSS and SAS, respectively) that intrinsically calculate the principal component analysis differently from R.
+Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify the referent for standardizing the NDI (Powell-Wiley) values. For example, if all U.S. states are specified for the \code{state} argument, then the output would be a U.S.-standardized index. Please note: the NDI (Powell-Wiley) values will not exactly match (but will highly correlate with) those found in Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} because the two studies used a different statistical platform (i.e., SPSS and SAS, respectively) that intrinsically calculate the principal component analysis differently from R.
 
 The categorical NDI (Powell-Wiley) values are population-weighted quintiles of the continuous NDI (Powell-Wiley) values.
 
@@ -76,16 +76,16 @@ powell_wiley(df = DCtracts2020[ , -c(3:10)])
 
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
-  
+
   # Tract-level metric (2020)
-  powell_wiley(geo = "tract", state = "GA", year = 2020)
+  powell_wiley(geo = 'tract', state = 'GA', year = 2020)
 
   # Impute NDI for tracts (2020) with missing census information (median values)
-  powell_wiley(state = "tract", "GA", year = 2020, imp = TRUE)
-  
+  powell_wiley(state = 'tract', 'GA', year = 2020, imp = TRUE)
+
   # County-level metric (2020)
-  powell_wiley(geo = "county", state = "GA", year = 2020)
-  
+  powell_wiley(geo = 'county', state = 'GA', year = 2020)
+
 }
 
 }

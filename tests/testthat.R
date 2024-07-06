@@ -1,4 +1,4 @@
 library(testthat)
 library(ndi)
 
-test_check("ndi")
+test_check('ndi')
