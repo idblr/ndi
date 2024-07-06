@@ -11,6 +11,7 @@
 * 'package.R' deprecated. Replaced with 'ndi-package.R'.
 * Re-formatted code and documentation throughout for consistent readability
 * Updated documentation about value range of V (White) from `{0 to 1}` to `{-Inf to Inf}`
+* Updated examples in vignette (& README) an example for `hoover()` and a larger variety of U.S. states
 
 ## ndi v0.1.5
 

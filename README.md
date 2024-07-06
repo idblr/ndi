@@ -7,7 +7,7 @@ ndi: Neighborhood Deprivation Indices <img src='man/figures/ndi.png' width='120'
 [![CRAN version](https://r-pkg.org/badges/version-ago/ndi)](https://cran.r-project.org/package=ndi)
 [![CRAN RStudio mirror downloads total](https://cranlogs.r-pkg.org/badges/grand-total/ndi?color=blue)](https://r-pkg.org/pkg/ndi)
 [![CRAN RStudio mirror downloads monthly ](http://cranlogs.r-pkg.org/badges/ndi)](https://r-pkg.org:443/pkg/ndi)
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/license/apache-2-0/)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/license/apache-2-0)
 ![GitHub last commit](https://img.shields.io/github/last-commit/idblr/ndi)
 [![DOI](https://zenodo.org/badge/521439746.svg)](https://zenodo.org/badge/latestdoi/521439746)
 <!-- badges: end -->
@@ -169,7 +169,7 @@ library(tigris)
 
 ## Access Key for census data download
 ### Obtain one at http://api.census.gov/data/key_signup.html
-tidycensus::census_api_key('...') # INSERT YOUR OWN KEY FROM U.S. CENSUS API
+census_api_key('...') # INSERT YOUR OWN KEY FROM U.S. CENSUS API
 
 # ---------------------- #
 # Calculate NDI (Messer) #
@@ -182,13 +182,15 @@ messer2020DC <- messer(state = 'DC', year = 2020)
 # Outputs from messer() function #
 # ------------------------------ #
 
-# A tibble containing the identification, geographic name, NDI (Messer) values, NDI (Messer) quartiles, and raw census characteristics for each tract
+# A tibble containing the identification, geographic name, NDI (Messer) values, NDI (Messer) 
+# quartiles, and raw census characteristics for each tract
 messer2020DC$ndi
 
 # The results from the principal component analysis used to compute the NDI (Messer) values
 messer2020DC$pca
 
-# A tibble containing a breakdown of the missingingness of the census characteristics used to compute the NDI (Messer) values
+# A tibble containing a breakdown of the missingingness of the census characteristics 
+# used to compute the NDI (Messer) values
 messer2020DC$missing
 
 # -------------------------------------- #
@@ -196,43 +198,63 @@ messer2020DC$missing
 # -------------------------------------- #
 
 # Obtain the 2020 census tracts from the 'tigris' package
-tract2020DC <- tigris::tracts(state = 'DC', year = 2020, cb = TRUE)
+tract2020DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
 # Join the NDI (Messer) values to the census tract geometry
-DC2020messer <- dplyr::left_join(tract2020DC, messer2020DC$ndi, by = 'GEOID')
+DC2020messer <- tract2020DC %>%
+  left_join(messer2020DC$ndi, by = 'GEOID')
 
 # Visualize the NDI (Messer) values (2016-2020 5-year ACS) for Washington, D.C. census tracts
 
 ## Continuous Index
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = DC2020messer, 
-                   ggplot2::aes(fill = NDI),
-                   color = 'white') +
-  ggplot2::theme_bw() +
-  ggplot2::scale_fill_viridis_c() +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates')+
-  ggplot2::ggtitle('Neighborhood Deprivation Index\nContinuous (Messer, non-imputed)',
-                   subtitle = 'Washington, D.C. tracts as the referent')
+ggplot() +
+  geom_sf(
+    data = DC2020messer,
+    aes(fill = NDI),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c() +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Neighborhood Deprivation Index\nContinuous (Messer, non-imputed)',
+    subtitle = 'Washington, D.C. tracts as the referent'
+  )
 
 ## Categorical Index (Quartiles)
 ### Rename '9-NDI not avail' level as NA for plotting
-DC2020messer$NDIQuartNA <- factor(replace(as.character(DC2020messer$NDIQuart),
-                                          DC2020messer$NDIQuart == '9-NDI not avail',
-                                          NA),
-                                  c(levels(DC2020messer$NDIQuart)[-5], NA))
+DC2020messer$NDIQuartNA <-
+  factor(
+    replace(
+      as.character(DC2020messer$NDIQuart),
+      DC2020messer$NDIQuart == '9-NDI not avail',
+      NA
+    ),
+    c(levels(DC2020messer$NDIQuart)[-5], NA)
+  )
 
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = DC2020messer, 
-                   ggplot2::aes(fill = NDIQuartNA),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(reverse = TRUE),
-                                na.value = 'grey50') +
-  ggplot2::labs(fill = 'Index (Categorical)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates') +
-  ggplot2::ggtitle('Neighborhood Deprivation Index\nQuartiles (Messer, non-imputed)',
-                   subtitle = 'Washington, D.C. tracts as the referent')
+ggplot() +
+  geom_sf(
+    data = DC2020messer,
+    aes(fill = NDIQuartNA),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_d(
+    guide = guide_legend(reverse = TRUE),
+    na.value = 'grey50'
+  ) +
+  labs(
+    fill = 'Index (Categorical)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Neighborhood Deprivation Index\nQuartiles (Messer, non-imputed)',
+    subtitle = 'Washington, D.C. tracts as the referent'
+  )
 ```
 ![](man/figures/messer1.png)
 ![](man/figures/messer2.png)
@@ -250,13 +272,15 @@ powell_wiley2020DCi <- powell_wiley(state = 'DC', year = 2020, imp = TRUE) # imp
 # Outputs from powell_wiley() function #
 # ------------------------------------ #
 
-# A tibble containing the identification, geographic name, NDI (Powell-Wiley) value, and raw census characteristics for each tract
+# A tibble containing the identification, geographic name, NDI (Powell-Wiley) value, and 
+# raw census characteristics for each tract
 powell_wiley2020DC$ndi
 
 # The results from the principal component analysis used to compute the NDI (Powell-Wiley) values
 powell_wiley2020DC$pca
 
-# A tibble containing a breakdown of the missingingness of the census characteristics used to compute the NDI (Powell-Wiley) values
+# A tibble containing a breakdown of the missingingness of the census characteristics used to 
+# compute the NDI (Powell-Wiley) values
 powell_wiley2020DC$missing
 
 # -------------------------------------------- #
@@ -264,44 +288,65 @@ powell_wiley2020DC$missing
 # -------------------------------------------- #
 
 # Obtain the 2020 census tracts from the 'tigris' package
-tract2020DC <- tigris::tracts(state = 'DC', year = 2020, cb = TRUE)
+tract2020DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
 # Join the NDI (powell_wiley) values to the census tract geometry
-DC2020powell_wiley <- dplyr::left_join(tract2020DC, powell_wiley2020DC$ndi, by = 'GEOID')
-DC2020powell_wiley <- dplyr::left_join(DC2020powell_wiley, powell_wiley2020DCi$ndi, by = 'GEOID')
+DC2020powell_wiley <- tract2020DC
+  left_join(powell_wiley2020DC$ndi, by = 'GEOID')
+DC2020powell_wiley <- DC2020powell_wiley
+  left_join(powell_wiley2020DCi$ndi, by = 'GEOID')
 
 # Visualize the NDI (Powell-Wiley) values (2016-2020 5-year ACS) for Washington, D.C. census tracts
 
 ## Non-imputed missing tracts (Continuous)
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = DC2020powell_wiley, 
-                   ggplot2::aes(fill = NDI.x),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_viridis_c() +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates')+
-  ggplot2::ggtitle('Neighborhood Deprivation Index\nContinuous (Powell-Wiley, non-imputed)',
-                   subtitle = 'Washington, D.C. tracts as the referent')
+ggplot() +
+  geom_sf(
+    data = DC2020powell_wiley,
+    aes(fill = NDI.x),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c() +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Neighborhood Deprivation Index\nContinuous (Powell-Wiley, non-imputed)',
+    subtitle = 'Washington, D.C. tracts as the referent'
+  )
 
 ## Non-imputed missing tracts (Categorical quintiles)
 ### Rename '9-NDI not avail' level as NA for plotting
-DC2020powell_wiley$NDIQuintNA.x <- factor(replace(as.character(DC2020powell_wiley$NDIQuint.x),
-                                                  DC2020powell_wiley$NDIQuint.x == '9-NDI not avail',
-                                                  NA),
-                                          c(levels(DC2020powell_wiley$NDIQuint.x)[-6], NA))
+DC2020powell_wiley$NDIQuintNA.x <- factor(
+  replace(
+    as.character(DC2020powell_wiley$NDIQuint.x),
+    DC2020powell_wiley$NDIQuint.x == '9-NDI not avail',
+    NA
+  ),
+  c(levels(DC2020powell_wiley$NDIQuint.x)[-6], NA)
+)
+  
 
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = DC2020powell_wiley, 
-                   ggplot2::aes(fill = NDIQuintNA.x),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(reverse = TRUE),
-                                na.value = 'grey50') +
-  ggplot2::labs(fill = 'Index (Categorical)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates')+
-  ggplot2::ggtitle('Neighborhood Deprivation Index\nPopulation-weighted Quintiles (Powell-Wiley, non-imputed)',
-                   subtitle = 'Washington, D.C. tracts as the referent')
+ggplot() +
+  geom_sf(
+    data = DC2020powell_wiley,
+    aes(fill = NDIQuintNA.x),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_d(
+    guide = guide_legend(reverse = TRUE),
+    na.value = 'grey50'
+  ) +
+  labs(
+    fill = 'Index (Categorical)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Neighborhood Deprivation Index\nPopulation-weighted Quintiles (Powell-Wiley, non-imputed)',
+    subtitle = 'Washington, D.C. tracts as the referent'
+  )
 ```
 
 ![](man/figures/powell_wiley1.png)
@@ -309,35 +354,53 @@ ggplot2::ggplot() +
 
 ``` r
 ## Imputed missing tracts (Continuous)
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = DC2020powell_wiley, 
-                   ggplot2::aes(fill = NDI.y),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_viridis_c() +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates')+
-  ggplot2::ggtitle('Neighborhood Deprivation Index\nContinuous (Powell-Wiley, imputed)',
-                   subtitle = 'Washington, D.C. tracts as the referent')
+ggplot() +
+  geom_sf(
+    data = DC2020powell_wiley,
+    aes(fill = NDI.y),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c() +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Neighborhood Deprivation Index\nContinuous (Powell-Wiley, imputed)',
+    subtitle = 'Washington, D.C. tracts as the referent'
+  )
 
 ## Imputed missing tracts (Categorical quintiles)
 ### Rename '9-NDI not avail' level as NA for plotting
-DC2020powell_wiley$NDIQuintNA.y <- factor(replace(as.character(DC2020powell_wiley$NDIQuint.y), 
-                                                  DC2020powell_wiley$NDIQuint.y == '9-NDI not avail',
-                                                  NA), 
-                                          c(levels(DC2020powell_wiley$NDIQuint.y)[-6], NA))
-
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = DC2020powell_wiley, 
-                   ggplot2::aes(fill = NDIQuintNA.y),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_viridis_d(guide = ggplot2::guide_legend(reverse = TRUE),
-                                na.value = 'grey50') +
-  ggplot2::labs(fill = 'Index (Categorical)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates')+
-  ggplot2::ggtitle('Neighborhood Deprivation Index\nPopulation-weighted Quintiles (Powell-Wiley, imputed)',
-                   subtitle = 'Washington, D.C. tracts as the referent')
+DC2020powell_wiley$NDIQuintNA.y <- factor(
+  replace(
+    as.character(DC2020powell_wiley$NDIQuint.y),
+    DC2020powell_wiley$NDIQuint.y == '9-NDI not avail',
+    NA
+  ),
+  c(levels(DC2020powell_wiley$NDIQuint.y)[-6], NA)
+)
+  
+ggplot() +
+  geom_sf(
+    data = DC2020powell_wiley,
+    aes(fill = NDIQuintNA.y),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_d(
+    guide = guide_legend(reverse = TRUE),
+    na.value = 'grey50'
+  ) +
+  labs(
+    fill = 'Index (Categorical)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Neighborhood Deprivation Index\nPopulation-weighted Quintiles (Powell-Wiley, imputed)',
+    subtitle = 'Washington, D.C. tracts as the referent'
+  )
 ```
 
 ![](man/figures/powell_wiley3.png)
@@ -349,7 +412,12 @@ ggplot2::ggplot() +
 # --------------------------- #
 
 # Merge the two NDI metrics (Messer and Powell-Wiley, imputed)
-ndi2020DC <- dplyr::left_join(messer2020DC$ndi, powell_wiley2020DCi$ndi, by = 'GEOID', suffix = c('.messer', '.powell_wiley'))
+ndi2020DC <- messer2020DC$ndi %>%
+  left_join(
+    powell_wiley2020DCi$ndi,
+    by = 'GEOID',
+    suffix = c('.messer', '.powell_wiley')
+  )
 
 # Check the correlation the two NDI metrics (Messer and Powell-Wiley, imputed) as continuous values
 cor(ndi2020DC$NDI.messer, ndi2020DC$NDI.powell_wiley, use = 'complete.obs') # Pearsons r = 0.975
@@ -367,21 +435,28 @@ table(ndi2020DC$NDIQuart, ndi2020DC$NDIQuint)
 gini2020DC <- gini(state = 'DC', year = 2020)
 
 # Obtain the 2020 census tracts from the 'tigris' package
-tract2020DC <- tigris::tracts(state = 'DC', year = 2020, cb = TRUE)
+tract2020DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
 # Join the Gini Index values to the census tract geometry
-gini2020DC <- dplyr::left_join(tract2020DC, gini2020DC$gini, by = 'GEOID')
+gini2020DC <- tract2020DC %>%
+  left_join(gini2020DC$gini, by = 'GEOID')
 
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = gini2020DC, 
-                   ggplot2::aes(fill = gini),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_viridis_c() +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates')+
-  ggplot2::ggtitle('Gini Index\nGrey color denotes no data',
-                   subtitle = 'Washington, D.C. tracts')
+ggplot() +
+  geom_sf(
+    data = gini2020DC,
+    aes(fill = gini),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c() +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Gini Index\nGrey color denotes no data',
+    subtitle = 'Washington, D.C. tracts'
+  )
 ```
 
 ![](man/figures/gini.png)
@@ -396,21 +471,28 @@ ggplot2::ggplot() +
 ri2020DC <- anthopolos(state = 'DC', year = 2020, subgroup = 'NHoLB')
 
 # Obtain the 2020 census tracts from the 'tigris' package
-tract2020DC <- tigris::tracts(state = 'DC', year = 2020, cb = TRUE)
+tract2020DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
 # Join the RI (Anthopolos) values to the census tract geometry
-ri2020DC <- dplyr::left_join(tract2020DC, ri2020DC$ri, by = 'GEOID')
+ri2020DC <- tract2020DC %>%
+  left_join(ri2020DC$ri, by = 'GEOID')
 
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = ri2020DC, 
-                   ggplot2::aes(fill = RI),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_viridis_c() +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates')+
-  ggplot2::ggtitle('Racial Isolation Index\nNot Hispanic or Latino, Black or African American alone (Anthopolos)',
-                   subtitle = 'Washington, D.C. tracts (not corrected for edge effects)')
+ggplot() +
+  geom_sf(
+    data = ri2020DC,
+    aes(fill = RI),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c() +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Racial Isolation Index\nNot Hispanic or Latino, Black or African American alone (Anthopolos)',
+    subtitle = 'Washington, D.C. tracts (not corrected for edge effects)'
+  )
 ```
 
 ![](man/figures/ri.png)
@@ -425,21 +507,28 @@ ggplot2::ggplot() +
 ei2020DC <- bravo(state = 'DC', year = 2020, subgroup = c('LtHS', 'HSGiE', 'SCoAD'))
 
 # Obtain the 2020 census tracts from the 'tigris' package
-tract2020DC <- tigris::tracts(state = 'DC', year = 2020, cb = TRUE)
+tract2020DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
 # Join the EI (Bravo) values to the census tract geometry
-ei2020DC <- dplyr::left_join(tract2020DC, ei2020DC$ei, by = 'GEOID')
+ei2020DC <- tract2020DC %>% 
+  left_join(ei2020DC$ei, by = 'GEOID')
 
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = ei2020DC, 
-                   ggplot2::aes(fill = EI),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_viridis_c() +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates')+
-  ggplot2::ggtitle('Educational Isolation Index\nWithout a four-year college degree (Bravo)',
-                   subtitle = 'Washington, D.C. tracts (not corrected for edge effects)')
+ggplot() + 
+  geom_sf(
+    data = ei2020DC, 
+    aes(fill = EI),
+    color = 'white'
+  ) +
+  theme_bw() + 
+  scale_fill_viridis_c() +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  )+
+  ggtitle(
+    'Educational Isolation Index\nWithout a four-year college degree (Bravo)',
+    subtitle = 'Washington, D.C. tracts (not corrected for edge effects)'
+  )
 ```
 
 ![](man/figures/ei.png)
@@ -449,76 +538,124 @@ ggplot2::ggplot() +
 # Compute aspatial Index of Concentration at the Extremes (Krieger) #
 # ----------------------------------------------------------------- #
 
-# Five Indices of Concentration at the Extremes based on Feldman et al. (2015) and Krieger et al. (2016)
+# Five Indices of Concentration at the Extremes based on Feldman et al. (2015) and 
+# Krieger et al. (2016)
 
 ice2020DC <- krieger(state = 'DC', year = 2020)
 
 # Obtain the 2020 census tracts from the 'tigris' package
-tract2020DC <- tigris::tracts(state = 'DC', year = 2020, cb = TRUE)
+tract2020DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
 # Join the ICEs (Krieger) values to the census tract geometry
-ice2020DC <- dplyr::left_join(tract2020DC, ice2020DC$ice, by = 'GEOID')
+ice2020DC <- tract2020DC %>%
+  left_join(ice2020DC$ice, by = 'GEOID')
 
 # Plot ICE for Income
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = ice2020DC, 
-                   ggplot2::aes(fill = ICE_inc),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_gradient2(low = '#998ec3', mid = '#f7f7f7', high = '#f1a340', limits = c(-1,1)) +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates')+
-  ggplot2::ggtitle('Index of Concentration at the Extremes\nIncome (Krieger)',
-                   subtitle = '80th income percentile vs. 20th income percentile')
+ggplot() +
+  geom_sf(
+    data = ice2020DC,
+    aes(fill = ICE_inc),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_gradient2(
+    low = '#998ec3',
+    mid = '#f7f7f7',
+    high = '#f1a340',
+    limits = c(-1, 1)
+  ) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Index of Concentration at the Extremes\nIncome (Krieger)',
+    subtitle = '80th income percentile vs. 20th income percentile'
+  )
 ```
 
 ![](man/figures/ice1.png)
 
 ```r
 # Plot ICE for Education
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = ice2020DC, 
-                   ggplot2::aes(fill = ICE_edu),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_gradient2(low = '#998ec3', mid = '#f7f7f7', high = '#f1a340', limits = c(-1,1)) +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates')+
-  ggplot2::ggtitle('Index of Concentration at the Extremes\nEducation (Krieger)',
-                   subtitle = 'less than high school vs. four-year college degree or more')
+ggplot() +
+  geom_sf(
+    data = ice2020DC,
+    aes(fill = ICE_edu),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_gradient2(
+    low = '#998ec3',
+    mid = '#f7f7f7',
+    high = '#f1a340',
+    limits = c(-1, 1)
+  ) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Index of Concentration at the Extremes\nEducation (Krieger)',
+    subtitle = 'less than high school vs. four-year college degree or more'
+  )
 ```
 
 ![](man/figures/ice2.png)
 
 ```r
 # Plot ICE for Race/Ethnicity
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = ice2020DC, 
-                   ggplot2::aes(fill = ICE_rewb),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_gradient2(low = '#998ec3', mid = '#f7f7f7', high = '#f1a340', limits = c(-1, 1)) +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates')+
-  ggplot2::ggtitle('Index of Concentration at the Extremes\nRace/Ethnicity (Krieger)',
-                   subtitle = 'white non-Hispanic vs. black non-Hispanic')
+ggplot() +
+  geom_sf(
+    data = ice2020DC,
+    aes(fill = ICE_rewb),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_gradient2(
+    low = '#998ec3',
+    mid = '#f7f7f7',
+    high = '#f1a340',
+    limits = c(-1, 1)
+  ) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Index of Concentration at the Extremes\nRace/Ethnicity (Krieger)',
+    subtitle = 'white non-Hispanic vs. black non-Hispanic'
+  )
 ```
 
 ![](man/figures/ice3.png)
 
 ```
 # Plot ICE for Income and Race/Ethnicity Combined
-## white non-Hispanic in 80th income percentile vs. black (including Hispanic) in 20th income percentile
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = ice2020DC, 
-                   ggplot2::aes(fill = ICE_wbinc),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_gradient2(low = '#998ec3', mid = '#f7f7f7', high = '#f1a340', limits = c(-1, 1)) +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates')+
-  ggplot2::ggtitle('Index of Concentration at the Extremes\nIncome and race/ethnicity combined (Krieger)',
-                   subtitle = 'white non-Hispanic in 80th income percentile vs. black (incl. Hispanic) in 20th inc. percentile')
+## white non-Hispanic in 80th income percentile vs. 
+## black (including Hispanic) in 20th income percentile
+ggplot() +
+  geom_sf(
+    data = ice2020DC,
+    aes(fill = ICE_wbinc),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_gradient2(
+    low = '#998ec3',
+    mid = '#f7f7f7',
+    high = '#f1a340',
+    limits = c(-1, 1)
+  ) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Index of Concentration at the Extremes\nIncome and race/ethnicity combined (Krieger)',
+    subtitle = 'white non-Hispanic in 80th income percentile vs. 
+    black (incl. Hispanic) in 20th inc. percentile'
+  )
 ```
 
 ![](man/figures/ice4.png)
@@ -526,16 +663,28 @@ ggplot2::ggplot() +
 ```r
 # Plot ICE for Income and Race/Ethnicity Combined
 ## white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = ice2020DC, 
-                   ggplot2::aes(fill = ICE_wpcinc),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_gradient2(low = '#998ec3', mid = '#f7f7f7', high = '#f1a340', limits = c(-1, 1)) +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates')+
-  ggplot2::ggtitle('Index of Concentration at the Extremes\nIncome and race/ethnicity combined (Krieger)',
-                   subtitle = 'white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile')
+ggplot() +
+  geom_sf(
+    data = ice2020DC,
+    aes(fill = ICE_wpcinc),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_gradient2(
+    low = '#998ec3',
+    mid = '#f7f7f7',
+    high = '#f1a340',
+    limits = c(-1, 1)
+  ) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Index of Concentration at the Extremes\nIncome and race/ethnicity combined (Krieger)',
+    subtitle = 'white non-Hispanic in 80th income percentile vs. 
+    white non-Hispanic in 20th income percentile'
+  )
 ```
 
 ![](man/figures/ice5.png)
@@ -550,25 +699,38 @@ ggplot2::ggplot() +
 ## Selected subgroup reference: Not Hispanic or Latino, white alone
 ## Selected large geography: census tract
 ## Selected small geography: census block group
-di2020DC <- duncan(geo_large = 'tract', geo_small = 'block group', state = 'DC',
-                   year = 2020, subgroup = 'NHoLB', subgroup_ref = 'NHoLW')
+di2020DC <- duncan(
+  geo_large = 'tract',
+  geo_small = 'block group',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB',
+  subgroup_ref = 'NHoLW'
+)
 
 # Obtain the 2020 census tracts from the 'tigris' package
-tract2020DC <- tigris::tracts(state = 'DC', year = 2020, cb = TRUE)
+tract2020DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
 # Join the DI (Duncan & Duncan) values to the census tract geometry
-di2020DC <- dplyr::left_join(tract2020DC, di2020DC$di, by = 'GEOID')
+di2020DC <- tract2020DC %>%
+  left_join(di2020DC$di, by = 'GEOID')
 
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = di2020DC, 
-                   ggplot2::aes(fill = DI),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_viridis_c(limits = c(0, 1)) +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates')+
-  ggplot2::ggtitle('Dissimilarity Index (Duncan & Duncan)\nWashington, D.C. census block groups to tracts',
-                   subtitle = 'Black non-Hispanic vs. white non-Hispanic')
+ggplot() +
+  geom_sf(
+    data = di2020DC,
+    aes(fill = DI),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Dissimilarity Index (Duncan & Duncan)\nWashington, D.C. census block groups to tracts',
+    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
+  )
 ```
 
 ![](man/figures/di.png)
@@ -583,25 +745,37 @@ ggplot2::ggplot() +
 ## Selected large geography: census tract
 ## Selected small geography: census block group
 ## Default epsilon (0.5 or over- and under-representation contribute equally)
-ai2020DC <- atkinson(geo_large = 'tract', geo_small = 'block group', state = 'DC',
-                     year = 2020, subgroup = 'NHoLB')
+ai2020DC <- atkinson(
+  geo_large = 'tract',
+  geo_small = 'block group',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB'
+)
 
 # Obtain the 2020 census tracts from the 'tigris' package
-tract2020DC <- tigris::tracts(state = 'DC', year = 2020, cb = TRUE)
+tract2020DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
 # Join the AI (Atkinson) values to the census tract geometry
-ai2020DC <- dplyr::left_join(tract2020DC, ai2020DC$ai, by = 'GEOID')
+ai2020DC <- tract2020DC %>%
+  left_join(ai2020DC$ai, by = 'GEOID')
 
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = ai2020DC, 
-                   ggplot2::aes(fill = AI),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_viridis_c(limits = c(0, 1)) +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates') +
-  ggplot2::ggtitle('Atkinson Index (Atkinson)\nWashington, D.C. census block groups to tracts',
-                   subtitle = expression(paste('Black non-Hispanic (', epsilon, ' = 0.5)')))
+ggplot() +
+  geom_sf(
+    data = ai2020DC,
+    aes(fill = AI),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Atkinson Index (Atkinson)\nWashington, D.C. census block groups to tracts',
+    subtitle = expression(paste('Black non-Hispanic (', epsilon, ' = 0.5)'))
+  )
 ```
 
 ![](man/figures/ai.png)
@@ -616,25 +790,38 @@ ggplot2::ggplot() +
 ## Selected interaction subgroup: Not Hispanic or Latino, Black or African American alone
 ## Selected large geography: census tract
 ## Selected small geography: census block group
-ii2020DC <- bell(geo_large = 'tract', geo_small = 'block group', state = 'DC',
-                 year = 2020, subgroup = 'NHoLB', subgroup_ixn = 'NHoLW')
+ii2020DC <- bell(
+  geo_large = 'tract',
+  geo_small = 'block group',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB',
+  subgroup_ixn = 'NHoLW'
+)
 
 # Obtain the 2020 census tracts from the 'tigris' package
-tract2020DC <- tigris::tracts(state = 'DC', year = 2020, cb = TRUE)
+tract2020DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
 # Join the II (Bell) values to the census tract geometry
-ii2020DC <- dplyr::left_join(tract2020DC, ii2020DC$ii, by = 'GEOID')
+ii2020DC <- tract2020DC %>%
+  left_join(ii2020DC$ii, by = 'GEOID')
 
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = ii2020DC, 
-                   ggplot2::aes(fill = II),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_viridis_c(limits = c(0, 1)) +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates') +
-  ggplot2::ggtitle('Isolation Index (Bell)\nWashington, D.C. census block groups to tracts',
-                   subtitle = 'Black non-Hispanic vs. white non-Hispanic')
+ggplot() +
+  geom_sf(
+    data = ii2020DC,
+    aes(fill = II),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Isolation Index (Bell)\nWashington, D.C. census block groups to tracts',
+    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
+  )
 ```
 
 ![](man/figures/ii.png)
@@ -648,25 +835,37 @@ ggplot2::ggplot() +
 ## Selected subgroup: Not Hispanic or Latino, Black or African American alone
 ## Selected large geography: census tract
 ## Selected small geography: census block group
-v2020DC <- white(geo_large = 'tract', geo_small = 'block group', state = 'DC',
-                 year = 2020, subgroup = 'NHoLB')
+v2020DC <- white(
+  geo_large = 'tract',
+  geo_small = 'block group',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB'
+)
 
 # Obtain the 2020 census tracts from the 'tigris' package
-tract2020DC <- tigris::tracts(state = 'DC', year = 2020, cb = TRUE)
+tract2020DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
 # Join the V (White) values to the census tract geometry
-v2020DC <- dplyr::left_join(tract2020DC, v2020DC$v, by = 'GEOID')
+v2020DC <- tract2020DC %>%
+  left_join(v2020DC$v, by = 'GEOID')
 
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = v2020DC, 
-                   ggplot2::aes(fill = V),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_viridis_c(limits = c(0, 1)) +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates') +
-  ggplot2::ggtitle('Correlation Ratio (White)\nWashington, D.C. census block groups to tracts',
-                   subtitle = 'Black non-Hispanic')
+ggplot() +
+  geom_sf(
+    data = v2020DC,
+    aes(fill = V),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Correlation Ratio (White)\nWashington, D.C. census block groups to tracts',
+    subtitle = 'Black non-Hispanic'
+  )
 ```
 
 ![](man/figures/v.png)
@@ -680,25 +879,37 @@ ggplot2::ggplot() +
 ## Selected subgroup: Not Hispanic or Latino, Black or African American alone
 ## Selected large geography: state
 ## Selected small geography: census tract
-lq2020DC <- sudano(geo_large = 'state', geo_small = 'tract', state = 'DC',
-                   year = 2020, subgroup = 'NHoLB')
+lq2020DC <- sudano(
+  geo_large = 'state',
+  geo_small = 'tract',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB'
+)
 
 # Obtain the 2020 census tracts from the 'tigris' package
-tract2020DC <- tigris::tracts(state = 'DC', year = 2020, cb = TRUE)
+tract2020DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
 # Join the LQ (Sudano) values to the census tract geometry
-lq2020DC <- dplyr::left_join(tract2020DC, lq2020DC$lq, by = 'GEOID')
+lq2020DC <- tract2020DC %>%
+  left_join(lq2020DC$lq, by = 'GEOID')
 
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = lq2020DC, 
-                   ggplot2::aes(fill = LQ),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_viridis_c() +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates') +
-  ggplot2::ggtitle('Location Quotient (Sudano)\nWashington, D.C. census tracts vs. 'state'',
-                   subtitle = 'Black non-Hispanic')
+ggplot() +
+  geom_sf(
+    data = lq2020DC,
+    aes(fill = LQ),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c() +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Location Quotient (Sudano)\nWashington, D.C. census tracts vs. 'state'',
+    subtitle = 'Black non-Hispanic'
+  )
 ```
 
 ![](man/figures/lq.png)
@@ -713,25 +924,38 @@ ggplot2::ggplot() +
 ## Selected interaction subgroup: Not Hispanic or Latino, Black or African American alone
 ## Selected large geography: state
 ## Selected small geography: census tract
-lexis2020DC <- bemanian_beyer(geo_large = 'state', geo_small = 'tract', state = 'DC',
-                              year = 2020, subgroup = 'NHoLB', subgroup_ixn = 'NHoLW')
+lexis2020DC <- bemanian_beyer(
+  geo_large = 'state',
+  geo_small = 'tract',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB',
+  subgroup_ixn = 'NHoLW'
+)
 
 # Obtain the 2020 census tracts from the 'tigris' package
-tract2020DC <- tigris::tracts(state = 'DC', year = 2020, cb = TRUE)
+tract2020DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
 # Join the LEx/Is (Bemanian & Beyer) values to the census tract geometry
-lexis2020DC <- dplyr::left_join(tract2020DC, lexis2020DC$lexis, by = 'GEOID')
+lexis2020DC <- tract2020DC %>%
+  left_join(lexis2020DC$lexis, by = 'GEOID')
 
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = lexis2020DC, 
-                   ggplot2::aes(fill = LExIs),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_viridis_c() +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates') +
-  ggplot2::ggtitle('Local Exposure and Isolation (Bemanian & Beyer) metric\nWashington, D.C. census block groups to tracts',
-                   subtitle = 'Black non-Hispanic vs. white non-Hispanic')
+ggplot() +
+  geom_sf(
+    data = lexis2020DC,
+    aes(fill = LExIs),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c() +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Local Exposure and Isolation (Bemanian & Beyer) metric\nWashington, D.C. census block groups to tracts',
+    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
+  )
 ```
 
 ![](man/figures/lexis.png)
@@ -745,25 +969,37 @@ ggplot2::ggplot() +
 ## Selected subgroup: Not Hispanic or Latino, Black or African American alone
 ## Selected large geography: census tract
 ## Selected small geography: census block group
-del2020DC <- hoover(geo_large = 'tract', geo_small = 'block group', state = 'DC',
-                    year = 2020, subgroup = 'NHoLB')
+del2020DC <- hoover(
+  geo_large = 'tract',
+  geo_small = 'block group',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB'
+)
 
 # Obtain the 2020 census tracts from the 'tigris' package
-tract2020DC <- tigris::tracts(state = 'DC', year = 2020, cb = TRUE)
+tract2020DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
 # Join the DEL (Hoover) values to the census tract geometry
-del2020DC <- dplyr::left_join(tract2020DC, del2020DC$del, by = 'GEOID')
+del2020DC <- tract2020DC %>% 
+  left_join(del2020DC$del, by = 'GEOID')
 
-ggplot2::ggplot() + 
-  ggplot2::geom_sf(data = del2020DC, 
-                   ggplot2::aes(fill = DEL),
-                   color = 'white') +
-  ggplot2::theme_bw() + 
-  ggplot2::scale_fill_viridis_c(limits = c(0, 1)) +
-  ggplot2::labs(fill = 'Index (Continuous)',
-                caption = 'Source: U.S. Census ACS 2016-2020 estimates') +
-  ggplot2::ggtitle('Delta (Hoover)\nWashington, D.C. census block groups to tracts',
-                   subtitle = 'Black non-Hispanic')
+ggplot() +
+  geom_sf(
+    data = del2020DC,
+    aes(fill = DEL),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Delta (Hoover)\nWashington, D.C. census block groups to tracts',
+    subtitle = 'Black non-Hispanic'
+  )
 ```
 
 ![](man/figures/del.png)
