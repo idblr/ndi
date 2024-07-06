@@ -264,9 +264,11 @@ ggplot() +
 # Calculate NDI (Powell-Wiley) #
 # ---------------------------- #
 
-# Compute the NDI (Powell-Wiley) values (2016-2020 5-year ACS) for Washington, D.C. census tracts
+# Compute the NDI (Powell-Wiley) values (2016-2020 5-year ACS) for
+# Washington, D.C. census tracts
 powell_wiley2020DC <- powell_wiley(state = 'DC', year = 2020)
-powell_wiley2020DCi <- powell_wiley(state = 'DC', year = 2020, imp = TRUE) # impute missing values
+# impute missing values
+powell_wiley2020DCi <- powell_wiley(state = 'DC', year = 2020, imp = TRUE)
 
 # ------------------------------------ #
 # Outputs from powell_wiley() function #
@@ -276,7 +278,8 @@ powell_wiley2020DCi <- powell_wiley(state = 'DC', year = 2020, imp = TRUE) # imp
 # raw census characteristics for each tract
 powell_wiley2020DC$ndi
 
-# The results from the principal component analysis used to compute the NDI (Powell-Wiley) values
+# The results from the principal component analysis used to 
+# compute the NDI (Powell-Wiley) values
 powell_wiley2020DC$pca
 
 # A tibble containing a breakdown of the missingingness of the census characteristics used to 
@@ -345,7 +348,8 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Neighborhood Deprivation Index\nPopulation-weighted Quintiles (Powell-Wiley, non-imputed)',
+    'Neighborhood Deprivation Index\n
+    Population-weighted Quintiles (Powell-Wiley, non-imputed)',
     subtitle = 'Washington, D.C. tracts as the referent'
   )
 ```
