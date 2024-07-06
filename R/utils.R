@@ -88,3 +88,19 @@ lexis_fun <- function(x, omit_NAs) {
     return(df)
   }
 }
+
+# Internal function for the aspatial Delta (Hoover 1941)
+## Returns NA value if only one smaller geography in a larger geography
+del_fun <- function(x, omit_NAs) {
+  xx <- x[ , c('subgroup', 'ALAND')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(xx), ] }
+  if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
+    NA
+  } else {
+    0.5 * sum(
+      abs((xx$subgroup / sum(xx$subgroup, na.rm = TRUE)) - (xx$ALAND / sum(xx$ALAND, na.rm = TRUE))
+      ),
+      na.rm = TRUE
+    )
+  }
+}
