@@ -9,6 +9,8 @@
 ### Updates
 * Fixed bug in `bell()`, `bemanian_beyer()`, `duncan()`, `sudano()`, and `white()` when a smaller geography contains n=0 total population, will assign a value of zero (0) in the internal calculation instead of NA
 * 'package.R' deprecated. Replaced with 'ndi-package.R'.
+* Re-formatted code and documentation throughout for consistent readability
+* Updated documentation about value range of V (White) from `{0 to 1}` to `{-Inf to Inf}`
 
 ## ndi v0.1.5
 
