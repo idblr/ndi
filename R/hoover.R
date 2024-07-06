@@ -1,6 +1,6 @@
-#' Correlation Ratio based on Bell (1954) and White (1986) 
+#' Delta based on Hoover (1941) and Duncan et al. (1961) 
 #' 
-#' Compute the aspatial Correlation Ratio (White) of a selected racial/ethnic subgroup(s) and U.S. geographies.
+#' Compute the aspatial Delta (Hoover) of a selected racial/ethnic subgroup(s) and U.S. geographies.
 #'
 #' @param geo_large Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = 'county'}.
 #' @param geo_small Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_large = 'tract'}.
@@ -10,7 +10,7 @@
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the aspatial Correlation Ratio (V or \eqn{Eta^{2}}{Eta^2}) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Bell (1954) \doi{10.2307/2574118} and White (1986) \doi{10.2307/3644339}. This function provides the computation of V for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#' @details This function will compute the aspatial Delta (DEL) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Hoover (1941) \doi{10.1017/S0022050700052980} and Duncan, Cuzzort, and Duncan (1961; LC:60007089). This function provides the computation of DEL for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #' 
 #' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
@@ -38,16 +38,16 @@
 #' 
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #' 
-#' V removes the asymmetry from the Isolation Index (Bell) by controlling for the effect of population composition. The Isolation Index (Bell) is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation). V can range in value from -Inf to Inf.
+#' DEL is a measure of the proportion of members of one subgroup(s) residing in geographic units with above average density of members of the subgroup(s). The index provides the proportion of a subgroup population that would have to move across geographic units to achieve a uniform density. DEL can range in value from 0 to 1.
 #' 
-#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, and census tract \code{geo_large = 'tract'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the V value returned is NA.
+#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, and census tract \code{geo_large = 'tract'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the DEL value returned is NA.
 #' 
 #' @return An object of class 'list'. This is a named list with the following components:
 #' 
 #' \describe{
-#' \item{\code{v}}{An object of class 'tbl' for the GEOID, name, and V at specified larger census geographies.}
-#' \item{\code{v_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute V.}
+#' \item{\code{del}}{An object of class 'tbl' for the GEOID, name, and DEL at specified larger census geographies.}
+#' \item{\code{del_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute DEL.}
 #' }
 #' 
 #' @import dplyr
@@ -64,25 +64,25 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'   
-#'   # Isolation of non-Hispanic Black populations
+#'   # Delta (a measure of concentration) of non-Hispanic Black vs. non-Hispanic white populations
 #'   ## of census tracts within Georgia, U.S.A., counties (2020)
-#'   white(
+#'   hoover(
 #'     geo_large = 'county',
-#'     geo_small = 'tract', 
+#'     geo_small = 'tract',
 #'     state = 'GA',
-#'     year = 2020, 
+#'     year = 2020,
 #'     subgroup = 'NHoLB'
 #'    )
 #'   
 #' }
 #' 
-white <- function(geo_large = 'county',
-                  geo_small = 'tract',
-                  year = 2020,
-                  subgroup,
-                  omit_NAs = TRUE,
-                  quiet = FALSE,
-                  ...) {
+hoover <- function(geo_large = 'county',
+                   geo_small = 'tract',
+                   year = 2020,
+                   subgroup,
+                   omit_NAs = TRUE,
+                   quiet = FALSE,
+                   ...) {
   
   # Check arguments
   match.arg(geo_large, choices = c('state', 'county', 'tract'))
@@ -140,12 +140,12 @@ white <- function(geo_large = 'county',
     HoLTReSOR = 'B03002_021'
   )
   
-  selected_vars <- vars[c('TotalPop', subgroup)]
-  out_names <- names(selected_vars) # save for output
+  selected_vars <- vars[subgroup]
+  out_names <- c(names(selected_vars), 'ALAND') # save for output
   in_subgroup <- paste(subgroup, 'E', sep = '')
   
-  # Acquire V variables and sf geometries
-  v_data <- suppressMessages(suppressWarnings(
+  # Acquire DEL variables and sf geometries
+  del_data <- suppressMessages(suppressWarnings(
     tidycensus::get_acs(
       geography = geo_small,
       year = year,
@@ -156,22 +156,21 @@ white <- function(geo_large = 'county',
       ...
     )
   ))
-    
   
   # Format output
   if (geo_small == 'county') {
-    v_data <- v_data %>%
+    del_data <- del_data %>%
       sf::st_drop_geometry() %>%
       tidyr::separate(NAME.y, into = c('county', 'state'), sep = ',')
   }
   if (geo_small == 'tract') {
-    v_data <- v_data %>%
+    del_data <- del_data %>%
       sf::st_drop_geometry() %>%
       tidyr::separate(NAME.y, into = c('tract', 'county', 'state'), sep = ',') %>%
       dplyr::mutate(tract = gsub('[^0-9\\.]', '', tract))
   } 
   if (geo_small == 'block group') {
-    v_data <- v_data %>%
+    del_data <- del_data %>%
       sf::st_drop_geometry() %>%
       tidyr::separate(NAME.y, into = c('block.group', 'tract', 'county', 'state'), sep = ',') %>%
       dplyr::mutate(
@@ -179,9 +178,9 @@ white <- function(geo_large = 'county',
       )
   } 
   
-  # Grouping IDs for R computation
+  # Grouping IDs for DEL computation
   if (geo_large == 'tract') {
-    v_data <- v_data %>%
+    del_data <- del_data %>%
       dplyr::mutate(
         oid = paste(.$STATEFP, .$COUNTYFP, .$TRACTCE, sep = ''),
         state = stringr::str_trim(state),
@@ -189,7 +188,7 @@ white <- function(geo_large = 'county',
       )
   }
   if (geo_large == 'county') {
-    v_data <- v_data %>%
+    del_data <- del_data %>%
       dplyr::mutate(
         oid = paste(.$STATEFP, .$COUNTYFP, sep = ''),
         state = stringr::str_trim(state),
@@ -197,44 +196,45 @@ white <- function(geo_large = 'county',
       )
   }
   if (geo_large == 'state') {
-    v_data <- v_data %>%
-      dplyr::mutate(oid = .$STATEFP, state = stringr::str_trim(state))
+    del_data <- del_data %>%
+      dplyr::mutate(
+        oid = .$STATEFP,
+        state = stringr::str_trim(state)
+      )
   }
   
   # Count of racial/ethnic subgroup populations
   ## Count of racial/ethnic comparison subgroup population
   if (length(in_subgroup) == 1) {
-    v_data <- v_data %>%
-      dplyr::mutate(subgroup = .[, in_subgroup])
+    del_data <- del_data %>%
+      dplyr::mutate(subgroup = .[ , in_subgroup])
   } else {
-    v_data <- v_data %>%
-      dplyr::mutate(subgroup = rowSums(.[, in_subgroup]))
+    del_data <- del_data %>%
+      dplyr::mutate(subgroup = rowSums(.[ , in_subgroup]))
   }
   
-  # Compute V or \mathit{Eta}^{2}
-  ## From White (1986) https://doi.org/10.2307/3644339
-  ## V = \mathit{Eta}^2 = [(_{x}P_{x}^* - P) / (1 - P)]
-  ## Where:
-  ## _{x}P_{x}^* denotes the Isolation Index (Bell) of subgroup x
-  ## P denotes the proportion of subgroup x of study (reference) area
+  # Compute DEL
+  ## From Hoover (1961) https://10.1017/S0022050700052980
+  ## 0.5\sum_{i=1}^{n}\left|\frac{x_{i}}{X}-\frac{a_{i}}{A}\right|
+  ## Where for k geographical units i:
+  ## X denotes the total number of subgroup population in study (reference) area
+  ## x_{i} denotes the number of subgroup population X in geographical unit i
+  ## A denotes the total land area in study (reference) area (sum of all a_{i}
+  ## a_{i} denotes the land area of geographical unit i
   
   ## Compute
-  Vtmp <- v_data %>%
-    split(., f = list(v_data$oid)) %>%
-    lapply(., FUN = v_fun, omit_NAs = omit_NAs) %>%
+  DELtmp <- del_data %>%
+    split(., f = list(del_data$oid)) %>%
+    lapply(., FUN = del_fun, omit_NAs = omit_NAs) %>%
     utils::stack(.) %>%
-    dplyr::mutate(V = values, oid = ind) %>%
-    dplyr::select(V, oid)
+    dplyr::mutate(DEL = values, oid = ind) %>%
+    dplyr::select(DEL, oid)
   
   # Warning for missingness of census characteristics
-  missingYN <- v_data[, c('TotalPopE', in_subgroup)]
+  missingYN <- del_data[ , c(in_subgroup, 'ALAND')]
   names(missingYN) <- out_names
   missingYN <- missingYN %>%
-    tidyr::pivot_longer(
-      cols = dplyr::everything(),
-      names_to = 'variable',
-      values_to = 'val'
-    ) %>%
+    tidyr::pivot_longer(cols = dplyr::everything(), names_to = 'variable', values_to = 'val') %>%
     dplyr::group_by(variable) %>%
     dplyr::summarise(
       total = dplyr::n(),
@@ -251,42 +251,42 @@ white <- function(geo_large = 'county',
   
   # Format output
   if (geo_large == 'state') {
-    v <- v_data %>%
-      dplyr::left_join(Vtmp, by = dplyr::join_by(oid)) %>%
-      dplyr::select(oid, state, V) %>%
+    del <- del_data %>%
+      dplyr::left_join(DELtmp, by = dplyr::join_by(oid)) %>%
+      dplyr::select(oid, state, DEL) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, V) %>%
-      .[.$GEOID != 'NANA',]
+      dplyr::select(GEOID, state, DEL) %>%
+      .[.$GEOID != 'NANA', ]
   }
   if (geo_large == 'county') {
-    v <- v_data %>%
-      dplyr::left_join(Vtmp, by = dplyr::join_by(oid)) %>%
-      dplyr::select(oid, state, county, V) %>%
+    del <- del_data %>%
+      dplyr::left_join(DELtmp, by = dplyr::join_by(oid)) %>%
+      dplyr::select(oid, state, county, DEL) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, V) %>%
-      .[.$GEOID != 'NANA',]
+      dplyr::select(GEOID, state, county, DEL) %>%
+      .[.$GEOID != 'NANA', ]
   }
   if (geo_large == 'tract') {
-    v <- v_data %>%
-      dplyr::left_join(Vtmp, by = dplyr::join_by(oid)) %>%
-      dplyr::select(oid, state, county, tract, V) %>%
+    del <- del_data %>%
+      dplyr::left_join(DELtmp, by = dplyr::join_by(oid)) %>%
+      dplyr::select(oid, state, county, tract, DEL) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, tract, V) %>%
-      .[.$GEOID != 'NANA',]
+      dplyr::select(GEOID, state, county, tract, DEL) %>%
+      .[.$GEOID != 'NANA', ]
   }
   
-  v <- v %>%
+  del <- del %>%
     dplyr::arrange(GEOID) %>%
     dplyr::as_tibble()
   
-  v_data <- v_data %>%
+  del_data <- del_data %>%
     dplyr::arrange(GEOID) %>%
-    dplyr::as_tibble()
+    dplyr::as_tibble() 
   
-  out <- list(v = v, v_data = v_data, missing = missingYN)
+  out <- list(del = del, del_data = del_data, missing = missingYN)
   
   return(out)
 }

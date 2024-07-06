@@ -1,12 +1,12 @@
-context('white')
+context('hoover')
 
-# -------------- #
-# white testthat #
-# -------------- #
+# --------------- #
+# hoover testthat #
+# --------------- #
 
-test_that('white throws error with invalid arguments', {
+test_that('hoover throws error with invalid arguments', {
   # Unavailable geography
-  expect_error(white(
+  expect_error(hoover(
     geo_small = 'zcta',
     state = 'DC',
     year = 2020,
@@ -14,7 +14,7 @@ test_that('white throws error with invalid arguments', {
     quiet = TRUE
   ))
   expect_error(
-    white(
+    hoover(
       geo_large = 'block group',
       state = 'DC',
       year = 2020,
@@ -24,7 +24,7 @@ test_that('white throws error with invalid arguments', {
   )
   
   # Unavailable year
-  expect_error(white(
+  expect_error(hoover(
     state = 'DC',
     year = 2005,
     subgroup = 'NHoLB',
@@ -32,7 +32,7 @@ test_that('white throws error with invalid arguments', {
   ))
   
   # Unavailable subgroup
-  expect_error(white(
+  expect_error(hoover(
     state = 'DC',
     year = 2020,
     subgroup = 'terran',
@@ -42,7 +42,7 @@ test_that('white throws error with invalid arguments', {
   skip_if(Sys.getenv('CENSUS_API_KEY') == '')
   
   # Incorrect state
-  expect_error(white(
+  expect_error(hoover(
     state = 'AB',
     year = 2020,
     subgroup = 'NHoLB',
@@ -51,23 +51,23 @@ test_that('white throws error with invalid arguments', {
   
 })
 
-test_that('white works', {
+test_that('hoover works', {
   skip_if(Sys.getenv('CENSUS_API_KEY') == '')
   
-  expect_silent(white(
+  expect_silent(hoover(
     state = 'DC',
     year = 2020,
     subgroup = c('NHoLB', 'HoLB')
   ))
   
-  expect_silent(white(
+  expect_silent(hoover(
     state = 'DC',
     year = 2020,
     subgroup = 'NHoLB',
     quiet = TRUE
   ))
   
-  expect_silent(white(
+  expect_silent(hoover(
     state = 'DC',
     year = 2020,
     subgroup = c('NHoLB', 'HoLB'),

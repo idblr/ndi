@@ -2,12 +2,12 @@
 % Please edit documentation in R/bravo.R
 \name{bravo}
 \alias{bravo}
-\title{Educational Isolation Index based on Bravo \emph{et al.} (2021)}
+\title{Educational Isolation Index based on Bravo et al. (2021)}
 \usage{
 bravo(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
 }
 \arguments{
-\item{geo}{Character string specifying the geography of the data either census tracts \code{geo = "tract"} (the default) or counties \code{geo = "county"}.}
+\item{geo}{Character string specifying the geography of the data either census tracts \code{geo = 'tract'} (the default) or counties \code{geo = 'county'}.}
 
 \item{year}{Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.}
 
@@ -29,15 +29,15 @@ An object of class 'list'. This is a named list with the following components:
 Compute the spatial Educational Isolation Index (Bravo) of selected educational attainment category(ies).
 }
 \details{
-This function will compute the spatial Educational Isolation Index (EI) of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Bravo \emph{et al.} (2021) \doi{10.3390/ijerph18179384} who originally designed the metric for the educational isolation of individual without a college degree. This function provides the computation of EI for any of the U.S. Census Bureau educational attainment levels.
+This function will compute the spatial Educational Isolation Index (EI) of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Bravo et al. (2021) \doi{10.3390/ijerph18179384} who originally designed the metric for the educational isolation of individual without a college degree. This function provides the computation of EI for any of the U.S. Census Bureau educational attainment levels.
 
-The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The five educational attainment levels (U.S. Census Bureau definitions) are:
+The function uses the \code{\link[tidycensus]{get_acs}} to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The five educational attainment levels (U.S. Census Bureau definitions) are:
 \itemize{
-\item \strong{B06009_002}: Less than high school graduate \code{"LtHS"}
-\item \strong{B06009_003}: High school graduate (includes equivalency) \code{"HSGiE"}
-\item \strong{B06009_004}: Some college or associate's degree \code{"SCoAD"}
-\item \strong{B06009_005}: Bachelor's degree \code{"BD"}
-\item \strong{B06009_006}: Graduate or professional degree \code{"GoPD"}
+\item \strong{B06009_002}: Less than high school graduate \code{'LtHS'}
+\item \strong{B06009_003}: High school graduate (includes equivalency) \code{'HSGiE'}
+\item \strong{B06009_004}: Some college or associate's degree \code{'SCoAD'}
+\item \strong{B06009_005}: Bachelor's degree \code{'BD'}
+\item \strong{B06009_006}: Graduate or professional degree \code{'GoPD'}
 }
 Note: If \code{year = 2009}, then the ACS-5 data (2005-2009) are from the \strong{B15002} question.
 
@@ -48,15 +48,23 @@ A census geography (and its neighbors) that has nearly all of its population wit
 \examples{
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
-  
+
   # Tract-level metric (2020)
-  bravo(geo = "tract", state = "GA", 
-        year = 2020, subgroup = c("LtHS", "HSGiE"))
-  
+  bravo(
+    geo = 'tract',
+    state = 'GA',
+    year = 2020,
+    subgroup = c('LtHS', 'HSGiE')
+   )
+
   # County-level metric (2020)
-  bravo(geo = "county", state = "GA",
-        year = 2020, subgroup = c("LtHS", "HSGiE"))
-  
+  bravo(
+    geo = 'county',
+    state = 'GA',
+    year = 2020,
+    subgroup = c('LtHS', 'HSGiE')
+   )
+
 }
 
 }
