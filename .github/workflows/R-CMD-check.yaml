@@ -83,8 +83,8 @@ jobs:
       - name: "[Custom block] [macOS] Install units from source"
         if: runner.os == 'macOS'
         run: |
-          install.packages('udunits2', type = 'source', configure.args = '--with-udunits2-include=/usr/include/udunits2'))
-          install.packages('units', type = 'source', configure.args = '--with-udunits2-include=/usr/include/udunits2'))
+          install.packages('udunits2', type = 'source', configure.args = '--with-udunits2-include=/usr/include/udunits2')
+          install.packages('units', type = 'source', configure.args = '--with-udunits2-include=/usr/include/udunits2')
         shell: Rscript {0}
       
       - name: Session info
