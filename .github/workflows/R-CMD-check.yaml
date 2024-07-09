@@ -77,15 +77,15 @@ jobs:
 
       - name: Install macOS specific dependencies
         if: runner.os == 'macOS'
-        run: brew install pkg-config udunits gdal proj geos
+        run: brew install udunits gdal proj geos
 
       - name: Install Linux specific dependencies
         if: runner.os == 'Linux'
-        run: sudo apt-get install libgdal-dev libproj-dev libgeos-dev libudunits2-dev texlive-latex-base texlive-fonts-recommended texlive-fonts-extra r-cran-car r-cran-desctools
+        run: sudo apt-get install libudunits2-dev libgdal-dev libproj-dev libgeos-dev r-cran-car
 
       - name: Install dependencies
         run: |
-          remotes::install_deps(dependencies = TRUE)
+          remotes::install_deps(dependencies = TRUE, build = FALSE)
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
       
