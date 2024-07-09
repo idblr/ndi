@@ -26,6 +26,7 @@ jobs:
           - {os: windows-latest, r: 'release'}
           - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,  r: 'release'}
+          - {os: ubuntu-latest,  r: 'oldrel'}
           - {os: ubuntu-latest,  r: 'oldrel-1'}
           - {os: ubuntu-latest,  r: 'oldrel-2'}
           - {os: ubuntu-latest,  r: 'oldrel-3'}
@@ -74,13 +75,13 @@ jobs:
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
-      - name: Install macOS specific dependencies for sf
+      - name: Install macOS specific dependencies
         if: runner.os == 'macOS'
-        run: brew install udunits gdal proj
+        run: brew install pkg-config udunits gdal proj geos
 
-      - name: Install Linux specific dependencies for sf
+      - name: Install Linux specific dependencies
         if: runner.os == 'Linux'
-        run: sudo apt-get install libgdal-dev libproj-dev libgeos-dev libudunits2-dev
+        run: sudo apt-get install libgdal-dev libproj-dev libgeos-dev libudunits2-dev texlive-latex-base texlive-fonts-recommended texlive-fonts-extra r-cran-car r-cran-desctools
 
       - name: Install dependencies
         run: |
