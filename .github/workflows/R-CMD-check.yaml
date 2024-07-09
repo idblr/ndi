@@ -53,7 +53,7 @@ jobs:
 
       - name: "[Custom block] [macOS] Install spatial libraries"
         if: runner.os == 'macOS'
-        run: brew install pkg-config udunits gdal proj geos
+        run: brew install udunits gdal proj geos
       
       - name: "[Custom block] [Linux] Install spatial libraries"
         if: runner.os == 'Linux'
@@ -83,8 +83,8 @@ jobs:
       - name: "[Custom block] [macOS] Install units from source"
         if: runner.os == 'macOS'
         run: |
-          install.packages('udunits2', type = 'source')
-          install.packages('units', type = 'source')
+          install.packages('udunits2', type = 'source', configure.args = '--with-udunits2-include=/usr/include/udunits2'))
+          install.packages('units', type = 'source', configure.args = '--with-udunits2-include=/usr/include/udunits2'))
         shell: Rscript {0}
       
       - name: Session info
