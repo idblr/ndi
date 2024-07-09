@@ -27,12 +27,12 @@ jobs:
           - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,  r: 'release'}
           - {os: ubuntu-latest,  r: 'oldrel'}
-          - {os: ubuntu-latest,  r: 'oldrel-1'}
-          - {os: ubuntu-latest,  r: 'oldrel-2'}
-          # dependencies 'DescTools' and 'pbkrtest' (a dependency of 'car') depend on R (>= 4.2.0)
-          - {os: ubuntu-latest,  r: 'oldrel-3'}
-          - {os: ubuntu-latest,  r: 'oldrel-4'}
-          - {os: ubuntu-latest,  r: 'oldrel-5'}
+          # - {os: ubuntu-latest,  r: 'oldrel-1'}
+          # - {os: ubuntu-latest,  r: 'oldrel-2'}
+          # # dependencies 'DescTools' and 'pbkrtest' (a dependency of 'car') depend on R (>= 4.2.0)
+          # - {os: ubuntu-latest,  r: 'oldrel-3'}
+          # - {os: ubuntu-latest,  r: 'oldrel-4'}
+          # - {os: ubuntu-latest,  r: 'oldrel-5'}
 
     env:
       R_KEEP_PKG_SOURCE: yes      
@@ -53,15 +53,8 @@ jobs:
 
       - name: "[Custom block] [macOS] Install spatial libraries"
         if: runner.os == 'macOS'
-        run: |
-          # conflicts with gfortran from r-lib/actions when linking gcc
-          rm '/usr/local/bin/gfortran'
-          brew install pkg-config udunits gdal proj geos
+        run: brew install pkg-config udunits gdal proj geos
       
-      - name: "[Linux] Install required system libs"
-        if: runner.os == 'Linux'
-        run: sudo apt install libcurl4-openssl-dev libgit2-dev
-        
       - name: "[Custom block] [Linux] Install spatial libraries"
         if: runner.os == 'Linux'
         run: sudo apt-get install libudunits2-dev libgdal-dev libproj-dev libgeos-dev
@@ -80,16 +73,6 @@ jobs:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
-          
-      # Try to automatically check for system dependencies and install them
-      # Note: this might not catch all required system libs and manual action might be needed
-      - name: "[Stage] [Linux] Install linux system dependencies"
-        if: runner.os == 'Linux'
-        run: |
-          while read -r cmd
-          do
-            eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
 
       - name: Install dependencies
         run: |
