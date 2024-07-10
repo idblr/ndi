@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macOS-latest,   r: 'devel'}
+          # - {os: macOS-latest,   r: 'devel'} # Issue with loading 'units' dependency
           - {os: macOS-latest,   r: 'release'}
           - {os: macOS-latest,   r: 'oldrel'}
           - {os: windows-latest, r: 'devel'}
@@ -74,12 +74,12 @@ jobs:
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
         
-      - name: "[Custom block] [MacOS] Install units from source"
-        if: runner.os == 'macOS'
-        run: |
-          install.packages('udunits2', type = 'source', configure.args = '--with-udunits2-lib=/usr/local/udunits2')
-          install.packages('units', type = 'source', configure.args = '--with-udunits2-lib=/usr/local/udunits2')
-        shell: Rscript {0}
+      # - name: "[Custom block] [MacOS] Install units with configuration"
+      #   if: runner.os == 'macOS'
+      #   run: |
+      #     install.packages('udunits2', type = 'source', configure.args = '--with-udunits2-lib=/usr/local/udunits2')
+      #     install.packages('units', type = 'source', configure.args = '--with-udunits2-lib=/usr/local/udunits2')
+      #   shell: Rscript {0}
       
       - name: Session info
         run: |
