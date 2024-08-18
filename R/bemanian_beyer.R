@@ -11,9 +11,9 @@
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the aspatial Local Exposure and Isolation (LEx/Is) metric of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Bemanian & Beyer (2017) \doi{10.1158/1055-9965.EPI-16-0926}. This function provides the computation of LEx/Is for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#' @details This function will compute the aspatial Local Exposure and Isolation (*LEx/Is*) metric of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Bemanian & Beyer (2017) \doi{10.1158/1055-9965.EPI-16-0926}. This function provides the computation of *LEx/Is* for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #'
-#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
+#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'}) but may be available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
 #'  \item **B03002_002**: not Hispanic or Latino \code{'NHoL'}
 #'  \item **B03002_003**: not Hispanic or Latino, white alone \code{'NHoLW'}
@@ -39,26 +39,27 @@
 #'
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #'
-#' LEx/Is is a measure of the probability that two individuals living within a specific smaller geography (e.g., census tract) of either different (i.e., exposure) or the same (i.e., isolation) racial/ethnic subgroup(s) will interact, assuming that individuals within a smaller geography are randomly mixed. LEx/Is is standardized with a logit transformation and centered against an expected case that all races/ethnicities are evenly distributed across a larger geography. (Note: will adjust data by 0.025 if probabilities are zero, one, or undefined. The output will include a warning if adjusted. See \code{\link[car]{logit}} for additional details.)
+#' *LEx/Is* is a measure of the probability that two individuals living within a specific smaller geography (e.g., census tract) of either different (i.e., exposure) or the same (i.e., isolation) racial/ethnic subgroup(s) will interact, assuming that individuals within a smaller geography are randomly mixed. *LEx/Is* is standardized with a logit transformation and centered against an expected case that all races/ethnicities are evenly distributed across a larger geography. (Note: will adjust data by 0.025 if probabilities are zero, one, or undefined. The output will include a warning if adjusted. See \code{\link[car]{logit}} for additional details.)
 #'
-#' LEx/Is can range from negative infinity to infinity. If LEx/Is is zero then the estimated probability of the interaction between two people of the given subgroup(s) within a smaller geography is equal to the expected probability if the subgroup(s) were perfectly mixed in the larger geography. If LEx/Is is greater than zero then the interaction is more likely to occur within the smaller geography than in the larger geography, and if LEx/Is is less than zero then the interaction is less likely to occur within the smaller geography than in the larger geography. Note: the exponentiation of each LEx/Is metric results in the odds ratio of the specific exposure or isolation of interest in a smaller geography relative to the larger geography.
+#' *LEx/Is* can range from negative infinity to infinity. If *LEx/Is* is zero then the estimated probability of the interaction between two people of the given subgroup(s) within a smaller geography is equal to the expected probability if the subgroup(s) were perfectly mixed in the larger geography. If *LEx/Is* is greater than zero then the interaction is more likely to occur within the smaller geography than in the larger geography, and if *LEx/Is* is less than zero then the interaction is less likely to occur within the smaller geography than in the larger geography. Note: the exponentiation of each *LEx/Is* metric results in the odds ratio of the specific exposure or isolation of interest in a smaller geography relative to the larger geography.
 #'
-#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, and census tract \code{geo_large = 'tract'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the LEx/Is value returned is NA.
-#'
+#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, and census tract \code{geo_large = 'tract'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the *LEx/Is* value returned is NA. If the larger geographical unit is Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a Core Based Statistical Area are considered in the *LEx/Is* computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested Core Based Statistical Areas are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the *LEx/Is* computation.
+#' 
 #' @return An object of class 'list'. This is a named list with the following components:
 #'
 #' \describe{
-#' \item{\code{lexis}}{An object of class 'tbl' for the GEOID, name, and LEx/Is at specified smaller census geographies.}
+#' \item{\code{lexis}}{An object of class 'tbl' for the GEOID, name, and *LEx/Is* at specified smaller census geographies.}
 #' \item{\code{lexis_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute LEx/Is.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute *LEx/Is*.}
 #' }
 #'
 #' @import dplyr
 #' @importFrom car logit
-#' @importFrom sf st_drop_geometry
+#' @importFrom sf st_drop_geometry st_within
 #' @importFrom stats complete.cases
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
+#' @importFrom tigris core_based_statistical_areas
 #' @importFrom utils stack
 #' @export
 #'
@@ -91,7 +92,7 @@ bemanian_beyer <- function(geo_large = 'county',
                            ...) {
   
     # Check arguments
-    match.arg(geo_large, choices = c('state', 'county', 'tract'))
+    match.arg(geo_large, choices = c('state', 'county', 'tract', 'cbsa'))
     match.arg(geo_small, choices = c('county', 'tract', 'block group'))
     stopifnot(is.numeric(year), year >= 2009) # all variables available 2009 onward
     match.arg(
@@ -174,8 +175,8 @@ bemanian_beyer <- function(geo_large = 'county',
     
     selected_vars <- vars[c('TotalPop', subgroup, subgroup_ixn)]
     out_names <- names(selected_vars) # save for output
-    in_subgroup <- paste(subgroup, 'E', sep = '')
-    in_subgroup_ixn <- paste(subgroup_ixn, 'E', sep = '')
+    in_subgroup <- paste0(subgroup, 'E')
+    in_subgroup_ixn <- paste0(subgroup_ixn, 'E')
     
     # Acquire LEx/Is variables and sf geometries
     lexis_data <- suppressMessages(suppressWarnings(
@@ -193,18 +194,15 @@ bemanian_beyer <- function(geo_large = 'county',
     # Format output
     if (geo_small == 'county') {
       lexis_data <- lexis_data %>% 
-        sf::st_drop_geometry() %>%
         tidyr::separate(NAME.y, into = c('county', 'state'), sep = ',')
     }
     if (geo_small == 'tract') {
       lexis_data <- lexis_data %>% 
-        sf::st_drop_geometry() %>%
         tidyr::separate(NAME.y, into = c('tract', 'county', 'state'), sep = ',') %>%
         dplyr::mutate(tract = gsub('[^0-9\\.]', '', tract))
     }
     if (geo_small == 'block group') {
       lexis_data <- lexis_data %>% 
-        sf::st_drop_geometry() %>%
         tidyr::separate(NAME.y, into = c('block.group', 'tract', 'county', 'state'), sep = ',') %>%
         dplyr::mutate(
           tract = gsub('[^0-9\\.]', '', tract),
@@ -213,28 +211,50 @@ bemanian_beyer <- function(geo_large = 'county',
     }
     
     # Grouping IDs for LEx/Is computation
-    if (geo_large == 'tract') {
+    if (geo_large == 'state') {
       lexis_data <- lexis_data %>%
         dplyr::mutate(
-          oid = paste(.$STATEFP, .$COUNTYFP, .$TRACTCE, sep = ''),
-          state = stringr::str_trim(state),
-          county = stringr::str_trim(county)
-        )
+          oid = STATEFP,
+          state = stringr::str_trim(state)
+        ) %>% 
+        sf::st_drop_geometry()
     }
     if (geo_large == 'county') {
       lexis_data <- lexis_data %>%
         dplyr::mutate(
-          oid = paste(.$STATEFP, .$COUNTYFP, sep = ''),
+          oid = paste(STATEFP, COUNTYFP, sep = ''),
           state = stringr::str_trim(state),
           county = stringr::str_trim(county)
-        )
+        ) %>% 
+        sf::st_drop_geometry()
     }
-    if (geo_large == 'state') {
+    if (geo_large == 'tract') {
       lexis_data <- lexis_data %>%
         dplyr::mutate(
-          oid = .$STATEFP,
-          state = stringr::str_trim(state)
-        )
+          oid = paste(STATEFP, COUNTYFP, TRACTCE, sep = ''),
+          state = stringr::str_trim(state),
+          county = stringr::str_trim(county)
+        ) %>% 
+        sf::st_drop_geometry()
+    }
+    if (geo_large == 'cbsa') {
+      stopifnot(is.numeric(year), year >= 2010) # CBSAs only available 2010 onward
+      dat_cbsa <- suppressMessages(suppressWarnings(tigris::core_based_statistical_areas(year = year)))
+      win_cbsa <- sf::st_within(lexis_data, dat_cbsa)
+      lexis_data <- lexis_data %>%
+        dplyr::mutate(
+          oid = lapply(win_cbsa, function(x) { 
+            tmp <- dat_cbsa[x, 2] %>% sf::st_drop_geometry()
+            lapply(tmp, function(x) { if (length(x) == 0) NA else x })
+          }) %>% 
+            unlist(),
+          cbsa = lapply(win_cbsa, function(x) { 
+            tmp <- dat_cbsa[x, 4] %>% sf::st_drop_geometry()
+            lapply(tmp, function(x) { if (length(x) == 0) NA else x })
+          }) %>% 
+            unlist()
+        ) %>% 
+        sf::st_drop_geometry()
     }
     
     # Count of racial/ethnic subgroup populations
@@ -314,6 +334,12 @@ bemanian_beyer <- function(geo_large = 'county',
     if (geo_small == 'block group') {
       lexis <- lexis %>%
         dplyr::select(GEOID, state, county, tract, block.group, LExIs)
+    }
+    if (geo_large == 'cbsa') {
+      lexis <- lexis_data %>%
+        dplyr::select(GEOID, cbsa) %>%
+        dplyr::left_join(lexis, ., by = dplyr::join_by(GEOID)) %>%
+        dplyr::relocate(cbsa, .after = county)
     }
     
     lexis <- lexis %>%

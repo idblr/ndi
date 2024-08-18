@@ -36,18 +36,18 @@ bell(
 An object of class 'list'. This is a named list with the following components:
 
 \describe{
-\item{\code{ii}}{An object of class 'tbl' for the GEOID, name, and II at specified larger census geographies.}
+\item{\code{ii}}{An object of class 'tbl' for the GEOID, name, and \emph{II} at specified larger census geographies.}
 \item{\code{ii_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute II.}
+\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{II}.}
 }
 }
 \description{
 Compute the aspatial Isolation Index (Bell) of a selected racial/ethnic subgroup(s) and U.S. geographies.
 }
 \details{
-This function will compute the aspatial Isolation Index (II) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and Bell (1954) \doi{10.2307/2574118}. This function provides the computation of II for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+This function will compute the aspatial Isolation Index (\emph{II}) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and Bell (1954) \doi{10.2307/2574118}. This function provides the computation of \emph{II} for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 
-The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
+The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'}) but may be available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 \itemize{
 \item \strong{B03002_002}: not Hispanic or Latino \code{'NHoL'}
 \item \strong{B03002_003}: not Hispanic or Latino, white alone \code{'NHoLW'}
@@ -73,9 +73,9 @@ The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. 
 
 Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 
-II is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation). II can range in value from 0 to 1.
+\emph{II} is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation). \emph{II} can range in value from 0 to 1.
 
-Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, and census tract \code{geo_large = 'tract'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the II value returned is NA.
+Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, and census tract \code{geo_large = 'tract'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{II} value returned is NA. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{II} value returned is NA. If the larger geographical unit is Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a Core Based Statistical Area are considered in the \emph{II} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested Core Based Statistical Areas are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{II} computation.
 }
 \examples{
 \dontrun{

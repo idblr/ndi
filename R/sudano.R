@@ -1,4 +1,4 @@
-#' Location Quotient (LQ) based on Merton (1938) and Sudano et al. (2013)
+#' Location Quotient based on Merton (1938) and Sudano et al. (2013)
 #'
 #' Compute the aspatial Location Quotient (Sudano) of a selected racial/ethnic subgroup(s) and U.S. geographies.
 #'
@@ -10,9 +10,9 @@
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the aspatial Location Quotient (LQ) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Merton (1939) \doi{10.2307/2084686} and Sudano et al. (2013) \doi{10.1016/j.healthplace.2012.09.015}. This function provides the computation of LQ for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#' @details This function will compute the aspatial Location Quotient (*LQ*) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Merton (1939) \doi{10.2307/2084686} and Sudano et al. (2013) \doi{10.1016/j.healthplace.2012.09.015}. This function provides the computation of *LQ* for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #'
-#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
+#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'}) but may be available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
 #'  \item **B03002_002**: not Hispanic or Latino \code{'NHoL'}
 #'  \item **B03002_003**: not Hispanic or Latino, white alone \code{'NHoLW'}
@@ -38,23 +38,24 @@
 #'
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #'
-#' LQ is some measure of relative racial homogeneity of each smaller geography within a larger geography. LQ can range in value from 0 to infinity because it is ratio of two proportions in which the numerator is the proportion of subgroup population in a smaller geography and the denominator is the proportion of subgroup population in its larger geography. For example, a smaller geography with an LQ of 5 means that the proportion of the subgroup population living in the smaller geography is five times the proportion of the subgroup population in its larger geography.
+#' *LQ* is some measure of relative racial homogeneity of each smaller geography within a larger geography. *LQ* can range in value from 0 to infinity because it is ratio of two proportions in which the numerator is the proportion of subgroup population in a smaller geography and the denominator is the proportion of subgroup population in its larger geography. For example, a smaller geography with an *LQ* of 5 means that the proportion of the subgroup population living in the smaller geography is five times the proportion of the subgroup population in its larger geography.
 #'
-#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, and census tract \code{geo_large = 'tract'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the LQ value returned is NA.
-#'
+#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, and census tract \code{geo_large = 'tract'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the *LQ* value returned is NA. If the larger geographical unit is Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a Core Based Statistical Area are considered in the *LQ* computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested Core Based Statistical Areas are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the *LQ* computation.
+#' 
 #' @return An object of class 'list'. This is a named list with the following components:
 #'
 #' \describe{
-#' \item{\code{lq}}{An object of class 'tbl' for the GEOID, name, and LQ at specified smaller census geographies.}
+#' \item{\code{lq}}{An object of class 'tbl' for the GEOID, name, and *LQ* at specified smaller census geographies.}
 #' \item{\code{lq_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute LQ.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute *LQ*.}
 #' }
 #'
 #' @import dplyr
-#' @importFrom sf st_drop_geometry
+#' @importFrom sf st_drop_geometry st_within
 #' @importFrom stats complete.cases
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
+#' @importFrom tigris core_based_statistical_areas
 #' @importFrom utils stack
 #' @export
 #'
@@ -85,7 +86,7 @@ sudano <- function(geo_large = 'county',
                    ...) {
   
   # Check arguments
-  match.arg(geo_large, choices = c('state', 'county', 'tract'))
+  match.arg(geo_large, choices = c('state', 'county', 'tract', 'cbsa'))
   match.arg(geo_small, choices = c('county', 'tract', 'block group'))
   stopifnot(is.numeric(year), year >= 2009) # all variables available 2009 onward
   match.arg(
@@ -142,7 +143,7 @@ sudano <- function(geo_large = 'county',
   
   selected_vars <- vars[c('TotalPop', subgroup)]
   out_names <- names(selected_vars) # save for output
-  in_subgroup <- paste(subgroup, 'E', sep = '')
+  in_subgroup <- paste0(subgroup, 'E')
   
   # Acquire LQ variables and sf geometries
   lq_data <- suppressMessages(suppressWarnings(
@@ -161,18 +162,15 @@ sudano <- function(geo_large = 'county',
   # Format output
   if (geo_small == 'county') {
     lq_data <- lq_data %>%
-      sf::st_drop_geometry() %>%
       tidyr::separate(NAME.y, into = c('county', 'state'), sep = ',')
   }
   if (geo_small == 'tract') {
     lq_data <- lq_data %>%
-      sf::st_drop_geometry() %>%
       tidyr::separate(NAME.y, into = c('tract', 'county', 'state'), sep = ',') %>%
       dplyr::mutate(tract = gsub('[^0-9\\.]', '', tract))
   }
   if (geo_small == 'block group') {
     lq_data <- lq_data %>%
-      sf::st_drop_geometry() %>%
       tidyr::separate(NAME.y, into = c('block.group', 'tract', 'county', 'state'), sep = ',') %>%
       dplyr::mutate(
         tract = gsub('[^0-9\\.]', '', tract),
@@ -181,28 +179,50 @@ sudano <- function(geo_large = 'county',
   }
   
   # Grouping IDs for R computation
+  if (geo_large == 'state') {
+    lq_data <- lq_data %>%
+      dplyr::mutate(
+        oid = STATEFP,
+        state = stringr::str_trim(state)
+      ) %>% 
+      sf::st_drop_geometry()
+  }
   if (geo_large == 'tract') {
     lq_data <- lq_data %>%
       dplyr::mutate(
-        oid = paste(.$STATEFP, .$COUNTYFP, .$TRACTCE, sep = ''),
+        oid = paste0(STATEFP, COUNTYFP, TRACTCE),
         state = stringr::str_trim(state),
         county = stringr::str_trim(county)
-      )
+      ) %>% 
+      sf::st_drop_geometry()
   }
   if (geo_large == 'county') {
     lq_data <- lq_data %>%
       dplyr::mutate(
-        oid = paste(.$STATEFP, .$COUNTYFP, sep = ''),
+        oid = paste0(STATEFP, COUNTYFP),
         state = stringr::str_trim(state),
         county = stringr::str_trim(county)
-      )
+      ) %>% 
+      sf::st_drop_geometry()
   }
-  if (geo_large == 'state') {
+  if (geo_large == 'cbsa') {
+    stopifnot(is.numeric(year), year >= 2010) # CBSAs only available 2010 onward
+    dat_cbsa <- suppressMessages(suppressWarnings(tigris::core_based_statistical_areas(year = year)))
+    win_cbsa <- sf::st_within(lq_data, dat_cbsa)
     lq_data <- lq_data %>%
       dplyr::mutate(
-        oid = .$STATEFP,
-        state = stringr::str_trim(state)
-      )
+        oid = lapply(win_cbsa, function(x) { 
+          tmp <- dat_cbsa[x, 2] %>% sf::st_drop_geometry()
+          lapply(tmp, function(x) { if (length(x) == 0) NA else x })
+        }) %>% 
+          unlist(),
+        cbsa = lapply(win_cbsa, function(x) { 
+          tmp <- dat_cbsa[x, 4] %>% sf::st_drop_geometry()
+          lapply(tmp, function(x) { if (length(x) == 0) NA else x })
+        }) %>% 
+          unlist()
+      ) %>% 
+      sf::st_drop_geometry()
   }
   
   # Count of racial/ethnic subgroup populations
@@ -269,6 +289,12 @@ sudano <- function(geo_large = 'county',
   if (geo_small == 'block group') {
     lq <- lq %>%
       dplyr::select(GEOID, state, county, tract, block.group, LQ)
+  }
+  if (geo_large == 'cbsa') {
+    lq <- lq_data %>%
+      dplyr::select(GEOID, cbsa) %>%
+      dplyr::left_join(lq, ., by = dplyr::join_by(GEOID)) %>%
+      dplyr::relocate(cbsa, .after = county)
   }
   
   lq <- lq %>%

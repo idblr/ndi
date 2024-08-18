@@ -36,18 +36,18 @@ atkinson(
 An object of class 'list'. This is a named list with the following components:
 
 \describe{
-\item{\code{ai}}{An object of class 'tbl' for the GEOID, name, and AI at specified larger census geographies.}
+\item{\code{ai}}{An object of class 'tbl' for the GEOID, name, and \emph{AI} at specified larger census geographies.}
 \item{\code{ai_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute AI.}
+\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{AI}.}
 }
 }
 \description{
 Compute the aspatial Atkinson Index of income or selected racial/ethnic subgroup(s) and U.S. geographies.
 }
 \details{
-This function will compute the aspatial Atkinson Index (AI) of income or selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Atkinson (1970) \doi{10.1016/0022-0531(70)90039-6}. This function provides the computation of AI for median household income and any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+This function will compute the aspatial Atkinson Index (\emph{AI}) of income or selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Atkinson (1970) \doi{10.1016/0022-0531(70)90039-6}. This function provides the computation of \emph{AI} for median household income and any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 
-The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. When \code{subgroup = 'MedHHInc'}, the metric will be computed for median household income ('B19013_001'). The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
+The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'}) but may be available from other U.S. Census Bureau surveys. When \code{subgroup = 'MedHHInc'}, the metric will be computed for median household income ('B19013_001'). The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 \itemize{
 \item \strong{B03002_002}: not Hispanic or Latino \code{'NHoL'}
 \item \strong{B03002_003}: not Hispanic or Latino, white alone \code{'NHoLW'}
@@ -73,11 +73,11 @@ The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. 
 
 Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 
-AI is a measure of the evenness of residential inequality (e.g., racial/ethnic segregation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. The AI metric can range in value from 0 to 1 with smaller values indicating lower levels of inequality (e.g., less segregation).
+\emph{AI} is a measure of the evenness of residential inequality (e.g., racial/ethnic segregation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. \emph{AI} can range in value from 0 to 1 with smaller values indicating lower levels of inequality (e.g., less segregation).
 
 The \code{epsilon} argument that determines how to weight the increments to inequality contributed by different proportions of the Lorenz curve. A user must explicitly decide how heavily to weight smaller geographical units at different points on the Lorenz curve (i.e., whether the index should take greater account of differences among areas of over- or under-representation). The \code{epsilon} argument must have values between 0 and 1.0. For \code{0 <= epsilon < 0.5} or less 'inequality-averse,' smaller geographical units with a subgroup proportion smaller than the subgroup proportion of the larger geographical unit contribute more to inequality ('over-representation'). For \code{0.5 < epsilon <= 1.0} or more 'inequality-averse,' smaller geographical units with a subgroup proportion larger than the subgroup proportion of the larger geographical unit contribute more to inequality ('under-representation'). If \code{epsilon = 0.5} (the default), units of over- and under-representation contribute equally to the index. See Section 2.3 of Saint-Jacques et al. (2020) \doi{10.48550/arXiv.2002.05819} for one method to select \code{epsilon}.
 
-Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, and census tract \code{geo_large = 'tract'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the AI value returned is NA.
+Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, and census tract \code{geo_large = 'tract'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{AI} value returned is NA. If the larger geographical unit is Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a Core Based Statistical Area are considered in the \emph{AI} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested Core Based Statistical Areas are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{AI} computation.
 }
 \examples{
 \dontrun{
