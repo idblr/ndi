@@ -11,9 +11,9 @@
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the aspatial Isolation Index (II) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and Bell (1954) \doi{10.2307/2574118}. This function provides the computation of II for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#' @details This function will compute the aspatial Isolation Index (*II*) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and Bell (1954) \doi{10.2307/2574118}. This function provides the computation of *II* for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #'
-#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
+#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'}) but may be available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
 #'  \item **B03002_002**: not Hispanic or Latino \code{'NHoL'}
 #'  \item **B03002_003**: not Hispanic or Latino, white alone \code{'NHoLW'}
@@ -39,23 +39,24 @@
 #'
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #'
-#' II is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation). II can range in value from 0 to 1.
+#' *II* is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation). *II* can range in value from 0 to 1.
 #'
-#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, and census tract \code{geo_large = 'tract'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the II value returned is NA.
-#'
+#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, and census tract \code{geo_large = 'tract'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the *II* value returned is NA. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the *II* value returned is NA. If the larger geographical unit is Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a Core Based Statistical Area are considered in the *II* computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested Core Based Statistical Areas are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the *II* computation.
+#' 
 #' @return An object of class 'list'. This is a named list with the following components:
 #'
 #' \describe{
-#' \item{\code{ii}}{An object of class 'tbl' for the GEOID, name, and II at specified larger census geographies.}
+#' \item{\code{ii}}{An object of class 'tbl' for the GEOID, name, and *II* at specified larger census geographies.}
 #' \item{\code{ii_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute II.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute *II*.}
 #' }
 #'
 #' @import dplyr
-#' @importFrom sf st_drop_geometry
+#' @importFrom sf st_drop_geometry st_within
 #' @importFrom stats complete.cases
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
+#' @importFrom tigris core_based_statistical_areas
 #' @importFrom utils stack
 #' @export
 #'
@@ -88,7 +89,7 @@ bell <- function(geo_large = 'county',
                  ...) {
   
     # Check arguments
-    match.arg(geo_large, choices = c('state', 'county', 'tract'))
+    match.arg(geo_large, choices = c('state', 'county', 'tract', 'cbsa'))
     match.arg(geo_small, choices = c('county', 'tract', 'block group'))
     stopifnot(is.numeric(year), year >= 2009) # all variables available 2009 onward
     match.arg(
@@ -171,8 +172,8 @@ bell <- function(geo_large = 'county',
     
     selected_vars <- vars[c('TotalPop', subgroup, subgroup_ixn)]
     out_names <- names(selected_vars) # save for output
-    in_subgroup <- paste(subgroup, 'E', sep = '')
-    in_subgroup_ixn <- paste(subgroup_ixn, 'E', sep = '')
+    in_subgroup <- paste0(subgroup, 'E')
+    in_subgroup_ixn <- paste0(subgroup_ixn, 'E')
     
     # Acquire II variables and sf geometries
     ii_data <- suppressMessages(suppressWarnings(
@@ -191,18 +192,15 @@ bell <- function(geo_large = 'county',
     # Format output
     if (geo_small == 'county') {
       ii_data <- ii_data %>%
-        sf::st_drop_geometry() %>%
         tidyr::separate(NAME.y, into = c('county', 'state'), sep = ',')
     }
     if (geo_small == 'tract') {
       ii_data <- ii_data %>%
-        sf::st_drop_geometry() %>%
         tidyr::separate(NAME.y, into = c('tract', 'county', 'state'), sep = ',') %>%
         dplyr::mutate(tract = gsub('[^0-9\\.]', '', tract))
     }
     if (geo_small == 'block group') {
       ii_data <- ii_data %>%
-        sf::st_drop_geometry() %>%
         tidyr::separate(NAME.y, into = c('block.group', 'tract', 'county', 'state'), sep = ',') %>%
         dplyr::mutate(
           tract = gsub('[^0-9\\.]', '', tract),
@@ -211,28 +209,50 @@ bell <- function(geo_large = 'county',
     }
     
     # Grouping IDs for II computation
-    if (geo_large == 'tract') {
+    if (geo_large == 'state') {
       ii_data <- ii_data %>%
         dplyr::mutate(
-          oid = paste(.$STATEFP, .$COUNTYFP, .$TRACTCE, sep = ''),
-          state = stringr::str_trim(state),
-          county = stringr::str_trim(county)
-        )
+          oid = STATEFP,
+          state = stringr::str_trim(state)
+        ) %>% 
+        sf::st_drop_geometry()
     }
     if (geo_large == 'county') {
       ii_data <- ii_data %>%
         dplyr::mutate(
-          oid = paste(.$STATEFP, .$COUNTYFP, sep = ''),
+          oid = paste0(STATEFP, COUNTYFP),
           state = stringr::str_trim(state),
           county = stringr::str_trim(county)
-        )
+        ) %>% 
+        sf::st_drop_geometry()
     }
-    if (geo_large == 'state') {
+    if (geo_large == 'tract') {
       ii_data <- ii_data %>%
         dplyr::mutate(
-          oid = .$STATEFP,
-          state = stringr::str_trim(state)
-        )
+          oid = paste0(STATEFP, COUNTYFP, TRACTCE),
+          state = stringr::str_trim(state),
+          county = stringr::str_trim(county)
+        ) %>% 
+        sf::st_drop_geometry()
+    }
+    if (geo_large == 'cbsa') {
+      stopifnot(is.numeric(year), year >= 2010) # CBSAs only available 2010 onward
+      dat_cbsa <- suppressMessages(suppressWarnings(tigris::core_based_statistical_areas(year = year)))
+      win_cbsa <- sf::st_within(ii_data, dat_cbsa)
+      ii_data <- ii_data %>%
+        dplyr::mutate(
+          oid = lapply(win_cbsa, function(x) { 
+            tmp <- dat_cbsa[x, 2] %>% sf::st_drop_geometry()
+            lapply(tmp, function(x) { if (length(x) == 0) NA else x })
+          }) %>% 
+            unlist(),
+          cbsa = lapply(win_cbsa, function(x) { 
+            tmp <- dat_cbsa[x, 4] %>% sf::st_drop_geometry()
+            lapply(tmp, function(x) { if (length(x) == 0) NA else x })
+          }) %>% 
+            unlist()
+        ) %>% 
+        sf::st_drop_geometry()
     }
     
     # Count of racial/ethnic subgroup populations
@@ -324,6 +344,16 @@ bell <- function(geo_large = 'county',
         dplyr::mutate(GEOID = oid) %>%
         dplyr::select(GEOID, state, county, tract, II) %>%
         .[.$GEOID != 'NANA',]
+    }
+    if (geo_large == 'cbsa') {
+      ii <- ii_data %>%
+        dplyr::left_join(IItmp, by = dplyr::join_by(oid)) %>%
+        dplyr::select(oid, cbsa, II) %>%
+        unique(.) %>%
+        dplyr::mutate(GEOID = oid) %>%
+        dplyr::select(GEOID, cbsa, II) %>%
+        .[.$GEOID != 'NANA', ] %>%
+        dplyr::distinct(GEOID, .keep_all = TRUE)
     }
     
     ii <- ii %>%

@@ -23,7 +23,7 @@ powell_wiley(
 
 \item{quiet}{Logical. If TRUE, will display messages about potential missing census information, standardized Cronbach's alpha, and proportion of variance explained by principal component analysis. The default is FALSE.}
 
-\item{round_output}{Logical. If TRUE, will round the output of raw census and NDI values from the \code{\link[tidycensus]{get_acs}} at one and four significant digits, respectively. The default is FALSE.}
+\item{round_output}{Logical. If TRUE, will round the output of raw census and \emph{NDI} values from the \code{\link[tidycensus]{get_acs}} at one and four significant digits, respectively. The default is FALSE.}
 
 \item{df}{Optional. Pass a pre-formatted \code{'dataframe'} or \code{'tibble'} with the desired variables through the function. Bypasses the data obtained by \code{\link[tidycensus]{get_acs}}. The default is NULL. See Details below.}
 
@@ -33,9 +33,9 @@ powell_wiley(
 An object of class 'list'. This is a named list with the following components:
 
 \describe{
-\item{\code{ndi}}{An object of class 'tbl' for the GEOID, name, NDI continuous, NDI quintiles, and raw census values of specified census geographies.}
-\item{\code{pca}}{An object of class 'principal', returns the output of \code{\link[psych]{principal}} used to compute the NDI values.}
-\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute NDI.}
+\item{\code{ndi}}{An object of class 'tbl' for the GEOID, name, \emph{NDI} continuous, \emph{NDI} quintiles, and raw census values of specified census geographies.}
+\item{\code{pca}}{An object of class 'principal', returns the output of \code{\link[psych]{principal}} used to compute the \emph{NDI} values.}
+\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{NDI}.}
 \item{\code{cronbach}}{An object of class 'character' or 'numeric' for the results of the Cronbach's alpha calculation. If only one factor is computed, a message is returned. If more than one factor is computed, Cronbach's alpha is calculated and should check that it is >0.7 for respectable internal consistency between factors.}
 }
 }
@@ -43,7 +43,7 @@ An object of class 'list'. This is a named list with the following components:
 Compute the aspatial Neighborhood Deprivation Index (Powell-Wiley).
 }
 \details{
-This function will compute the aspatial Neighborhood Deprivation Index (NDI) of U.S. census tracts or counties for a specified geographical referent (e.g., US-standardized) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002}.
+This function will compute the aspatial Neighborhood Deprivation Index (\emph{NDI}) of U.S. census tracts or counties for a specified geographical referent (e.g., US-standardized) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002}.
 
 The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for computation involving a factor analysis with the \code{\link[psych]{principal}} function. The yearly estimates are available in 2010 and after when all census characteristics became available. The thirteen characteristics chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x} are:
 \itemize{
@@ -62,9 +62,9 @@ The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. 
 \item \strong{PctUnempl (S2301)}: percent unemployed
 }
 
-Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify the referent for standardizing the NDI (Powell-Wiley) values. For example, if all U.S. states are specified for the \code{state} argument, then the output would be a U.S.-standardized index. Please note: the NDI (Powell-Wiley) values will not exactly match (but will highly correlate with) those found in Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} because the two studies used a different statistical platform (i.e., SPSS and SAS, respectively) that intrinsically calculate the principal component analysis differently from R.
+Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify the referent for standardizing the \emph{NDI} (Powell-Wiley) values. For example, if all U.S. states are specified for the \code{state} argument, then the output would be a U.S.-standardized index. Please note: the \emph{NDI} (Powell-Wiley) values will not exactly match (but will highly correlate with) those found in Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} because the two studies used a different statistical platform (i.e., SPSS and SAS, respectively) that intrinsically calculate the principal component analysis differently from R.
 
-The categorical NDI (Powell-Wiley) values are population-weighted quintiles of the continuous NDI (Powell-Wiley) values.
+The categorical \emph{NDI} (Powell-Wiley) values are population-weighted quintiles of the continuous \emph{NDI} (Powell-Wiley) values.
 
 Check if the proportion of variance explained by the first principal component is high (more than 0.5).
 

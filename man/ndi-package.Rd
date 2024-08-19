@@ -58,7 +58,7 @@ Useful links:
 
 }
 \author{
-Ian D. Buller\cr \emph{Social & Scientific Systems, Inc., a DLH Corporation Holding Company, Bethesda, Maryland, USA (current); Occupational and Environmental Epidemiology Branch, Division of Cancer Epidemiology and Genetics, National Cancer Institute, National Institutes of Health, Rockville, Maryland, USA (original).} \cr
+Ian D. Buller\cr \emph{DLH Corporation (formerly Social & Scientific Systems, Inc.), Bethesda, Maryland, USA (current); Occupational and Environmental Epidemiology Branch, Division of Cancer Epidemiology and Genetics, National Cancer Institute, National Institutes of Health, Rockville, Maryland, USA (original).} \cr
 
 Maintainer: I.D.B. \email{ian.buller@alumni.emory.edu}
 }

@@ -19,15 +19,15 @@ krieger(geo = "tract", year = 2020, quiet = FALSE, ...)
 An object of class 'list'. This is a named list with the following components:
 
 \describe{
-\item{\code{ice}}{An object of class 'tbl' for the GEOID, name, ICE metrics, and raw census values of specified census geographies.}
-\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute the ICEs.}
+\item{\code{ice}}{An object of class 'tbl' for the GEOID, name, \emph{ICE} metrics, and raw census values of specified census geographies.}
+\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute the \emph{ICE}s.}
 }
 }
 \description{
 Compute the aspatial Index of Concentration at the Extremes (Krieger).
 }
 \details{
-This function will compute three aspatial Index of Concentration at the Extremes (ICE) of U.S. census tracts or counties for a specified geographical extent (e.g., entire U.S. or a single state) based on Feldman et al. (2015) \doi{10.1136/jech-2015-205728} and Krieger et al. (2016) \doi{10.2105/AJPH.2015.302955}. The authors expanded the metric designed by Massey in a chapter of Booth & Crouter (2001) \doi{10.4324/9781410600141} who initially designed the metric for residential segregation. This function computes five ICE metrics:
+This function will compute three aspatial Index of Concentration at the Extremes (\emph{ICE}) of U.S. census tracts or counties for a specified geographical extent (e.g., entire U.S. or a single state) based on Feldman et al. (2015) \doi{10.1136/jech-2015-205728} and Krieger et al. (2016) \doi{10.2105/AJPH.2015.302955}. The authors expanded the metric designed by Massey in a chapter of Booth & Crouter (2001) \doi{10.4324/9781410600141} who initially designed the metric for residential segregation. This function computes five \emph{ICE} metrics:
 
 \itemize{
 \item \strong{Income}: 80th income percentile vs. 20th income percentile
@@ -37,7 +37,7 @@ This function will compute three aspatial Index of Concentration at the Extremes
 \item \strong{Income and race/ethnicity combined}: white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile
 }
 
-The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The ACS-5 groups used in the computation of the five ICE metrics are:
+The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The ACS-5 groups used in the computation of the five \emph{ICE} metrics are:
 \itemize{
 \item \strong{B03002}: HISPANIC OR LATINO ORIGIN BY RACE
 \item \strong{B15002}: SEX BY EDUCATIONAL ATTAINMENT FOR THE POPULATION 25 YEARS AND OVER
@@ -48,7 +48,7 @@ The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. 
 
 Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 
-ICE metrics can range in value from -1 (most deprived) to 1 (most privileged). A value of 0 can thus represent two possibilities: (1) none of the residents are in the most privileged or most deprived categories, or (2) an equal number of persons are in the most privileged and most deprived categories, and in both cases indicates that the area is not dominated by extreme concentrations of either of the two groups.
+\emph{ICE} metrics can range in value from -1 (most deprived) to 1 (most privileged). A value of 0 can thus represent two possibilities: (1) none of the residents are in the most privileged or most deprived categories, or (2) an equal number of persons are in the most privileged and most deprived categories, and in both cases indicates that the area is not dominated by extreme concentrations of either of the two groups.
 }
 \examples{
 \dontrun{

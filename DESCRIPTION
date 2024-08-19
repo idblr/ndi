@@ -63,12 +63,12 @@ Imports:
     stringr,
     tidycensus,
     tidyr,
+    tigris,
     utils
 Suggests:
     DescTools,
     ggplot2,
     testthat,
-    tigris,
     R.rsp,
     spelling, 
     usethis

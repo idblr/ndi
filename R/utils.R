@@ -77,7 +77,7 @@ lq_fun <- function(x, omit_NAs) {
     NA
   } else {
     p_im <- xx$subgroup / xx$TotalPopE
-    if (anyNA(p_im)) { p_im[is.na(p_im), ] <- 0 }
+    if (anyNA(p_im)) { p_im[is.na(p_im)] <- 0 }
     LQ <- p_im / (sum(xx$subgroup, na.rm = TRUE) / sum(xx$TotalPopE, na.rm = TRUE))
     df <-  data.frame(LQ = LQ, GEOID = xx$GEOID)
     return(df)
@@ -93,9 +93,9 @@ lexis_fun <- function(x, omit_NAs) {
     NA
   } else {
     p_im <- xx$subgroup / xx$TotalPopE
-    if (anyNA(p_im)) { p_im[is.na(p_im), ] <- 0 }
+    if (anyNA(p_im)) { p_im[is.na(p_im)] <- 0 }
     p_in <- xx$subgroup_ixn / xx$TotalPopE
-    if (anyNA(p_in)) { p_in[is.na(p_in), ] <- 0 }
+    if (anyNA(p_in)) { p_in[is.na(p_in) ] <- 0 }
     P_m <- sum(xx$subgroup, na.rm = TRUE) / sum(xx$TotalPopE, na.rm = TRUE)
     P_n <- sum(xx$subgroup_ixn, na.rm = TRUE) / sum(xx$TotalPopE, na.rm = TRUE)
     LExIs <- car::logit(p_im * p_in) - car::logit(P_m * P_n)

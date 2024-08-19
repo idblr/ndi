@@ -43,7 +43,7 @@
 #' 
 #' @section Dependencies: The 'ndi' package relies heavily upon \code{\link{tidycensus}} to retrieve data from the U.S. Census Bureau American Community Survey five-year estimates and the \code{\link{psych}} for computing the neighborhood deprivation indices. The \code{\link{messer}} function builds upon code developed by Hruska et al. (2022) \doi{10.17605/OSF.IO/M2SAV} by fictionalizing, adding the percent of households earning <$30,000 per year to the NDI computation, and providing the option for computing the ACS-5 2006-2010 NDI values. There is no code companion to compute NDI included in Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} or Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002}, but the package author worked directly with the Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} authors to replicate their SAS code in R. The spatial metrics RI and EI rely on the \code{\link{sf}} and \code{\link{Matrix}} packages to compute the geospatial adjacency matrix between census geographies. Internal function to calculate AI is based on \code{\link[DescTools]{Atkinson}} function. There is no code companion to compute RI, EI, DI, II, V, LQ, or LEx/Is included in Anthopolos et al. (2011) \doi{10.1016/j.sste.2011.06.002}, Bravo et al. (2021) \doi{10.3390/ijerph18179384}, Duncan & Duncan (1955) \doi{10.2307/2088328}, Bell (1954) \doi{10.2307/2574118}, White (1986) \doi{10.2307/3644339}, Sudano et al. (2013) \doi{10.1016/j.healthplace.2012.09.015}, or Bemanian & Beyer (2017) \doi{10.1158/1055-9965.EPI-16-0926}, respectively.
 #' 
-#' @author Ian D. Buller\cr \emph{Social & Scientific Systems, Inc., a DLH Corporation Holding Company, Bethesda, Maryland, USA (current); Occupational and Environmental Epidemiology Branch, Division of Cancer Epidemiology and Genetics, National Cancer Institute, National Institutes of Health, Rockville, Maryland, USA (original).} \cr
+#' @author Ian D. Buller\cr \emph{DLH Corporation (formerly Social & Scientific Systems, Inc.), Bethesda, Maryland, USA (current); Occupational and Environmental Epidemiology Branch, Division of Cancer Epidemiology and Genetics, National Cancer Institute, National Institutes of Health, Rockville, Maryland, USA (original).} \cr
 #' 
 #' Maintainer: I.D.B. \email{ian.buller@@alumni.emory.edu}
 #'
@@ -55,10 +55,11 @@
 #' @importFrom MASS ginv
 #' @importFrom Matrix sparseMatrix
 #' @importFrom psych alpha principal
-#' @importFrom sf st_drop_geometry st_geometry st_intersects
+#' @importFrom sf st_drop_geometry st_geometry st_intersects st_within
 #' @importFrom stats complete.cases cor cov2cor loadings median na.omit promax quantile sd setNames
 #' @importFrom stringr str_trim
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
+#' @importFrom tigris core_based_statistical_areas
 #' @importFrom utils stack
 NULL
