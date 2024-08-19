@@ -4,7 +4,7 @@
 
 ### New Features
 * Added `hoover()` function to compute the aspatial racial/ethnic Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089)
-* Added  `geo_large = 'cbsa'` option for computing Core Based Statistical Areas as the larger geographical unit in `atkinson()`, `bell()`, `bemanian_beyer()`, `duncan()`, `hoover()`, `sudano()`, and `white()` functions.
+* Added `geo_large = 'cbsa'` for computing Core Based Statistical Areas, `geo_large = 'csa'` for Combined Statistical Areas, and `geo_large = 'metro'` for Metropolitan Divisions as the larger geographical unit in `atkinson()`, `bell()`, `bemanian_beyer()`, `duncan()`, `hoover()`, `sudano()`, and `white()` functions.
 * Thank you for the feature suggestions, [Symielle Gaston](https://orcid.org/0000-0001-9495-1592)
 
 ### Updates
@@ -97,7 +97,7 @@
 ### New Features
 * Added `anthopolos()` function to compute the Racial Isolation Index (*RI*) based on based on [Anthopolos et al. (2011)](https://doi.org/10.1016/j.sste.2011.06.002) for specified counties/tracts 2009 onward
 * Added `bravo()` function to compute the Educational Isolation Index (*EI*) based on based on [Bravo et al. (2021)](https://doi.org/10.3390/ijerph18179384) for specified counties/tracts 2009 onward
-* Added `gini()` function to retrieve the Gini Index based on [Gini (1921)](https://doi.org/10.2307/2223319) for specified counties/tracts 2009 onward
+* Added `gini()` function to retrieve the Gini Index (*G*) based on [Gini (1921)](https://doi.org/10.2307/2223319) for specified counties/tracts 2009 onward
 * Thank you for the feature suggestions, [Jessica Madrigal](https://orcid.org/0000-0001-5303-5109)
 
 ### Updates

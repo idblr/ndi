@@ -119,6 +119,8 @@ globalVariables(
     'COUNTYFP',
     'TRACTCE',
     'cbsa',
+    'csa',
+    'metro',
     'val',
     'variable',
     'giniE',
