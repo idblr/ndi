@@ -20,7 +20,7 @@ An object of class 'list'. This is a named list with the following components:
 
 \describe{
 \item{\code{ice}}{An object of class 'tbl' for the GEOID, name, \emph{ICE} metrics, and raw census values of specified census geographies.}
-\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute the \emph{ICE}s.}
+\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute the \emph{ICE} metrics.}
 }
 }
 \description{

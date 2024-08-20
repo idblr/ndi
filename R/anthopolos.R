@@ -8,41 +8,41 @@
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the spatial Racial Isolation Index (*RI*) of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Anthopolos et al. (2011) \doi{10.1016/j.sste.2011.06.002} who originally designed the metric for the racial isolation of non-Hispanic Black individuals. This function provides the computation of *RI* for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#' @details This function will compute the spatial Racial Isolation Index (\emph{RI}) of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Anthopolos et al. (2011) \doi{10.1016/j.sste.2011.06.002} who originally designed the metric for the racial isolation of non-Hispanic Black individuals. This function provides the computation of \emph{RI} for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #'
 #' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
-#'  \item **B03002_002**: not Hispanic or Latino \code{'NHoL'}
-#'  \item **B03002_003**: not Hispanic or Latino, white alone\code{'NHoLW'}
-#'  \item **B03002_004**: not Hispanic or Latino, Black or African American alone \code{'NHoLB'}
-#'  \item **B03002_005**: not Hispanic or Latino, American Indian and Alaska Native alone \code{'NHoLAIAN'}
-#'  \item **B03002_006**: not Hispanic or Latino, Asian alone \code{'NHoLA'}
-#'  \item **B03002_007**: not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{'NHoLNHOPI'}
-#'  \item **B03002_008**: not Hispanic or Latino, Some other race alone \code{'NHoLSOR'}
-#'  \item **B03002_009**: not Hispanic or Latino, Two or more races \code{'NHoLTOMR'}
-#'  \item **B03002_010**: not Hispanic or Latino, Two races including Some other race \code{'NHoLTRiSOR'}
-#'  \item **B03002_011**: not Hispanic or Latino, Two races excluding Some other race, and three or more races \code{'NHoLTReSOR'}
-#'  \item **B03002_012**: Hispanic or Latino \code{'HoL'}
-#'  \item **B03002_013**: Hispanic or Latino, white alone \code{'HoLW'}
-#'  \item **B03002_014**: Hispanic or Latino, Black or African American alone \code{'HoLB'}
-#'  \item **B03002_015**: Hispanic or Latino, American Indian and Alaska Native alone \code{'HoLAIAN'}
-#'  \item **B03002_016**: Hispanic or Latino, Asian alone \code{'HoLA'}
-#'  \item **B03002_017**: Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{'HoLNHOPI'}
-#'  \item **B03002_018**: Hispanic or Latino, Some other race alone \code{'HoLSOR'}
-#'  \item **B03002_019**: Hispanic or Latino, Two or more races \code{'HoLTOMR'}
-#'  \item **B03002_020**: Hispanic or Latino, Two races including Some other race \code{'HoLTRiSOR'}
-#'  \item **B03002_021**: Hispanic or Latino, Two races excluding Some other race, and three or more races \code{'HoLTReSOR'}
+#'  \item \strong{B03002_002}: not Hispanic or Latino \code{'NHoL'}
+#'  \item \strong{B03002_003}: not Hispanic or Latino, white alone\code{'NHoLW'}
+#'  \item \strong{B03002_004}: not Hispanic or Latino, Black or African American alone \code{'NHoLB'}
+#'  \item \strong{B03002_005}: not Hispanic or Latino, American Indian and Alaska Native alone \code{'NHoLAIAN'}
+#'  \item \strong{B03002_006}: not Hispanic or Latino, Asian alone \code{'NHoLA'}
+#'  \item \strong{B03002_007}: not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{'NHoLNHOPI'}
+#'  \item \strong{B03002_008}: not Hispanic or Latino, Some other race alone \code{'NHoLSOR'}
+#'  \item \strong{B03002_009}: not Hispanic or Latino, Two or more races \code{'NHoLTOMR'}
+#'  \item \strong{B03002_010}: not Hispanic or Latino, Two races including Some other race \code{'NHoLTRiSOR'}
+#'  \item \strong{B03002_011}: not Hispanic or Latino, Two races excluding Some other race, and three or more races \code{'NHoLTReSOR'}
+#'  \item \strong{B03002_012}: Hispanic or Latino \code{'HoL'}
+#'  \item \strong{B03002_013}: Hispanic or Latino, white alone \code{'HoLW'}
+#'  \item \strong{B03002_014}: Hispanic or Latino, Black or African American alone \code{'HoLB'}
+#'  \item \strong{B03002_015}: Hispanic or Latino, American Indian and Alaska Native alone \code{'HoLAIAN'}
+#'  \item \strong{B03002_016}: Hispanic or Latino, Asian alone \code{'HoLA'}
+#'  \item \strong{B03002_017}: Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{'HoLNHOPI'}
+#'  \item \strong{B03002_018}: Hispanic or Latino, Some other race alone \code{'HoLSOR'}
+#'  \item \strong{B03002_019}: Hispanic or Latino, Two or more races \code{'HoLTOMR'}
+#'  \item \strong{B03002_020}: Hispanic or Latino, Two races including Some other race \code{'HoLTRiSOR'}
+#'  \item \strong{B03002_021}: Hispanic or Latino, Two races excluding Some other race, and three or more races \code{'HoLTReSOR'}
 #' }
 #'
-#' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output. NOTE: Current version does not correct for edge effects (e.g., census geographies along the specified spatial extent border, coastline, or U.S.-Mexico / U.S.-Canada border) may have few neighboring census geographies, and *RI* values in these census geographies may be unstable. A stop-gap solution for the former source of edge effect is to compute the *RI* for neighboring census geographies (i.e., the states bordering a study area of interest) and then use the estimates of the study area of interest.
+#' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output. NOTE: Current version does not correct for edge effects (e.g., census geographies along the specified spatial extent border, coastline, or U.S.-Mexico / U.S.-Canada border) may have few neighboring census geographies, and \emph{RI} values in these census geographies may be unstable. A stop-gap solution for the former source of edge effect is to compute the \emph{RI} for neighboring census geographies (i.e., the states bordering a study area of interest) and then use the estimates of the study area of interest.
 #'
-#' A census geography (and its neighbors) that has nearly all of its population who identify with the specified race/ethnicity subgroup(s) (e.g., non-Hispanic or Latino, Black or African American alone) will have an *RI* value close to 1. In contrast, a census geography (and its neighbors) that has nearly none of its population who identify with the specified race/ethnicity subgroup(s) (e.g., not non-Hispanic or Latino, Black or African American alone) will have an *RI* value close to 0.
+#' A census geography (and its neighbors) that has nearly all of its population who identify with the specified race/ethnicity subgroup(s) (e.g., non-Hispanic or Latino, Black or African American alone) will have an \emph{RI} value close to 1. In contrast, a census geography (and its neighbors) that has nearly none of its population who identify with the specified race/ethnicity subgroup(s) (e.g., not non-Hispanic or Latino, Black or African American alone) will have an \emph{RI} value close to 0.
 #'
 #' @return An object of class 'list'. This is a named list with the following components:
 #'
 #' \describe{
-#' \item{\code{ri}}{An object of class 'tbl' for the GEOID, name, *RI*, and raw census values of specified census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute *RI*.}
+#' \item{\code{ri}}{An object of class 'tbl' for the GEOID, name, \emph{RI}, and raw census values of specified census geographies.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{RI}.}
 #' }
 #'
 #' @import dplyr

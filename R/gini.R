@@ -7,9 +7,9 @@
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will retrieve the aspatial Gini Index of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Gini (1921) \doi{10.2307/2223319}.
+#' @details This function will retrieve the aspatial Gini Index (\emph{G}) of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Gini (1921) \doi{10.2307/2223319}.
 #'
-#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey estimates of the Gini Index for income inequality (ACS: B19083). The estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys.
+#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey estimates of \emph{G} for income inequality (ACS: B19083). The estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys.
 #'
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #'
@@ -18,8 +18,8 @@
 #' @return An object of class 'list'. This is a named list with the following components:
 #'
 #' \describe{
-#' \item{\code{gini}}{An object of class 'tbl' for the GEOID, name, and Gini index of specified census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for the Gini index.}
+#' \item{\code{gini}}{An object of class 'tbl' for the GEOID, name, and \emph{G} of specified census geographies.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for \emph{G}.}
 #' }
 #'
 #' @import dplyr

@@ -11,46 +11,46 @@
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the aspatial Local Exposure and Isolation (*LEx/Is*) metric of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Bemanian & Beyer (2017) \doi{10.1158/1055-9965.EPI-16-0926}. This function provides the computation of *LEx/Is* for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#' @details This function will compute the aspatial Local Exposure and Isolation (\emph{LEx/Is}) metric of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Bemanian & Beyer (2017) \doi{10.1158/1055-9965.EPI-16-0926}. This function provides the computation of \emph{LEx/Is} for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #'
-#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'}) but may be available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
+#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'csa'} or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
-#'  \item **B03002_002**: not Hispanic or Latino \code{'NHoL'}
-#'  \item **B03002_003**: not Hispanic or Latino, white alone \code{'NHoLW'}
-#'  \item **B03002_004**: not Hispanic or Latino, Black or African American alone \code{'NHoLB'}
-#'  \item **B03002_005**: not Hispanic or Latino, American Indian and Alaska Native alone \code{'NHoLAIAN'}
-#'  \item **B03002_006**: not Hispanic or Latino, Asian alone \code{'NHoLA'}
-#'  \item **B03002_007**: not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{'NHoLNHOPI'}
-#'  \item **B03002_008**: not Hispanic or Latino, Some other race alone \code{'NHoLSOR'}
-#'  \item **B03002_009**: not Hispanic or Latino, Two or more races \code{'NHoLTOMR'}
-#'  \item **B03002_010**: not Hispanic or Latino, Two races including Some other race \code{'NHoLTRiSOR'}
-#'  \item **B03002_011**: not Hispanic or Latino, Two races excluding Some other race, and three or more races \code{'NHoLTReSOR'}
-#'  \item **B03002_012**: Hispanic or Latino \code{'HoL'}
-#'  \item **B03002_013**: Hispanic or Latino, white alone \code{'HoLW'}
-#'  \item **B03002_014**: Hispanic or Latino, Black or African American alone \code{'HoLB'}
-#'  \item **B03002_015**: Hispanic or Latino, American Indian and Alaska Native alone \code{'HoLAIAN'}
-#'  \item **B03002_016**: Hispanic or Latino, Asian alone \code{'HoLA'}
-#'  \item **B03002_017**: Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{'HoLNHOPI'}
-#'  \item **B03002_018**: Hispanic or Latino, Some other race alone \code{'HoLSOR'}
-#'  \item **B03002_019**: Hispanic or Latino, Two or more races \code{'HoLTOMR'}
-#'  \item **B03002_020**: Hispanic or Latino, Two races including Some other race \code{'HoLTRiSOR'}
-#'  \item **B03002_021**: Hispanic or Latino, Two races excluding Some other race, and three or more races \code{'HoLTReSOR'}
+#'  \item \strong{B03002_002}: not Hispanic or Latino \code{'NHoL'}
+#'  \item \strong{B03002_003}: not Hispanic or Latino, white alone \code{'NHoLW'}
+#'  \item \strong{B03002_004}: not Hispanic or Latino, Black or African American alone \code{'NHoLB'}
+#'  \item \strong{B03002_005}: not Hispanic or Latino, American Indian and Alaska Native alone \code{'NHoLAIAN'}
+#'  \item \strong{B03002_006}: not Hispanic or Latino, Asian alone \code{'NHoLA'}
+#'  \item \strong{B03002_007}: not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{'NHoLNHOPI'}
+#'  \item \strong{B03002_008}: not Hispanic or Latino, Some other race alone \code{'NHoLSOR'}
+#'  \item \strong{B03002_009}: not Hispanic or Latino, Two or more races \code{'NHoLTOMR'}
+#'  \item \strong{B03002_010}: not Hispanic or Latino, Two races including Some other race \code{'NHoLTRiSOR'}
+#'  \item \strong{B03002_011}: not Hispanic or Latino, Two races excluding Some other race, and three or more races \code{'NHoLTReSOR'}
+#'  \item \strong{B03002_012}: Hispanic or Latino \code{'HoL'}
+#'  \item \strong{B03002_013}: Hispanic or Latino, white alone \code{'HoLW'}
+#'  \item \strong{B03002_014}: Hispanic or Latino, Black or African American alone \code{'HoLB'}
+#'  \item \strong{B03002_015}: Hispanic or Latino, American Indian and Alaska Native alone \code{'HoLAIAN'}
+#'  \item \strong{B03002_016}: Hispanic or Latino, Asian alone \code{'HoLA'}
+#'  \item \strong{B03002_017}: Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{'HoLNHOPI'}
+#'  \item \strong{B03002_018}: Hispanic or Latino, Some other race alone \code{'HoLSOR'}
+#'  \item \strong{B03002_019}: Hispanic or Latino, Two or more races \code{'HoLTOMR'}
+#'  \item \strong{B03002_020}: Hispanic or Latino, Two races including Some other race \code{'HoLTRiSOR'}
+#'  \item \strong{B03002_021}: Hispanic or Latino, Two races excluding Some other race, and three or more races \code{'HoLTReSOR'}
 #' }
 #'
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #'
-#' *LEx/Is* is a measure of the probability that two individuals living within a specific smaller geography (e.g., census tract) of either different (i.e., exposure) or the same (i.e., isolation) racial/ethnic subgroup(s) will interact, assuming that individuals within a smaller geography are randomly mixed. *LEx/Is* is standardized with a logit transformation and centered against an expected case that all races/ethnicities are evenly distributed across a larger geography. (Note: will adjust data by 0.025 if probabilities are zero, one, or undefined. The output will include a warning if adjusted. See \code{\link[car]{logit}} for additional details.)
+#' \emph{LEx/Is} is a measure of the probability that two individuals living within a specific smaller geography (e.g., census tract) of either different (i.e., exposure) or the same (i.e., isolation) racial/ethnic subgroup(s) will interact, assuming that individuals within a smaller geography are randomly mixed. \emph{LEx/Is} is standardized with a logit transformation and centered against an expected case that all races/ethnicities are evenly distributed across a larger geography. (Note: will adjust data by 0.025 if probabilities are zero, one, or undefined. The output will include a warning if adjusted. See \code{\link[car]{logit}} for additional details.)
 #'
-#' *LEx/Is* can range from negative infinity to infinity. If *LEx/Is* is zero then the estimated probability of the interaction between two people of the given subgroup(s) within a smaller geography is equal to the expected probability if the subgroup(s) were perfectly mixed in the larger geography. If *LEx/Is* is greater than zero then the interaction is more likely to occur within the smaller geography than in the larger geography, and if *LEx/Is* is less than zero then the interaction is less likely to occur within the smaller geography than in the larger geography. Note: the exponentiation of each *LEx/Is* metric results in the odds ratio of the specific exposure or isolation of interest in a smaller geography relative to the larger geography.
+#' \emph{LEx/Is} can range from negative infinity to infinity. If \emph{LEx/Is} is zero then the estimated probability of the interaction between two people of the given subgroup(s) within a smaller geography is equal to the expected probability if the subgroup(s) were perfectly mixed in the larger geography. If \emph{LEx/Is} is greater than zero then the interaction is more likely to occur within the smaller geography than in the larger geography, and if \emph{LEx/Is} is less than zero then the interaction is less likely to occur within the smaller geography than in the larger geography. Note: the exponentiation of each \emph{LEx/Is} metric results in the odds ratio of the specific exposure or isolation of interest in a smaller geography relative to the larger geography.
 #'
-#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, and census tract \code{geo_large = 'tract'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the *LEx/Is* value returned is NA. If the larger geographical unit is Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a Core Based Statistical Area are considered in the *LEx/Is* computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested Core Based Statistical Areas are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the *LEx/Is* computation.
-#' 
+#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, Combined Statistical Area \code{geo_large = 'csa'}, and Metropolitan Division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{LEx/Is} value returned is NA. If the larger geographical unit is Combined Based Statistical Areas \code{geo_large = 'csa'} or Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{LEx/Is} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{LEx/Is} computation.
+#'
 #' @return An object of class 'list'. This is a named list with the following components:
 #'
 #' \describe{
-#' \item{\code{lexis}}{An object of class 'tbl' for the GEOID, name, and *LEx/Is* at specified smaller census geographies.}
+#' \item{\code{lexis}}{An object of class 'tbl' for the GEOID, name, and \emph{LEx/Is} at specified smaller census geographies.}
 #' \item{\code{lexis_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute *LEx/Is*.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{LEx/Is}.}
 #' }
 #'
 #' @import dplyr
@@ -59,7 +59,7 @@
 #' @importFrom stats complete.cases
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
-#' @importFrom tigris core_based_statistical_areas
+#' @importFrom tigris combined_statistical_areas core_based_statistical_areas metro_divisions
 #' @importFrom utils stack
 #' @export
 #'
@@ -92,7 +92,7 @@ bemanian_beyer <- function(geo_large = 'county',
                            ...) {
   
     # Check arguments
-    match.arg(geo_large, choices = c('state', 'county', 'tract', 'cbsa'))
+    match.arg(geo_large, choices = c('state', 'county', 'tract', 'cbsa', 'csa', 'metro'))
     match.arg(geo_small, choices = c('county', 'tract', 'block group'))
     stopifnot(is.numeric(year), year >= 2009) # all variables available 2009 onward
     match.arg(
@@ -244,12 +244,50 @@ bemanian_beyer <- function(geo_large = 'county',
       lexis_data <- lexis_data %>%
         dplyr::mutate(
           oid = lapply(win_cbsa, function(x) { 
-            tmp <- dat_cbsa[x, 2] %>% sf::st_drop_geometry()
+            tmp <- dat_cbsa[x, 3] %>% sf::st_drop_geometry()
             lapply(tmp, function(x) { if (length(x) == 0) NA else x })
           }) %>% 
             unlist(),
           cbsa = lapply(win_cbsa, function(x) { 
             tmp <- dat_cbsa[x, 4] %>% sf::st_drop_geometry()
+            lapply(tmp, function(x) { if (length(x) == 0) NA else x })
+          }) %>% 
+            unlist()
+        ) %>% 
+        sf::st_drop_geometry()
+    }
+    if (geo_large == 'csa') {
+      stopifnot(is.numeric(year), year >= 2011) # CSAs only available 2011 onward
+      dat_csa <- suppressMessages(suppressWarnings(tigris::combined_statistical_areas(year = year)))
+      win_csa <- sf::st_within(lexis_data, dat_csa)
+      lexis_data <- lexis_data %>%
+        dplyr::mutate(
+          oid = lapply(win_csa, function(x) { 
+            tmp <- dat_csa[x, 2] %>% sf::st_drop_geometry()
+            lapply(tmp, function(x) { if (length(x) == 0) NA else x })
+          }) %>% 
+            unlist(),
+          csa = lapply(win_csa, function(x) { 
+            tmp <- dat_csa[x, 3] %>% sf::st_drop_geometry()
+            lapply(tmp, function(x) { if (length(x) == 0) NA else x })
+          }) %>% 
+            unlist()
+        ) %>% 
+        sf::st_drop_geometry()
+    }
+    if (geo_large == 'metro') {
+      stopifnot(is.numeric(year), year >= 2011) # Metro Divisions only available 2011 onward
+      dat_metro <- suppressMessages(suppressWarnings(tigris::metro_divisions(year = year)))
+      win_metro <- sf::st_within(lexis_data, dat_metro)
+      lexis_data <- lexis_data %>%
+        dplyr::mutate(
+          oid = lapply(win_metro, function(x) { 
+            tmp <- dat_metro[x, 4] %>% sf::st_drop_geometry()
+            lapply(tmp, function(x) { if (length(x) == 0) NA else x })
+          }) %>% 
+            unlist(),
+          metro = lapply(win_metro, function(x) { 
+            tmp <- dat_metro[x, 5] %>% sf::st_drop_geometry()
             lapply(tmp, function(x) { if (length(x) == 0) NA else x })
           }) %>% 
             unlist()
@@ -340,6 +378,18 @@ bemanian_beyer <- function(geo_large = 'county',
         dplyr::select(GEOID, cbsa) %>%
         dplyr::left_join(lexis, ., by = dplyr::join_by(GEOID)) %>%
         dplyr::relocate(cbsa, .after = county)
+    }
+    if (geo_large == 'csa') {
+      lexis <- lexis_data %>%
+        dplyr::select(GEOID, csa) %>%
+        dplyr::left_join(lexis, ., by = dplyr::join_by(GEOID)) %>%
+        dplyr::relocate(csa, .after = county)
+    }
+    if (geo_large == 'metro') {
+      lexis <- lexis_data %>%
+        dplyr::select(GEOID, metro) %>%
+        dplyr::left_join(lexis, ., by = dplyr::join_by(GEOID)) %>%
+        dplyr::relocate(metro, .after = county)
     }
     
     lexis <- lexis %>%
