@@ -69,8 +69,8 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'
-#'   # Isolation of non-Hispanic Black vs. non-Hispanic white populations
-#'   ## of census tracts within Georgia, U.S.A., counties (2020)
+#'   # Local Exposure and Isolation of non-Hispanic Black vs. non-Hispanic white populations
+#'   ## of census tracts within counties within Georgia, U.S.A., counties (2020)
 #'   bemanian_beyer(
 #'     geo_large = 'county',
 #'     geo_small = 'tract',
@@ -179,7 +179,7 @@ bemanian_beyer <- function(geo_large = 'county',
     in_subgroup_ixn <- paste0(subgroup_ixn, 'E')
     
     # Acquire LEx/Is variables and sf geometries
-    lexis_data <- suppressMessages(suppressWarnings(
+    out_dat <- suppressMessages(suppressWarnings(
       tidycensus::get_acs(
         geography = geo_small,
         year = year,
@@ -193,16 +193,16 @@ bemanian_beyer <- function(geo_large = 'county',
     
     # Format output
     if (geo_small == 'county') {
-      lexis_data <- lexis_data %>% 
+      out_dat <- out_dat %>% 
         tidyr::separate(NAME.y, into = c('county', 'state'), sep = ',')
     }
     if (geo_small == 'tract') {
-      lexis_data <- lexis_data %>% 
+      out_dat <- out_dat %>% 
         tidyr::separate(NAME.y, into = c('tract', 'county', 'state'), sep = ',') %>%
         dplyr::mutate(tract = gsub('[^0-9\\.]', '', tract))
     }
     if (geo_small == 'block group') {
-      lexis_data <- lexis_data %>% 
+      out_dat <- out_dat %>% 
         tidyr::separate(NAME.y, into = c('block.group', 'tract', 'county', 'state'), sep = ',') %>%
         dplyr::mutate(
           tract = gsub('[^0-9\\.]', '', tract),
@@ -212,7 +212,7 @@ bemanian_beyer <- function(geo_large = 'county',
     
     # Grouping IDs for LEx/Is computation
     if (geo_large == 'state') {
-      lexis_data <- lexis_data %>%
+      out_dat <- out_dat %>%
         dplyr::mutate(
           oid = STATEFP,
           state = stringr::str_trim(state)
@@ -220,7 +220,7 @@ bemanian_beyer <- function(geo_large = 'county',
         sf::st_drop_geometry()
     }
     if (geo_large == 'county') {
-      lexis_data <- lexis_data %>%
+      out_dat <- out_dat %>%
         dplyr::mutate(
           oid = paste(STATEFP, COUNTYFP, sep = ''),
           state = stringr::str_trim(state),
@@ -229,7 +229,7 @@ bemanian_beyer <- function(geo_large = 'county',
         sf::st_drop_geometry()
     }
     if (geo_large == 'tract') {
-      lexis_data <- lexis_data %>%
+      out_dat <- out_dat %>%
         dplyr::mutate(
           oid = paste(STATEFP, COUNTYFP, TRACTCE, sep = ''),
           state = stringr::str_trim(state),
@@ -239,17 +239,17 @@ bemanian_beyer <- function(geo_large = 'county',
     }
     if (geo_large == 'cbsa') {
       stopifnot(is.numeric(year), year >= 2010) # CBSAs only available 2010 onward
-      dat_cbsa <- suppressMessages(suppressWarnings(tigris::core_based_statistical_areas(year = year)))
-      win_cbsa <- sf::st_within(lexis_data, dat_cbsa)
-      lexis_data <- lexis_data %>%
+      lgeom <- suppressMessages(suppressWarnings(tigris::core_based_statistical_areas(year = year)))
+      wlgeom <- sf::st_within(out_dat, lgeom)
+      out_dat <- out_dat %>%
         dplyr::mutate(
-          oid = lapply(win_cbsa, function(x) { 
-            tmp <- dat_cbsa[x, 3] %>% sf::st_drop_geometry()
+          oid = lapply(wlgeom, function(x) { 
+            tmp <- lgeom[x, 3] %>% sf::st_drop_geometry()
             lapply(tmp, function(x) { if (length(x) == 0) NA else x })
           }) %>% 
             unlist(),
-          cbsa = lapply(win_cbsa, function(x) { 
-            tmp <- dat_cbsa[x, 4] %>% sf::st_drop_geometry()
+          cbsa = lapply(wlgeom, function(x) { 
+            tmp <- lgeom[x, 4] %>% sf::st_drop_geometry()
             lapply(tmp, function(x) { if (length(x) == 0) NA else x })
           }) %>% 
             unlist()
@@ -258,17 +258,17 @@ bemanian_beyer <- function(geo_large = 'county',
     }
     if (geo_large == 'csa') {
       stopifnot(is.numeric(year), year >= 2011) # CSAs only available 2011 onward
-      dat_csa <- suppressMessages(suppressWarnings(tigris::combined_statistical_areas(year = year)))
-      win_csa <- sf::st_within(lexis_data, dat_csa)
-      lexis_data <- lexis_data %>%
+      lgeom <- suppressMessages(suppressWarnings(tigris::combined_statistical_areas(year = year)))
+      wlgeom <- sf::st_within(out_dat, lgeom)
+      out_dat <- out_dat %>%
         dplyr::mutate(
-          oid = lapply(win_csa, function(x) { 
-            tmp <- dat_csa[x, 2] %>% sf::st_drop_geometry()
+          oid = lapply(wlgeom, function(x) { 
+            tmp <- lgeom[x, 2] %>% sf::st_drop_geometry()
             lapply(tmp, function(x) { if (length(x) == 0) NA else x })
           }) %>% 
             unlist(),
-          csa = lapply(win_csa, function(x) { 
-            tmp <- dat_csa[x, 3] %>% sf::st_drop_geometry()
+          csa = lapply(wlgeom, function(x) { 
+            tmp <- lgeom[x, 3] %>% sf::st_drop_geometry()
             lapply(tmp, function(x) { if (length(x) == 0) NA else x })
           }) %>% 
             unlist()
@@ -277,17 +277,17 @@ bemanian_beyer <- function(geo_large = 'county',
     }
     if (geo_large == 'metro') {
       stopifnot(is.numeric(year), year >= 2011) # Metro Divisions only available 2011 onward
-      dat_metro <- suppressMessages(suppressWarnings(tigris::metro_divisions(year = year)))
-      win_metro <- sf::st_within(lexis_data, dat_metro)
-      lexis_data <- lexis_data %>%
+      lgeom <- suppressMessages(suppressWarnings(tigris::metro_divisions(year = year)))
+      wlgeom <- sf::st_within(out_dat, lgeom)
+      out_dat <- out_dat %>%
         dplyr::mutate(
-          oid = lapply(win_metro, function(x) { 
-            tmp <- dat_metro[x, 4] %>% sf::st_drop_geometry()
+          oid = lapply(wlgeom, function(x) { 
+            tmp <- lgeom[x, 4] %>% sf::st_drop_geometry()
             lapply(tmp, function(x) { if (length(x) == 0) NA else x })
           }) %>% 
             unlist(),
-          metro = lapply(win_metro, function(x) { 
-            tmp <- dat_metro[x, 5] %>% sf::st_drop_geometry()
+          metro = lapply(wlgeom, function(x) { 
+            tmp <- lgeom[x, 5] %>% sf::st_drop_geometry()
             lapply(tmp, function(x) { if (length(x) == 0) NA else x })
           }) %>% 
             unlist()
@@ -298,18 +298,18 @@ bemanian_beyer <- function(geo_large = 'county',
     # Count of racial/ethnic subgroup populations
     ## Count of racial/ethnic comparison subgroup population
     if (length(in_subgroup) == 1) {
-      lexis_data <- lexis_data %>%
+      out_dat <- out_dat %>%
         dplyr::mutate(subgroup = .[, in_subgroup])
     } else {
-      lexis_data <- lexis_data %>%
+      out_dat <- out_dat %>%
         dplyr::mutate(subgroup = rowSums(.[, in_subgroup]))
     }
     ## Count of racial/ethnic interaction subgroup population
     if (length(in_subgroup_ixn) == 1) {
-      lexis_data <- lexis_data %>%
+      out_dat <- out_dat %>%
         dplyr::mutate(subgroup_ixn = .[, in_subgroup_ixn])
     } else {
-      lexis_data <- lexis_data %>%
+      out_dat <- out_dat %>%
         dplyr::mutate(subgroup_ixn = rowSums(.[, in_subgroup_ixn]))
     }
     
@@ -325,13 +325,13 @@ bemanian_beyer <- function(geo_large = 'county',
     ## If m = n, then computes the simple isolation experienced by members of subgroup population m
     
     ## Compute
-    LExIstmp <- lexis_data %>%
-      split(., f = list(lexis_data$oid)) %>%
+    out_tmp <- out_dat %>%
+      split(., f = list(out_dat$oid)) %>%
       lapply(., FUN = lexis_fun, omit_NAs = omit_NAs) %>%
       do.call('rbind', .)
     
     # Warning for missingness of census characteristics
-    missingYN <- lexis_data[, c('TotalPopE', in_subgroup, in_subgroup_ixn)]
+    missingYN <- out_dat[, c('TotalPopE', in_subgroup, in_subgroup_ixn)]
     names(missingYN) <- out_names
     missingYN <- missingYN %>%
       tidyr::pivot_longer(
@@ -354,55 +354,55 @@ bemanian_beyer <- function(geo_large = 'county',
     }
     
     # Format output
-    lexis <- lexis_data %>%
-      dplyr::left_join(LExIstmp, by = dplyr::join_by(GEOID))
+    out <- out_dat %>%
+      dplyr::left_join(out_tmp, by = dplyr::join_by(GEOID))
     
     if (geo_small == 'state') {
-      lexis <- lexis %>%
+      out <- out %>%
         dplyr::select(GEOID, state, LExIs)
     }
     if (geo_small == 'county') {
-      lexis <- lexis %>%
+      out <- out %>%
         dplyr::select(GEOID, state, county, LExIs)
     }
     if (geo_small == 'tract') {
-      lexis <- lexis %>%
+      out <- out %>%
         dplyr::select(GEOID, state, county, tract, LExIs)
     }
     if (geo_small == 'block group') {
-      lexis <- lexis %>%
+      out <- out %>%
         dplyr::select(GEOID, state, county, tract, block.group, LExIs)
     }
     if (geo_large == 'cbsa') {
-      lexis <- lexis_data %>%
+      out <- out_dat %>%
         dplyr::select(GEOID, cbsa) %>%
-        dplyr::left_join(lexis, ., by = dplyr::join_by(GEOID)) %>%
+        dplyr::left_join(out, ., by = dplyr::join_by(GEOID)) %>%
         dplyr::relocate(cbsa, .after = county)
     }
     if (geo_large == 'csa') {
-      lexis <- lexis_data %>%
+      out <- out_dat %>%
         dplyr::select(GEOID, csa) %>%
-        dplyr::left_join(lexis, ., by = dplyr::join_by(GEOID)) %>%
+        dplyr::left_join(out, ., by = dplyr::join_by(GEOID)) %>%
         dplyr::relocate(csa, .after = county)
     }
     if (geo_large == 'metro') {
-      lexis <- lexis_data %>%
+      out <- out_dat %>%
         dplyr::select(GEOID, metro) %>%
-        dplyr::left_join(lexis, ., by = dplyr::join_by(GEOID)) %>%
+        dplyr::left_join(out, ., by = dplyr::join_by(GEOID)) %>%
         dplyr::relocate(metro, .after = county)
     }
     
-    lexis <- lexis %>%
+    out <- out %>%
       unique(.) %>%
       .[.$GEOID != 'NANA',] %>%
       dplyr::arrange(GEOID) %>%
       dplyr::as_tibble()
     
-    lexis_data <- lexis_data %>%
+    out_dat <- out_dat %>%
       dplyr::arrange(GEOID) %>%
       dplyr::as_tibble()
     
-    out <- list(lexis = lexis, lexis_data = lexis_data, missing = missingYN)
+    out <- list(lexis = out, lexis_data = out_dat, missing = missingYN)
     
     return(out)
   }

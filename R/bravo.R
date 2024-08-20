@@ -46,17 +46,10 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'
-#'   # Tract-level metric (2020)
+#'   # Educational Isolation Index of less than some college or associate's degree attainment
+#'   ## of census tracts within Georgia, U.S.A., counties (2020)
 #'   bravo(
 #'     geo = 'tract',
-#'     state = 'GA',
-#'     year = 2020,
-#'     subgroup = c('LtHS', 'HSGiE')
-#'    )
-#'
-#'   # County-level metric (2020)
-#'   bravo(
-#'     geo = 'county',
 #'     state = 'GA',
 #'     year = 2020,
 #'     subgroup = c('LtHS', 'HSGiE')
@@ -212,7 +205,7 @@ bravo <- function(geo = 'tract',
     in_names <- paste0(names(selected_vars), 'E')
     
     # Acquire EI variables and sf geometries
-    ei_data <- suppressMessages(suppressWarnings(
+    out_dat <- suppressMessages(suppressWarnings(
       tidycensus::get_acs(
         geography = geo,
         year = year,
@@ -224,16 +217,16 @@ bravo <- function(geo = 'tract',
     ))
       
     if (geo == 'tract') {
-      ei_data <- ei_data %>%
+      out_dat <- out_dat %>%
         tidyr::separate(NAME, into = c('tract', 'county', 'state'), sep = ',') %>%
         dplyr::mutate(tract = gsub('[^0-9\\.]', '', tract))
     } else {
-      ei_data <- ei_data %>% 
+      out_dat <- out_dat %>% 
         tidyr::separate(NAME, into = c('county', 'state'), sep = ',')
     }
     
-    ei_data <- ei_data %>%
-      dplyr::mutate(subgroup = rowSums(sf::st_drop_geometry(ei_data[, in_names[-1]])))
+    out_dat <- out_dat %>%
+      dplyr::mutate(subgroup = rowSums(sf::st_drop_geometry(out_dat[, in_names[-1]])))
     
     # Compute EI
     ## From Bravo et al. (2021) https://doi.org/10.3390/ijerph18179384
@@ -248,33 +241,33 @@ bravo <- function(geo = 'tract',
     ### Entries of the main diagonal (since i∈∂_{i}, w_{ij} = w_{ii} when j = i) of w_{ij} are set to 1.5
     ### such that the weight of the index unit, i, is larger than the weights assigned to adjacent tracts
     
-    ## Geospatial adjacency matrix (wij)
-    tmp <- sf::st_intersects(sf::st_geometry(ei_data), sparse = TRUE)
-    names(tmp) <- as.character(seq_len(nrow(ei_data)))
-    tmpL <- length(tmp)
-    tmpcounts <- unlist(Map(length, tmp))
-    tmpi <- rep(1:tmpL, tmpcounts)
-    tmpj <- unlist(tmp)
-    wij <- Matrix::sparseMatrix(
-      i = tmpi,
-      j = tmpj,
+    ## Geospatial adjacency matrix (w_ij)
+    tmp <- sf::st_intersects(sf::st_geometry(out_dat), sparse = TRUE)
+    names(tmp) <- as.character(seq_len(nrow(out_dat)))
+    tmp_L <- length(tmp)
+    tmp_counts <- unlist(Map(length, tmp))
+    tmp_i <- rep(1:tmp_L, tmp_counts)
+    tmp_j <- unlist(tmp)
+    w_ij <- Matrix::sparseMatrix(
+      i = tmp_i,
+      j = tmp_j,
       x = 1,
-      dims = c(tmpL, tmpL)
+      dims = c(tmp_L, tmp_L)
     )
-    diag(wij) <- 1.5
+    diag(w_ij) <- 1.5
     
     ## Compute
-    ei_data <- ei_data %>%
+    out_dat <- out_dat %>%
       sf::st_drop_geometry() # drop geometries (can join back later)
-    EIim <- list()
-    for (i in 1:dim(wij)[1]) {
-      EIim[[i]] <- sum(as.matrix(wij[i,]) * ei_data[, 'subgroup']) / 
-        sum(as.matrix(wij[i,]) * ei_data[, 'TotalPopE'])
+    out_tmp <- list()
+    for (i in 1:dim(w_ij)[1]) {
+      out_tmp[[i]] <- sum(as.matrix(w_ij[i,]) * out_dat[, 'subgroup']) / 
+        sum(as.matrix(w_ij[i,]) * out_dat[, 'TotalPopE'])
     }
-    ei_data$EI <- unlist(EIim)
+    out_dat$EI <- unlist(out_tmp)
     
     # Warning for missingness of census characteristics
-    missingYN <- ei_data[, in_names]
+    missingYN <- out_dat[, in_names]
     names(missingYN) <- out_names
     missingYN <- missingYN %>%
       tidyr::pivot_longer(
@@ -298,7 +291,7 @@ bravo <- function(geo = 'tract',
     
     # Format output
     if (geo == 'tract') {
-      ei <- ei_data %>%
+      out <- out_dat %>%
         dplyr::select(c(
           'GEOID',
           'state',
@@ -307,14 +300,14 @@ bravo <- function(geo = 'tract',
           'EI',
           dplyr::all_of(in_names)
         ))
-      names(ei) <- c('GEOID', 'state', 'county', 'tract', 'EI', out_names)
+      names(out) <- c('GEOID', 'state', 'county', 'tract', 'EI', out_names)
     } else {
-      ei <- ei_data %>%
+      out <- out_dat %>%
         dplyr::select(c('GEOID', 'state', 'county', 'EI', dplyr::all_of(in_names)))
-      names(ei) <- c('GEOID', 'state', 'county', 'EI', out_names)
+      names(out) <- c('GEOID', 'state', 'county', 'EI', out_names)
     }
     
-    ei <- ei %>%
+    out <- out %>%
       dplyr::mutate(
         state = stringr::str_trim(state),
         county = stringr::str_trim(county)
@@ -322,7 +315,7 @@ bravo <- function(geo = 'tract',
       dplyr::arrange(GEOID) %>%
       dplyr::as_tibble()
     
-    out <- list(ei = ei, missing = missingYN)
+    out <- list(ei = out, missing = missingYN)
     
     return(out)
   }

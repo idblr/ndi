@@ -49,10 +49,10 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'
-#'   # Tract-level metric (2020)
+#'   # Tract-level metrics (2020)
 #'   krieger(geo = 'tract', state = 'GA', year = 2020)
 #'
-#'   # County-level metric (2020)
+#'   # County-level metrics (2020)
 #'   krieger(geo = 'county', state = 'GA', year = 2020)
 #'
 #' }
@@ -123,7 +123,7 @@ krieger <- function(geo = 'tract',
     )
     
     # Acquire ICE variables
-    ice_data <- suppressMessages(suppressWarnings(
+    out_dat <- suppressMessages(suppressWarnings(
       tidycensus::get_acs(
         geography = geo,
         year = year,
@@ -133,17 +133,16 @@ krieger <- function(geo = 'tract',
       )
     ))
       
-    
     if (geo == 'tract') {
-      ice_data <- ice_data %>%
+      out_dat <- out_dat %>%
         tidyr::separate(NAME, into = c('tract', 'county', 'state'), sep = ',') %>%
         dplyr::mutate(tract = gsub('[^0-9\\.]', '', tract))
     } else {
-      ice_data <- ice_data %>% 
+      out_dat <- out_dat %>% 
         tidyr::separate(NAME, into = c('county', 'state'), sep = ',')
     }
     
-    ice_data <- ice_data %>%
+    out_dat <- out_dat %>%
       dplyr::mutate(
         TotalPop_inc = TotalPopiE,
         TotalPop_edu = TotalPopeduE,
@@ -202,7 +201,7 @@ krieger <- function(geo = 'tract',
     # Sum educational attainment categories
     # A_{edu} = Less than high school / 12 year / GED
     # P_{edu} = Four-year college degree or more
-    ice_data <- ice_data %>%
+    out_dat <- out_dat %>%
       dplyr::mutate(
         A_edu = O25MBD + O25FBD + O25MMD + O25FMD + O25MPSD + O25FPSD + O25MDD + O25FDD,
         P_edu = O25MNSC + O25FNSC + O25MNt4G + O25FNt4G + O25M5t6G + O25F5t6G + O25M7t8G + 
@@ -218,7 +217,7 @@ krieger <- function(geo = 'tract',
     ## According to U.S. Census Bureau Table A-4a
     ## 'Selected Measures of Household Income Dispersion: 1967 to 2020'
     if (year < 2016) {
-      ice_data <- ice_data %>%
+      out_dat <- out_dat %>%
         dplyr::mutate(
           A_inc = B100125i + B125150i + B150200i + O200i,
           P_inc = U10i + B1015i + B1520i + B2025i,
@@ -228,7 +227,7 @@ krieger <- function(geo = 'tract',
           P_wpcinc = U10nhw + B1015nhw + B1520nhw + B2025nhw
         )
     } else {
-      ice_data <- ice_data %>%
+      out_dat <- out_dat %>%
         dplyr::mutate(
           A_inc = B125150i + B150200i + O200i,
           P_inc = U10i + B1015i + B1520i + B2025i + B2530i,
@@ -247,7 +246,7 @@ krieger <- function(geo = 'tract',
     ## P_{i} denotes the count within the highest extreme (e.g., households in 80th income percentile)
     ## T_{i} denotes the total population in region i (TotalPop)
     
-    ice_data <- ice_data %>%
+    out_dat <- out_dat %>%
       dplyr::mutate(
         ICE_inc = (A_inc - P_inc) / TotalPop_inc,
         ICE_edu = (A_edu - P_edu) / TotalPop_edu,
@@ -257,7 +256,7 @@ krieger <- function(geo = 'tract',
       )
     
     # Warning for missingness of census characteristics
-    missingYN <- ice_data %>%
+    missingYN <- out_dat %>%
       dplyr::select(
         U10i,
         B1015i,
@@ -333,7 +332,7 @@ krieger <- function(geo = 'tract',
     
     # Format output
     if (geo == 'tract') {
-      ice <- ice_data %>%
+      out <- out_dat %>%
         dplyr::select(
           GEOID,
           state,
@@ -398,7 +397,7 @@ krieger <- function(geo = 'tract',
           TotalPop_re
         )
     } else {
-      ice <- ice_data %>%
+      out <- out_dat %>%
         dplyr::select(
           GEOID,
           state,
@@ -463,7 +462,7 @@ krieger <- function(geo = 'tract',
         )
     }
     
-    ice <- ice %>%
+    out <- out %>%
       dplyr::mutate(
         state = stringr::str_trim(state),
         county = stringr::str_trim(county)
@@ -471,7 +470,7 @@ krieger <- function(geo = 'tract',
       dplyr::arrange(GEOID) %>%
       dplyr::as_tibble()
     
-    out <- list(ice = ice, missing = missingYN)
+    out <- list(ice = out, missing = missingYN)
     
     return(out)
   }

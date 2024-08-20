@@ -254,6 +254,8 @@ globalVariables(
     'V',
     'LQ',
     'LExIs',
-    'DEL'
+    'DEL',
+    'SP',
+    'km'
   )
 )

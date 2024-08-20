@@ -39,11 +39,9 @@ According to the U.S. Census Bureau \url{https://www.census.gov/topics/income-po
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
 
-  # Tract-level metric (2020)
+  # Gini Index of income inequality
+  ## of census tracts within Georgia, U.S.A., counties (2020)
   gini(geo = 'tract', state = 'GA', year = 2020)
-
-  # County-level metric (2020)
-  gini(geo = 'county', state = 'GA', year = 2020)
 
 }
 

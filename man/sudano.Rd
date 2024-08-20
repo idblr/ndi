@@ -78,14 +78,14 @@ Larger geographies available include state \code{geo_large = 'state'}, county \c
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
 
-  # Isolation of non-Hispanic Black populations
-  ## of census tracts within Georgia, U.S.A., counties (2020)
+  # Location Quotient (a measure of relative homogeneity) of Black populations
+  ## of census tracts within counties within Georgia, U.S.A., counties (2020)
   sudano(
-    geo_large = 'state',
-    geo_small = 'county',
+    geo_large = 'county',
+    geo_small = 'tract',
     state = 'GA',
     year = 2020,
-    subgroup = 'NHoLB'
+    subgroup = c('NHoLB', 'HoLB')
    )
 
 }

@@ -54,10 +54,10 @@ Use the internal \code{state} and \code{county} arguments within the \code{\link
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
 
-  # Tract-level metric (2020)
+  # Tract-level metrics (2020)
   krieger(geo = 'tract', state = 'GA', year = 2020)
 
-  # County-level metric (2020)
+  # County-level metrics (2020)
   krieger(geo = 'county', state = 'GA', year = 2020)
 
 }

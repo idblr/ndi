@@ -59,17 +59,10 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'
-#'   # Tract-level metric (2020)
+#'   # Racial Isolation Index of Black populations
+#'   ## of census tracts within Georgia, U.S.A., counties (2020)
 #'   anthopolos(
 #'     geo = 'tract',
-#'     state = 'GA',
-#'     year = 2020,
-#'     subgroup = c('NHoLB', 'HoLB')
-#'    )
-#'
-#'   # County-level metric (2020)
-#'   anthopolos(
-#'     geo = 'county',
 #'     state = 'GA',
 #'     year = 2020,
 #'     subgroup = c('NHoLB', 'HoLB')
@@ -146,7 +139,7 @@ anthopolos <- function(geo = 'tract',
     in_names <- paste0(names(selected_vars), 'E')
     
     # Acquire RI variables and sf geometries
-    ri_data <- suppressMessages(suppressWarnings(
+    out_dat <- suppressMessages(suppressWarnings(
       tidycensus::get_acs(
         geography = geo,
         year = year,
@@ -158,16 +151,16 @@ anthopolos <- function(geo = 'tract',
     ))
     
     if (geo == 'tract') {
-      ri_data <- ri_data %>%
+      out_dat <- out_dat %>%
         tidyr::separate(NAME, into = c('tract', 'county', 'state'), sep = ',') %>%
         dplyr::mutate(tract = gsub('[^0-9\\.]', '', tract))
     } else {
-      ri_data <- ri_data %>% 
+      out_dat <- out_dat %>% 
         tidyr::separate(NAME, into = c('county', 'state'), sep = ',')
     }
     
-    ri_data <- ri_data %>%
-      dplyr::mutate(subgroup = rowSums(sf::st_drop_geometry(ri_data[, in_names[-1]])))
+    out_dat <- out_dat %>%
+      dplyr::mutate(subgroup = rowSums(sf::st_drop_geometry(out_dat[, in_names[-1]])))
     
     # Compute RI
     ## From Anthopolos et al. (2011) https://doi.org/10.1016/j.sste.2011.06.002
@@ -182,35 +175,35 @@ anthopolos <- function(geo = 'tract',
     ### Entries of the main diagonal (since i∈∂_{i}, w_{ij} = w_{ii} when j = i) of w_{ij} are set to 1.5
     ### such that the weight of the index unit, i, is larger than the weights assigned to adjacent tracts
     
-    ## Geospatial adjacency matrix (wij)
-    tmp <- ri_data %>%
+    ## Geospatial adjacency matrix (w_ij)
+    tmp <- out_dat %>%
       sf::st_geometry() %>%
       sf::st_intersects(sparse = TRUE)
-    names(tmp) <- as.character(seq_len(nrow(ri_data)))
-    tmpL <- length(tmp)
-    tmpcounts <- unlist(Map(length, tmp))
-    tmpi <- rep(1:tmpL, tmpcounts)
-    tmpj <- unlist(tmp)
-    wij <- Matrix::sparseMatrix(
-      i = tmpi,
-      j = tmpj,
+    names(tmp) <- as.character(seq_len(nrow(out_dat)))
+    tmp_L <- length(tmp)
+    tmp_counts <- unlist(Map(length, tmp))
+    tmp_i <- rep(1:tmp_L, tmp_counts)
+    tmp_j <- unlist(tmp)
+    w_ij <- Matrix::sparseMatrix(
+      i = tmp_i,
+      j = tmp_j,
       x = 1,
-      dims = c(tmpL, tmpL)
+      dims = c(tmp_L, tmp_L)
     )
-    diag(wij) <- 1.5
+    diag(w_ij) <- 1.5
     
     ## Compute
-    ri_data <- ri_data %>%
+    out_dat <- out_dat %>%
       sf::st_drop_geometry() # drop geometries (can join back later)
-    RIim <- list()
-    for (i in 1:dim(wij)[1]) {
-      RIim[[i]] <- sum(as.matrix(wij[i,]) * ri_data[, 'subgroup']) /
-        sum(as.matrix(wij[i,]) * ri_data[, 'TotalPopE'])
+    out_tmp <- list()
+    for (i in 1:dim(w_ij)[1]) {
+      out_tmp[[i]] <- sum(as.matrix(w_ij[i,]) * out_dat[, 'subgroup']) /
+        sum(as.matrix(w_ij[i,]) * out_dat[, 'TotalPopE'])
     }
-    ri_data$RI <- unlist(RIim)
+    out_dat$RI <- unlist(out_tmp)
     
     # Warning for missingness of census characteristics
-    missingYN <- ri_data[, in_names]
+    missingYN <- out_dat[, in_names]
     names(missingYN) <- out_names
     missingYN <- missingYN %>%
       tidyr::pivot_longer(
@@ -234,16 +227,16 @@ anthopolos <- function(geo = 'tract',
     
     # Format output
     if (geo == 'tract') {
-      ri <- ri_data %>%
+      out <- out_dat %>%
         dplyr::select(c('GEOID', 'state', 'county', 'tract', 'RI', dplyr::all_of(in_names)))
-      names(ri) <- c('GEOID', 'state', 'county', 'tract', 'RI', out_names)
+      names(out) <- c('GEOID', 'state', 'county', 'tract', 'RI', out_names)
     } else {
-      ri <- ri_data %>%
+      out <- out_dat %>%
         dplyr::select(c('GEOID', 'state', 'county', 'RI', dplyr::all_of(in_names)))
-      names(ri) <- c('GEOID', 'state', 'county', 'RI', out_names)
+      names(out) <- c('GEOID', 'state', 'county', 'RI', out_names)
     }
     
-    ri <- ri %>%
+    out <- out %>%
       dplyr::mutate(
         state = stringr::str_trim(state),
         county = stringr::str_trim(county)
@@ -251,7 +244,7 @@ anthopolos <- function(geo = 'tract',
       dplyr::arrange(GEOID) %>%
       dplyr::as_tibble()
     
-    out <- list(ri = ri, missing = missingYN)
+    out <- list(ri = out, missing = missingYN)
     
     return(out)
   }
