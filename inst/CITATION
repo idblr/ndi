@@ -1,6 +1,6 @@
 bibentry(bibtype = 'manual',
   title          = 'ndi: Neighborhood Deprivation Indices',
-  author         = c(as.person('Ian D. Buller')),
+  author         = as.person('Ian D. Buller'),
   publisher      = 'The Comprehensive R Archive Network',
   year           = '2024',
   number         = '0.1.6.9000.',
@@ -42,7 +42,7 @@ bibentry(bibtype = 'Article',
 
 bibentry(bibtype = 'Article',
   title          = 'On the measurement of inequality',
-  author         = c(as.person('Anthony B. Atkinson')),
+  author         = as.person('Anthony B. Atkinson'),
   journal        = 'Journal of economic theory',
   year           = '1970',
   volume         = '2',
@@ -81,7 +81,7 @@ bibentry(bibtype = 'Book',
 
 bibentry(bibtype = 'Article',
   title          = 'A Probability Model for the Measurement of Ecological Segregation',
-  author         = c(as.person('Wendell Bell')),
+  author         = as.person('Wendell Bell'),
   journal        = 'Social Forces',
   year           = '1954',
   volume         = '32',
@@ -162,7 +162,7 @@ bibentry(bibtype = 'Article',
 
 bibentry(bibtype = 'Article',
   title          = 'Measurement of Inequality of Incomes',
-  author         = c(as.person('Corrado Gini')),
+  author         = as.person('Corrado Gini'),
   journal        = 'The Economic Journal',
   year           = '1921',
   volume         = '31',
@@ -307,7 +307,7 @@ bibentry(bibtype = 'Article',
 
 bibentry(bibtype = 'Article',
   title          = 'Social Structure and Anomie',
-  author         = c(as.person('Robert K. Merton')),
+  author         = as.person('Robert K. Merton'),
   journal        = 'American Sociological Review',
   year           = '1938',
   volume         = '3',
@@ -348,7 +348,7 @@ bibentry(bibtype = 'Article',
 
 bibentry(bibtype = 'Article',
   title          = 'A Probability Model for the Measurement of Ecological Segregation',
-  author         = c(as.person('Wendell Bell')),
+  author         = as.person('Wendell Bell'),
   journal        = 'Social Forces',
   year           = '1954',
   volume         = '32',
@@ -367,7 +367,7 @@ bibentry(bibtype = 'Article',
 
 bibentry(bibtype = 'Article',
   title          = 'Segregation and Diversity Measures in Population Distribution',
-  author         = c(as.person('Michael J. White')),
+  author         = as.person('Michael J. White'),
   journal        = 'Population Index',
   year           = '1986',
   volume         = '52',
@@ -386,7 +386,7 @@ bibentry(bibtype = 'Article',
 
 bibentry(bibtype = 'Article',
   title          = 'Interstate Redistribution of Population, 1850-1940',
-  author         = c(as.person('Edgar M. Hoover')),
+  author         = as.person('Edgar M. Hoover'),
   journal        = 'Journal of Economic History',
   year           = '1941',
   volume         = '1',
@@ -416,6 +416,41 @@ bibentry(bibtype = 'Book',
         'Statistical Geography: Problems in Analyzing Area Data.',
         'Free Press',
         'LC:60007089'),
+
+  header         = 'And (2):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'Segregation and Diversity Measures in Population Distribution',
+  author         = as.person('Michael J. White'),
+  journal        = 'Population Index',
+  year           = '1986',
+  volume         = '52',
+  issue          = '2',
+  pages          = '198--221',
+  doi            = '10.2307/3644339',
+
+  textVersion    =
+  paste('Michael J. White (1986).',
+        'Segregation and Diversity Measures in Population Distribution.',
+        'Population Index, 52(2), 198-221.',
+        'DOI:10.2307/3644339'),
+
+  header         = 'If you computed SP (White) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Book',
+  title          = 'Inequality and Heterogeneity: A Primitive Theory of Social Structure',
+  author         = as.person('Peter M. Blau'),
+  year           = '1977',
+  publisher      = 'Free Press',
+  isbn           = '978-0-029-03660-0',
+
+  textVersion    =
+  paste('Peter M. Blau (1977).',
+        'Inequality and Heterogeneity: A Primitive Theory of Social Structure.',
+        'Free Press',
+        'ISBN-13:978-0-029-03660-0'),
 
   header         = 'And (2):'
 )

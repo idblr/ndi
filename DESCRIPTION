@@ -1,7 +1,7 @@
 Package: ndi
 Title: Neighborhood Deprivation Indices
-Version: 0.1.6.9000
-Date: 2024-08-19
+Version: 0.1.6.9001
+Date: 2024-08-20
 Authors@R:
     c(person(given = "Ian D.",
              family = "Buller",
@@ -33,7 +33,7 @@ Description: Computes various metrics of socio-economic deprivation and disparit
              <doi:10.2105/AJPH.2015.302955>, (4) compute the aspatial racial/ethnic 
              Dissimilarity Index (DI) based on Duncan & Duncan (1955) <doi:10.2307/2088328>, (5)
              compute the aspatial income or racial/ethnic Atkinson Index (AI) based on Atkinson 
-             (1970)  <doi:10.1016/0022-0531(70)90039-6>, (6) aspatial racial/ethnic Isolation
+             (1970) <doi:10.1016/0022-0531(70)90039-6>, (6) aspatial racial/ethnic Isolation
              Index (II) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and Bell
              (1954) <doi:10.2307/2574118>, (7) aspatial racial/ethnic Correlation Ratio (V)
              based on Bell (1954) <doi:10.2307/2574118> and White (1986) <doi:10.2307/3644339>,
@@ -41,10 +41,12 @@ Description: Computes various metrics of socio-economic deprivation and disparit
              <doi:10.2307/2084686> and Sudano et al. (2013) 
              <doi:10.1016/j.healthplace.2012.09.015>, (9) aspatial racial/ethnic Local
              Exposure and Isolation (LEx/Is) metric based on Bemanian & Beyer (2017) 
-             <doi:10.1158/1055-9965.EPI-16-0926>, and (10) aspatial racial/ethnic Delta (DEL) 
+             <doi:10.1158/1055-9965.EPI-16-0926>, (10) aspatial racial/ethnic Delta (DEL) 
              based on Hoover (1941) <doi:10.1017/S0022050700052980> and Duncan et al. (1961; 
-             LC:60007089). Also using data from the ACS-5 (2005-2009 onward), the package can 
-             retrieve the aspatial Gini Index (G) based Gini (1921) <doi:10.2307/2223319>.
+             LC:60007089), and (11) an index of spatial proximity based on White (1986)
+             <doi:10.2307/3644339> and Blau (1977; ISBN-13:978-0-029-03660-0). Also using data
+             from the ACS-5 (2005-2009 onward), the package can retrieve the aspatial Gini Index
+             (G) based Gini (1921) <doi:10.2307/2223319>.
 License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
@@ -64,6 +66,7 @@ Imports:
     tidycensus,
     tidyr,
     tigris,
+    units,
     utils
 Suggests:
     DescTools,

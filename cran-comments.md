@@ -2,15 +2,18 @@
 
 * Actions taken since previous submission:
   * Added `hoover()` function to compute the aspatial racial/ethnic Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089)
-  * Added `geo_large = 'cbsa'` for computing Core Based Statistical Areas, `geo_large = 'csa'` for Combined Statistical Areas, and `geo_large = 'metro'` for Metropolitan Divisions as the larger geographical unit in `atkinson()`, `bell()`, `bemanian_beyer()`, `duncan()`, `hoover()`, `sudano()`, and `white()` functions.
-  * Thank you for the feature suggestions, [Symielle Gaston](https://orcid.org/0000-0001-9495-1592)
+  * Added `white_blau()` function to compute an index of spatial proximity (*SP*) based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0)
+  * Added `geo_large = 'cbsa'` for Core Based Statistical Areas, `geo_large = 'csa'` for Combined Statistical Areas, and `geo_large = 'metro'` for Metropolitan Divisions as the larger geographical unit in `atkinson()`, `bell()`, `bemanian_beyer()`, `duncan()`, `hoover()`, `sudano()`, and `white()`, `white_blau()` functions.
   * Fixed bug in `bell()`, `bemanian_beyer()`, `duncan()`, `sudano()`, and `white()` when a smaller geography contains n=0 total population, will assign a value of zero (0) in the internal calculation instead of NA
-  * `tigris` is now Imports
+  * `tigris` and `units` are now Imports
   * 'package.R' deprecated. Replaced with 'ndi-package.R'
   * Re-formatted code and documentation throughout for consistent readability
   * Updated documentation about value range of *V* (White) from `{0 to 1}` to `{-Inf to Inf}`
-  * Updated examples in vignette (& README) an example for `hoover()` and a larger variety of U.S. states
-  * Updated documentation formatting of metric names in most functions
+  * Add examples for `hoover()` and `white_blau()` in vignette and README
+  * Reformatted functions for consistent internal structure
+  * Updated examples in vignette to showcase a larger variety of U.S. states
+  * Updated examples in functions to better describe the metrics
+  * Updated documentation formatting of metric names in all functions
 
 * Documentation for DESCRIPTION, README, NEWS, and vignette references the following DOIs, which throws a NOTE but are a valid URL:
   * <https://doi.org/10.1111/j.1749-6632.2009.05333.x>

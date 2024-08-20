@@ -34,11 +34,9 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'
-#'   # Tract-level metric (2020)
+#'   # Gini Index of income inequality
+#'   ## of census tracts within Georgia, U.S.A., counties (2020)
 #'   gini(geo = 'tract', state = 'GA', year = 2020)
-#'
-#'   # County-level metric (2020)
-#'   gini(geo = 'county', state = 'GA', year = 2020)
 #'
 #' }
 #'
@@ -55,7 +53,7 @@ gini <- function(geo = 'tract',
   vars <- c(gini = 'B19083_001')
   
   # Acquire Gini Index
-  gini_data <- suppressMessages(suppressWarnings(
+  tmp_dat <- suppressMessages(suppressWarnings(
     tidycensus::get_acs(
       geography = geo,
       year = year,
@@ -66,19 +64,19 @@ gini <- function(geo = 'tract',
   ))
     
   if (geo == 'tract') {
-    gini_data <- gini_data %>%
+    tmp_dat <- tmp_dat %>%
       tidyr::separate(NAME, into = c('tract', 'county', 'state'), sep = ',') %>%
       dplyr::mutate(tract = gsub('[^0-9\\.]', '', tract))
   } else {
-    gini_data <- gini_data %>% 
+    tmp_dat <- tmp_dat %>% 
       tidyr::separate(NAME, into = c('county', 'state'), sep = ',')
   }
   
-  gini_data <- gini_data %>%
+  tmp_dat <- tmp_dat %>%
     dplyr::mutate(gini = giniE)
   
   # Warning for missingness of census characteristics
-  missingYN <- gini_data %>%
+  missingYN <- tmp_dat %>%
     dplyr::select(gini)  %>%
     tidyr::pivot_longer(
       cols = dplyr::everything(),
@@ -100,14 +98,14 @@ gini <- function(geo = 'tract',
   }
   
   if (geo == 'tract') {
-    gini <- gini_data %>%
+    out <- tmp_dat %>%
       dplyr::select(GEOID,  state, county, tract, gini)
   } else {
-    gini <- gini_data %>%
+    out <- tmp_dat %>%
       dplyr::select(GEOID,  state, county, gini)
   }
   
-  gini <- gini %>%
+  out <- out %>%
     dplyr::mutate(
       state = stringr::str_trim(state),
       county = stringr::str_trim(county)
@@ -115,7 +113,7 @@ gini <- function(geo = 'tract',
     dplyr::arrange(GEOID) %>%
     dplyr::as_tibble()
   
-  out <- list(gini = gini, missing = missingYN)
+  out <- list(gini = out, missing = missingYN)
   
   return(out)
 }

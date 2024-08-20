@@ -119,3 +119,28 @@ del_fun <- function(x, omit_NAs) {
     )
   }
 }
+
+# Internal function for an index of spatial proximity (White 1986)
+## Returns NA value if only one smaller geography in a larger geography
+sp_fun <- function(x, omit_NAs) {
+  xx <- x[ , c('TotalPopE', 'subgroup', 'subgroup_ref', 'ALAND')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(sf::st_drop_geometry(xx)), ] }
+  if (nrow(sf::st_drop_geometry(x)) < 2 || any(sf::st_drop_geometry(xx) < 0) || any(is.na(sf::st_drop_geometry(xx)))) {
+    NA
+  } else {
+    d_ij <- suppressWarnings(sf::st_distance(sf::st_centroid(xx), sf::st_centroid(xx)))
+    diag(d_ij) <- sqrt(0.6 * xx$ALAND)
+    c_ij <- -d_ij %>% 
+      units::set_units(value = km) %>%
+      units::drop_units() %>%
+      exp()
+    X <- sum(xx$subgroup, na.rm = TRUE)
+    Y <- sum(xx$subgroup_ref, na.rm = TRUE)
+    N <- sum(xx$TotalPopE, na.rm = TRUE)
+    P_xx <- sum((xx$subgroup * xx$subgroup * c_ij) / X^2, na.rm = TRUE)
+    P_xy <- sum((xx$subgroup * xx$subgroup_ref * c_ij) / (X * Y), na.rm = TRUE)
+    P_tt <- sum((xx$TotalPopE * xx$TotalPopE * c_ij) / N^2, na.rm = TRUE)
+    SP <- ((X * P_xx) + (Y * P_xy)) / (N * P_tt)
+    return(SP)
+  }
+}

@@ -67,7 +67,7 @@
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'
 #'   # Dissimilarity Index of non-Hispanic Black vs. non-Hispanic white populations
-#'   ## of census tracts within Georgia, U.S.A., counties (2020)
+#'   ## of census tracts within counties within Georgia, U.S.A., counties (2020)
 #'   duncan(
 #'     geo_large = 'county',
 #'     geo_small = 'tract',
@@ -175,7 +175,7 @@ duncan <- function(geo_large = 'county',
     in_subgroup_ref <- paste0(subgroup_ref, 'E')
     
     # Acquire DI variables and sf geometries
-    di_data <- suppressMessages(suppressWarnings(
+    out_dat <- suppressMessages(suppressWarnings(
       tidycensus::get_acs(
         geography = geo_small,
         year = year,
@@ -189,16 +189,16 @@ duncan <- function(geo_large = 'county',
     
     # Format output
     if (geo_small == 'county') {
-      di_data <- di_data %>%
+      out_dat <- out_dat %>%
         tidyr::separate(NAME.y, into = c('county', 'state'), sep = ',')
     }
     if (geo_small == 'tract') {
-      di_data <- di_data %>%
+      out_dat <- out_dat %>%
         tidyr::separate(NAME.y, into = c('tract', 'county', 'state'), sep = ',') %>%
         dplyr::mutate(tract = gsub('[^0-9\\.]', '', tract))
     }
     if (geo_small == 'block group') {
-      di_data <- di_data %>%
+      out_dat <- out_dat %>%
         tidyr::separate(NAME.y, into = c('block.group', 'tract', 'county', 'state'), sep = ',') %>%
         dplyr::mutate(
           tract = gsub('[^0-9\\.]', '', tract),
@@ -208,7 +208,7 @@ duncan <- function(geo_large = 'county',
     
     # Grouping IDs for DI computation
     if (geo_large == 'state') {
-      di_data <- di_data %>%
+      out_dat <- out_dat %>%
         dplyr::mutate(
           oid = STATEFP,
           state = stringr::str_trim(state)
@@ -216,7 +216,7 @@ duncan <- function(geo_large = 'county',
         sf::st_drop_geometry()
     }
     if (geo_large == 'tract') {
-      di_data <- di_data %>%
+      out_dat <- out_dat %>%
         dplyr::mutate(
           oid = paste0(STATEFP, COUNTYFP, TRACTCE),
           state = stringr::str_trim(state),
@@ -225,7 +225,7 @@ duncan <- function(geo_large = 'county',
         sf::st_drop_geometry()
     }
     if (geo_large == 'county') {
-      di_data <- di_data %>%
+      out_dat <- out_dat %>%
         dplyr::mutate(
           oid = paste0(STATEFP, COUNTYFP),
           state = stringr::str_trim(state),
@@ -235,17 +235,17 @@ duncan <- function(geo_large = 'county',
     }
     if (geo_large == 'cbsa') {
       stopifnot(is.numeric(year), year >= 2010) # CBSAs only available 2010 onward
-      dat_cbsa <- suppressMessages(suppressWarnings(tigris::core_based_statistical_areas(year = year)))
-      win_cbsa <- sf::st_within(di_data, dat_cbsa)
-      di_data <- di_data %>%
+      lgeom <- suppressMessages(suppressWarnings(tigris::core_based_statistical_areas(year = year)))
+      wlgeom <- sf::st_within(out_dat, lgeom)
+      out_dat <- out_dat %>%
         dplyr::mutate(
-          oid = lapply(win_cbsa, function(x) { 
-            tmp <- dat_cbsa[x, 3] %>% sf::st_drop_geometry()
+          oid = lapply(wlgeom, function(x) { 
+            tmp <- lgeom[x, 3] %>% sf::st_drop_geometry()
             lapply(tmp, function(x) { if (length(x) == 0) NA else x })
           }) %>% 
             unlist(),
-          cbsa = lapply(win_cbsa, function(x) { 
-            tmp <- dat_cbsa[x, 4] %>% sf::st_drop_geometry()
+          cbsa = lapply(wlgeom, function(x) { 
+            tmp <- lgeom[x, 4] %>% sf::st_drop_geometry()
             lapply(tmp, function(x) { if (length(x) == 0) NA else x })
           }) %>% 
             unlist()
@@ -254,17 +254,17 @@ duncan <- function(geo_large = 'county',
     }
     if (geo_large == 'csa') {
       stopifnot(is.numeric(year), year >= 2011) # CSAs only available 2011 onward
-      dat_csa <- suppressMessages(suppressWarnings(tigris::combined_statistical_areas(year = year)))
-      win_csa <- sf::st_within(di_data, dat_csa)
-      di_data <- di_data %>%
+      lgeom <- suppressMessages(suppressWarnings(tigris::combined_statistical_areas(year = year)))
+      wlgeom <- sf::st_within(out_dat, lgeom)
+      out_dat <- out_dat %>%
         dplyr::mutate(
-          oid = lapply(win_csa, function(x) { 
-            tmp <- dat_csa[x, 2] %>% sf::st_drop_geometry()
+          oid = lapply(wlgeom, function(x) { 
+            tmp <- lgeom[x, 2] %>% sf::st_drop_geometry()
             lapply(tmp, function(x) { if (length(x) == 0) NA else x })
           }) %>% 
             unlist(),
-          csa = lapply(win_csa, function(x) { 
-            tmp <- dat_csa[x, 3] %>% sf::st_drop_geometry()
+          csa = lapply(wlgeom, function(x) { 
+            tmp <- lgeom[x, 3] %>% sf::st_drop_geometry()
             lapply(tmp, function(x) { if (length(x) == 0) NA else x })
           }) %>% 
             unlist()
@@ -273,17 +273,17 @@ duncan <- function(geo_large = 'county',
     }
     if (geo_large == 'metro') {
       stopifnot(is.numeric(year), year >= 2011) # Metro Divisions only available 2011 onward
-      dat_metro <- suppressMessages(suppressWarnings(tigris::metro_divisions(year = year)))
-      win_metro <- sf::st_within(di_data, dat_metro)
-      di_data <- di_data %>%
+      lgeom <- suppressMessages(suppressWarnings(tigris::metro_divisions(year = year)))
+      wlgeom <- sf::st_within(out_dat, lgeom)
+      out_dat <- out_dat %>%
         dplyr::mutate(
-          oid = lapply(win_metro, function(x) { 
-            tmp <- dat_metro[x, 4] %>% sf::st_drop_geometry()
+          oid = lapply(wlgeom, function(x) { 
+            tmp <- lgeom[x, 4] %>% sf::st_drop_geometry()
             lapply(tmp, function(x) { if (length(x) == 0) NA else x })
           }) %>% 
             unlist(),
-          metro = lapply(win_metro, function(x) { 
-            tmp <- dat_metro[x, 5] %>% sf::st_drop_geometry()
+          metro = lapply(wlgeom, function(x) { 
+            tmp <- lgeom[x, 5] %>% sf::st_drop_geometry()
             lapply(tmp, function(x) { if (length(x) == 0) NA else x })
           }) %>% 
             unlist()
@@ -294,18 +294,18 @@ duncan <- function(geo_large = 'county',
     # Count of racial/ethnic subgroup populations
     ## Count of racial/ethnic comparison subgroup population
     if (length(in_subgroup) == 1) {
-      di_data <- di_data %>%
+      out_dat <- out_dat %>%
         dplyr::mutate(subgroup = .[, in_subgroup])
     } else {
-      di_data <- di_data %>%
+      out_dat <- out_dat %>%
         dplyr::mutate(subgroup = rowSums(.[, in_subgroup]))
     }
     ## Count of racial/ethnic reference subgroup population
     if (length(in_subgroup_ref) == 1) {
-      di_data <- di_data %>%
+      out_dat <- out_dat %>%
         dplyr::mutate(subgroup_ref = .[, in_subgroup_ref])
     } else {
-      di_data <- di_data %>%
+      out_dat <- out_dat %>%
         dplyr::mutate(subgroup_ref = rowSums(.[, in_subgroup_ref]))
     }
     
@@ -320,8 +320,8 @@ duncan <- function(geo_large = 'county',
     ## Y_{jt} denotes the racial/ethnic referent subgroup population of larger geography j at time t
     
     ## Compute
-    DItmp <- di_data %>%
-      split(., f = list(di_data$oid)) %>%
+    out_tmp <- out_dat %>%
+      split(., f = list(out_dat$oid)) %>%
       lapply(., FUN = di_fun, omit_NAs = omit_NAs) %>%
       utils::stack(.) %>%
       dplyr::mutate(
@@ -331,7 +331,7 @@ duncan <- function(geo_large = 'county',
       dplyr::select(DI, oid)
     
     # Warning for missingness of census characteristics
-    missingYN <- di_data[, c(in_subgroup, in_subgroup_ref)]
+    missingYN <- out_dat[, c(in_subgroup, in_subgroup_ref)]
     names(missingYN) <- out_names
     missingYN <- missingYN %>%
       tidyr::pivot_longer(
@@ -355,8 +355,8 @@ duncan <- function(geo_large = 'county',
     
     # Format output
     if (geo_large == 'state') {
-      di <- di_data %>%
-        dplyr::left_join(DItmp, by = dplyr::join_by(oid)) %>%
+      out <- out_dat %>%
+        dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
         dplyr::select(oid, state, DI) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
@@ -364,8 +364,8 @@ duncan <- function(geo_large = 'county',
         .[.$GEOID != 'NANA',]
     }
     if (geo_large == 'county') {
-      di <- di_data %>%
-        dplyr::left_join(DItmp, by = dplyr::join_by(oid)) %>%
+      out <- out_dat %>%
+        dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
         dplyr::select(oid, state, county, DI) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
@@ -373,8 +373,8 @@ duncan <- function(geo_large = 'county',
         .[.$GEOID != 'NANA',]
     }
     if (geo_large == 'tract') {
-      di <- di_data %>%
-        dplyr::left_join(DItmp, by = dplyr::join_by(oid)) %>%
+      out <- out_dat %>%
+        dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
         dplyr::select(oid, state, county, tract, DI) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
@@ -382,45 +382,48 @@ duncan <- function(geo_large = 'county',
         .[.$GEOID != 'NANA',]
     }
     if (geo_large == 'cbsa') {
-      di <- di_data %>%
-        dplyr::left_join(DItmp, by = dplyr::join_by(oid)) %>%
+      out <- out_dat %>%
+        dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
         dplyr::select(oid, cbsa, DI) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
         dplyr::select(GEOID, cbsa, DI) %>%
         .[.$GEOID != 'NANA', ] %>%
-        dplyr::distinct(GEOID, .keep_all = TRUE)
+        dplyr::distinct(GEOID, .keep_all = TRUE) %>%
+        dplyr::filter(stats::complete.cases(.))
     }
     if (geo_large == 'csa') {
-      di <- di_data %>%
-        dplyr::left_join(DItmp, by = dplyr::join_by(oid)) %>%
+      out <- out_dat %>%
+        dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
         dplyr::select(oid, csa, DI) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
         dplyr::select(GEOID, csa, DI) %>%
         .[.$GEOID != 'NANA', ] %>%
-        dplyr::distinct(GEOID, .keep_all = TRUE)
+        dplyr::distinct(GEOID, .keep_all = TRUE) %>%
+        dplyr::filter(stats::complete.cases(.))
     }
     if (geo_large == 'metro') {
-      di <- di_data %>%
-        dplyr::left_join(DItmp, by = dplyr::join_by(oid)) %>%
+      out <- out_dat %>%
+        dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
         dplyr::select(oid, metro, DI) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
         dplyr::select(GEOID, metro, DI) %>%
         .[.$GEOID != 'NANA', ] %>%
-        dplyr::distinct(GEOID, .keep_all = TRUE)
+        dplyr::distinct(GEOID, .keep_all = TRUE) %>%
+        dplyr::filter(stats::complete.cases(.))
     }
     
-    di <- di %>%
+    out <- out %>%
       dplyr::arrange(GEOID) %>%
       dplyr::as_tibble()
     
-    di_data <- di_data %>%
+    out_dat <- out_dat %>%
       dplyr::arrange(GEOID) %>%
       dplyr::as_tibble()
     
-    out <- list(di = di, di_data = di_data, missing = missingYN)
+    out <- list(di = out, di_data = out_dat, missing = missingYN)
     
     return(out)
   }

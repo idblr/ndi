@@ -64,14 +64,11 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'
-#'   # Tract-level metric (2020)
+#'   # Tract-level NDI (Powell-Wiley; 2020)
 #'   powell_wiley(geo = 'tract', state = 'GA', year = 2020)
 #'
-#'   # Impute NDI for tracts (2020) with missing census information (median values)
-#'   powell_wiley(state = 'tract', 'GA', year = 2020, imp = TRUE)
-#'
-#'   # County-level metric (2020)
-#'   powell_wiley(geo = 'county', state = 'GA', year = 2020)
+#'   # Impute NDI (Powell-Wiley; 2020) for tracts with missing census information (median values)
+#'   powell_wiley(state = 'tract', state = 'GA', year = 2020, imp = TRUE)
 #'
 #' }
 #'

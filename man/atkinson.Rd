@@ -83,14 +83,14 @@ Larger geographies available include state \code{geo_large = 'state'}, county \c
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
 
-  # Atkinson Index of non-Hispanic Black populations
-  ## of census tracts within Georgia, U.S.A., counties (2020)
+  # Atkinson Index (a measure of the evenness) of Black populations
+  ## of census tracts within counties within Georgia, U.S.A., counties (2020)
   atkinson(
     geo_large = 'county',
     geo_small = 'tract',
     state = 'GA',
     year = 2020,
-    subgroup = 'NHoLB'
+    subgroup = c('NHoLB', 'HoLB')
    )
 
 }
