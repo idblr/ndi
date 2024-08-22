@@ -56,7 +56,7 @@ bibentry(bibtype = 'Article',
         'Journal of economic theory, 2(3), 244-263.',
         'DOI:10.1016/0022-0531(70)90039-6'),
 
-  header         = 'If you computed AI (Atkinson) values, please also cite:'
+  header         = 'If you computed A (Atkinson) values, please also cite:'
 )
 
 bibentry(bibtype = 'Book',
@@ -76,7 +76,7 @@ bibentry(bibtype = 'Book',
         'Los Angeles:John Randolph Haynes and Dora Haynes Foundation.',
         'ISBN-13:978-0-837-15637-8'),
 
-  header         = 'If you computed II (Bell) values, please also cite (1):'
+  header         = 'If you computed xPy* (Bell) values, please also cite (1):'
 )
 
 bibentry(bibtype = 'Article',
@@ -157,7 +157,7 @@ bibentry(bibtype = 'Article',
         'American Sociological Review, 20(2), 210-217.',
         'DOI:10.2307/2088328'),
 
-  header         = 'If you computed DI (Duncan & Duncan) values, please also cite:'
+  header         = 'If you computed D (Duncan & Duncan) values, please also cite:'
 )
 
 bibentry(bibtype = 'Article',
@@ -176,7 +176,7 @@ bibentry(bibtype = 'Article',
         'The Economic Journal, 31(121), 124-126.',
         'DOI:10.2307/2223319'),
 
-  header         = 'If you retrieved Gini Index values, please also cite:'
+  header         = 'If you retrieved G (Gini) values, please also cite:'
 )
 
 bibentry(bibtype = 'Article',
@@ -451,6 +451,50 @@ bibentry(bibtype = 'Book',
         'Inequality and Heterogeneity: A Primitive Theory of Social Structure.',
         'Free Press',
         'ISBN-13:978-0-029-03660-0'),
+
+  header         = 'And (2):'
+)
+
+bibentry(bibtype = 'InBook',
+  title          = 'Ethnic Segregation in Cities',
+  author         = as.person('Stanley Lieberson'),
+  chapter        = 'An Asymmetrical Approach to Segregation',
+  year           = '1981',
+  edition        = '1st edition',
+  editor         = c(as.person('Ceri Peach'),
+                     as.person('Vaughan Robinson'),
+                     as.person('Susan Smith')),
+  city           = 'London', 
+  publisher      = 'Croom Helm',
+  isbn           = '978-1-032-53884-6',
+
+  textVersion    =
+  paste('Stanley Lieberson (1981).',
+        '"An Asymmetrical Approach to Segregation." Pp. 61-82 in',
+        'Ethnic Segregation in Cities,',
+        'edited by Ceri Peach, Vaughan Robinson, and Susan Smith.',
+        '1st Ed.',
+        'London:Croom Helm.',
+        'ISBN-13:978-1-032-53884-6'),
+
+  header         = 'If you computed xPx* (Lieberson) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'A Probability Model for the Measurement of Ecological Segregation',
+  author         = as.person('Wendell Bell'),
+  journal        = 'Social Forces',
+  year           = '1954',
+  volume         = '32',
+  issue          = '4',
+  pages          = '357--364',
+  doi            = '10.2307/2574118',
+
+  textVersion    =
+  paste('Wendell Bell (1954).',
+        'A Probability Model for the Measurement of Ecological Segregation.',
+        'Social Forces, 32(4), 357-364.',
+        'DOI:10.2307/2574118'),
 
   header         = 'And (2):'
 )

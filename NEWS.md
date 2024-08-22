@@ -1,15 +1,18 @@
 # ndi (development version)
 
-## ndi v0.1.6.9001
+## ndi v0.1.6.9002
 
 ### New Features
 * Added `hoover()` function to compute the aspatial racial/ethnic Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089)
 * Added `white_blau()` function to compute an index of spatial proximity (*SP*) based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0)
-* Added `geo_large = 'cbsa'` for Core Based Statistical Areas, `geo_large = 'csa'` for Combined Statistical Areas, and `geo_large = 'metro'` for Metropolitan Divisions as the larger geographical unit in `atkinson()`, `bell()`, `bemanian_beyer()`, `duncan()`, `hoover()`, `sudano()`, and `white()`, `white_blau()` functions.
+* Added `lieberson()` function to compute he aspatial racial/ethnic Isolation Index (_xPx\*_) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and and [Bell (1954)](https://doi.org/10.2307/2574118)
+* Added `geo_large = 'cbsa'` for Core Based Statistical Areas, `geo_large = 'csa'` for Combined Statistical Areas, and `geo_large = 'metro'` for Metropolitan Divisions as the larger geographical unit in `atkinson()`, `bell()`, `bemanian_beyer()`, `duncan()`, `hoover()`, `lieberson()`, `sudano()`, and `white()`, `white_blau()` functions.
 * Thank you for the feature suggestions, [Symielle Gaston](https://orcid.org/0000-0001-9495-1592)
 
 ### Updates
-* Fixed bug in `bell()`, `bemanian_beyer()`, `duncan()`, `sudano()`, and `white()` when a smaller geography contains n=0 total population, will assign a value of zero (0) in the internal calculation instead of NA
+* `bell()` function computes the Interaction Index (Bell) not the Isolation Index as previously documented. Updated documentation throughout
+* Fixed bug in `bell()`, `bemanian_beyer()`, `duncan()`, `sudano()`, and `white()` functions when a smaller geography contains n=0 total population, will assign a value of zero (0) in the internal calculation instead of NA
+* Renamed *AI* as *A*, *DI* as *D*, *Gini* as *G*, and *II* as _xPy\*_ to align with the definitions from [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). The output for `atkinson()` now produces `a` instead of `ai`. The output for `duncan()` now produces `d` instead of `ai`. The output for `gini()` now produces `g` instead of `gini`. The output for `bell()` now produces `xPy_star` instead of `II`. The internal functions `ai_fun()`, `di_fun()` and `ii_fun()` were renamed `a_fun()`, `d_fun()` and `xpy_star_fun()`, respectively.
 * `tigris` and `units` are now Imports
 * 'package.R' deprecated. Replaced with 'ndi-package.R'
 * Re-formatted code and documentation throughout for consistent readability
@@ -34,8 +37,8 @@
 ## ndi v0.1.4
 
 ### New Features
-* Added `atkinson()` function to compute the aspatial income or racial/ethnic Atkinson Index (*AI*) based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6) for specified counties/tracts 2009 onward
-* Added `bell()` function to compute the aspatial racial/ethnic Isolation Index (*II*) based on Shevky & Williams (1949; ISBN-13:978-0837156378) and [Bell (1954)](https://doi.org/10.2307/2574118)
+* Added `atkinson()` function to compute the aspatial income or racial/ethnic Atkinson Index (*A*) based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6) for specified counties/tracts 2009 onward
+* Added `bell()` function to compute the aspatial racial/ethnic Interaction Index (_xPy\*_) based on Shevky & Williams (1949; ISBN-13:978-0837156378) and [Bell (1954)](https://doi.org/10.2307/2574118)
 * Added `white()` function to compute the aspatial racial/ethnic Correlation Ratio (*V*) based on [Bell (1954)](https://doi.org/10.2307/2574118) and [White (1986)](https://doi.org/10.2307/3644339)
 * Added `sudano()` function to compute the aspatial racial/ethnic Location Quotient (*LQ*) based on [Merton (1939)](https://doi.org/10.2307/2084686) and [Sudano et al. (2013)](https://doi.org/10.1016/j.healthplace.2012.09.015)
 * Added `bemanian_beyer()` function to compute the aspatial racial/ethnic Local Exposure and Isolation (*LEx/Is*) metric based on [Bemanian & Beyer (2017)](https://doi.org/10.1158/1055-9965.EPI-16-0926)
@@ -56,7 +59,7 @@
 ## ndi v0.1.3
 
 ### New Features
-* Added `duncan()` function to compute the Dissimilarity Index (*DI*) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328) for specified counties/tracts 2009 onward
+* Added `duncan()` function to compute the Dissimilarity Index (*D*) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328) for specified counties/tracts 2009 onward
 * Thank you for the feature suggestion, [Jessica Madrigal](https://orcid.org/0000-0001-5303-5109)
 * Added 'utils.R' file with internal `di_fun()` function for `duncan()` function
 

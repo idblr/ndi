@@ -19,7 +19,7 @@ gini(geo = "tract", year = 2020, quiet = FALSE, ...)
 An object of class 'list'. This is a named list with the following components:
 
 \describe{
-\item{\code{gini}}{An object of class 'tbl' for the GEOID, name, and \emph{G} of specified census geographies.}
+\item{\code{g}}{An object of class 'tbl' for the GEOID, name, and \emph{G} of specified census geographies.}
 \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for \emph{G}.}
 }
 }

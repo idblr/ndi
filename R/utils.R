@@ -1,24 +1,24 @@
 # Internal function for the Dissimilarity Index (Duncan & Duncan 1955)
 ## Returns NA value if only one smaller geography in a larger geography
-di_fun <- function(x, omit_NAs) {
+d_fun <- function(x, omit_NAs) {
   xx <- x[ , c('subgroup', 'subgroup_ref')]
   if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(xx), ] }
   if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
     NA
   } else {
-    0.5 * sum(
-      abs(
-        xx$subgroup / sum(xx$subgroup, na.rm = TRUE) - 
-          xx$subgroup_ref / sum(xx$subgroup_ref, na.rm = TRUE)
-      ), 
-      na.rm = TRUE)
+    x_i <- xx$subgroup
+    n_i <- sum(xx$subgroup, na.rm = TRUE)
+    y_i <- xx$subgroup_ref
+    m_i <- sum(xx$subgroup_ref, na.rm = TRUE)
+    D <- 0.5 * sum(abs((x_i/n_i) - (y_i/m_i)), na.rm = TRUE)
+    return(D)
   }
 }
 
 # Internal function for the Atkinson Index (Atkinson 1970)
 ## Returns NA value if only one smaller geography in a larger geography
 ## If denoting the Hölder mean
-ai_fun <- function(x, epsilon, omit_NAs) {
+a_fun <- function(x, epsilon, omit_NAs) {
   if (omit_NAs == TRUE) { 
     xx <- stats::na.omit(x$subgroup)
   } else {
@@ -36,18 +36,36 @@ ai_fun <- function(x, epsilon, omit_NAs) {
   }
 }
 
-# Internal function for the aspatial Racial Isolation Index (Bell 1954)
+# Internal function for the aspatial Interaction Index (Bell 1954)
 ## Returns NA value if only one smaller geography in a larger geography
-ii_fun <- function(x, omit_NAs) {
+xpy_star_fun <- function(x, omit_NAs) {
   xx <- x[ , c('TotalPopE', 'subgroup', 'subgroup_ixn')]
   if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(xx), ] }
   if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
     NA
   } else {
-    sum(
-      (xx$subgroup / sum(xx$subgroup, na.rm = TRUE)) * (xx$subgroup_ixn / xx$TotalPopE),
-      na.rm = TRUE
-    )
+    x_i <- xx$subgroup
+    X <- sum(xx$subgroup, na.rm = TRUE)
+    y_i <- xx$subgroup_ixn
+    t_i <- xx$TotalPopE
+    xPy_star <- sum((x_i / X) * (y_i / t_i), na.rm = TRUE)
+    return(xPy_star)
+  }
+}
+
+# Internal function for the aspatial Isolation Index (Lieberson 1981)
+## Returns NA value if only one smaller geography in a larger geography
+xpx_star_fun <- function(x, omit_NAs) {
+  xx <- x[ , c('TotalPopE', 'subgroup')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(xx), ] }
+  if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
+    NA
+  } else {
+    x_i <- xx$subgroup
+    X <- sum(xx$subgroup, na.rm = TRUE)
+    t_i <- xx$TotalPopE
+    xPx_star <- sum((x_i / X) * (x_i / t_i), na.rm = TRUE)
+    return(xPx_star)
   }
 }
 
@@ -59,12 +77,14 @@ v_fun <- function(x, omit_NAs) {
   if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
     NA
   } else {
-    xxx <- sum(
-      (xx$subgroup / sum(xx$subgroup, na.rm = TRUE)) * (xx$subgroup / xx$TotalPopE),
-      na.rm = TRUE
-    )
-    px <- sum(xx$subgroup, na.rm = TRUE) / sum(xx$TotalPopE, na.rm = TRUE)
-    (xxx - px) / (1 - px)
+    x_i <- xx$subgroup
+    X <- sum(xx$subgroup, na.rm = TRUE)
+    t_i <- xx$TotalPopE
+    N <- sum(xx$TotalPopE, na.rm = TRUE)
+    xPx_star <- sum((x_i / X) * (x_i / t_i), na.rm = TRUE)
+    P <- X / N
+    V <- (xPx_star - P) / (1 - P)
+    return(V)
   }
 }
 
@@ -76,13 +96,19 @@ lq_fun <- function(x, omit_NAs) {
   if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
     NA
   } else {
-    p_im <- xx$subgroup / xx$TotalPopE
-    if (anyNA(p_im)) { p_im[is.na(p_im)] <- 0 }
-    LQ <- p_im / (sum(xx$subgroup, na.rm = TRUE) / sum(xx$TotalPopE, na.rm = TRUE))
+    x_i <- xx$subgroup # x_im
+    t_i <- xx$TotalPopE # X_i
+    p_i <- x_i / t_i # p_im
+    X <- sum(xx$subgroup, na.rm = TRUE) # X_m
+    N <- sum(xx$TotalPopE, na.rm = TRUE) # X
+    if (anyNA(p_i)) { p_i[is.na(p_i)] <- 0 }
+    LQ <- p_i / (X / N) # (x_im/X_i)/(X_m/X)
     df <-  data.frame(LQ = LQ, GEOID = xx$GEOID)
     return(df)
   }
 }
+
+
 
 # Internal function for the aspatial Local Exposure & Isolation (Bemanian & Beyer 2017) metric
 ## Returns NA value if only one smaller geography in a larger geography
@@ -112,11 +138,12 @@ del_fun <- function(x, omit_NAs) {
   if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
     NA
   } else {
-    0.5 * sum(
-      abs((xx$subgroup / sum(xx$subgroup, na.rm = TRUE)) - (xx$ALAND / sum(xx$ALAND, na.rm = TRUE))
-      ),
-      na.rm = TRUE
-    )
+    x_i <- xx$subgroup
+    X <- sum(xx$subgroup, na.rm = TRUE)
+    a_i <- xx$ALAND
+    A <- sum(xx$ALAND, na.rm = TRUE)
+    DEL <- 0.5 * sum(abs((x_i / X) - (a_i / A)), na.rm = TRUE)
+    return(DEL)
   }
 }
 

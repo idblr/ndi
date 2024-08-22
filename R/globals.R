@@ -248,14 +248,16 @@ globalVariables(
     'ind',
     'oid',
     'block.group',
-    'DI',
-    'AI',
-    'II',
     'V',
     'LQ',
     'LExIs',
     'DEL',
     'SP',
-    'km'
+    'km',
+    'A',
+    'D', 
+    'G', 
+    'xPx_star', 
+    'xPy_star'
   )
 )

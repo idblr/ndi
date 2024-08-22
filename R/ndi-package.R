@@ -10,21 +10,23 @@
 #' 
 #' \code{\link{anthopolos}} Computes the spatial Racial Isolation Index (\emph{RI}) based on Anthopolos (2011) \doi{10.1016/j.sste.2011.06.002}.
 #' 
-#' \code{\link{atkinson}} Computes the aspatial income or racial/ethnic Atkinson Index (\emph{AI}) based on Atkinson (1970) \doi{10.1016/0022-0531(70)90039-6}.
+#' \code{\link{atkinson}} Computes the aspatial income or racial/ethnic Atkinson Index (\emph{A}) based on Atkinson (1970) \doi{10.1016/0022-0531(70)90039-6}.
 #' 
-#' \code{\link{bell}} Computes the aspatial racial/ethnic Isolation Index (\emph{II}) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and Bell (1954) \doi{10.2307/2574118}.
+#' \code{\link{bell}} Computes the aspatial racial/ethnic Interaction Index (\emph{xPy\*}) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and Bell (1954) \doi{10.2307/2574118}.
 #' 
 #' \code{\link{bemanian_beyer}} Computes the aspatial racial/ethnic Local Exposure and Isolation (\emph{LEx/Is}) metric based on Bemanian & Beyer (2017) \doi{10.1158/1055-9965.EPI-16-0926}.
 #' 
 #' \code{\link{bravo}} Computes the spatial Educational Isolation Index (\emph{EI}) based on Bravo (2021) \doi{10.3390/ijerph18179384}.
 #' 
-#' \code{\link{duncan}} Computes the aspatial racial/ethnic Dissimilarity Index (\emph{DI}) based on Duncan & Duncan (1955) \doi{10.2307/2088328}.
+#' \code{\link{duncan}} Computes the aspatial racial/ethnic Dissimilarity Index (\emph{D}) based on Duncan & Duncan (1955) \doi{10.2307/2088328}.
 #' 
 #' \code{\link{gini}} Retrieves the aspatial Gini Index (\emph{G}) based on Gini (1921) \doi{10.2307/2223319}.
 #' 
 #' \code{\link{hoover}} Computes the aspatial racial/ethnic Delta (\emph{DEL}) based on Hoover (1941) \doi{doi:10.1017/S0022050700052980} and Duncan et al. (1961; LC:60007089).
 #'
 #' \code{\link{krieger}} Computes the aspatial Index of Concentration at the Extremes based on Feldman et al. (2015) \doi{10.1136/jech-2015-205728} and Krieger et al. (2016) \doi{10.2105/AJPH.2015.302955}.
+#' 
+#' \code{\link{lieberson}} Computes the aspatial racial/ethnic Isolation Index (\emph{xPx\*}) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and Bell (1954) \doi{10.2307/2574118}.
 #' 
 #' \code{\link{messer}} Computes the aspatial Neighborhood Deprivation Index (\emph{NDI}) based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x}.
 #' 
@@ -34,7 +36,7 @@
 #' 
 #' \code{\link{white}} Computes the aspatial racial/ethnic Correlation Ratio (\emph{V}) based on Bell (1954) \doi{10.2307/2574118} and White (1986) \doi{10.2307/3644339}.
 #' 
-#' \code{\link{white_blau}} Computes an index of spatial proximity based on White (1986) \doi{10.2307/3644339} and Blau (1977; ISBN-13:978-0-029-03660-0).
+#' \code{\link{white_blau}} Computes an index of spatial proximity (\emph{SP}) based on White (1986) \doi{10.2307/3644339} and Blau (1977; ISBN-13:978-0-029-03660-0).
 #' 
 #' \bold{Pre-formatted U.S. Census Data}
 #' 
