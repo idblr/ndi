@@ -1547,7 +1547,7 @@ Compute the aspatial racial/ethnic _xPx\*_ values (2015-2019 5-year ACS) for Del
 | B03002_020 | Hispanic or Latino, two races including some other race | HoLTRiSOR |
 | B03002_021 | Hispanic or Latino, two races excluding some other race, and three or more races | HoLTReSOR |
 
-_xPy\*_ is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. _xPy\*_ can range in value from 0 to 1.
+_xPx\*_ is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. _xPx\*_ can range in value from 0 to 1.
 
 ```{r lieberson_prep, results = 'hide'}
 lieberson2021DE <- lieberson(
@@ -1559,14 +1559,14 @@ lieberson2021DE <- lieberson(
 )
 
 # Obtain the 2021 census counties from the 'tigris' package
-county2021DE <- counties(state = 'DE', year = 2019, cb = TRUE)
+tract2021DE <- tracts(state = 'DE', year = 2019, cb = TRUE)
 
 # Join the xPx* values to the county geometry
-DE2021lieberson <- county2021DE %>%
+DE2021lieberson <- tract2021DE %>%
   left_join(lieberson2021DE$xpx_star, by = 'GEOID')
 ```
 
-```{r lieberson_plot, fig.height = 6, fig.width = 7}
+```{r lieberson_plot, fig.height = 9, fig.width = 7}
 # Visualize the xPx* values (2015-2019 5-year ACS) for Delaware, U.S.A., census tracts
 ggplot() +
   geom_sf(
@@ -1576,7 +1576,7 @@ ggplot() +
     color = 'white'
   ) +
   geom_sf(
-    data = county2021DE,
+    data = tract2021DE,
     fill = 'transparent',
     color = 'white',
     size = 0.2
@@ -1585,7 +1585,7 @@ ggplot() +
   scale_fill_viridis_c(limits = c(0, 1)) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2015-2019 estimates') +
   ggtitle(
-    'Isolation Index (Lieberson)\nDelaware census tracts to counties',
+    'Isolation Index (Lieberson)\nDelaware census block groups to census tracts',
     subtitle = 'Black non-Hispanic'
   )
 ```
