@@ -1,15 +1,23 @@
-## This is the fifth resubmission
+## This is the seventh resubmission
 
 * Actions taken since previous submission:
-  * Added `atkinson()` function to compute the Atkinson Index (AI) based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6) for specified counties/tracts 2009 onward
-  * Fixed bug in reverse dependency check failure for `anthopolos()` and `bravo()` functions removing `returnValue()` when data are not missing
-  * Thank you, [Roger Bivand](https://github.com/rsbivand), for the catch. Relates to [ndi Issue #5](https://github.com/idblr/ndi/issues/5)
-  * Updated `duncan()`, `gini()`, `krieger()`, `messer()`, and `powell_wiley()` for consistency in messaging when data are not missing
-  * Updated tests for `anthopolos()` and `bravo()` if `Sys.getenv("CENSUS_API_KEY") != ""`
-  * Added `omit_NAs` argument in `duncan()` function to choose if NA values will be included in its computation
-  * In `duncan()` function, if any smaller geographic unit has zero counts the output for its larger geographic unit will be NA
-  * Fixed bug in `duncan()` function for multiple `subgroup` and `subgroup_ref` selections
-  * Updated documentation throughout
+  * Added `hoover()` function to compute the aspatial racial/ethnic Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089)
+  * Added `white_blau()` function to compute an index of spatial proximity (*SP*) based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0)
+  * Added `lieberson()` function to compute he aspatial racial/ethnic Isolation Index (_xPx\*_) based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0)
+  * Added `geo_large = 'cbsa'` for Core Based Statistical Areas, `geo_large = 'csa'` for Combined Statistical Areas, and `geo_large = 'metro'` for Metropolitan Divisions as the larger geographical unit in `atkinson()`, `bell()`, `bemanian_beyer()`, `duncan()`, `hoover()`, `sudano()`, and `white()`, `white_blau()` functions.
+  * Thank you for the feature suggestions, [Symielle Gaston](https://orcid.org/0000-0001-9495-1592)
+  * `bell()` function computes the Interaction Index (Bell) not the Isolation Index as previously documented. Updated documentation throughout
+  * Fixed bug in `bell()`, `bemanian_beyer()`, `duncan()`, `sudano()`, and `white()` functions when a smaller geography contains n=0 total population, will assign a value of zero (0) in the internal calculation instead of NA
+  * Renamed *AI* as *A*, *DI* as *D*, *Gini* as *G*, and *II* as _xPy\*_ to align with the definitions from [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). The output for `atkinson()` now produces `a` instead of `ai`. The output for `duncan()` now produces `d` instead of `ai`. The output for `gini()` now produces `g` instead of `gini`. The output for `bell()` now produces `xPy_star` instead of `II`. The internal functions `ai_fun()`, `di_fun()` and `ii_fun()` were renamed `a_fun()`, `d_fun()` and `xpy_star_fun()`, respectively.
+  * `tigris` and `units` are now Imports
+  * 'package.R' deprecated. Replaced with 'ndi-package.R'
+  * Re-formatted code and documentation throughout for consistent readability
+  * Updated documentation about value range of *V* (White) from `{0 to 1}` to `{-Inf to Inf}`
+  * Add examples for `hoover()` and `white_blau()` in vignette and README
+  * Reformatted functions for consistent internal structure
+  * Updated examples in vignette to showcase a larger variety of U.S. states
+  * Updated examples in functions to better describe the metrics
+  * Updated documentation formatting of metric names in all functions
 
 * Documentation for DESCRIPTION, README, NEWS, and vignette references the following DOIs, which throws a NOTE but are a valid URL:
   * <https://doi.org/10.1111/j.1749-6632.2009.05333.x>
@@ -17,11 +25,13 @@
   * <https://doi.org/10.2307/2088328>
   * <https://doi.org/10.2307/270845>
   * <https://doi.org/10.1080/17445647.2020.1750066>
+  * <https://doi.org/10.2307/3644339>
+  * <https://doi.org/10.2307/2084686>
   
-* Some tests and examples for `anthopolos()`, `atkinson()`, `bravo()`, `duncan()`, `gini()`, `krieger()`, `messer()`, and `powell_wiley()` functions require a Census API key so they are skipped if NULL or not run
+* Some tests and examples for `anthopolos()`, `atkinson()`, `bell()`, `bemanian_beyer()`, `bravo()`, `duncan()`, `gini()`, `hoover()`, `krieger()`, `messer()`, `powell_wiley()`, `sudano()`, and `white()` functions require a Census API key so they are skipped if NULL or not run
 
 ## Test environments
-* local Windows install, R 4.2.1
+* local Windows install, R 4.4.1
 * win-builder, (devel, release, oldrelease)
 * Rhub
   * Fedora Linux, R-devel, clang, gfortran

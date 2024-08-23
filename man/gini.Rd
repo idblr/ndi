@@ -7,7 +7,7 @@
 gini(geo = "tract", year = 2020, quiet = FALSE, ...)
 }
 \arguments{
-\item{geo}{Character string specifying the geography of the data either census tracts \code{geo = "tract"} (the default) or counties \code{geo = "county"}.}
+\item{geo}{Character string specifying the geography of the data either census tracts \code{geo = 'tract'} (the default) or counties \code{geo = 'county'}.}
 
 \item{year}{Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.}
 
@@ -19,32 +19,30 @@ gini(geo = "tract", year = 2020, quiet = FALSE, ...)
 An object of class 'list'. This is a named list with the following components:
 
 \describe{
-\item{\code{gini}}{An object of class 'tbl' for the GEOID, name, and Gini index of specified census geographies.}
-\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for the Gini index.}
+\item{\code{g}}{An object of class 'tbl' for the GEOID, name, and \emph{G} of specified census geographies.}
+\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for \emph{G}.}
 }
 }
 \description{
 Retrieve the aspatial Gini Index of income inequality.
 }
 \details{
-This function will retrieve the aspatial Gini Index of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Gini (1921) \doi{10.2307/2223319}.
+This function will retrieve the aspatial Gini Index (\emph{G}) of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Gini (1921) \doi{10.2307/2223319}.
 
-The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey estimates of the Gini Index for income inequality (ACS: B19083). The estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys.
+The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey estimates of \emph{G} for income inequality (ACS: B19083). The estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys.
 
 Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 
-According to the U.S. Census Bureau \url{https://www.census.gov/topics/income-poverty/income-inequality/about/metrics/gini-index.html}: "The Gini Index is a summary measure of income inequality. The Gini coefficient incorporates the detailed shares data into a single statistic, which summarizes the dispersion of income across the entire income distribution. The Gini coefficient ranges from 0, indicating perfect equality (where everyone receives an equal share), to 1, perfect inequality (where only one recipient or group of recipients receives all the income). The Gini is based on the difference between the Lorenz curve (the observed cumulative income distribution) and the notion of a perfectly equal income distribution."
+According to the U.S. Census Bureau \url{https://www.census.gov/topics/income-poverty/income-inequality/about/metrics/gini-index.html}: 'The Gini Index is a summary measure of income inequality. The Gini coefficient incorporates the detailed shares data into a single statistic, which summarizes the dispersion of income across the entire income distribution. The Gini coefficient ranges from 0, indicating perfect equality (where everyone receives an equal share), to 1, perfect inequality (where only one recipient or group of recipients receives all the income). The Gini is based on the difference between the Lorenz curve (the observed cumulative income distribution) and the notion of a perfectly equal income distribution.'
 }
 \examples{
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
-  
-  # Tract-level metric (2020)
-  gini(geo = "tract", state = "GA", year = 2020)
-  
-  # County-level metric (2020)
-  gini(geo = "county", state = "GA", year = 2020)
-  
+
+  # Gini Index of income inequality
+  ## of census tracts within Georgia, U.S.A., counties (2020)
+  gini(geo = 'tract', state = 'GA', year = 2020)
+
 }
 
 }

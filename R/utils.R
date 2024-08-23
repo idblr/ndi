@@ -1,19 +1,24 @@
-# Internal function for Dissimilarity Index (Duncan & Duncan 1955)
+# Internal function for the Dissimilarity Index (Duncan & Duncan 1955)
 ## Returns NA value if only one smaller geography in a larger geography
-di_fun <- function(x, omit_NAs) {
-  xx <- x[ , c("subgroup", "subgroup_ref")]
+d_fun <- function(x, omit_NAs) {
+  xx <- x[ , c('subgroup', 'subgroup_ref')]
   if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(xx), ] }
   if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
     NA
   } else {
-    1/2 * sum(abs(xx$subgroup / sum(xx$subgroup, na.rm = TRUE) - xx$subgroup_ref / sum(xx$subgroup_ref, na.rm = TRUE)))
+    x_i <- xx$subgroup
+    n_i <- sum(xx$subgroup, na.rm = TRUE)
+    y_i <- xx$subgroup_ref
+    m_i <- sum(xx$subgroup_ref, na.rm = TRUE)
+    D <- 0.5 * sum(abs((x_i/n_i) - (y_i/m_i)), na.rm = TRUE)
+    return(D)
   }
 }
 
-# Internal function for Atkinson Index (Atkinson 1970)
+# Internal function for the Atkinson Index (Atkinson 1970)
 ## Returns NA value if only one smaller geography in a larger geography
 ## If denoting the Hölder mean
-ai_fun <- function(x, epsilon, omit_NAs) {
+a_fun <- function(x, epsilon, omit_NAs) {
   if (omit_NAs == TRUE) { 
     xx <- stats::na.omit(x$subgroup)
   } else {
@@ -28,5 +33,141 @@ ai_fun <- function(x, epsilon, omit_NAs) {
       xxx <- (xx / mean(xx, na.rm = TRUE)) ^ (1 - epsilon)
       1 - mean(xxx, na.rm = TRUE) ^ (1 / (1 - epsilon)) 
     }
+  }
+}
+
+# Internal function for the aspatial Interaction Index (Bell 1954)
+## Returns NA value if only one smaller geography in a larger geography
+xpy_star_fun <- function(x, omit_NAs) {
+  xx <- x[ , c('TotalPopE', 'subgroup', 'subgroup_ixn')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(xx), ] }
+  if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
+    NA
+  } else {
+    x_i <- xx$subgroup
+    X <- sum(xx$subgroup, na.rm = TRUE)
+    y_i <- xx$subgroup_ixn
+    t_i <- xx$TotalPopE
+    xPy_star <- sum((x_i / X) * (y_i / t_i), na.rm = TRUE)
+    return(xPy_star)
+  }
+}
+
+# Internal function for the aspatial Isolation Index (Lieberson 1981)
+## Returns NA value if only one smaller geography in a larger geography
+xpx_star_fun <- function(x, omit_NAs) {
+  xx <- x[ , c('TotalPopE', 'subgroup')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(xx), ] }
+  if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
+    NA
+  } else {
+    x_i <- xx$subgroup
+    X <- sum(xx$subgroup, na.rm = TRUE)
+    t_i <- xx$TotalPopE
+    xPx_star <- sum((x_i / X) * (x_i / t_i), na.rm = TRUE)
+    return(xPx_star)
+  }
+}
+
+# Internal function for the aspatial Correlation Ratio (White 1986)
+## Returns NA value if only one smaller geography in a larger geography
+v_fun <- function(x, omit_NAs) {
+  xx <- x[ , c('TotalPopE', 'subgroup')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(xx), ] }
+  if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
+    NA
+  } else {
+    x_i <- xx$subgroup
+    X <- sum(xx$subgroup, na.rm = TRUE)
+    t_i <- xx$TotalPopE
+    N <- sum(xx$TotalPopE, na.rm = TRUE)
+    xPx_star <- sum((x_i / X) * (x_i / t_i), na.rm = TRUE)
+    P <- X / N
+    V <- (xPx_star - P) / (1 - P)
+    return(V)
+  }
+}
+
+# Internal function for the aspatial Location Quotient (Sudano et al. 2013)
+## Returns NA value if only one smaller geography in a larger geography
+lq_fun <- function(x, omit_NAs) {
+  xx <- x[ , c('TotalPopE', 'subgroup', 'GEOID')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(xx), ] }
+  if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
+    NA
+  } else {
+    x_i <- xx$subgroup # x_im
+    t_i <- xx$TotalPopE # X_i
+    p_i <- x_i / t_i # p_im
+    X <- sum(xx$subgroup, na.rm = TRUE) # X_m
+    N <- sum(xx$TotalPopE, na.rm = TRUE) # X
+    if (anyNA(p_i)) { p_i[is.na(p_i)] <- 0 }
+    LQ <- p_i / (X / N) # (x_im/X_i)/(X_m/X)
+    df <-  data.frame(LQ = LQ, GEOID = xx$GEOID)
+    return(df)
+  }
+}
+
+
+
+# Internal function for the aspatial Local Exposure & Isolation (Bemanian & Beyer 2017) metric
+## Returns NA value if only one smaller geography in a larger geography
+lexis_fun <- function(x, omit_NAs) {
+  xx <- x[ , c('TotalPopE', 'subgroup', 'subgroup_ixn', 'GEOID')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(xx), ] }
+  if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
+    NA
+  } else {
+    p_im <- xx$subgroup / xx$TotalPopE
+    if (anyNA(p_im)) { p_im[is.na(p_im)] <- 0 }
+    p_in <- xx$subgroup_ixn / xx$TotalPopE
+    if (anyNA(p_in)) { p_in[is.na(p_in) ] <- 0 }
+    P_m <- sum(xx$subgroup, na.rm = TRUE) / sum(xx$TotalPopE, na.rm = TRUE)
+    P_n <- sum(xx$subgroup_ixn, na.rm = TRUE) / sum(xx$TotalPopE, na.rm = TRUE)
+    LExIs <- car::logit(p_im * p_in) - car::logit(P_m * P_n)
+    df <-  data.frame(LExIs = LExIs, GEOID = xx$GEOID)
+    return(df)
+  }
+}
+
+# Internal function for the aspatial Delta (Hoover 1941)
+## Returns NA value if only one smaller geography in a larger geography
+del_fun <- function(x, omit_NAs) {
+  xx <- x[ , c('subgroup', 'ALAND')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(xx), ] }
+  if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
+    NA
+  } else {
+    x_i <- xx$subgroup
+    X <- sum(xx$subgroup, na.rm = TRUE)
+    a_i <- xx$ALAND
+    A <- sum(xx$ALAND, na.rm = TRUE)
+    DEL <- 0.5 * sum(abs((x_i / X) - (a_i / A)), na.rm = TRUE)
+    return(DEL)
+  }
+}
+
+# Internal function for an index of spatial proximity (White 1986)
+## Returns NA value if only one smaller geography in a larger geography
+sp_fun <- function(x, omit_NAs) {
+  xx <- x[ , c('TotalPopE', 'subgroup', 'subgroup_ref', 'ALAND')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(sf::st_drop_geometry(xx)), ] }
+  if (nrow(sf::st_drop_geometry(x)) < 2 || any(sf::st_drop_geometry(xx) < 0) || any(is.na(sf::st_drop_geometry(xx)))) {
+    NA
+  } else {
+    d_ij <- suppressWarnings(sf::st_distance(sf::st_centroid(xx), sf::st_centroid(xx)))
+    diag(d_ij) <- sqrt(0.6 * xx$ALAND)
+    c_ij <- -d_ij %>% 
+      units::set_units(value = km) %>%
+      units::drop_units() %>%
+      exp()
+    X <- sum(xx$subgroup, na.rm = TRUE)
+    Y <- sum(xx$subgroup_ref, na.rm = TRUE)
+    N <- sum(xx$TotalPopE, na.rm = TRUE)
+    P_xx <- sum((xx$subgroup * xx$subgroup * c_ij) / X^2, na.rm = TRUE)
+    P_xy <- sum((xx$subgroup * xx$subgroup_ref * c_ij) / (X * Y), na.rm = TRUE)
+    P_tt <- sum((xx$TotalPopE * xx$TotalPopE * c_ij) / N^2, na.rm = TRUE)
+    SP <- ((X * P_xx) + (Y * P_xy)) / (N * P_tt)
+    return(SP)
   }
 }
