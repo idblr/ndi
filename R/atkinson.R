@@ -7,6 +7,7 @@
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
 #' @param subgroup Character string specifying the income or racial/ethnic subgroup(s) as the comparison population. See Details for available choices.
 #' @param epsilon Numerical. Shape parameter that denotes the aversion to inequality. Value must be between 0 and 1.0 (the default is 0.5).
+#' @param holder Logical. If TRUE, will compute index using the Hölder mean. If FALSE, will not compute with the Hölder mean. The default is FALSE.
 #' @param omit_NAs Logical. If FALSE, will compute index for a larger geographical unit only if all of its smaller geographical units have values. The default is TRUE.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
@@ -85,6 +86,7 @@ atkinson <- function(geo_large = 'county',
                      year = 2020,
                      subgroup,
                      epsilon = 0.5,
+                     holder = FALSE,
                      omit_NAs = TRUE,
                      quiet = FALSE,
                      ...) {
@@ -124,6 +126,7 @@ atkinson <- function(geo_large = 'county',
     
     # Select census variables
     vars <- c(
+      TotalPop = 'B03002_001',
       NHoL = 'B03002_002',
       NHoLW = 'B03002_003',
       NHoLB = 'B03002_004',
@@ -143,11 +146,10 @@ atkinson <- function(geo_large = 'county',
       HoLSOR = 'B03002_018',
       HoLTOMR = 'B03002_019',
       HoLTRiSOR = 'B03002_020',
-      HoLTReSOR = 'B03002_021',
-      MedHHInc = 'B19013_001'
+      HoLTReSOR = 'B03002_021'
     )
     
-    selected_vars <- vars[subgroup]
+    selected_vars <- vars[c('TotalPop', subgroup)]
     out_names <- names(selected_vars) # save for output
     in_subgroup <- paste0(subgroup, 'E')
     
@@ -297,7 +299,7 @@ atkinson <- function(geo_large = 'county',
     ## Compute
     out_tmp <- out_dat %>%
       split(., f = list(out_dat$oid)) %>%
-      lapply(., FUN = a_fun, epsilon = epsilon, omit_NAs = omit_NAs) %>%
+      lapply(., FUN = a_fun, epsilon = epsilon, omit_NAs = omit_NAs, holder = holder) %>%
       utils::stack(.) %>%
       dplyr::mutate(
         A = values,
@@ -306,7 +308,7 @@ atkinson <- function(geo_large = 'county',
       dplyr::select(A, oid)
     
     # Warning for missingness of census characteristics
-    missingYN <- as.data.frame(out_dat[, in_subgroup])
+    missingYN <- as.data.frame(out_dat[, c('TotalPopE', in_subgroup)])
     names(missingYN) <- out_names
     missingYN <- missingYN %>%
       tidyr::pivot_longer(
