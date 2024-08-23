@@ -18,20 +18,32 @@ d_fun <- function(x, omit_NAs) {
 # Internal function for the Atkinson Index (Atkinson 1970)
 ## Returns NA value if only one smaller geography in a larger geography
 ## If denoting the Hölder mean
-a_fun <- function(x, epsilon, omit_NAs) {
-  if (omit_NAs == TRUE) { 
-    xx <- stats::na.omit(x$subgroup)
-  } else {
-    xx <- x$subgroup
-  } 
+a_fun <- function(x, epsilon, omit_NAs, holder) {
+  xx <- x[ , c('TotalPopE', 'subgroup')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(xx), ] }
   if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
     NA
   } else {
-    if (epsilon == 1) {
-      1 - (exp(mean(log(stats::na.omit(xx)))) / mean(xx, na.rm = TRUE))
+    if (holder == TRUE) {
+      x_i <- xx$subgroup
+      if (epsilon == 1) {
+        A <- 1 - (exp(mean(log(stats::na.omit(x_i)), na.rm = TRUE)) / mean(x_i, na.rm = TRUE))
+        return(A)
+      } else {
+        xxx <- (x_i / mean(x_i, na.rm = TRUE)) ^ (1 - epsilon)
+        A <- 1 - mean(xxx, na.rm = TRUE) ^ (1 / (1 - epsilon))
+        return(A)
+      }
     } else {
-      xxx <- (xx / mean(xx, na.rm = TRUE)) ^ (1 - epsilon)
-      1 - mean(xxx, na.rm = TRUE) ^ (1 / (1 - epsilon)) 
+      x_i <- xx$subgroup
+      X <- sum(xx$subgroup, na.rm = TRUE)
+      t_i <- xx$TotalPopE
+      N <- sum(xx$TotalPopE, na.rm = TRUE)
+      p_i <- x_i / t_i
+      P <- X / N
+      b <- epsilon
+      A <- 1 - (P / (1 - P)) * abs(sum((1 - p_i) ^ (1 - b) * p_i ^ b * t_i / (P * N), na.rm = TRUE)) ^ (1 / (1 - b))
+      return(A)
     }
   }
 }

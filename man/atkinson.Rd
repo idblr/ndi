@@ -10,6 +10,7 @@ atkinson(
   year = 2020,
   subgroup,
   epsilon = 0.5,
+  holder = FALSE,
   omit_NAs = TRUE,
   quiet = FALSE,
   ...
@@ -25,6 +26,8 @@ atkinson(
 \item{subgroup}{Character string specifying the income or racial/ethnic subgroup(s) as the comparison population. See Details for available choices.}
 
 \item{epsilon}{Numerical. Shape parameter that denotes the aversion to inequality. Value must be between 0 and 1.0 (the default is 0.5).}
+
+\item{holder}{Logical. If TRUE, will compute index using the Hölder mean. If FALSE, will not compute with the Hölder mean. The default is FALSE.}
 
 \item{omit_NAs}{Logical. If FALSE, will compute index for a larger geographical unit only if all of its smaller geographical units have values. The default is TRUE.}
 

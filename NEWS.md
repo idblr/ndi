@@ -1,6 +1,6 @@
 # ndi (development version)
 
-## ndi v0.1.6.9002
+## ndi v0.1.6.9003
 
 ### New Features
 * Added `hoover()` function to compute the aspatial racial/ethnic Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089)
@@ -8,6 +8,7 @@
 * Added `lieberson()` function to compute he aspatial racial/ethnic Isolation Index (_xPx\*_) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and and [Bell (1954)](https://doi.org/10.2307/2574118)
 * Added `geo_large = 'cbsa'` for Core Based Statistical Areas, `geo_large = 'csa'` for Combined Statistical Areas, and `geo_large = 'metro'` for Metropolitan Divisions as the larger geographical unit in `atkinson()`, `bell()`, `bemanian_beyer()`, `duncan()`, `hoover()`, `lieberson()`, `sudano()`, and `white()`, `white_blau()` functions.
 * Thank you for the feature suggestions, [Symielle Gaston](https://orcid.org/0000-0001-9495-1592)
+* Added `holder` argument to `atkinson()` function to toggle the computation with or without the Hölder mean. The function can now compute *A* without the Hölder mean. The default is `holder = FALSE`.
 
 ### Updates
 * `bell()` function computes the Interaction Index (Bell) not the Isolation Index as previously documented. Updated documentation throughout
@@ -17,7 +18,8 @@
 * 'package.R' deprecated. Replaced with 'ndi-package.R'
 * Re-formatted code and documentation throughout for consistent readability
 * Updated documentation about value range of *V* (White) from `{0 to 1}` to `{-Inf to Inf}`
-* Add examples for `hoover()` and `white_blau()` in vignette and README
+* Add examples for `hoover()` and `white_blau()` functions in vignette and README
+* Add example for `holder` argument in `atkinson()` function in README
 * Reformatted functions for consistent internal structure
 * Updated examples in vignette to showcase a larger variety of U.S. states
 * Updated examples in functions to better describe the metrics
