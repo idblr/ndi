@@ -1,6 +1,6 @@
-#' Correlation Ratio based on Bell (1954) and White (1986) 
-#' 
-#' Compute the aspatial Correlation Ratio (White) of a selected racial/ethnic subgroup(s) and U.S. geographies.
+#' Isolation Index based on Lieberson (1981) and Bell (1954)
+#'
+#' Compute the aspatial Isolation Index (Lieberson) of a selected racial/ethnic subgroup(s) and U.S. geographies.
 #'
 #' @param geo_large Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = 'county'}.
 #' @param geo_small Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_large = 'tract'}.
@@ -10,8 +10,8 @@
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the aspatial Correlation Ratio (\emph{V} or \eqn{Eta^{2}}{Eta^2}) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Bell (1954) \doi{10.2307/2574118} and White (1986) \doi{10.2307/3644339}. This function provides the computation of \emph{V} for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
-#' 
+#' @details This function will compute the aspatial Isolation Index (_xPx\*_) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and Bell (1954) \doi{10.2307/2574118}. This function provides the computation of _xPx\*_ for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#'
 #' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'csa'} or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
 #'  \item \strong{B03002_002}: not Hispanic or Latino \code{'NHoL'}
@@ -35,21 +35,21 @@
 #'  \item \strong{B03002_020}: Hispanic or Latino, Two races including Some other race \code{'HoLTRiSOR'}
 #'  \item \strong{B03002_021}: Hispanic or Latino, Two races excluding Some other race, and three or more races \code{'HoLTReSOR'}
 #' }
-#' 
+#'
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
-#' 
-#' \emph{V} removes the asymmetry from the Isolation Index (Bell) by controlling for the effect of population composition. The Isolation Index (Bell) is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation). \emph{V} can range in value from 0 to Inf.
-#' 
-#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, Combined Statistical Area \code{geo_large = 'csa'}, and Metropolitan Division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{V} value returned is NA. If the larger geographical unit is Combined Based Statistical Areas \code{geo_large = 'csa'} or Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{V} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{V} computation.
+#'
+#' _xPx\*_ is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of their subgroup(s) with higher values signifying higher probability of interaction (less isolation). _xPx\*_ can range in value from 0 to 1.
+#'
+#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, Combined Statistical Area \code{geo_large = 'csa'}, and Metropolitan Division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the _xPx\*_ value returned is NA. If the larger geographical unit is Combined Based Statistical Areas \code{geo_large = 'csa'} or Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a larger geographical unit are considered in the _xPx\*_ computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the _xPx\*_ computation.
 #' 
 #' @return An object of class 'list'. This is a named list with the following components:
-#' 
+#'
 #' \describe{
-#' \item{\code{v}}{An object of class 'tbl' for the GEOID, name, and \emph{V} at specified larger census geographies.}
-#' \item{\code{v_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{V}.}
+#' \item{\code{xpx_star}}{An object of class 'tbl' for the GEOID, name, and _xPx\*_ at specified larger census geographies.}
+#' \item{\code{xpx_star_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute _xPx\*_.}
 #' }
-#' 
+#'
 #' @import dplyr
 #' @importFrom sf st_drop_geometry st_within
 #' @importFrom stats complete.cases
@@ -58,32 +58,32 @@
 #' @importFrom tigris combined_statistical_areas core_based_statistical_areas metro_divisions
 #' @importFrom utils stack
 #' @export
-#' 
+#'
 #' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
 #'
 #' @examples
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
-#'   
-#'   # Correlation Ratio (a measure of isolation) of Black populations
+#'
+#'   # Interaction of non-Hispanic Black vs. non-Hispanic white populations
 #'   ## of census tracts within counties within Georgia, U.S.A., counties (2020)
-#'   white(
+#'   bell(
 #'     geo_large = 'county',
-#'     geo_small = 'tract', 
+#'     geo_small = 'tract',
 #'     state = 'GA',
-#'     year = 2020, 
-#'     subgroup = c('NHoLB', 'HoLB')
+#'     year = 2020,
+#'     subgroup = 'NHoLB'
 #'    )
-#'   
+#'
 #' }
-#' 
-white <- function(geo_large = 'county',
-                  geo_small = 'tract',
-                  year = 2020,
-                  subgroup,
-                  omit_NAs = TRUE,
-                  quiet = FALSE,
-                  ...) {
+#'
+lieberson <- function(geo_large = 'county',
+                      geo_small = 'tract',
+                      year = 2020,
+                      subgroup,
+                      omit_NAs = TRUE,
+                      quiet = FALSE,
+                      ...) {
   
   # Check arguments
   match.arg(geo_large, choices = c('state', 'county', 'tract', 'cbsa', 'csa', 'metro'))
@@ -145,7 +145,7 @@ white <- function(geo_large = 'county',
   out_names <- names(selected_vars) # save for output
   in_subgroup <- paste0(subgroup, 'E')
   
-  # Acquire V variables and sf geometries
+  # Acquire xPx* variables and sf geometries
   out_dat <- suppressMessages(suppressWarnings(
     tidycensus::get_acs(
       geography = geo_small,
@@ -167,27 +167,22 @@ white <- function(geo_large = 'county',
     out_dat <- out_dat %>%
       tidyr::separate(NAME.y, into = c('tract', 'county', 'state'), sep = ',') %>%
       dplyr::mutate(tract = gsub('[^0-9\\.]', '', tract))
-  } 
+  }
   if (geo_small == 'block group') {
     out_dat <- out_dat %>%
       tidyr::separate(NAME.y, into = c('block.group', 'tract', 'county', 'state'), sep = ',') %>%
       dplyr::mutate(
-        tract = gsub('[^0-9\\.]', '', tract), block.group = gsub('[^0-9\\.]', '', block.group)
+        tract = gsub('[^0-9\\.]', '', tract),
+        block.group = gsub('[^0-9\\.]', '', block.group)
       )
-  } 
+  }
   
-  # Grouping IDs for R computation
+  # Grouping IDs for xPx* computation
   if (geo_large == 'state') {
     out_dat <- out_dat %>%
-      dplyr::mutate(oid = STATEFP, state = stringr::str_trim(state)) %>% 
-      sf::st_drop_geometry()
-  }
-  if (geo_large == 'tract') {
-    out_dat <- out_dat %>%
       dplyr::mutate(
-        oid = paste0(STATEFP, COUNTYFP, TRACTCE),
-        state = stringr::str_trim(state),
-        county = stringr::str_trim(county)
+        oid = STATEFP,
+        state = stringr::str_trim(state)
       ) %>% 
       sf::st_drop_geometry()
   }
@@ -195,6 +190,15 @@ white <- function(geo_large = 'county',
     out_dat <- out_dat %>%
       dplyr::mutate(
         oid = paste0(STATEFP, COUNTYFP),
+        state = stringr::str_trim(state),
+        county = stringr::str_trim(county)
+      ) %>% 
+      sf::st_drop_geometry()
+  }
+  if (geo_large == 'tract') {
+    out_dat <- out_dat %>%
+      dplyr::mutate(
+        oid = paste0(STATEFP, COUNTYFP, TRACTCE),
         state = stringr::str_trim(state),
         county = stringr::str_trim(county)
       ) %>% 
@@ -268,20 +272,24 @@ white <- function(geo_large = 'county',
       dplyr::mutate(subgroup = rowSums(.[, in_subgroup]))
   }
   
-  # Compute V or \mathit{Eta}^{2}
-  ## From White (1986) https://doi.org/10.2307/3644339
-  ## V = \mathit{Eta}^2 = [(_{x}P_{x}^* - P) / (1 - P)]
-  ## Where:
-  ## _{x}P_{x}^* denotes the Isolation Index (Bell) of subgroup x
-  ## P denotes the proportion of subgroup x of study (reference) area
+  # Compute xPx*
+  ## From Lieberson (1981) in ISBN-13:978-1-032-53884-6
+  ## _{x}P_{x}^* = \sum_{i=1}^{k} \left (  \frac{x_{i}}{X}\right )\left (  \frac{x_{i}}{n_{i}}\right )
+  ## Where for k geographical units i:
+  ## X denotes the total number of subgroup population in study (reference) area
+  ## x_{i} denotes the number of subgroup population X in geographical unit i
+  ## n_{i} denotes the total population of geographical unit i
   
   ## Compute
   out_tmp <- out_dat %>%
     split(., f = list(out_dat$oid)) %>%
-    lapply(., FUN = v_fun, omit_NAs = omit_NAs) %>%
+    lapply(., FUN = xpx_star_fun, omit_NAs = omit_NAs) %>%
     utils::stack(.) %>%
-    dplyr::mutate(V = values, oid = ind) %>%
-    dplyr::select(V, oid)
+    dplyr::mutate(
+      xPx_star = values,
+      oid = ind
+    ) %>%
+    dplyr::select(xPx_star, oid)
   
   # Warning for missingness of census characteristics
   missingYN <- out_dat[, c('TotalPopE', in_subgroup)]
@@ -310,37 +318,37 @@ white <- function(geo_large = 'county',
   if (geo_large == 'state') {
     out <- out_dat %>%
       dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-      dplyr::select(oid, state, V) %>%
+      dplyr::select(oid, state, xPx_star) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, V) %>%
+      dplyr::select(GEOID, state, xPx_star) %>%
       .[.$GEOID != 'NANA',]
   }
   if (geo_large == 'county') {
     out <- out_dat %>%
       dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-      dplyr::select(oid, state, county, V) %>%
+      dplyr::select(oid, state, county, xPx_star) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, V) %>%
+      dplyr::select(GEOID, state, county, xPx_star) %>%
       .[.$GEOID != 'NANA',]
   }
   if (geo_large == 'tract') {
     out <- out_dat %>%
       dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-      dplyr::select(oid, state, county, tract, V) %>%
+      dplyr::select(oid, state, county, tract, xPx_star) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, tract, V) %>%
+      dplyr::select(GEOID, state, county, tract, xPx_star) %>%
       .[.$GEOID != 'NANA',]
   }
   if (geo_large == 'cbsa') {
     out <- out_dat %>%
       dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-      dplyr::select(oid, cbsa, V) %>%
+      dplyr::select(oid, cbsa, xPx_star) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, cbsa, V) %>%
+      dplyr::select(GEOID, cbsa, xPx_star) %>%
       .[.$GEOID != 'NANA', ] %>%
       dplyr::distinct(GEOID, .keep_all = TRUE) %>%
       dplyr::filter(stats::complete.cases(.))
@@ -348,10 +356,10 @@ white <- function(geo_large = 'county',
   if (geo_large == 'csa') {
     out <- out_dat %>%
       dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-      dplyr::select(oid, csa, V) %>%
+      dplyr::select(oid, csa, xPx_star) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, csa, V) %>%
+      dplyr::select(GEOID, csa, xPx_star) %>%
       .[.$GEOID != 'NANA', ] %>%
       dplyr::distinct(GEOID, .keep_all = TRUE) %>%
       dplyr::filter(stats::complete.cases(.))
@@ -359,10 +367,10 @@ white <- function(geo_large = 'county',
   if (geo_large == 'metro') {
     out <- out_dat %>%
       dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-      dplyr::select(oid, metro, V) %>%
+      dplyr::select(oid, metro, xPx_star) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, metro, V) %>%
+      dplyr::select(GEOID, metro, xPx_star) %>%
       .[.$GEOID != 'NANA', ] %>%
       dplyr::distinct(GEOID, .keep_all = TRUE) %>%
       dplyr::filter(stats::complete.cases(.))
@@ -376,7 +384,7 @@ white <- function(geo_large = 'county',
     dplyr::arrange(GEOID) %>%
     dplyr::as_tibble()
   
-  out <- list(v = out, v_data = out_dat, missing = missingYN)
+  out <- list(xpx_star = out, xpx_star_data = out_dat, missing = missingYN)
   
   return(out)
 }

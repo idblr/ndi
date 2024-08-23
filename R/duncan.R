@@ -11,7 +11,7 @@
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the aspatial Dissimilarity Index (\emph{DI}) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Duncan & Duncan (1955) \doi{10.2307/2088328}. This function provides the computation of \emph{DI} for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#' @details This function will compute the aspatial Dissimilarity Index (\emph{D}) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Duncan & Duncan (1955) \doi{10.2307/2088328}. This function provides the computation of \emph{D} for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #'
 #' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'csa'} or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
@@ -39,16 +39,16 @@
 #'
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #'
-#' \emph{DI} is a measure of the evenness of racial/ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. \emph{DI} can range in value from 0 to 1 and represents the proportion of racial/ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
+#' \emph{D} is a measure of the evenness of racial/ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. \emph{D} can range in value from 0 to 1 and represents the proportion of racial/ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
 #'
-#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, Combined Statistical Area \code{geo_large = 'csa'}, and Metropolitan Division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{DI} value returned is NA. If the larger geographical unit is Combined Based Statistical Areas \code{geo_large = 'csa'} or Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{DI} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{DI} computation.
+#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, Combined Statistical Area \code{geo_large = 'csa'}, and Metropolitan Division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{D} value returned is NA. If the larger geographical unit is Combined Based Statistical Areas \code{geo_large = 'csa'} or Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{D} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{D} computation.
 #' 
 #' @return An object of class 'list'. This is a named list with the following components:
 #'
 #' \describe{
-#' \item{\code{di}}{An object of class 'tbl' for the GEOID, name, and \emph{DI} at specified larger census geographies.}
-#' \item{\code{di_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{DI}.}
+#' \item{\code{di}}{An object of class 'tbl' for the GEOID, name, and \emph{D} at specified larger census geographies.}
+#' \item{\code{d_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{D}.}
 #' }
 #'
 #' @import dplyr
@@ -174,7 +174,7 @@ duncan <- function(geo_large = 'county',
     in_subgroup <- paste0(subgroup, 'E')
     in_subgroup_ref <- paste0(subgroup_ref, 'E')
     
-    # Acquire DI variables and sf geometries
+    # Acquire D variables and sf geometries
     out_dat <- suppressMessages(suppressWarnings(
       tidycensus::get_acs(
         geography = geo_small,
@@ -206,7 +206,7 @@ duncan <- function(geo_large = 'county',
         )
     }
     
-    # Grouping IDs for DI computation
+    # Grouping IDs for D computation
     if (geo_large == 'state') {
       out_dat <- out_dat %>%
         dplyr::mutate(
@@ -309,11 +309,11 @@ duncan <- function(geo_large = 'county',
         dplyr::mutate(subgroup_ref = rowSums(.[, in_subgroup_ref]))
     }
     
-    # Compute DI
+    # Compute D
     ## From Duncan & Duncan (1955) https://doi.org/10.2307/2088328
     ## D_{jt} = 1/2 \sum_{i=1}^{k} | \frac{x_{ijt}}{X_{jt}}-\frac{y_{ijt}}{Y_{jt}}|
     ## Where for k smaller geographies:
-    ## D_{jt} denotes the DI of larger geography j at time t
+    ## D_{jt} denotes the D of larger geography j at time t
     ## x_{ijt} denotes the racial/ethnic subgroup population of smaller geography i within larger geography j at time t
     ## X_{jt} denotes the racial/ethnic subgroup population of larger geography j at time t
     ## y_{ijt} denotes the racial/ethnic referent subgroup population of smaller geography i within larger geography j at time t
@@ -322,13 +322,13 @@ duncan <- function(geo_large = 'county',
     ## Compute
     out_tmp <- out_dat %>%
       split(., f = list(out_dat$oid)) %>%
-      lapply(., FUN = di_fun, omit_NAs = omit_NAs) %>%
+      lapply(., FUN = d_fun, omit_NAs = omit_NAs) %>%
       utils::stack(.) %>%
       dplyr::mutate(
-        DI = values,
+        D = values,
         oid = ind
       ) %>%
-      dplyr::select(DI, oid)
+      dplyr::select(D, oid)
     
     # Warning for missingness of census characteristics
     missingYN <- out_dat[, c(in_subgroup, in_subgroup_ref)]
@@ -357,37 +357,37 @@ duncan <- function(geo_large = 'county',
     if (geo_large == 'state') {
       out <- out_dat %>%
         dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, state, DI) %>%
+        dplyr::select(oid, state, D) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, state, DI) %>%
+        dplyr::select(GEOID, state, D) %>%
         .[.$GEOID != 'NANA',]
     }
     if (geo_large == 'county') {
       out <- out_dat %>%
         dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, state, county, DI) %>%
+        dplyr::select(oid, state, county, D) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, state, county, DI) %>%
+        dplyr::select(GEOID, state, county, D) %>%
         .[.$GEOID != 'NANA',]
     }
     if (geo_large == 'tract') {
       out <- out_dat %>%
         dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, state, county, tract, DI) %>%
+        dplyr::select(oid, state, county, tract, D) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, state, county, tract, DI) %>%
+        dplyr::select(GEOID, state, county, tract, D) %>%
         .[.$GEOID != 'NANA',]
     }
     if (geo_large == 'cbsa') {
       out <- out_dat %>%
         dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, cbsa, DI) %>%
+        dplyr::select(oid, cbsa, D) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, cbsa, DI) %>%
+        dplyr::select(GEOID, cbsa, D) %>%
         .[.$GEOID != 'NANA', ] %>%
         dplyr::distinct(GEOID, .keep_all = TRUE) %>%
         dplyr::filter(stats::complete.cases(.))
@@ -395,10 +395,10 @@ duncan <- function(geo_large = 'county',
     if (geo_large == 'csa') {
       out <- out_dat %>%
         dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, csa, DI) %>%
+        dplyr::select(oid, csa, D) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, csa, DI) %>%
+        dplyr::select(GEOID, csa, D) %>%
         .[.$GEOID != 'NANA', ] %>%
         dplyr::distinct(GEOID, .keep_all = TRUE) %>%
         dplyr::filter(stats::complete.cases(.))
@@ -406,10 +406,10 @@ duncan <- function(geo_large = 'county',
     if (geo_large == 'metro') {
       out <- out_dat %>%
         dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, metro, DI) %>%
+        dplyr::select(oid, metro, D) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, metro, DI) %>%
+        dplyr::select(GEOID, metro, D) %>%
         .[.$GEOID != 'NANA', ] %>%
         dplyr::distinct(GEOID, .keep_all = TRUE) %>%
         dplyr::filter(stats::complete.cases(.))
@@ -423,7 +423,7 @@ duncan <- function(geo_large = 'county',
       dplyr::arrange(GEOID) %>%
       dplyr::as_tibble()
     
-    out <- list(di = out, di_data = out_dat, missing = missingYN)
+    out <- list(d = out, d_data = out_dat, missing = missingYN)
     
     return(out)
   }

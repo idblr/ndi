@@ -11,7 +11,7 @@
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the aspatial Atkinson Index (\emph{AI}) of income or selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Atkinson (1970) \doi{10.1016/0022-0531(70)90039-6}. This function provides the computation of \emph{AI} for median household income and any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#' @details This function will compute the aspatial Atkinson Index (\emph{A}) of income or selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Atkinson (1970) \doi{10.1016/0022-0531(70)90039-6}. This function provides the computation of \emph{A} for median household income and any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #'
 #' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'csa'} or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. When \code{subgroup = 'MedHHInc'}, the metric will be computed for median household income ('B19013_001'). The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
@@ -39,18 +39,18 @@
 #'
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #'
-#' \emph{AI} is a measure of the evenness of residential inequality (e.g., racial/ethnic segregation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. \emph{AI} can range in value from 0 to 1 with smaller values indicating lower levels of inequality (e.g., less segregation).
+#' \emph{A} is a measure of the evenness of residential inequality (e.g., racial/ethnic segregation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. \emph{A} can range in value from 0 to 1 with smaller values indicating lower levels of inequality (e.g., less segregation).
 #'
 #' The \code{epsilon} argument that determines how to weight the increments to inequality contributed by different proportions of the Lorenz curve. A user must explicitly decide how heavily to weight smaller geographical units at different points on the Lorenz curve (i.e., whether the index should take greater account of differences among areas of over- or under-representation). The \code{epsilon} argument must have values between 0 and 1.0. For \code{0 <= epsilon < 0.5} or less 'inequality-averse,' smaller geographical units with a subgroup proportion smaller than the subgroup proportion of the larger geographical unit contribute more to inequality ('over-representation'). For \code{0.5 < epsilon <= 1.0} or more 'inequality-averse,' smaller geographical units with a subgroup proportion larger than the subgroup proportion of the larger geographical unit contribute more to inequality ('under-representation'). If \code{epsilon = 0.5} (the default), units of over- and under-representation contribute equally to the index. See Section 2.3 of Saint-Jacques et al. (2020) \doi{10.48550/arXiv.2002.05819} for one method to select \code{epsilon}.
 #'
-#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, Combined Statistical Area \code{geo_large = 'csa'}, and Metropolitan Division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{AI} value returned is NA. If the larger geographical unit is Combined Based Statistical Areas \code{geo_large = 'csa'} or Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{AI} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{AI} computation.
+#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, Combined Statistical Area \code{geo_large = 'csa'}, and Metropolitan Division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{A} value returned is NA. If the larger geographical unit is Combined Based Statistical Areas \code{geo_large = 'csa'} or Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{A} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{A} computation.
 #' 
 #' @return An object of class 'list'. This is a named list with the following components:
 #'
 #' \describe{
-#' \item{\code{ai}}{An object of class 'tbl' for the GEOID, name, and \emph{AI} at specified larger census geographies.}
-#' \item{\code{ai_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{AI}.}
+#' \item{\code{a}}{An object of class 'tbl' for the GEOID, name, and \emph{A} at specified larger census geographies.}
+#' \item{\code{a_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{A}.}
 #' }
 #'
 #' @import dplyr
@@ -151,7 +151,7 @@ atkinson <- function(geo_large = 'county',
     out_names <- names(selected_vars) # save for output
     in_subgroup <- paste0(subgroup, 'E')
     
-    # Acquire AI variables and sf geometries
+    # Acquire A variables and sf geometries
     out_dat <- suppressMessages(suppressWarnings(
       tidycensus::get_acs(
         geography = geo_small,
@@ -183,7 +183,7 @@ atkinson <- function(geo_large = 'county',
         )
     }
     
-    # Grouping IDs for AI computation
+    # Grouping IDs for A computation
     if (geo_large == 'state') {
       out_dat <- out_dat %>%
         dplyr::mutate(
@@ -278,7 +278,7 @@ atkinson <- function(geo_large = 'county',
         dplyr::mutate(subgroup = rowSums(.[, in_subgroup]))
     }
     
-    # Compute AI
+    # Compute A
     ## From Atkinson (1970) https://doi.org/10.1016/0022-0531(70)90039-6
     ## A_{\epsilon}(x_{1},...,x_{n}) = \begin{Bmatrix}
     ## 1 - (\frac{1}{n}\sum_{i=1}^{n}x_{i}^{1-\epsilon})^{1/(1-\epsilon)}/(\frac{1}{n}\sum_{i=1}^{n}x_{i}) & \mathrm{if\:} \epsilon \neq 1 \\
@@ -291,19 +291,19 @@ atkinson <- function(geo_large = 'county',
     ## (\frac{1}{n}\sum_{i=1}^{n}x_{i}^{p})^{1/p} & \mathrm{if\:} p \neq 0 \\
     ## (\prod_{i=1}^{n}x_{i})^{1/n} & \mathrm{if\:} p = 0 \\
     ## \end{Bmatrix}
-    ## then AI is
+    ## then A is
     ## A_{\epsilon}(x_{1},...,x_{n}) = 1 - \frac{M_{1-\epsilon}(x_{1},...,x_{n})}{M_{1}(x_{1},...,x_{n})}
     
     ## Compute
     out_tmp <- out_dat %>%
       split(., f = list(out_dat$oid)) %>%
-      lapply(., FUN = ai_fun, epsilon = epsilon, omit_NAs = omit_NAs) %>%
+      lapply(., FUN = a_fun, epsilon = epsilon, omit_NAs = omit_NAs) %>%
       utils::stack(.) %>%
       dplyr::mutate(
-        AI = values,
+        A = values,
         oid = ind
       ) %>%
-      dplyr::select(AI, oid)
+      dplyr::select(A, oid)
     
     # Warning for missingness of census characteristics
     missingYN <- as.data.frame(out_dat[, in_subgroup])
@@ -332,37 +332,37 @@ atkinson <- function(geo_large = 'county',
     if (geo_large == 'state') {
       out <- out_dat %>%
         dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, state, AI) %>%
+        dplyr::select(oid, state, A) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, state, AI) %>%
+        dplyr::select(GEOID, state, A) %>%
         .[.$GEOID != 'NANA',]
     }
     if (geo_large == 'county') {
       out <- out_dat %>%
         dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, state, county, AI) %>%
+        dplyr::select(oid, state, county, A) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, state, county, AI) %>%
+        dplyr::select(GEOID, state, county, A) %>%
         .[.$GEOID != 'NANA',]
     }
     if (geo_large == 'tract') {
       out <- out_dat %>%
         dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, state, county, tract, AI) %>%
+        dplyr::select(oid, state, county, tract, A) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, state, county, tract, AI) %>%
+        dplyr::select(GEOID, state, county, tract, A) %>%
         .[.$GEOID != 'NANA',]
     }
     if (geo_large == 'cbsa') {
       out <- out_dat %>%
         dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, cbsa, AI) %>%
+        dplyr::select(oid, cbsa, A) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, cbsa, AI) %>%
+        dplyr::select(GEOID, cbsa, A) %>%
         .[.$GEOID != 'NANA', ] %>%
         dplyr::distinct(GEOID, .keep_all = TRUE) %>%
         dplyr::filter(stats::complete.cases(.))
@@ -370,10 +370,10 @@ atkinson <- function(geo_large = 'county',
     if (geo_large == 'csa') {
       out <- out_dat %>%
         dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, csa, AI) %>%
+        dplyr::select(oid, csa, A) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, csa, AI) %>%
+        dplyr::select(GEOID, csa, A) %>%
         .[.$GEOID != 'NANA', ] %>%
         dplyr::distinct(GEOID, .keep_all = TRUE) %>%
         dplyr::filter(stats::complete.cases(.))
@@ -381,10 +381,10 @@ atkinson <- function(geo_large = 'county',
     if (geo_large == 'metro') {
       out <- out_dat %>%
         dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, metro, AI) %>%
+        dplyr::select(oid, metro, A) %>%
         unique(.) %>%
         dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, metro, AI) %>%
+        dplyr::select(GEOID, metro, A) %>%
         .[.$GEOID != 'NANA', ] %>%
         dplyr::distinct(GEOID, .keep_all = TRUE) %>%
         dplyr::filter(stats::complete.cases(.))
@@ -398,7 +398,7 @@ atkinson <- function(geo_large = 'county',
       dplyr::arrange(GEOID) %>%
       dplyr::as_tibble()
     
-    out <- list(ai = out, ai_data = out_dat, missing = missingYN)
+    out <- list(a = out, a_data = out_dat, missing = missingYN)
     
     return(out)
   }

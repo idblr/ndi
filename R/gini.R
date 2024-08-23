@@ -18,7 +18,7 @@
 #' @return An object of class 'list'. This is a named list with the following components:
 #'
 #' \describe{
-#' \item{\code{gini}}{An object of class 'tbl' for the GEOID, name, and \emph{G} of specified census geographies.}
+#' \item{\code{g}}{An object of class 'tbl' for the GEOID, name, and \emph{G} of specified census geographies.}
 #' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for \emph{G}.}
 #' }
 #'
@@ -73,11 +73,11 @@ gini <- function(geo = 'tract',
   }
   
   tmp_dat <- tmp_dat %>%
-    dplyr::mutate(gini = giniE)
+    dplyr::mutate(G = giniE)
   
   # Warning for missingness of census characteristics
   missingYN <- tmp_dat %>%
-    dplyr::select(gini)  %>%
+    dplyr::select(G)  %>%
     tidyr::pivot_longer(
       cols = dplyr::everything(),
       names_to = 'variable',
@@ -99,10 +99,10 @@ gini <- function(geo = 'tract',
   
   if (geo == 'tract') {
     out <- tmp_dat %>%
-      dplyr::select(GEOID,  state, county, tract, gini)
+      dplyr::select(GEOID,  state, county, tract, G)
   } else {
     out <- tmp_dat %>%
-      dplyr::select(GEOID,  state, county, gini)
+      dplyr::select(GEOID,  state, county, G)
   }
   
   out <- out %>%
@@ -113,7 +113,7 @@ gini <- function(geo = 'tract',
     dplyr::arrange(GEOID) %>%
     dplyr::as_tibble()
   
-  out <- list(gini = out, missing = missingYN)
+  out <- list(g = out, missing = missingYN)
   
   return(out)
 }
