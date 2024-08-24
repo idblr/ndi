@@ -498,3 +498,22 @@ bibentry(bibtype = 'Article',
 
   header         = 'And (2):'
 )
+
+bibentry(bibtype = 'Article',
+  title          = 'Measures of Segregation',
+  author         = c(as.person('David R. James'),
+                   as.person('Karl K. Taeuber')),
+  journal        = 'Sociological Methodology',
+  year           = '1985',
+  volume         = '15',
+  pages          = '1--32',
+  doi            = '10.2307/270845',
+
+  textVersion    =
+  paste('David R. James & Karl K. Taeuber (1954).',
+        'Measures of Segregation.',
+        'Sociological Methodology, 15, 1-32.',
+        'DOI:10.2307/270845'),
+
+  header         = 'If you computed D (James & Taeuber) values, please also cite:'
+)
