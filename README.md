@@ -12,11 +12,11 @@
 [![DOI](https://zenodo.org/badge/521439746.svg)](https://zenodo.org/badge/latestdoi/521439746)
 <!-- badges: end -->
 
-**Date repository last updated**: 2024-08-23
+**Date repository last updated**: 2024-08-24
 
 ### Overview
 
-The *ndi* package is a suite of [**R**](https://cran.r-project.org/) functions to compute various metrics of socio-economic deprivation and disparity in the United States. Some metrics are considered 'spatial' because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other metrics are 'aspatial' because they only consider the value within each census geography. Two types of aspatial neighborhood deprivation index (*NDI*) are available: (1) based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) who use variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of various demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates (ACS-5; 2006-2010 onward) pulled by the [tidycensus](https://CRAN.R-project.org/package=tidycensus) package. Using data from the ACS-5 (2005-2009 onward), the *ndi* package can also compute the (1) spatial Racial Isolation Index (*RI*) based on [Anthopolos et al. (2011)](https://doi.org/10.1016/j.sste.2011.06.002), (2) spatial Educational Isolation Index (*EI*) based on [Bravo et al. (2021)](https://doi.org/10.3390/ijerph18179384), (3) aspatial Index of Concentration at the Extremes (*ICE*) based on [Feldman et al. (2015)](https://doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://doi.org/10.2105/AJPH.2015.302955), (4) aspatial racial or ethnic Dissimilarity Index (*D*) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328), (5) aspatial income or racial or ethnic Atkinson Index (*A*) based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6), (6) aspatial racial or ethnic Interaction Index (_xPy\*_) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and [Bell (1954)](https://doi.org/10.2307/2574118), (7) aspatial racial or ethnic Correlation Ratio (*V*) based on [Bell (1954)](https://doi.org/10.2307/2574118) and [White (1986)](https://doi.org/10.2307/3644339), (8) aspatial racial or ethnic Location Quotient (*LQ*) based on [Merton (1939)](https://doi.org/10.2307/2084686) and [Sudano et al. (2013)](https://doi.org/10.1016/j.healthplace.2012.09.015), (9) aspatial racial or ethnic Local Exposure and Isolation (*LEx/Is*) metric based on [Bemanian & Beyer (2017)](https://doi.org/10.1158/1055-9965.EPI-16-0926), (10) aspatial racial or ethnic Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089), (11) an index of spatial proximity (*SP*) based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0), and (12) the aspatial racial or ethnic Isolation Index (_xPx\*_) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and [Bell (1954)](https://doi.org/10.2307/2574118), and (13) the aspatial racial or ethnic Gini Index (*G*) based on [Gini (1921)](https://doi.org/10.2307/2223319). Also using data from the ACS-5 (2005-2009 onward), the *ndi* package can retrieve the aspatial income Gini Index (*G*) based on [Gini (1921)](https://doi.org/10.2307/2223319).
+The *ndi* package is a suite of [**R**](https://cran.r-project.org/) functions to compute various metrics of socio-economic deprivation and disparity in the United States. Some metrics are considered 'spatial' because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other metrics are 'aspatial' because they only consider the value within each census geography. Two types of aspatial neighborhood deprivation index (*NDI*) are available: (1) based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) who use variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of various demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates (ACS-5; 2006-2010 onward) pulled by the [tidycensus](https://CRAN.R-project.org/package=tidycensus) package. Using data from the ACS-5 (2005-2009 onward), the *ndi* package can also compute the (1) spatial Racial Isolation Index (*RI*) based on [Anthopolos et al. (2011)](https://doi.org/10.1016/j.sste.2011.06.002), (2) spatial Educational Isolation Index (*EI*) based on [Bravo et al. (2021)](https://doi.org/10.3390/ijerph18179384), (3) aspatial Index of Concentration at the Extremes (*ICE*) based on [Feldman et al. (2015)](https://doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://doi.org/10.2105/AJPH.2015.302955), (4) aspatial racial or ethnic Dissimilarity Index (*D*) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328), (5) aspatial income or racial or ethnic Atkinson Index (*A*) based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6), (6) aspatial racial or ethnic Interaction Index (_xPy\*_) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and [Bell (1954)](https://doi.org/10.2307/2574118), (7) aspatial racial or ethnic Correlation Ratio (*V*) based on [Bell (1954)](https://doi.org/10.2307/2574118) and [White (1986)](https://doi.org/10.2307/3644339), (8) aspatial racial or ethnic Location Quotient (*LQ*) based on [Merton (1939)](https://doi.org/10.2307/2084686) and [Sudano et al. (2013)](https://doi.org/10.1016/j.healthplace.2012.09.015), (9) aspatial racial or ethnic Local Exposure and Isolation (*LEx/Is*) metric based on [Bemanian & Beyer (2017)](https://doi.org/10.1158/1055-9965.EPI-16-0926), (10) aspatial racial or ethnic Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089), (11) an index of spatial proximity (*SP*) based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0), and (12) the aspatial racial or ethnic Isolation Index (_xPx\*_) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and [Bell (1954)](https://doi.org/10.2307/2574118), (13) the aspatial racial or ethnic Gini Index (*G*) based on [Gini (1921)](https://doi.org/10.2307/2223319), and (14) aspatial racial or ethnic Dissimilarity Index (*D*) based on [James & Taeuber (1985)](https://doi.org/10.2307/270845). Also using data from the ACS-5 (2005-2009 onward), the *ndi* package can retrieve the aspatial income Gini Index (*G*) based on [Gini (1921)](https://doi.org/10.2307/2223319).
 
 ### Installation
 
@@ -66,12 +66,17 @@ To install the development version from GitHub:
 <td><a href='/R/duncan.R'><code>duncan</code></a></td>
 <td>Compute the aspatial racial or ethnic Dissimilarity Index (<i>D</i>) based on <a href='https://doi.org/10.2307/2088328'>Duncan & Duncan (1955)</a></td>
 </tr>
+<tr>
 <td><a href='/R/gini.R'><code>gini</code></a></td>
 <td>Compute the aspatial racial or ethnic Gini Index (<i>G</i>) and retrieve the aspatial income Gini Index (<i>G</i>) based on <a href='https://doi.org/10.2307/2223319'>Gini (1921)</a></td>
 </tr>
 <tr>
 <td><a href='/R/hoover.R'><code>hoover</code></a></td>
 <td>Compute the aspatial racial or ethnic Delta (<i>DEL</i>) based on <a href='https://doi.org/10.1017/S0022050700052980'>Hoover (1941)</a> and Duncan et al. (1961; LC:60007089)</td>
+</tr>
+<tr>
+<td><a href='/R/james_taeuber.R'><code>james_taeuber</code></a></td>
+<td>Compute the aspatial racial or ethnic Dissimilarity Index (<i>D</i>) based on <a href='https://doi.org/10.2307/270845'>James & Taeuber (1985)</a></td>
 </tr>
 <tr>
 <td><a href='/R/krieger.R'><code>krieger</code></a></td>
@@ -156,7 +161,7 @@ Thank you to those who suggested additional metrics, including:
 ### Getting Started
 
 * Step 1: Obtain a unique access key from the U.S. Census Bureau. Follow [this link](http://api.census.gov/data/key_signup.html) to obtain one.
-* Step 2: Specify your access key in the [`anthopolos()`](R/anthopolos.R), [`atkinson()`](R/atkinson.R), [`bell()`](R/bell.R), [`bemanian_beyer()`](R/bemanian_beyer.R), [`bravo()`](R/bravo.R), [`duncan()`](R/duncan.R), [`gini()`](R/gini.R), [`hoover()`](R/hoover.R), [`krieger()`](R/krieger.R), [`lieberson()`](R/lieberson.R), [`messer()`](R/messer.R), [`powell_wiley()`](R/powell_wiley.R), [`sudano()`](R/sudano.R), or [`white()`](R/white.R) functions using the internal `key` argument or by using the `census_api_key()` function from the [*tidycensus*](https://cran.r-project.org/package=tidycensus) package before running the [`anthopolos()`](R/anthopolos.R), [`atkinson()`](R/atkinson.R), [`bell()`](R/bell.R), [`bemanian_beyer()`](R/bemanian_beyer.R), [`bravo()`](R/bravo.R), [`duncan()`](R/duncan.R), [`gini()`](R/gini.R), [`hoover()`](R/hoover.R), [`krieger()`](R/krieger.R), [`lieberson()`](R/lieberson.R), [`messer()`](R/messer.R), [`powell_wiley()`](R/powell_wiley.R), [`sudano()`](R/sudano.R), or [`white()`](R/white.R) functions (see an example below).
+* Step 2: Specify your access key in each function using the internal `key` argument or by using the `census_api_key()` function from the [*tidycensus*](https://cran.r-project.org/package=tidycensus) package before running each function (see an example below).
 
 ### Usage
 
@@ -797,13 +802,57 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Dissimilarity Index (Duncan & Duncan)\n
-    Washington, D.C. census block groups to tracts',
+    'Dissimilarity Index (Duncan & Duncan)\nWashington, D.C. census block groups to tracts',
     subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
 ```
 
-![](man/figures/d.png)
+![](man/figures/ddd.png)
+
+```r
+# ----------------------------------------------------------------------- #
+# Compute aspatial racial or ethnic Dissimilarity Index (James & Taeuber) #
+# ----------------------------------------------------------------------- #
+
+# Dissimilarity Index based on James & Taeuber (1985)
+## Selected subgroup comparison: Not Hispanic or Latino, Black or African American alone
+## Selected large geography: census tract
+## Selected small geography: census block group
+D_2020_DC <- james_taeuber(
+  geo_large = 'tract',
+  geo_small = 'block group',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB'
+)
+
+# Obtain the 2020 census tracts from the 'tigris' package
+tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
+
+# Join the D (James & Taeuber) values to the census tract geometry
+D_2020_DC <- tract_2020_DC %>%
+  left_join(D_2020_DC$d, by = 'GEOID')
+
+ggplot() +
+  geom_sf(
+    data = D_2020_DC,
+    aes(fill = D),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Dissimilarity Index (James & Taeuber)\nWashington, D.C. census block groups to tracts',
+    subtitle = 'Black non-Hispanic'
+  )
+```
+
+![](man/figures/djt.png)
+
 
 ```r
 # ----------------------------------------------------------- #

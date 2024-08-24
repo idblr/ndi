@@ -67,7 +67,8 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'
-#'   # Dissimilarity Index of non-Hispanic Black vs. non-Hispanic white populations
+#'   # Dissimilarity Index (Duncan & Duncan)
+#'   ## of non-Hispanic Black vs. non-Hispanic white populations
 #'   ## of census tracts within counties within Georgia, U.S.A., counties (2020)
 #'   duncan(
 #'     geo_large = 'county',
@@ -323,7 +324,7 @@ duncan <- function(geo_large = 'county',
     ## Compute
     out_tmp <- out_dat %>%
       split(., f = list(out_dat$oid)) %>%
-      lapply(., FUN = d_fun, omit_NAs = omit_NAs) %>%
+      lapply(., FUN = ddd_fun, omit_NAs = omit_NAs) %>%
       utils::stack(.) %>%
       dplyr::mutate(
         D = values,

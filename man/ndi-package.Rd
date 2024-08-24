@@ -31,6 +31,8 @@ Key content of the 'ndi' package include:\cr
 
 \code{\link{hoover}} Computes the aspatial racial or ethnic Delta (\emph{DEL}) based on Hoover (1941) \doi{doi:10.1017/S0022050700052980} and Duncan et al. (1961; LC:60007089).
 
+\code{\link{james_taeuber}} Computes the aspatial racial or ethnic Dissimilarity Index (\emph{D}) based on James & Taeuber (1985) \doi{10.2307/270845}.
+
 \code{\link{krieger}} Computes the aspatial Index of Concentration at the Extremes based on Feldman et al. (2015) \doi{10.1136/jech-2015-205728} and Krieger et al. (2016) \doi{10.2105/AJPH.2015.302955}.
 
 \code{\link{lieberson}} Computes the aspatial racial or ethnic Isolation Index (\emph{xPx\*}) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and Bell (1954) \doi{10.2307/2574118}.
