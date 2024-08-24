@@ -278,8 +278,8 @@ gini <- function(geo_large = 'county',
     ## t_{j} is the total population of area j
     ## p_{i} is the proportion of the subgroup population of area i
     ## p_{j} is the proportion of the subgroup population of area j
-    ## T is the total population of all areas
-    ## P is the proportion of the subgroup population of all areas
+    ## T is the total population of all smaller geographical units
+    ## P is the proportion of the subgroup population of all smaller geographical units
     
     ## Compute
     out_tmp <- out_dat %>%

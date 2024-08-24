@@ -1,6 +1,6 @@
-#' Dissimilarity Index based on James & Taeuber (1985)
+#' Entropy based on Theil (1972) and Theil & Finizza (1971)
 #'
-#' Compute the aspatial Dissimilarity Index (James & Taeuber) of selected racial or ethnic subgroup(s) and U.S. geographies
+#' Compute the aspatial Entropy (Theil) of selected racial or ethnic subgroup(s) and U.S. geographies
 #'
 #' @param geo_large Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = 'county'}.
 #' @param geo_small Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_large = 'tract'}.
@@ -10,7 +10,7 @@
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the aspatial Dissimilarity Index (\emph{D}) of selected racial or ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on James & Taeuber (1985) \doi{10.2307/270845}. This function provides the computation of \emph{D} for any of the U.S. Census Bureau race or ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#' @details This function will compute the aspatial Entropy (\emph{H}) of selected racial or ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Theil (1972; ISBN-13:978-0-444-10378-9) and Theil & Finizza (1971) \doi{110.1080/0022250X.1971.9989795}. This function provides the computation of \emph{H} for any of the U.S. Census Bureau race or ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #'
 #' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'csa'} or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial or ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
@@ -38,16 +38,18 @@
 #'
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #'
-#' \emph{D} is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical units to larger ones within which the smaller geographical units are located. \emph{D} can range in value from 0 to 1 and represents the proportion of racial or ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
+#' \emph{H} is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical units to larger ones within which the smaller geographical units are located. \emph{H} can range in value from 0 to 1 and represents the (weighted) average deviation of each smaller geographical unit from the larger geographical unit's "entropy" or racial and ethnic diversity, which is greatest when each group is equally represented in the larger geographical unit. \emph{H} varies between 0, when all smaller geographical units have the same racial or ethnic composition as the larger geographical area (i.e., maximum integration), to a high of 1, when all smaller geographical units contain one group only (maximum segregation).
 #'
-#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, Combined Statistical Area \code{geo_large = 'csa'}, and Metropolitan Division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{D} value returned is NA. If the larger geographical unit is Combined Based Statistical Areas \code{geo_large = 'csa'} or Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{D} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{D} computation.
+#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, Combined Statistical Area \code{geo_large = 'csa'}, and Metropolitan Division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{H} value returned is NA. If the larger geographical unit is Combined Based Statistical Areas \code{geo_large = 'csa'} or Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{H} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{H} computation.
+#' 
+#' Note: The computation differs from Massey & Denton (1988) \doi{10.1093/sf/67.2.281} by taking the absolute value of \code{(E-E_{i})} so extent of the output is \code{{0, 1}} as designed by Theil (1972; ISBN-13:978-0-444-10378-9) instead of \code{{-Inf, Inf}} as described in Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
 #' 
 #' @return An object of class 'list'. This is a named list with the following components:
 #'
 #' \describe{
-#' \item{\code{d}}{An object of class 'tbl' for the GEOID, name, and \emph{D} at specified larger census geographies.}
-#' \item{\code{d_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{D}.}
+#' \item{\code{h}}{An object of class 'tbl' for the GEOID, name, and \emph{H} at specified larger census geographies.}
+#' \item{\code{h_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{H}.}
 #' }
 #'
 #' @import dplyr
@@ -66,10 +68,10 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'
-#'   # Dissimilarity Index (James & Taeuber) 
+#'   # Entropy (Theil) 
 #'   ## of Black populations
 #'   ## of census tracts within counties within Georgia, U.S.A., counties (2020)
-#'   james_taeuber(
+#'   theil(
 #'     geo_large = 'county',
 #'     geo_small = 'tract',
 #'     state = 'GA',
@@ -79,13 +81,13 @@
 #'
 #' }
 #'
-james_taeuber <- function(geo_large = 'county',
-                          geo_small = 'tract',
-                          year = 2020,
-                          subgroup,
-                          omit_NAs = TRUE,
-                          quiet = FALSE,
-                          ...) {
+theil <- function(geo_large = 'county',
+                  geo_small = 'tract',
+                  year = 2020,
+                  subgroup,
+                  omit_NAs = TRUE,
+                  quiet = FALSE,
+                  ...) {
   
   # Check arguments
   match.arg(geo_large, choices = c('state', 'county', 'tract', 'cbsa', 'csa', 'metro'))
@@ -147,7 +149,7 @@ james_taeuber <- function(geo_large = 'county',
   out_names <- names(selected_vars) # save for output
   in_subgroup <- paste0(subgroup, 'E')
   
-  # Acquire D variables and sf geometries
+  # Acquire H variables and sf geometries
   out_dat <- suppressMessages(suppressWarnings(
     tidycensus::get_acs(
       geography = geo_small,
@@ -179,7 +181,7 @@ james_taeuber <- function(geo_large = 'county',
       )
   }
   
-  # Grouping IDs for D computation
+  # Grouping IDs for H computation
   if (geo_large == 'state') {
     out_dat <- out_dat %>%
       dplyr::mutate(
@@ -273,11 +275,18 @@ james_taeuber <- function(geo_large = 'county',
     out_dat <- out_dat %>%
       dplyr::mutate(subgroup = rowSums(.[, in_subgroup]))
   }
-
-  # Compute D
-  ## From James & Taeuber (1985) https://doi.org/10.2307/270845
-  ## D = \frac{\sum_{n}^{i=1}t_{i}\left|p_{i}-P\right|}{2TP(1-P)}
+  
+  # Compute H
+  ## From Theil (1972) https://doi.org/10.1080/0022250X.1971.9989795
+  ## Note: Differs from Massey & Denton (1988) https://doi.org/10.1093/sf/67.2.281 
+  ##       by taking the absolute value of (E-E_{i}) so extent of the output is 
+  ##       {0, 1} as designed by Theil (1972) instead of {-Inf, Inf} as described in 
+  ##       Massey & Denton (1988)
+  ## H = \sum_{i=1}^{n}\left [ t_{i} \left | E-E_{i} \right | /ET \right ]
   ## Where for i smaller geographies:
+  ## E=(P)ln[1/P]+(1-P)ln[1/(1-P)]
+  ## E_{i}=(p_{i})ln[1/p_{i}]+(1-p_{i})ln[1/(1-p_{i})]
+  ## and
   ## t_{i} is the total population of area i 
   ## p_{i} is the proportion of the subgroup population of area i
   ## T is the total population of all smaller geographical units
@@ -286,13 +295,13 @@ james_taeuber <- function(geo_large = 'county',
   ## Compute
   out_tmp <- out_dat %>%
     split(., f = list(out_dat$oid)) %>%
-    lapply(., FUN = djt_fun, omit_NAs = omit_NAs) %>%
+    lapply(., FUN = h_fun, omit_NAs = omit_NAs) %>%
     utils::stack(.) %>%
     dplyr::mutate(
-      D = values,
+      H = values,
       oid = ind
     ) %>%
-    dplyr::select(D, oid)
+    dplyr::select(H, oid)
   
   # Warning for missingness of census characteristics
   missingYN <- out_dat[, c('TotalPopE', in_subgroup)]
@@ -321,37 +330,37 @@ james_taeuber <- function(geo_large = 'county',
   if (geo_large == 'state') {
     out <- out_dat %>%
       dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-      dplyr::select(oid, state, D) %>%
+      dplyr::select(oid, state, H) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, D) %>%
+      dplyr::select(GEOID, state, H) %>%
       .[.$GEOID != 'NANA',]
   }
   if (geo_large == 'county') {
     out <- out_dat %>%
       dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-      dplyr::select(oid, state, county, D) %>%
+      dplyr::select(oid, state, county, H) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, D) %>%
+      dplyr::select(GEOID, state, county, H) %>%
       .[.$GEOID != 'NANA',]
   }
   if (geo_large == 'tract') {
     out <- out_dat %>%
       dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-      dplyr::select(oid, state, county, tract, D) %>%
+      dplyr::select(oid, state, county, tract, H) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, tract, D) %>%
+      dplyr::select(GEOID, state, county, tract, H) %>%
       .[.$GEOID != 'NANA',]
   }
   if (geo_large == 'cbsa') {
     out <- out_dat %>%
       dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-      dplyr::select(oid, cbsa, D) %>%
+      dplyr::select(oid, cbsa, H) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, cbsa, D) %>%
+      dplyr::select(GEOID, cbsa, H) %>%
       .[.$GEOID != 'NANA', ] %>%
       dplyr::distinct(GEOID, .keep_all = TRUE) %>%
       dplyr::filter(stats::complete.cases(.))
@@ -359,10 +368,10 @@ james_taeuber <- function(geo_large = 'county',
   if (geo_large == 'csa') {
     out <- out_dat %>%
       dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-      dplyr::select(oid, csa, D) %>%
+      dplyr::select(oid, csa, H) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, csa, D) %>%
+      dplyr::select(GEOID, csa, H) %>%
       .[.$GEOID != 'NANA', ] %>%
       dplyr::distinct(GEOID, .keep_all = TRUE) %>%
       dplyr::filter(stats::complete.cases(.))
@@ -370,10 +379,10 @@ james_taeuber <- function(geo_large = 'county',
   if (geo_large == 'metro') {
     out <- out_dat %>%
       dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-      dplyr::select(oid, metro, D) %>%
+      dplyr::select(oid, metro, H) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, metro, D) %>%
+      dplyr::select(GEOID, metro, H) %>%
       .[.$GEOID != 'NANA', ] %>%
       dplyr::distinct(GEOID, .keep_all = TRUE) %>%
       dplyr::filter(stats::complete.cases(.))
@@ -387,7 +396,7 @@ james_taeuber <- function(geo_large = 'county',
     dplyr::arrange(GEOID) %>%
     dplyr::as_tibble()
   
-  out <- list(d = out, d_data = out_dat, missing = missingYN)
+  out <- list(h = out, h_data = out_dat, missing = missingYN)
   
   return(out)
 }

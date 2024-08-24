@@ -1,4 +1,5 @@
-# Internal function for the Dissimilarity Index (Duncan & Duncan 1955)
+# Internal function for the Dissimilarity Index 
+## Duncan & Duncan (1955) https://doi.org/10.2307/2088328
 ## Returns NA value if only one smaller geography in a larger geography
 ddd_fun <- function(x, omit_NAs) {
   xx <- x[ , c('subgroup', 'subgroup_ref')]
@@ -15,7 +16,8 @@ ddd_fun <- function(x, omit_NAs) {
   }
 }
 
-# Internal function for the Atkinson Index (Atkinson 1970)
+# Internal function for the Atkinson Index 
+## Atkinson (1970) https://doi.org/10.1016/0022-0531(70)90039-6
 ## Returns NA value if only one smaller geography in a larger geography
 ## If denoting the Hölder mean
 a_fun <- function(x, epsilon, omit_NAs, holder) {
@@ -48,7 +50,8 @@ a_fun <- function(x, epsilon, omit_NAs, holder) {
   }
 }
 
-# Internal function for the aspatial Interaction Index (Bell 1954)
+# Internal function for the aspatial Interaction Index 
+## Bell (1954) https://doi.org/10.2307/2574118
 ## Returns NA value if only one smaller geography in a larger geography
 xpy_star_fun <- function(x, omit_NAs) {
   xx <- x[ , c('TotalPopE', 'subgroup', 'subgroup_ixn')]
@@ -65,7 +68,8 @@ xpy_star_fun <- function(x, omit_NAs) {
   }
 }
 
-# Internal function for the aspatial Isolation Index (Lieberson 1981)
+# Internal function for the aspatial Isolation Index 
+## Lieberson (1981) ISBN-13:978-1-032-53884-6
 ## Returns NA value if only one smaller geography in a larger geography
 xpx_star_fun <- function(x, omit_NAs) {
   xx <- x[ , c('TotalPopE', 'subgroup')]
@@ -81,7 +85,8 @@ xpx_star_fun <- function(x, omit_NAs) {
   }
 }
 
-# Internal function for the aspatial Correlation Ratio (White 1986)
+# Internal function for the aspatial Correlation Ratio 
+## White (1986) https://doi.org/10.2307/3644339
 ## Returns NA value if only one smaller geography in a larger geography
 v_fun <- function(x, omit_NAs) {
   xx <- x[ , c('TotalPopE', 'subgroup')]
@@ -100,7 +105,8 @@ v_fun <- function(x, omit_NAs) {
   }
 }
 
-# Internal function for the aspatial Location Quotient (Sudano et al. 2013)
+# Internal function for the aspatial Location Quotient 
+## Sudano et al. (2013) https://doi.org/10.1016/j.healthplace.2012.09.015
 ## Returns NA value if only one smaller geography in a larger geography
 lq_fun <- function(x, omit_NAs) {
   xx <- x[ , c('TotalPopE', 'subgroup', 'GEOID')]
@@ -120,9 +126,8 @@ lq_fun <- function(x, omit_NAs) {
   }
 }
 
-
-
-# Internal function for the aspatial Local Exposure & Isolation (Bemanian & Beyer 2017) metric
+# Internal function for the aspatial Local Exposure & Isolation metric
+# Bemanian & Beyer (2017) https://doi.org/10.1158/1055-9965.EPI-16-0926
 ## Returns NA value if only one smaller geography in a larger geography
 lexis_fun <- function(x, omit_NAs) {
   xx <- x[ , c('TotalPopE', 'subgroup', 'subgroup_ixn', 'GEOID')]
@@ -142,7 +147,8 @@ lexis_fun <- function(x, omit_NAs) {
   }
 }
 
-# Internal function for the aspatial Delta (Hoover 1941)
+# Internal function for the aspatial Delta 
+## Hoover (1941) https://10.1017/S0022050700052980
 ## Returns NA value if only one smaller geography in a larger geography
 del_fun <- function(x, omit_NAs) {
   xx <- x[ , c('subgroup', 'ALAND')]
@@ -159,7 +165,8 @@ del_fun <- function(x, omit_NAs) {
   }
 }
 
-# Internal function for an index of spatial proximity (White 1986)
+# Internal function for an index of spatial proximity 
+## White (1986) https://doi.org/10.2307/3644339
 ## Returns NA value if only one smaller geography in a larger geography
 sp_fun <- function(x, omit_NAs) {
   xx <- x[ , c('TotalPopE', 'subgroup', 'subgroup_ref', 'ALAND')]
@@ -184,7 +191,8 @@ sp_fun <- function(x, omit_NAs) {
   }
 }
 
-# Internal function for the Gini Index (Gini 1921)
+# Internal function for the Gini Index 
+## Gini (1921) https://doi.org/10.2307/2223319
 ## Returns NA value if only one smaller geography in a larger geography
 g_fun <- function(x, omit_NAs) {
   xx <- x[ , c('TotalPopE', 'subgroup')]
@@ -206,7 +214,8 @@ g_fun <- function(x, omit_NAs) {
   }
 }
 
-# Internal function for the Dissimilarity Index (James & Taeuber 1985)
+# Internal function for the Dissimilarity Index 
+## James & Taeuber (1985) https://doi.org/10.2307/270845
 ## Returns NA value if only one smaller geography in a larger geography
 djt_fun <- function(x, omit_NAs) {
   xx <- x[ , c('TotalPopE', 'subgroup')]
@@ -220,7 +229,39 @@ djt_fun <- function(x, omit_NAs) {
     N <- sum(xx$TotalPopE, na.rm = TRUE)
     p_i <- x_i / t_i
     P <- X / N
-    D <- sum(t_i * abs(p_i - P), na.rm = TRUE)/(2 * N * P * (1 - P))
+    D <- sum(t_i * abs(p_i - P), na.rm = TRUE) / (2 * N * P * (1 - P))
     return(D)
+  }
+}
+
+# Internal function for Entropy 
+## Theil (1972) https://doi.org/10.1080/0022250X.1971.9989795
+## Returns NA value if only one smaller geography in a larger geography
+## Note: Differs from Massey & Denton (1988) https://doi.org/10.1093/sf/67.2.281 
+##       by taking the absolute value of (E-E_{i}) so extent of the output is 
+##       {0, 1} as designed by Theil (1972) instead of {-Inf, Inf} as described in 
+##       Massey & Denton (1988)
+h_fun <- function(x, omit_NAs) {
+  xx <- x[ , c('TotalPopE', 'subgroup')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(xx), ] }
+  if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
+    NA
+  } else {
+    x_i <- xx$subgroup
+    X <- sum(xx$subgroup, na.rm = TRUE)
+    t_i <- xx$TotalPopE
+    N <- sum(xx$TotalPopE, na.rm = TRUE)
+    p_i <- x_i / t_i
+    p_i[is.infinite(p_i)] <- 0
+    P <- X / N
+    if (is.infinite(P)) { P <- 0 }
+    E_i <- p_i * log(1 / p_i) + (1 - p_i) * log(1 / (1 - p_i))
+    E_i[is.infinite(E_i)] <- 0
+    E <- P * log(1 / P) + (1 - P) * log(1 / (1 - P))
+    if (is.infinite(E)) { E <- 0 }
+    H_i <- t_i * abs(E - E_i) / (E * N)
+    H_i[is.infinite(H_i)] <- NA
+    H <- sum(H_i, na.rm = TRUE) 
+    return(H)
   }
 }

@@ -1,6 +1,6 @@
 Package: ndi
 Title: Neighborhood Deprivation Indices
-Version: 0.1.6.9005
+Version: 0.1.6.9006
 Date: 2024-08-24
 Authors@R:
     c(person(given = "Ian D.",
@@ -45,11 +45,13 @@ Description: Computes various metrics of socio-economic deprivation and disparit
              based on Hoover (1941) <doi:10.1017/S0022050700052980> and Duncan et al. (1961; 
              LC:60007089), (11) an index of spatial proximity (SP) based on White (1986)
              <doi:10.2307/3644339> and Blau (1977; ISBN-13:978-0-029-03660-0), (12) the 
-             aspatial racial or ethnic Isolatoin Index (xPx*) based on Lieberson (1981; 
+             aspatial racial or ethnic Isolation Index (xPx*) based on Lieberson (1981; 
              ISBN-13:978-1-032-53884-6) and Bell (1954) <doi:10.2307/2574118>, (13) the
              aspatial racial or ethnic Gini Index (G) based Gini (1921) <doi:10.2307/2223319>, 
-             and (14) the aspatial racial or ethnic Dissimilarity Index (D) based on James & 
-             Taeuber (1985) <doi:10.2307/270845>. Also using data from the ACS-5 (2005-2009 
+             (14) the aspatial racial or ethnic Dissimilarity Index (D) based on James & 
+             Taeuber (1985) <doi:10.2307/270845>, and (15) the aspatial racial or ethnic 
+             Entropy (H) based on Theil (1972; ISBN-13:978-0-444-10378-9) and Theil & Finizza
+             (1971) <doi:110.1080/0022250X.1971.9989795>. Also using data from the ACS-5 (2005-2009 
              onward), the package can retrieve the aspatial income Gini Index (G) based on 
              Gini (1921) <doi:10.2307/2223319>.
 License: Apache License (>= 2.0)

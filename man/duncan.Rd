@@ -36,7 +36,7 @@ duncan(
 An object of class 'list'. This is a named list with the following components:
 
 \describe{
-\item{\code{di}}{An object of class 'tbl' for the GEOID, name, and \emph{D} at specified larger census geographies.}
+\item{\code{d}}{An object of class 'tbl' for the GEOID, name, and \emph{D} at specified larger census geographies.}
 \item{\code{d_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
 \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{D}.}
 }
@@ -73,7 +73,7 @@ The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. 
 
 Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 
-\emph{D} is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. \emph{D} can range in value from 0 to 1 and represents the proportion of racial or ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
+\emph{D} is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical units to larger ones within which the smaller geographical units are located. \emph{D} can range in value from 0 to 1 and represents the proportion of racial or ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
 
 Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, Combined Statistical Area \code{geo_large = 'csa'}, and Metropolitan Division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{D} value returned is NA. If the larger geographical unit is Combined Based Statistical Areas \code{geo_large = 'csa'} or Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{D} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{D} computation.
 }

@@ -43,6 +43,8 @@ Key content of the 'ndi' package include:\cr
 
 \code{\link{sudano}} Computes the aspatial racial or ethnic Location Quotient (\emph{LQ}) based on Merton (1939) \doi{10.2307/2084686} and Sudano et al. (2013) \doi{10.1016/j.healthplace.2012.09.015}.
 
+\code{\link{theil}} Computes the aspatial racial or ethnic Entropy (\emph{H}) based on Theil (1972; ISBN-13:978-0-444-10378-9) and Theil & Finizza (1971) \doi{110.1080/0022250X.1971.9989795}.
+
 \code{\link{white}} Computes the aspatial racial or ethnic Correlation Ratio (\emph{V}) based on Bell (1954) \doi{10.2307/2574118} and White (1986) \doi{10.2307/3644339}.
 
 \code{\link{white_blau}} Computes an index of spatial proximity (\emph{SP}) based on White (1986) \doi{10.2307/3644339} and Blau (1977; ISBN-13:978-0-029-03660-0).
