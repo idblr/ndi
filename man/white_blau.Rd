@@ -73,7 +73,7 @@ The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. 
 
 Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 
-\emph{SP} is a measure of clustering of racial or ethnic populations within smaller geographical areas that are located within larger geographical areas. \emph{SP} can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering between subgroup and referent group members. A value greater than 1 indicates subgroup members live nearer to one another than to referent subgroup members. A value less than 1 indicates subgroup live nearer to and referent subgroup members than to their own subgroup members.
+\emph{SP} is a measure of clustering of racial or ethnic populations within smaller geographical units that are located within larger geographical units. \emph{SP} can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering between subgroup and referent group members. A value greater than 1 indicates subgroup members live nearer to one another than to referent subgroup members. A value less than 1 indicates subgroup live nearer to and referent subgroup members than to their own subgroup members.
 
 The metric uses the exponential transform of a distance matrix (kilometers) between smaller geographical area centroids, with a diagonal defined as \code{(0.6*a_{i})^{0.5}} where \code{a_{i}} is the area (square kilometers) of smaller geographical unit \code{i} as defined by White (1983) \doi{10.1086/227768}.
 

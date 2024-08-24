@@ -3,7 +3,7 @@ bibentry(bibtype = 'manual',
   author         = as.person('Ian D. Buller'),
   publisher      = 'The Comprehensive R Archive Network',
   year           = '2024',
-  number         = '0.1.6.9000.',
+  number         = '0.1.6.9006.',
   doi            = '10.5281/zenodo.6989030',
   url            = 'https://cran.r-project.org/package=ndi',
   
@@ -516,4 +516,40 @@ bibentry(bibtype = 'Article',
         'DOI:10.2307/270845'),
 
   header         = 'If you computed D (James & Taeuber) values, please also cite:'
+)
+
+bibentry(bibtype = 'Book',
+  title          = 'Statistical decomposition analysis. With applications in the social and administrative sciences',
+  author         = as.person('Henri Theil'),
+  year           = '1972',
+  city           = 'Amsterdam', 
+  publisher      = 'North-Holland Publishing Company',
+  isbn           = '978-0-444-10378-9',
+
+  textVersion    =
+  paste('Henri Theil (1972).',
+        'Statistical decomposition analysis. With applications in the social and administrative sciences.',
+        'Amsterdam: North-Holland Publishing Company',
+        'ISBN-13:978-1-032-53884-6'),
+        
+  header         = 'If you computed H (Theil) values, please also cite (1):'
+)
+        
+bibentry(bibtype = 'Article',
+  title          = 'A note on the measurement of racial integration of schools by means of informational conceptsFootnote',
+  author         = c(as.person('Henri Theil'),
+                   as.person('Anthony J. Finizza')),
+  journal        = 'Journal of Mathematical Sociology',
+  year           = '1971',
+  volume         = '1',
+  pages          = '187--194',
+  doi            = '10.1080/0022250X.1971.9989795',
+
+  textVersion    =
+  paste('Henri Theil & Anthony J. Finizza (1971).',
+        'A note on the measurement of racial integration of schools by means of informational conceptsFootnote.',
+        'Journal of Mathematical Sociology, 1, 187-194.',
+        'DOI:10.1080/0022250X.1971.9989795'),
+
+  header         = 'And (2):'
 )

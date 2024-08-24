@@ -260,6 +260,7 @@ globalVariables(
     'G_incE',
     'G_re', 
     'xPx_star', 
-    'xPy_star'
+    'xPy_star',
+    'H'
   )
 )

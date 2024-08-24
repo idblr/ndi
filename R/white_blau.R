@@ -39,7 +39,7 @@
 #'
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #'
-#' \emph{SP} is a measure of clustering of racial or ethnic populations within smaller geographical areas that are located within larger geographical areas. \emph{SP} can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering between subgroup and referent group members. A value greater than 1 indicates subgroup members live nearer to one another than to referent subgroup members. A value less than 1 indicates subgroup live nearer to and referent subgroup members than to their own subgroup members.
+#' \emph{SP} is a measure of clustering of racial or ethnic populations within smaller geographical units that are located within larger geographical units. \emph{SP} can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering between subgroup and referent group members. A value greater than 1 indicates subgroup members live nearer to one another than to referent subgroup members. A value less than 1 indicates subgroup live nearer to and referent subgroup members than to their own subgroup members.
 #'
 #' The metric uses the exponential transform of a distance matrix (kilometers) between smaller geographical area centroids, with a diagonal defined as \code{(0.6*a_{i})^{0.5}} where \code{a_{i}} is the area (square kilometers) of smaller geographical unit \code{i} as defined by White (1983) \doi{10.1086/227768}.
 #'
@@ -312,11 +312,11 @@ white_blau <- function(geo_large = 'county',
   ## From White (1986) https://doi.org/10.2307/3644339}
   ## D_{jt} = 1/2 \sum_{i=1}^{k} | \frac{x_{ijt}}{X_{jt}}-\frac{y_{ijt}}{Y_{jt}}|
   ## Where for k smaller geographies:
-  ## D_{jt} denotes the DI of larger geography j at time t
-  ## x_{ijt} denotes the racial or ethnic subgroup population of smaller geography i within larger geography j at time t
-  ## X_{jt} denotes the racial or ethnic subgroup population of larger geography j at time t
-  ## y_{ijt} denotes the racial or ethnic referent subgroup population of smaller geography i within larger geography j at time t
-  ## Y_{jt} denotes the racial or ethnic referent subgroup population of larger geography j at time t
+  ## D_{jt} denotes the DI of larger geographical unit j at time t
+  ## x_{ijt} denotes the racial or ethnic subgroup population of smaller geographical unit i within larger geographical unit j at time t
+  ## X_{jt} denotes the racial or ethnic subgroup population of larger geographical unit j at time t
+  ## y_{ijt} denotes the racial or ethnic referent subgroup population of smaller geographical unit i within larger geographical unit j at time t
+  ## Y_{jt} denotes the racial or ethnic referent subgroup population of larger geographical unit j at time t
   
   ## Compute
   out_tmp <- out_dat %>%
