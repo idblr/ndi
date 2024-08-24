@@ -1,19 +1,19 @@
 #' Dissimilarity Index based on Duncan & Duncan (1955)
 #'
-#' Compute the aspatial Dissimilarity Index (Duncan & Duncan) of selected racial/ethnic subgroup(s) and U.S. geographies
+#' Compute the aspatial Dissimilarity Index (Duncan & Duncan) of selected racial or ethnic subgroup(s) and U.S. geographies
 #'
 #' @param geo_large Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = 'county'}.
 #' @param geo_small Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_large = 'tract'}.
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
-#' @param subgroup Character string specifying the racial/ethnic subgroup(s) as the comparison population. See Details for available choices.
-#' @param subgroup_ref Character string specifying the racial/ethnic subgroup(s) as the reference population. See Details for available choices.
+#' @param subgroup Character string specifying the racial or ethnic subgroup(s) as the comparison population. See Details for available choices.
+#' @param subgroup_ref Character string specifying the racial or ethnic subgroup(s) as the reference population. See Details for available choices.
 #' @param omit_NAs Logical. If FALSE, will compute index for a larger geographical unit only if all of its smaller geographical units have values. The default is TRUE.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the aspatial Dissimilarity Index (\emph{D}) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Duncan & Duncan (1955) \doi{10.2307/2088328}. This function provides the computation of \emph{D} for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#' @details This function will compute the aspatial Dissimilarity Index (\emph{D}) of selected racial or ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Duncan & Duncan (1955) \doi{10.2307/2088328}. This function provides the computation of \emph{D} for any of the U.S. Census Bureau race or ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #'
-#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'csa'} or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
+#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'csa'} or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial or ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
 #'  \item \strong{B03002_002}: not Hispanic or Latino \code{'NHoL'}
 #'  \item \strong{B03002_003}: not Hispanic or Latino, white alone \code{'NHoLW'}
@@ -39,7 +39,7 @@
 #'
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #'
-#' \emph{D} is a measure of the evenness of racial/ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. \emph{D} can range in value from 0 to 1 and represents the proportion of racial/ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
+#' \emph{D} is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. \emph{D} can range in value from 0 to 1 and represents the proportion of racial or ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
 #'
 #' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, Combined Statistical Area \code{geo_large = 'csa'}, and Metropolitan Division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{D} value returned is NA. If the larger geographical unit is Combined Based Statistical Areas \code{geo_large = 'csa'} or Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{D} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{D} computation.
 #' 
@@ -54,6 +54,7 @@
 #' @import dplyr
 #' @importFrom sf st_drop_geometry st_within
 #' @importFrom stats complete.cases
+#' @importFrom stringr str_trim
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
 #' @importFrom tigris combined_statistical_areas core_based_statistical_areas metro_divisions
@@ -291,8 +292,8 @@ duncan <- function(geo_large = 'county',
         sf::st_drop_geometry()
     }
     
-    # Count of racial/ethnic subgroup populations
-    ## Count of racial/ethnic comparison subgroup population
+    # Count of racial or ethnic subgroup populations
+    ## Count of racial or ethnic comparison subgroup population
     if (length(in_subgroup) == 1) {
       out_dat <- out_dat %>%
         dplyr::mutate(subgroup = .[, in_subgroup])
@@ -300,7 +301,7 @@ duncan <- function(geo_large = 'county',
       out_dat <- out_dat %>%
         dplyr::mutate(subgroup = rowSums(.[, in_subgroup]))
     }
-    ## Count of racial/ethnic reference subgroup population
+    ## Count of racial or ethnic reference subgroup population
     if (length(in_subgroup_ref) == 1) {
       out_dat <- out_dat %>%
         dplyr::mutate(subgroup_ref = .[, in_subgroup_ref])
@@ -314,10 +315,10 @@ duncan <- function(geo_large = 'county',
     ## D_{jt} = 1/2 \sum_{i=1}^{k} | \frac{x_{ijt}}{X_{jt}}-\frac{y_{ijt}}{Y_{jt}}|
     ## Where for k smaller geographies:
     ## D_{jt} denotes the D of larger geography j at time t
-    ## x_{ijt} denotes the racial/ethnic subgroup population of smaller geography i within larger geography j at time t
-    ## X_{jt} denotes the racial/ethnic subgroup population of larger geography j at time t
-    ## y_{ijt} denotes the racial/ethnic referent subgroup population of smaller geography i within larger geography j at time t
-    ## Y_{jt} denotes the racial/ethnic referent subgroup population of larger geography j at time t
+    ## x_{ijt} denotes the racial or ethnic subgroup population of smaller geography i within larger geography j at time t
+    ## X_{jt} denotes the racial or ethnic subgroup population of larger geography j at time t
+    ## y_{ijt} denotes the racial or ethnic referent subgroup population of smaller geography i within larger geography j at time t
+    ## Y_{jt} denotes the racial or ethnic referent subgroup population of larger geography j at time t
     
     ## Compute
     out_tmp <- out_dat %>%

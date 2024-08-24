@@ -22,9 +22,9 @@ white_blau(
 
 \item{year}{Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.}
 
-\item{subgroup}{Character string specifying the racial/ethnic subgroup(s) as the comparison population. See Details for available choices.}
+\item{subgroup}{Character string specifying the racial or ethnic subgroup(s) as the comparison population. See Details for available choices.}
 
-\item{subgroup_ref}{Character string specifying the racial/ethnic subgroup(s) as the reference population. See Details for available choices.}
+\item{subgroup_ref}{Character string specifying the racial or ethnic subgroup(s) as the reference population. See Details for available choices.}
 
 \item{omit_NAs}{Logical. If FALSE, will compute index for a larger geographical unit only if all of its smaller geographical units have values. The default is TRUE.}
 
@@ -42,12 +42,12 @@ An object of class 'list'. This is a named list with the following components:
 }
 }
 \description{
-Compute an index of spatial proximity (White) of a selected racial/ethnic subgroup(s) and U.S. geographies.
+Compute an index of spatial proximity (White) of a selected racial or ethnic subgroup(s) and U.S. geographies.
 }
 \details{
-This function will compute an index of spatial proximity (\emph{SP}) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on White (1986) \doi{10.2307/3644339} and Blau (1977; ISBN-13:978-0-029-03660-0). This function provides the computation of \emph{SP} for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+This function will compute an index of spatial proximity (\emph{SP}) of selected racial or ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on White (1986) \doi{10.2307/3644339} and Blau (1977; ISBN-13:978-0-029-03660-0). This function provides the computation of \emph{SP} for any of the U.S. Census Bureau race or ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 
-The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'csa'} or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
+The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'csa'} or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial or ethnic subgroups (U.S. Census Bureau definitions) are:
 \itemize{
 \item \strong{B03002_002}: not Hispanic or Latino \code{'NHoL'}
 \item \strong{B03002_003}: not Hispanic or Latino, white alone \code{'NHoLW'}
@@ -73,7 +73,7 @@ The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. 
 
 Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 
-\emph{SP} is a measure of clustering of racial/ethnic populations within smaller geographical areas that are located within larger geographical areas. \emph{SP} can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering between subgroup and referent group members. A value greater than 1 indicates subgroup members live nearer to one another than to referent subgroup members. A value less than 1 indicates subgroup live nearer to and referent subgroup members than to their own subgroup members.
+\emph{SP} is a measure of clustering of racial or ethnic populations within smaller geographical areas that are located within larger geographical areas. \emph{SP} can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering between subgroup and referent group members. A value greater than 1 indicates subgroup members live nearer to one another than to referent subgroup members. A value less than 1 indicates subgroup live nearer to and referent subgroup members than to their own subgroup members.
 
 The metric uses the exponential transform of a distance matrix (kilometers) between smaller geographical area centroids, with a diagonal defined as \code{(0.6*a_{i})^{0.5}} where \code{a_{i}} is the area (square kilometers) of smaller geographical unit \code{i} as defined by White (1983) \doi{10.1086/227768}.
 

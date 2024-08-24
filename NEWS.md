@@ -1,14 +1,15 @@
 # ndi (development version)
 
-## ndi v0.1.6.9003
+## ndi v0.1.6.9004
 
 ### New Features
-* Added `hoover()` function to compute the aspatial racial/ethnic Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089)
+* Added `hoover()` function to compute the aspatial racial or ethnic Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089)
 * Added `white_blau()` function to compute an index of spatial proximity (*SP*) based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0)
-* Added `lieberson()` function to compute he aspatial racial/ethnic Isolation Index (_xPx\*_) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and and [Bell (1954)](https://doi.org/10.2307/2574118)
+* Added `lieberson()` function to compute the aspatial racial or ethnic Isolation Index (_xPx\*_) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and and [Bell (1954)](https://doi.org/10.2307/2574118)
 * Added `geo_large = 'cbsa'` for Core Based Statistical Areas, `geo_large = 'csa'` for Combined Statistical Areas, and `geo_large = 'metro'` for Metropolitan Divisions as the larger geographical unit in `atkinson()`, `bell()`, `bemanian_beyer()`, `duncan()`, `hoover()`, `lieberson()`, `sudano()`, and `white()`, `white_blau()` functions.
 * Thank you for the feature suggestions, [Symielle Gaston](https://orcid.org/0000-0001-9495-1592)
 * Added `holder` argument to `atkinson()` function to toggle the computation with or without the Hölder mean. The function can now compute *A* without the Hölder mean. The default is `holder = FALSE`.
+* The `gini()` function now computes the aspatial racial or ethnic Gini Index (*G*) based on [Gini (1921)](https://doi.org/10.2307/2223319) as the main outcome. Arguments `geo_large`, `geo_small`, `subgroup`, and `omit_NAs` were added and argument `geo` was deprecated. The `gini()` function still retrieves the original output of the aspatial income Gini Index (*G*) at each smaller geography and is moved from the `g` output to `g_data` output.
 
 ### Updates
 * `bell()` function computes the Interaction Index (Bell) not the Isolation Index as previously documented. Updated documentation throughout
@@ -17,6 +18,7 @@
 * `tigris` and `units` are now Imports
 * 'package.R' deprecated. Replaced with 'ndi-package.R'
 * Re-formatted code and documentation throughout for consistent readability
+* Renamed 'race/ethnicity' or 'racial/ethnic' to 'race or ethnicity' or 'racial or ethnic' throughout documentation to use more modern, inclusive, and appropriate language
 * Updated documentation about value range of *V* (White) from `{0 to 1}` to `{-Inf to Inf}`
 * Add examples for `hoover()` and `white_blau()` functions in vignette and README
 * Add example for `holder` argument in `atkinson()` function in README
@@ -39,11 +41,11 @@
 ## ndi v0.1.4
 
 ### New Features
-* Added `atkinson()` function to compute the aspatial income or racial/ethnic Atkinson Index (*A*) based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6) for specified counties/tracts 2009 onward
-* Added `bell()` function to compute the aspatial racial/ethnic Interaction Index (_xPy\*_) based on Shevky & Williams (1949; ISBN-13:978-0837156378) and [Bell (1954)](https://doi.org/10.2307/2574118)
-* Added `white()` function to compute the aspatial racial/ethnic Correlation Ratio (*V*) based on [Bell (1954)](https://doi.org/10.2307/2574118) and [White (1986)](https://doi.org/10.2307/3644339)
-* Added `sudano()` function to compute the aspatial racial/ethnic Location Quotient (*LQ*) based on [Merton (1939)](https://doi.org/10.2307/2084686) and [Sudano et al. (2013)](https://doi.org/10.1016/j.healthplace.2012.09.015)
-* Added `bemanian_beyer()` function to compute the aspatial racial/ethnic Local Exposure and Isolation (*LEx/Is*) metric based on [Bemanian & Beyer (2017)](https://doi.org/10.1158/1055-9965.EPI-16-0926)
+* Added `atkinson()` function to compute the aspatial income or racial or ethnic Atkinson Index (*A*) based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6) for specified counties/tracts 2009 onward
+* Added `bell()` function to compute the aspatial racial or ethnic Interaction Index (_xPy\*_) based on Shevky & Williams (1949; ISBN-13:978-0837156378) and [Bell (1954)](https://doi.org/10.2307/2574118)
+* Added `white()` function to compute the aspatial racial or ethnic Correlation Ratio (*V*) based on [Bell (1954)](https://doi.org/10.2307/2574118) and [White (1986)](https://doi.org/10.2307/3644339)
+* Added `sudano()` function to compute the aspatial racial or ethnic Location Quotient (*LQ*) based on [Merton (1939)](https://doi.org/10.2307/2084686) and [Sudano et al. (2013)](https://doi.org/10.1016/j.healthplace.2012.09.015)
+* Added `bemanian_beyer()` function to compute the aspatial racial or ethnic Local Exposure and Isolation (*LEx/Is*) metric based on [Bemanian & Beyer (2017)](https://doi.org/10.1158/1055-9965.EPI-16-0926)
 
 ### Updates
 * `car` is now Imports

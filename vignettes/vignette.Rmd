@@ -537,23 +537,23 @@ Since version v0.1.1, the [*ndi*](https://CRAN.R-project.org/package=ndi) packag
 
 1. `anthopolos()` function that computes the Racial Isolation Index (*RI*) based on [Anthopolos et al. (2011)](https://doi.org/10.1016/j.sste.2011.06.002)
 2. `bravo()` function that computes the Educational Isolation Index (*EI*) based on [Bravo et al. (2021)](https://doi.org/10.3390/ijerph18179384)
-3. `gini()` function that retrieves the Gini Index (*G*) based on [Gini (1921)](https://doi.org/10.2307/2223319) 
+3. `gini()` function that computes the Gini Index (*G*) of racial or ethnic inequality and retrieves the Gini Index (*G*) of income inequality based on [Gini (1921)](https://doi.org/10.2307/2223319) 
 4. `krieger()` function that computes the Index of Concentration at the Extremes (*ICE*) based on based on [Feldman et al. (2015)](https://doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://doi.org/10.2105/AJPH.2015.302955)
 5. `duncan()` function that computes the Dissimilarity Index (*D*) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328)
 6. `atkinson()` function that computes the Atkinson Index (*A*) based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6)
-7. `bell()` function that computes the aspatial racial/ethnic Interaction Index (_xPy\*_) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and [Bell (1954)](https://doi.org/10.2307/2574118)
-8. `white()` function that computes the aspatial racial/ethnic Correlation Ratio (*V*) based on [Bell (1954)](https://doi.org/10.2307/2574118) and [White (1986)](https://doi.org/10.2307/3644339)
-9. `sudano()` function that computes the aspatial racial/ethnic Location Quotient (*LQ*) based on [Merton (1939)](https://doi.org/10.2307/2084686) and [Sudano et al. (2013)](https://doi.org/10.1016/j.healthplace.2012.09.015)
-10. `bemanian_beyer()` function that computes the aspatial racial/ethnic Local Exposure and Isolation (*LEx/Is*) metric based on [Bemanian & Beyer (2017)](https://doi.org/10.1158/1055-9965.EPI-16-0926)
-11. `hoover()` function that computes the aspatial racial/ethnic Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089)
+7. `bell()` function that computes the aspatial racial or ethnic Interaction Index (_xPy\*_) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and [Bell (1954)](https://doi.org/10.2307/2574118)
+8. `white()` function that computes the aspatial racial or ethnic Correlation Ratio (*V*) based on [Bell (1954)](https://doi.org/10.2307/2574118) and [White (1986)](https://doi.org/10.2307/3644339)
+9. `sudano()` function that computes the aspatial racial or ethnic Location Quotient (*LQ*) based on [Merton (1939)](https://doi.org/10.2307/2084686) and [Sudano et al. (2013)](https://doi.org/10.1016/j.healthplace.2012.09.015)
+10. `bemanian_beyer()` function that computes the aspatial racial or ethnic Local Exposure and Isolation (*LEx/Is*) metric based on [Bemanian & Beyer (2017)](https://doi.org/10.1158/1055-9965.EPI-16-0926)
+11. `hoover()` function that computes the aspatial racial or ethnic Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089)
 12. `white_blau()` function that computes an index of spatial proximity (*SP*) based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0)
-13. `lieberson()` function that computes the aspatial racial/ethnic Isolation Index (_xPx\*_) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and [Bell (1954)](https://doi.org/10.2307/2574118)
+13. `lieberson()` function that computes the aspatial racial or ethnic Isolation Index (_xPx\*_) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and [Bell (1954)](https://doi.org/10.2307/2574118)
 
 #### Compute Racial Isolation Index (*RI*)
 
-Compute the spatial *RI*  values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts. This metric is based on [Anthopolos et al. (2011)](https://doi.org/10.1016/j.sste.2011.06.002) that assessed the racial isolation of the population that identifies as non-Hispanic or Latino, Black or African American alone. Multiple racial/ethnic subgroups are available in the `anthopolos()` function, including:
+Compute the spatial *RI*  values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts. This metric is based on [Anthopolos et al. (2011)](https://doi.org/10.1016/j.sste.2011.06.002) that assessed the racial isolation of the population that identifies as non-Hispanic or Latino, Black or African American alone. Multiple racial or ethnic subgroups are available in the `anthopolos()` function, including:
 
-| ACS table source | racial/ethnic subgroup | character for `subgroup` argument |
+| ACS table source | racial or ethnic subgroup | character for `subgroup` argument |
 | -------------- | ------------- | ---------------- |
 | B03002_002 | not Hispanic or Latino | NHoL |
 | B03002_003 | not Hispanic or Latino, white alone | NHoLW |
@@ -576,7 +576,7 @@ Compute the spatial *RI*  values (2006-2010 5-year ACS) for North Carolina, U.S.
 | B03002_020 | Hispanic or Latino, two races including some other race | HoLTRiSOR |
 | B03002_021 | Hispanic or Latino, two races excluding some other race, and three or more races | HoLTReSOR |
 
-A census geography (and its neighbors) that has nearly all of its population who identify with the specified race/ethnicity subgroup(s) (e.g., Not Hispanic or Latino, Black or African American alone) will have an *RI* value close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population who identify with the specified race/ethnicity subgroup(s) (e.g., not Not Hispanic or Latino, Black or African American alone) will have an *RI* value close to 0.
+A census geography (and its neighbors) that has nearly all of its population who identify with the specified race or ethnicity subgroup(s) (e.g., Not Hispanic or Latino, Black or African American alone) will have an *RI* value close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population who identify with the specified race or ethnicity subgroup(s) (e.g., not Not Hispanic or Latino, Black or African American alone) will have an *RI* value close to 0.
 
 ```{r anthopolos_prep, results = 'hide'}
 anthopolos2010NC <- anthopolos(state = 'NC', year = 2010, subgroup = 'NHoLB')
@@ -726,14 +726,91 @@ ggplot() +
 
 Can correct one source of edge effect in the same manner as shown for the *RI* metric.
 
-#### Retrieve the Gini Index (*G*)
+#### The racial or ethnic Gini Index (*G*)
 
-Retrieve the aspatial Gini Index (*G*) values (2006-2010 5-year ACS) for Massachusetts, U.S.A., census tracts. This metric is based on [Gini (1921)](https://doi.org/10.2307/2223319), and the `gini()` function retrieves the estimate from the ACS-5. 
+Compute the aspatial racial or ethnic Gini Index (*G*) values (2006-2010 5-year ACS) for Massachusetts, U.S.A., census tracts within counties. This metric is based on [Gini (1921)](https://doi.org/10.2307/2223319). Multiple racial or ethnic subgroups are available in the `gini()` function, including:
 
-According to the [U.S. Census Bureau](https://census.gov/topics/income-poverty/income-inequality/about/metrics/gini-index.html): 'The Gini Index is a summary measure of income inequality. The Gini coefficient incorporates the detailed shares data into a single statistic, which summarizes the dispersion of income across the entire income distribution. The Gini coefficient ranges from 0, indicating perfect equality (where everyone receives an equal share), to 1, perfect inequality (where only one recipient or group of recipients receives all the income). *G* is based on the difference between the Lorenz curve (the observed cumulative income distribution) and the notion of a perfectly equal income distribution.'
+| ACS table source | racial or ethnic subgroup | character for `subgroup` arguments |
+| -------------- | ------------- | ---------------- |
+| B03002_002 | not Hispanic or Latino | NHoL |
+| B03002_003 | not Hispanic or Latino, white alone | NHoLW |
+| B03002_004 | not Hispanic or Latino, Black or African American alone | NHoLB |
+| B03002_005 | not Hispanic or Latino, American Indian and Alaska Native alone | NHoLAIAN |
+| B03002_006 | not Hispanic or Latino, Asian alone | NHoLA |
+| B03002_007 | not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone | NHoLNHOPI |
+| B03002_008 | not Hispanic or Latino, some other race alone | NHoLSOR |
+| B03002_009 | not Hispanic or Latino, two or more races | NHoLTOMR |
+| B03002_010 | not Hispanic or Latino, two races including some other race | NHoLTRiSOR |
+| B03002_011 | not Hispanic or Latino, two races excluding some other race, and three or more races | NHoLTReSOR |
+| B03002_012 | Hispanic or Latino | HoL |
+| B03002_013 | Hispanic or Latino, white alone | HoLW |
+| B03002_014 | Hispanic or Latino, Black or African American alone | HoLB |
+| B03002_015 | Hispanic or Latino, American Indian and Alaska Native alone | HoLAIAN |
+| B03002_016 | Hispanic or Latino, Asian alone | HoLA |
+| B03002_017 | Hispanic or Latino, Native Hawaiian and other Pacific Islander alone | HoLNHOPI |
+| B03002_018 | Hispanic or Latino, some other race alone | HoLSOR |
+| B03002_019 | Hispanic or Latino, two or more races | HoLTOMR |
+| B03002_020 | Hispanic or Latino, two races including some other race | HoLTRiSOR |
+| B03002_021 | Hispanic or Latino, two races excluding some other race, and three or more races | HoLTReSOR |
+
+*G* is a measure of the evenness of racial or ethnic residential populations when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *G* can range in value from 0 to 1 and the mean absolute difference between a selected subgroup proportions weighted across all pairs of geographic units, expressed as a proportion of the maximum weighted difference.
+
+```{r g_re_prep, results = 'hide'}
+gini2010MA <- gini(
+  geo_large = 'county',
+  geo_small = 'tract',
+  state = 'MA',
+  year = 2010,
+  subgroup = c('NHoLB', 'HoLB')
+)
+
+# Obtain the 2010 census tracts from the 'tigris' package
+county2010MA <- counties(state = 'MA', year = 2010, cb = TRUE)
+# Remove first 9 characters from GEOID for compatibility with tigris information
+county2010MA$GEOID <- substring(county2010MA$GEO_ID, 10) 
+
+# Join the G (Gini) values to the census tract geometry
+MA2010gini <- county2010MA %>%
+  left_join(gini2010MA$g, by = 'GEOID')
+```
+
+```{r g_re_plot, fig.height = 4, fig.width = 7}
+# Visualize the G (Gini) values (2006-2010 5-year ACS) for Massachusetts, U.S.A., census tracts 
+ggplot() +
+  geom_sf(
+    data = MA2010gini,
+    aes(fill = G_re),
+    size = 0.05,
+    color = 'transparent'
+  ) +
+  geom_sf(
+    data = county2010MA,
+    fill = 'transparent',
+    color = 'white',
+    size = 0.2
+  ) +
+  theme_minimal() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
+  ggtitle('Gini Index', subtitle = 'Black population of MA counties')
+```
+
+#### The income Gini Index (*G*)
+
+Retrieve the aspatial income Gini Index (*G*) values (2006-2010 5-year ACS) for Massachusetts, U.S.A., census tracts. This metric is based on [Gini (1921)](https://doi.org/10.2307/2223319), and the `gini()` function retrieves the estimate from the ACS-5 when calculating the Gini Index (*G*) for racial or ethnic inequality.
+
+According to the [U.S. Census Bureau](https://census.gov/topics/income-poverty/income-inequality/about/metrics/gini-index.html): 'The Gini Index is a summary measure of income inequality. The Gini coefficient incorporates the detailed shares data into a single statistic, which summarizes the dispersion of income across the entire income distribution. The Gini coefficient ranges from 0, indicating perfect equality (where everyone receives an equal share), to 1, perfect inequality (where only one recipient or group of recipients receives all the income). The Gini Index is based on the difference between the Lorenz curve (the observed cumulative income distribution) and the notion of a perfectly equal income distribution.'
 
 ```{r gini_prep, results = 'hide'}
-gini2010MA <- gini(state = 'MA', year = 2010)
+gini2010MA <- gini(
+  geo_large = 'county',
+  geo_small = 'tract',
+  state = 'MA',
+  year = 2010,
+  subgroup = c('NHoLB', 'HoLB')
+)
 
 # Obtain the 2010 census tracts from the 'tigris' package
 tract2010MA <- tracts(state = 'MA', year = 2010, cb = TRUE)
@@ -745,7 +822,7 @@ county2010MA <- counties(state = 'MA', year = 2010, cb = TRUE)
 
 # Join the G (Gini) values to the census tract geometry
 MA2010gini <- tract2010MA %>%
-  left_join(gini2010MA$g, by = 'GEOID')
+  left_join(gini2010MA$g_data, by = 'GEOID')
 ```
 
 ```{r gini_plot, fig.height = 4, fig.width = 7}
@@ -753,7 +830,7 @@ MA2010gini <- tract2010MA %>%
 ggplot() +
   geom_sf(
     data = MA2010gini,
-    aes(fill = G),
+    aes(fill = G_inc),
     size = 0.05,
     color = 'transparent'
   ) +
@@ -764,10 +841,11 @@ ggplot() +
     size = 0.2
   ) +
   theme_minimal() +
-  scale_fill_viridis_c() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
-  ggtitle('Gini Index', subtitle = 'MA census tracts')
+  ggtitle('Gini Index', subtitle = 'Income of MA census tracts')
 ```
+
 
 ### Index of Concentration at the Extremes (*ICE*)
 
@@ -777,9 +855,9 @@ Compute the aspatial Index of Concentration at the Extremes values (2006-2010 5-
 | -------------- | ------------- | ---------------- |
 | B19001 | Income, 'ICE_inc'| 80th income percentile vs. 20th income percentile |
 | B15002 | Education, 'ICE_edu'| less than high school vs. four-year college degree or more |
-| B03002 | Race/Ethnicity, 'ICE_rewb'| 80th income percentile vs. 20th income percentile |
-| B19001 & B19001B & B19001H | Income and race/ethnicity combined, 'ICE_wbinc' | white non-Hispanic in 80th income percentile vs. black alone (including Hispanic) in 20th income percentile |
-| B19001 & B19001H | Income and race/ethnicity combined, 'ICE_wpcinc'| white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile |
+| B03002 | Race or Ethnicity, 'ICE_rewb'| 80th income percentile vs. 20th income percentile |
+| B19001 & B19001B & B19001H | Income and race or ethnicity combined, 'ICE_wbinc' | white non-Hispanic in 80th income percentile vs. black alone (including Hispanic) in 20th income percentile |
+| B19001 & B19001H | Income and race or ethnicity combined, 'ICE_wpcinc'| white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile |
 
 *ICE* metrics can range in value from −1 (most deprived) to 1 (most privileged). A value of 0 can thus represent two possibilities: (1) none of the residents are in the most privileged or most deprived categories, or (2) an equal number of persons are in the most privileged and most deprived categories, and in both cases indicates that the area is not dominated by extreme concentrations of either of the two groups.
 
@@ -839,7 +917,7 @@ ggplot() +
     subtitle = 'less than high school vs. four-year college degree or more'
   )
 
-# Plot ICE for Race/Ethnicity
+# Plot ICE for Race or Ethnicity
 ggplot() +
   geom_sf(
     data = ice2020WC,
@@ -856,11 +934,11 @@ ggplot() +
   ) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
   ggtitle(
-    'Index of Concentration at the Extremes\nRace/Ethnicity (Krieger)',
+    'Index of Concentration at the Extremes\nRace or Ethnicity (Krieger)',
     subtitle = 'white non-Hispanic vs. black non-Hispanic'
   )
 
-# Plot ICE for Income and Race/Ethnicity Combined
+# Plot ICE for Income and Race or Ethnicity Combined
 ## white non-Hispanic in 80th income percentile vs. 
 ## black (including Hispanic) in 20th income percentile
 ggplot() +
@@ -879,11 +957,11 @@ ggplot() +
   ) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
   ggtitle(
-    'Index of Concentration at the Extremes\nIncome & race/ethnicity combined (Krieger)',
+    'Index of Concentration at the Extremes\nIncome & race or ethnicity combined (Krieger)',
     subtitle = 'white non-Hispanic in 80th inc ptcl vs. black alone in 20th inc pctl'
   )
 
-# Plot ICE for Income and Race/Ethnicity Combined
+# Plot ICE for Income and Race or Ethnicity Combined
 ## white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile
 ggplot() +
   geom_sf(
@@ -901,16 +979,16 @@ ggplot() +
   ) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
   ggtitle(
-    'Index of Concentration at the Extremes\nIncome & race/ethnicity combined (Krieger)',
+    'Index of Concentration at the Extremes\nIncome & race or ethnicity combined (Krieger)',
     subtitle = 'white non-Hispanic (WNH) in 80th inc pctl vs. WNH in 20th inc pctl'
   )
 ```
 
-#### Compute racial/ethnic Dissimilarity Index (*D*)
+#### Compute racial or ethnic Dissimilarity Index (*D*)
 
-Compute the aspatial racial/ethnic *D* values (2006-2010 5-year ACS) for Pennsylvania, U.S.A., counties from census tracts. This metric is based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328) that assessed the racial/ethnic isolation of students that identify as non-Hispanic or Latino, Black or African American alone compared to students that identify as non-Hispanic or Latino, white alone between schools and school districts. Multiple racial/ethnic subgroups are available in the `duncan()` function, including:
+Compute the aspatial racial or ethnic *D* values (2006-2010 5-year ACS) for Pennsylvania, U.S.A., counties from census tracts. This metric is based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328) that assessed the racial or ethnic isolation of students that identify as non-Hispanic or Latino, Black or African American alone compared to students that identify as non-Hispanic or Latino, white alone between schools and school districts. Multiple racial or ethnic subgroups are available in the `duncan()` function, including:
 
-| ACS table source | racial/ethnic subgroup | character for `subgroup` or `subgroup_ref` arguments |
+| ACS table source | racial or ethnic subgroup | character for `subgroup` or `subgroup_ref` arguments |
 | -------------- | ------------- | ---------------- |
 | B03002_002 | not Hispanic or Latino | NHoL |
 | B03002_003 | not Hispanic or Latino, white alone | NHoLW |
@@ -933,7 +1011,7 @@ Compute the aspatial racial/ethnic *D* values (2006-2010 5-year ACS) for Pennsyl
 | B03002_020 | Hispanic or Latino, two races including some other race | HoLTRiSOR |
 | B03002_021 | Hispanic or Latino, two races excluding some other race, and three or more races | HoLTReSOR |
 
-*D* is a measure of the evenness of racial/ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *D* can range in value from 0 to 1 and represents the proportion of racial/ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
+*D* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *D* can range in value from 0 to 1 and represents the proportion of racial or ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
 
 ```{r duncan_prep, results = 'hide'}
 duncan2010PA <- duncan(
@@ -979,11 +1057,11 @@ ggplot() +
   )
 ```
 
-#### Compute aspatial income or racial/ethnic Atkinson Index (*A*)
+#### Compute aspatial income or racial or ethnic Atkinson Index (*A*)
 
-Compute the aspatial income or racial/ethnic *A* values (2017-2021 5-year ACS) for Kentucky, U.S.A., counties from census block groups. This metric is based on [Atkinson (1970)](https://doi.org/10.2307/2088328) that assessed the distribution of income within 12 counties but has since been adapted to study racial/ethnic segregation (see [James & Taeuber 1985](https://doi.org/10.2307/270845)). To compare median household income, specify `subgroup = 'MedHHInc'` which will use the ACS-5 variable 'B19013_001' in the computation. Multiple racial/ethnic subgroups are available in the `atkinson()` function, including:
+Compute the aspatial income or racial or ethnic *A* values (2017-2021 5-year ACS) for Kentucky, U.S.A., counties from census block groups. This metric is based on [Atkinson (1970)](https://doi.org/10.2307/2088328) that assessed the distribution of income within 12 counties but has since been adapted to study racial or ethnic segregation (see [James & Taeuber 1985](https://doi.org/10.2307/270845)). To compare median household income, specify `subgroup = 'MedHHInc'` which will use the ACS-5 variable 'B19013_001' in the computation. Multiple racial or ethnic subgroups are available in the `atkinson()` function, including:
 
-| ACS table source | racial/ethnic subgroup | character for `subgroup` argument |
+| ACS table source | racial or ethnic subgroup | character for `subgroup` argument |
 | -------------- | ------------- | ---------------- |
 | B03002_002 | not Hispanic or Latino | NHoL |
 | B03002_003 | not Hispanic or Latino, white alone | NHoLW |
@@ -1006,7 +1084,7 @@ Compute the aspatial income or racial/ethnic *A* values (2017-2021 5-year ACS) f
 | B03002_020 | Hispanic or Latino, two races including some other race | HoLTRiSOR |
 | B03002_021 | Hispanic or Latino, two races excluding some other race, and three or more races | HoLTReSOR |
 
-*A* is a measure of the inequality and, in the context of residential race/ethnicity, segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *A* can range in value from 0 to 1 and smaller values of the index indicate lower levels of inequality (e.g., less segregation).
+*A* is a measure of the inequality and, in the context of residential race or ethnicity, segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *A* can range in value from 0 to 1 and smaller values of the index indicate lower levels of inequality (e.g., less segregation).
 
 *A* is sensitive to the choice of `epsilon` argument or the shape parameter that determines how to weight the increments to inequality (segregation) contributed by different proportions of the Lorenz curve. A user must explicitly decide how heavily to weight smaller geographical units at different points on the Lorenz curve (i.e., whether the index should take greater account of differences among areas of over- or under-representation). The `epsilon` argument must have values between 0 and 1.0. For `0 <= epsilon < 0.5` or less 'inequality-averse,' smaller geographical units with a subgroup proportion smaller than the subgroup proportion of the larger geographical unit contribute more to inequality ('over-representation'). For `0.5 < epsilon <= 1.0` or more 'inequality-averse,' smaller geographical units with a subgroup proportion larger than the subgroup proportion of the larger geographical unit contribute more to inequality ('under-representation'). If `epsilon = 0.5` (the default), units of over- and under-representation contribute equally to the index. See Section 2.3 of [Saint-Jacques et al. (2020)](https://doi.org/10.48550/arXiv.2002.05819) for one method to select `epsilon`. We choose `epsilon = 0.67` in the example below:
 
@@ -1052,11 +1130,11 @@ ggplot() +
   )
 ```
 
-#### Compute racial/ethnic Interaction Index (_xPy\*_)
+#### Compute racial or ethnic Interaction Index (_xPy\*_)
 
-Compute the aspatial racial/ethnic _xPy\*_ values (2017-2021 5-year ACS) for Ohio, U.S.A., counties from census tracts. This metric is based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and adapted by [Bell (1954)](https://doi.org/10.2307/2574118). Multiple racial/ethnic subgroups are available in the `bell()` function, including:
+Compute the aspatial racial or ethnic _xPy\*_ values (2017-2021 5-year ACS) for Ohio, U.S.A., counties from census tracts. This metric is based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and adapted by [Bell (1954)](https://doi.org/10.2307/2574118). Multiple racial or ethnic subgroups are available in the `bell()` function, including:
 
-| ACS table source | racial/ethnic subgroup | character for `subgroup` or `subgroup_ixn` argument |
+| ACS table source | racial or ethnic subgroup | character for `subgroup` or `subgroup_ixn` argument |
 | -------------- | ------------- | ---------------- |
 | B03002_002 | not Hispanic or Latino | NHoL |
 | B03002_003 | not Hispanic or Latino, white alone | NHoLW |
@@ -1125,9 +1203,9 @@ ggplot() +
 
 #### Compute Correlation Ratio (*V*)
 
-Compute the aspatial racial/ethnic *V* values (2017-2021 5-year ACS) for South Carolina, U.S.A., counties from census tracts. This metric is based on [Bell (1954)](https://doi.org/10.2307/2574118) and adapted by [White (1986)](https://doi.org/10.2307/3644339). Multiple racial/ethnic subgroups are available in the `white()` function, including:
+Compute the aspatial racial or ethnic *V* values (2017-2021 5-year ACS) for South Carolina, U.S.A., counties from census tracts. This metric is based on [Bell (1954)](https://doi.org/10.2307/2574118) and adapted by [White (1986)](https://doi.org/10.2307/3644339). Multiple racial or ethnic subgroups are available in the `white()` function, including:
 
-| ACS table source | racial/ethnic subgroup | character for `subgroup` argument |
+| ACS table source | racial or ethnic subgroup | character for `subgroup` argument |
 | -------------- | ------------- | ---------------- |
 | B03002_002 | not Hispanic or Latino | NHoL |
 | B03002_003 | not Hispanic or Latino, white alone | NHoLW |
@@ -1200,9 +1278,9 @@ ggplot() +
 
 #### Compute Location Quotient (*LQ*)
 
-Compute the aspatial racial/ethnic *LQ* values (2017-2021 5-year ACS) for Tennessee, U.S.A., counties vs. the state. This metric is based on [Merton (1939)](https://doi.org/10.2307/2084686) and adapted by [Sudano et al. (2013)](https://doi.org/10.1016/j.healthplace.2012.09.015). Multiple racial/ethnic subgroups are available in the `sudano()` function, including:
+Compute the aspatial racial or ethnic *LQ* values (2017-2021 5-year ACS) for Tennessee, U.S.A., counties vs. the state. This metric is based on [Merton (1939)](https://doi.org/10.2307/2084686) and adapted by [Sudano et al. (2013)](https://doi.org/10.1016/j.healthplace.2012.09.015). Multiple racial or ethnic subgroups are available in the `sudano()` function, including:
 
-| ACS table source | racial/ethnic subgroup | character for `subgroup` argument |
+| ACS table source | racial or ethnic subgroup | character for `subgroup` argument |
 | -------------- | ------------- | ---------------- |
 | B03002_002 | not Hispanic or Latino | NHoL |
 | B03002_003 | not Hispanic or Latino, white alone | NHoLW |
@@ -1270,9 +1348,9 @@ ggplot() +
 
 #### Compute Local Exposure and Isolation (*LEx/Is*)
 
-Compute the aspatial racial/ethnic Local Exposure and Isolation metric (2017-2021 5-year ACS) for Mississippi, U.S.A., counties vs. the state. This metric is based on [Bemanian & Beyer (2017)](https://doi.org/10.1158/1055-9965.EPI-16-0926). Multiple racial/ethnic subgroups are available in the `bemanian_beyer()` function, including:
+Compute the aspatial racial or ethnic Local Exposure and Isolation metric (2017-2021 5-year ACS) for Mississippi, U.S.A., counties vs. the state. This metric is based on [Bemanian & Beyer (2017)](https://doi.org/10.1158/1055-9965.EPI-16-0926). Multiple racial or ethnic subgroups are available in the `bemanian_beyer()` function, including:
 
-| ACS table source | racial/ethnic subgroup | character for `subgroup` or `subgroup_ixn` argument |
+| ACS table source | racial or ethnic subgroup | character for `subgroup` or `subgroup_ixn` argument |
 | -------------- | ------------- | ---------------- |
 | B03002_002 | not Hispanic or Latino | NHoL |
 | B03002_003 | not Hispanic or Latino, white alone | NHoLW |
@@ -1295,7 +1373,7 @@ Compute the aspatial racial/ethnic Local Exposure and Isolation metric (2017-202
 | B03002_020 | Hispanic or Latino, two races including some other race | HoLTRiSOR |
 | B03002_021 | Hispanic or Latino, two races excluding some other race, and three or more races | HoLTReSOR |
 
-*LEx/Is* is a measure of the probability that two individuals living within a specific smaller geography (e.g., census tract) of either different (i.e., exposure) or the same (i.e., isolation) racial/ethnic subgroup(s) will interact, assuming that individuals within a smaller geography are randomly mixed. *LEx/Is* is standardized with a logit transformation and centered against an expected case that all races/ethnicities are evenly distributed across a larger geography. *LEx/Is* can range from negative infinity to infinity. If *LEx/Is* is zero then the estimated probability of the interaction between two people of the given subgroup(s) within a smaller geography is equal to the expected probability if the subgroup(s) were perfectly mixed in the larger geography. If *LEx/Is* is greater than zero then the interaction is more likely to occur within the smaller geography than in the larger geography, and if *LEx/Is* is less than zero then the interaction is less likely to occur within the smaller geography than in the larger geography. Note: the exponentiation of each *LEx/Is* metric results in the odds ratio of the specific exposure or isolation of interest in a smaller geography relative to the larger geography. Similar to *LQ* (Sudano), *LEx/Is* computes values for each smaller geography relative to the larger geography.
+*LEx/Is* is a measure of the probability that two individuals living within a specific smaller geography (e.g., census tract) of either different (i.e., exposure) or the same (i.e., isolation) racial or ethnic subgroup(s) will interact, assuming that individuals within a smaller geography are randomly mixed. *LEx/Is* is standardized with a logit transformation and centered against an expected case that all races or ethnicities are evenly distributed across a larger geography. *LEx/Is* can range from negative infinity to infinity. If *LEx/Is* is zero then the estimated probability of the interaction between two people of the given subgroup(s) within a smaller geography is equal to the expected probability if the subgroup(s) were perfectly mixed in the larger geography. If *LEx/Is* is greater than zero then the interaction is more likely to occur within the smaller geography than in the larger geography, and if *LEx/Is* is less than zero then the interaction is less likely to occur within the smaller geography than in the larger geography. Note: the exponentiation of each *LEx/Is* metric results in the odds ratio of the specific exposure or isolation of interest in a smaller geography relative to the larger geography. Similar to *LQ* (Sudano), *LEx/Is* computes values for each smaller geography relative to the larger geography.
 
 ```{r bemanian_beyer_prep, results = 'hide'}
 bemanian_beyer2021MS <- bemanian_beyer(
@@ -1370,9 +1448,9 @@ ggplot() +
 
 #### Compute Delta (*DEL*)
 
-Compute the aspatial racial/ethnic *DEL* values (2017-2021 5-year ACS) for Alabama, U.S.A., counties from census tracts. This metric is based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089). Multiple racial/ethnic subgroups are available in the `hoover()` function, including:
+Compute the aspatial racial or ethnic *DEL* values (2017-2021 5-year ACS) for Alabama, U.S.A., counties from census tracts. This metric is based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089). Multiple racial or ethnic subgroups are available in the `hoover()` function, including:
 
-| ACS table source | racial/ethnic subgroup | character for `subgroup` argument |
+| ACS table source | racial or ethnic subgroup | character for `subgroup` argument |
 | -------------- | ------------- | ---------------- |
 | B03002_002 | not Hispanic or Latino | NHoL |
 | B03002_003 | not Hispanic or Latino, white alone | NHoLW |
@@ -1440,9 +1518,9 @@ ggplot() +
 
 #### Compute an index of spatial proximity (*SP*)
 
-Compute an index of spatial proximity (2010-2014 5-year ACS) for Atlanta, GA, metropolitan area from census tracts. This metric is based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0) that designed the metric to identify racial or ethnic enclaves. Multiple racial/ethnic subgroups are available in the `white_blau()` function, including:
+Compute an index of spatial proximity (2010-2014 5-year ACS) for Atlanta, GA, metropolitan area from census tracts. This metric is based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0) that designed the metric to identify racial or ethnic enclaves. Multiple racial or ethnic subgroups are available in the `white_blau()` function, including:
 
-| ACS table source | racial/ethnic subgroup | character for `subgroup` or `subgroup_ref` arguments |
+| ACS table source | racial or ethnic subgroup | character for `subgroup` or `subgroup_ref` arguments |
 | -------------- | ------------- | ---------------- |
 | B03002_002 | not Hispanic or Latino | NHoL |
 | B03002_003 | not Hispanic or Latino, white alone | NHoLW |
@@ -1465,7 +1543,7 @@ Compute an index of spatial proximity (2010-2014 5-year ACS) for Atlanta, GA, me
 | B03002_020 | Hispanic or Latino, two races including some other race | HoLTRiSOR |
 | B03002_021 | Hispanic or Latino, two races excluding some other race, and three or more races | HoLTReSOR |
 
-*SP* is a measure of clustering of racial/ethnic populations within smaller geographical areas that are located within larger geographical areas. *SP* can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering between subgroup and referent group members. A value greater than 1 indicates subgroup members live nearer to one another than to referent subgroup members. A value less than 1 indicates subgroup live nearer to and referent subgroup members than to their own subgroup members.
+*SP* is a measure of clustering of racial or ethnic populations within smaller geographical areas that are located within larger geographical areas. *SP* can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering between subgroup and referent group members. A value greater than 1 indicates subgroup members live nearer to one another than to referent subgroup members. A value less than 1 indicates subgroup live nearer to and referent subgroup members than to their own subgroup members.
 
 ```{r white_blau_prep, results = 'hide'}
 whiteblau2014GA <- white_blau(
@@ -1520,11 +1598,11 @@ ggplot() +
   )
 ```
 
-#### Compute racial/ethnic Isolation Index (_xPx\*_)
+#### Compute racial or ethnic Isolation Index (_xPx\*_)
 
-Compute the aspatial racial/ethnic _xPx\*_ values (2015-2019 5-year ACS) for Delaware, U.S.A., census tracts from census block groups. This metric is based on [Bell (1954)](https://doi.org/10.2307/2574118) and adapted by Lieberson (1981; ISBN-13:978-1-032-53884-6). Multiple racial/ethnic subgroups are available in the `lieberson()` function, including:
+Compute the aspatial racial or ethnic _xPx\*_ values (2015-2019 5-year ACS) for Delaware, U.S.A., census tracts from census block groups. This metric is based on [Bell (1954)](https://doi.org/10.2307/2574118) and adapted by Lieberson (1981; ISBN-13:978-1-032-53884-6). Multiple racial or ethnic subgroups are available in the `lieberson()` function, including:
 
-| ACS table source | racial/ethnic subgroup | character for `subgroup` argument |
+| ACS table source | racial or ethnic subgroup | character for `subgroup` argument |
 | -------------- | ------------- | ---------------- |
 | B03002_002 | not Hispanic or Latino | NHoL |
 | B03002_003 | not Hispanic or Latino, white alone | NHoLW |
