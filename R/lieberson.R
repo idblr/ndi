@@ -1,18 +1,18 @@
 #' Isolation Index based on Lieberson (1981) and Bell (1954)
 #'
-#' Compute the aspatial Isolation Index (Lieberson) of a selected racial/ethnic subgroup(s) and U.S. geographies.
+#' Compute the aspatial Isolation Index (Lieberson) of a selected racial or ethnic subgroup(s) and U.S. geographies.
 #'
 #' @param geo_large Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = 'county'}.
 #' @param geo_small Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_large = 'tract'}.
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
-#' @param subgroup Character string specifying the racial/ethnic subgroup(s). See Details for available choices.
+#' @param subgroup Character string specifying the racial or ethnic subgroup(s). See Details for available choices.
 #' @param omit_NAs Logical. If FALSE, will compute index for a larger geographical unit only if all of its smaller geographical units have values. The default is TRUE.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the aspatial Isolation Index (_xPx\*_) of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and Bell (1954) \doi{10.2307/2574118}. This function provides the computation of _xPx\*_ for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#' @details This function will compute the aspatial Isolation Index (_xPx\*_) of selected racial or ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and Bell (1954) \doi{10.2307/2574118}. This function provides the computation of _xPx\*_ for any of the U.S. Census Bureau race or ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #'
-#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'csa'} or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
+#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'csa'} or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial or ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
 #'  \item \strong{B03002_002}: not Hispanic or Latino \code{'NHoL'}
 #'  \item \strong{B03002_003}: not Hispanic or Latino, white alone \code{'NHoLW'}
@@ -53,6 +53,7 @@
 #' @import dplyr
 #' @importFrom sf st_drop_geometry st_within
 #' @importFrom stats complete.cases
+#' @importFrom stringr str_trim
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
 #' @importFrom tigris combined_statistical_areas core_based_statistical_areas metro_divisions
@@ -262,8 +263,8 @@ lieberson <- function(geo_large = 'county',
       sf::st_drop_geometry()
   }
   
-  # Count of racial/ethnic subgroup populations
-  ## Count of racial/ethnic comparison subgroup population
+  # Count of racial or ethnic subgroup populations
+  ## Count of racial or ethnic comparison subgroup population
   if (length(in_subgroup) == 1) {
     out_dat <- out_dat %>%
       dplyr::mutate(subgroup = .[, in_subgroup])

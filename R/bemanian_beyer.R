@@ -1,19 +1,19 @@
 #' Local Exposure and Isolation metric based on Bemanian & Beyer (2017)
 #'
-#' Compute the aspatial Local Exposure and Isolation (Bemanian & Beyer) metric of a selected racial/ethnic subgroup(s) and U.S. geographies.
+#' Compute the aspatial Local Exposure and Isolation (Bemanian & Beyer) metric of a selected racial or ethnic subgroup(s) and U.S. geographies.
 #'
 #' @param geo_large Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = 'county'}.
 #' @param geo_small Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_large = 'tract'}.
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
-#' @param subgroup Character string specifying the racial/ethnic subgroup(s). See Details for available choices.
-#' @param subgroup_ixn Character string specifying the racial/ethnic subgroup(s) as the interaction population. If the same as \code{subgroup}, will compute the simple isolation of the group. See Details for available choices.
+#' @param subgroup Character string specifying the racial or ethnic subgroup(s). See Details for available choices.
+#' @param subgroup_ixn Character string specifying the racial or ethnic subgroup(s) as the interaction population. If the same as \code{subgroup}, will compute the simple isolation of the group. See Details for available choices.
 #' @param omit_NAs Logical. If FALSE, will compute index for a larger geographical unit only if all of its smaller geographical units have values. The default is TRUE.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the aspatial Local Exposure and Isolation (\emph{LEx/Is}) metric of selected racial/ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Bemanian & Beyer (2017) \doi{10.1158/1055-9965.EPI-16-0926}. This function provides the computation of \emph{LEx/Is} for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#' @details This function will compute the aspatial Local Exposure and Isolation (\emph{LEx/Is}) metric of selected racial or ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Bemanian & Beyer (2017) \doi{10.1158/1055-9965.EPI-16-0926}. This function provides the computation of \emph{LEx/Is} for any of the U.S. Census Bureau race or ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #'
-#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'csa'} or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
+#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'csa'} or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial or ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
 #'  \item \strong{B03002_002}: not Hispanic or Latino \code{'NHoL'}
 #'  \item \strong{B03002_003}: not Hispanic or Latino, white alone \code{'NHoLW'}
@@ -39,7 +39,7 @@
 #'
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #'
-#' \emph{LEx/Is} is a measure of the probability that two individuals living within a specific smaller geography (e.g., census tract) of either different (i.e., exposure) or the same (i.e., isolation) racial/ethnic subgroup(s) will interact, assuming that individuals within a smaller geography are randomly mixed. \emph{LEx/Is} is standardized with a logit transformation and centered against an expected case that all races/ethnicities are evenly distributed across a larger geography. (Note: will adjust data by 0.025 if probabilities are zero, one, or undefined. The output will include a warning if adjusted. See \code{\link[car]{logit}} for additional details.)
+#' \emph{LEx/Is} is a measure of the probability that two individuals living within a specific smaller geography (e.g., census tract) of either different (i.e., exposure) or the same (i.e., isolation) racial or ethnic subgroup(s) will interact, assuming that individuals within a smaller geography are randomly mixed. \emph{LEx/Is} is standardized with a logit transformation and centered against an expected case that all races or ethnicities are evenly distributed across a larger geography. (Note: will adjust data by 0.025 if probabilities are zero, one, or undefined. The output will include a warning if adjusted. See \code{\link[car]{logit}} for additional details.)
 #'
 #' \emph{LEx/Is} can range from negative infinity to infinity. If \emph{LEx/Is} is zero then the estimated probability of the interaction between two people of the given subgroup(s) within a smaller geography is equal to the expected probability if the subgroup(s) were perfectly mixed in the larger geography. If \emph{LEx/Is} is greater than zero then the interaction is more likely to occur within the smaller geography than in the larger geography, and if \emph{LEx/Is} is less than zero then the interaction is less likely to occur within the smaller geography than in the larger geography. Note: the exponentiation of each \emph{LEx/Is} metric results in the odds ratio of the specific exposure or isolation of interest in a smaller geography relative to the larger geography.
 #'
@@ -57,6 +57,7 @@
 #' @importFrom car logit
 #' @importFrom sf st_drop_geometry st_within
 #' @importFrom stats complete.cases
+#' @importFrom stringr str_trim
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
 #' @importFrom tigris combined_statistical_areas core_based_statistical_areas metro_divisions
@@ -295,8 +296,8 @@ bemanian_beyer <- function(geo_large = 'county',
         sf::st_drop_geometry()
     }
     
-    # Count of racial/ethnic subgroup populations
-    ## Count of racial/ethnic comparison subgroup population
+    # Count of racial or ethnic subgroup populations
+    ## Count of racial or ethnic comparison subgroup population
     if (length(in_subgroup) == 1) {
       out_dat <- out_dat %>%
         dplyr::mutate(subgroup = .[, in_subgroup])
@@ -304,7 +305,7 @@ bemanian_beyer <- function(geo_large = 'county',
       out_dat <- out_dat %>%
         dplyr::mutate(subgroup = rowSums(.[, in_subgroup]))
     }
-    ## Count of racial/ethnic interaction subgroup population
+    ## Count of racial or ethnic interaction subgroup population
     if (length(in_subgroup_ixn) == 1) {
       out_dat <- out_dat %>%
         dplyr::mutate(subgroup_ixn = .[, in_subgroup_ixn])

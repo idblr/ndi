@@ -256,7 +256,9 @@ globalVariables(
     'km',
     'A',
     'D', 
-    'G', 
+    'G_inc',
+    'G_incE',
+    'G_re', 
     'xPx_star', 
     'xPy_star'
   )

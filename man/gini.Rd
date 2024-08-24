@@ -4,12 +4,26 @@
 \alias{gini}
 \title{Gini Index based on Gini (1921)}
 \usage{
-gini(geo = "tract", year = 2020, quiet = FALSE, ...)
+gini(
+  geo_large = "county",
+  geo_small = "tract",
+  year = 2020,
+  subgroup,
+  omit_NAs = TRUE,
+  quiet = FALSE,
+  ...
+)
 }
 \arguments{
-\item{geo}{Character string specifying the geography of the data either census tracts \code{geo = 'tract'} (the default) or counties \code{geo = 'county'}.}
+\item{geo_large}{Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = 'county'}.}
+
+\item{geo_small}{Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_large = 'tract'}.}
 
 \item{year}{Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.}
+
+\item{subgroup}{Character string specifying the racial or ethnic subgroup(s). See Details for available choices.}
+
+\item{omit_NAs}{Logical. If FALSE, will compute index for a larger geographical unit only if all of its smaller geographical units have values. The default is TRUE.}
 
 \item{quiet}{Logical. If TRUE, will display messages about potential missing census information}
 
@@ -19,30 +33,61 @@ gini(geo = "tract", year = 2020, quiet = FALSE, ...)
 An object of class 'list'. This is a named list with the following components:
 
 \describe{
-\item{\code{g}}{An object of class 'tbl' for the GEOID, name, and \emph{G} of specified census geographies.}
-\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for \emph{G}.}
+\item{\code{g}}{An object of class 'tbl' for the GEOID, name, and \emph{G_re} metrics of specified census geographies.}
+\item{\code{g_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies including \emph{G_inc}.}
+\item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for \emph{G_inc} and each census variable used to compute \emph{G_re}.}
 }
 }
 \description{
-Retrieve the aspatial Gini Index of income inequality.
+Compute the aspatial racial or ethnic Gini Index and retrieve the aspatial income Gini Index
 }
 \details{
-This function will retrieve the aspatial Gini Index (\emph{G}) of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Gini (1921) \doi{10.2307/2223319}.
+This function will retrieve the aspatial Gini Index (\emph{G}) of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Gini (1921) \doi{10.2307/2223319} for income inequality (at smaller geographical units) and race or ethnicity inequality (at larger geographical units).
 
-The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey estimates of \emph{G} for income inequality (ACS: B19083). The estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys.
+The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey estimates of \emph{G} for the geospatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The function will retrieve the provided income inequality metric (\strong{B19083}) and the twenty racial or ethnic subgroups (U.S. Census Bureau definitions) are:
+\itemize{
+\item \strong{B03002_002}: not Hispanic or Latino \code{'NHoL'}
+\item \strong{B03002_003}: not Hispanic or Latino, white alone\code{'NHoLW'}
+\item \strong{B03002_004}: not Hispanic or Latino, Black or African American alone \code{'NHoLB'}
+\item \strong{B03002_005}: not Hispanic or Latino, American Indian and Alaska Native alone \code{'NHoLAIAN'}
+\item \strong{B03002_006}: not Hispanic or Latino, Asian alone \code{'NHoLA'}
+\item \strong{B03002_007}: not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{'NHoLNHOPI'}
+\item \strong{B03002_008}: not Hispanic or Latino, Some other race alone \code{'NHoLSOR'}
+\item \strong{B03002_009}: not Hispanic or Latino, Two or more races \code{'NHoLTOMR'}
+\item \strong{B03002_010}: not Hispanic or Latino, Two races including Some other race \code{'NHoLTRiSOR'}
+\item \strong{B03002_011}: not Hispanic or Latino, Two races excluding Some other race, and three or more races \code{'NHoLTReSOR'}
+\item \strong{B03002_012}: Hispanic or Latino \code{'HoL'}
+\item \strong{B03002_013}: Hispanic or Latino, white alone \code{'HoLW'}
+\item \strong{B03002_014}: Hispanic or Latino, Black or African American alone \code{'HoLB'}
+\item \strong{B03002_015}: Hispanic or Latino, American Indian and Alaska Native alone \code{'HoLAIAN'}
+\item \strong{B03002_016}: Hispanic or Latino, Asian alone \code{'HoLA'}
+\item \strong{B03002_017}: Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone \code{'HoLNHOPI'}
+\item \strong{B03002_018}: Hispanic or Latino, Some other race alone \code{'HoLSOR'}
+\item \strong{B03002_019}: Hispanic or Latino, Two or more races \code{'HoLTOMR'}
+\item \strong{B03002_020}: Hispanic or Latino, Two races including Some other race \code{'HoLTRiSOR'}
+\item \strong{B03002_021}: Hispanic or Latino, Two races excluding Some other race, and three or more races \code{'HoLTReSOR'}
+}
 
 Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 
-According to the U.S. Census Bureau \url{https://www.census.gov/topics/income-poverty/income-inequality/about/metrics/gini-index.html}: 'The Gini Index is a summary measure of income inequality. The Gini coefficient incorporates the detailed shares data into a single statistic, which summarizes the dispersion of income across the entire income distribution. The Gini coefficient ranges from 0, indicating perfect equality (where everyone receives an equal share), to 1, perfect inequality (where only one recipient or group of recipients receives all the income). The Gini is based on the difference between the Lorenz curve (the observed cumulative income distribution) and the notion of a perfectly equal income distribution.'
+According to the U.S. Census Bureau \url{https://www.census.gov/topics/income-poverty/income-inequality/about/metrics/gini-index.html}: 'The Gini Index is a summary measure of income inequality. The Gini coefficient incorporates the detailed shares data into a single statistic, which summarizes the dispersion of income across the entire income distribution. The Gini coefficient ranges from 0, indicating perfect equality (where everyone receives an equal share), to 1, perfect inequality (where only one recipient or group of recipients receives all the income). The Gini Index is based on the difference between the Lorenz curve (the observed cumulative income distribution) and the notion of a perfectly equal income distribution.' For racial or ethnic inequality, \emph{G} is a summary measure of racial or ethnic unevenness or the mean absolute difference between a selected subgroup proportions weighted across all pairs of geographic units, expressed as a proportion of the maximum weighted difference.
+
+Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, Combined Statistical Area \code{geo_large = 'csa'}, and Metropolitan Division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{V} value returned is NA. If the larger geographical unit is Combined Based Statistical Areas \code{geo_large = 'csa'} or Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{V} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{V} computation.
 }
 \examples{
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
 
-  # Gini Index of income inequality
+  # Gini Index (a metric of unevenness) of Black populations
   ## of census tracts within Georgia, U.S.A., counties (2020)
-  gini(geo = 'tract', state = 'GA', year = 2020)
-
+  gini(
+    geo_large = 'county',
+    geo_small = 'tract', 
+    state = 'GA',
+    year = 2020, 
+    subgroup = c('NHoLB', 'HoLB')
+   )
+   
 }
 
 }

@@ -12,9 +12,9 @@
 #' \itemize{
 #' \item \strong{Income}: 80th income percentile vs. 20th income percentile
 #' \item \strong{Education}: less than high school vs. four-year college degree or more
-#' \item \strong{Race/Ethnicity}: white non-Hispanic vs. black non-Hispanic
-#' \item \strong{Income and race/ethnicity combined}: white non-Hispanic in 80th income percentile vs. black alone (including Hispanic) in 20th income percentile
-#' \item \strong{Income and race/ethnicity combined}: white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile
+#' \item \strong{Race or Ethnicity}: white non-Hispanic vs. black non-Hispanic
+#' \item \strong{Income and race or ethnicity combined}: white non-Hispanic in 80th income percentile vs. black alone (including Hispanic) in 20th income percentile
+#' \item \strong{Income and race or ethnicity combined}: white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile
 #' }
 #'
 #' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The ACS-5 groups used in the computation of the five \emph{ICE} metrics are:

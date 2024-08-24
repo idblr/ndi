@@ -11,7 +11,7 @@ anthopolos(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
 
 \item{year}{Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.}
 
-\item{subgroup}{Character string specifying the racial/ethnic subgroup(s). See Details for available choices.}
+\item{subgroup}{Character string specifying the racial or ethnic subgroup(s). See Details for available choices.}
 
 \item{quiet}{Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.}
 
@@ -29,9 +29,9 @@ An object of class 'list'. This is a named list with the following components:
 Compute the spatial Racial Isolation Index (Anthopolos) of selected subgroup(s).
 }
 \details{
-This function will compute the spatial Racial Isolation Index (\emph{RI}) of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Anthopolos et al. (2011) \doi{10.1016/j.sste.2011.06.002} who originally designed the metric for the racial isolation of non-Hispanic Black individuals. This function provides the computation of \emph{RI} for any of the U.S. Census Bureau race/ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+This function will compute the spatial Racial Isolation Index (\emph{RI}) of U.S. census tracts or counties for a specified geographical extent (e.g., the entire U.S. or a single state) based on Anthopolos et al. (2011) \doi{10.1016/j.sste.2011.06.002} who originally designed the metric for the racial isolation of non-Hispanic Black individuals. This function provides the computation of \emph{RI} for any of the U.S. Census Bureau race or ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 
-The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial/ethnic subgroups (U.S. Census Bureau definitions) are:
+The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the geospatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available but are available from other U.S. Census Bureau surveys. The twenty racial or ethnic subgroups (U.S. Census Bureau definitions) are:
 \itemize{
 \item \strong{B03002_002}: not Hispanic or Latino \code{'NHoL'}
 \item \strong{B03002_003}: not Hispanic or Latino, white alone\code{'NHoLW'}
@@ -57,7 +57,7 @@ The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. 
 
 Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output. NOTE: Current version does not correct for edge effects (e.g., census geographies along the specified spatial extent border, coastline, or U.S.-Mexico / U.S.-Canada border) may have few neighboring census geographies, and \emph{RI} values in these census geographies may be unstable. A stop-gap solution for the former source of edge effect is to compute the \emph{RI} for neighboring census geographies (i.e., the states bordering a study area of interest) and then use the estimates of the study area of interest.
 
-A census geography (and its neighbors) that has nearly all of its population who identify with the specified race/ethnicity subgroup(s) (e.g., non-Hispanic or Latino, Black or African American alone) will have an \emph{RI} value close to 1. In contrast, a census geography (and its neighbors) that has nearly none of its population who identify with the specified race/ethnicity subgroup(s) (e.g., not non-Hispanic or Latino, Black or African American alone) will have an \emph{RI} value close to 0.
+A census geography (and its neighbors) that has nearly all of its population who identify with the specified race or ethnicity subgroup(s) (e.g., non-Hispanic or Latino, Black or African American alone) will have an \emph{RI} value close to 1. In contrast, a census geography (and its neighbors) that has nearly none of its population who identify with the specified race or ethnicity subgroup(s) (e.g., not non-Hispanic or Latino, Black or African American alone) will have an \emph{RI} value close to 0.
 }
 \examples{
 \dontrun{
