@@ -1,11 +1,12 @@
 # ndi (development version)
 
-## ndi v0.1.6.9004
+## ndi v0.1.6.9005
 
 ### New Features
 * Added `hoover()` function to compute the aspatial racial or ethnic Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089)
 * Added `white_blau()` function to compute an index of spatial proximity (*SP*) based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0)
 * Added `lieberson()` function to compute the aspatial racial or ethnic Isolation Index (_xPx\*_) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and and [Bell (1954)](https://doi.org/10.2307/2574118)
+* Added `james_taeuber()` function to compute the aspatial racial or ethnic Dissimilarity Index (*D*) based on [James & Taeuber (1985)](https://doi.org/10.2307/270845)
 * Added `geo_large = 'cbsa'` for Core Based Statistical Areas, `geo_large = 'csa'` for Combined Statistical Areas, and `geo_large = 'metro'` for Metropolitan Divisions as the larger geographical unit in `atkinson()`, `bell()`, `bemanian_beyer()`, `duncan()`, `hoover()`, `lieberson()`, `sudano()`, and `white()`, `white_blau()` functions.
 * Thank you for the feature suggestions, [Symielle Gaston](https://orcid.org/0000-0001-9495-1592)
 * Added `holder` argument to `atkinson()` function to toggle the computation with or without the Hölder mean. The function can now compute *A* without the Hölder mean. The default is `holder = FALSE`.
@@ -20,8 +21,8 @@
 * Re-formatted code and documentation throughout for consistent readability
 * Renamed 'race/ethnicity' or 'racial/ethnic' to 'race or ethnicity' or 'racial or ethnic' throughout documentation to use more modern, inclusive, and appropriate language
 * Updated documentation about value range of *V* (White) from `{0 to 1}` to `{-Inf to Inf}`
-* Add examples for `hoover()` and `white_blau()` functions in vignette and README
-* Add example for `holder` argument in `atkinson()` function in README
+* Added examples for `gini()`, `james_taeuber()`, `lieberson()`, `hoover()` and `white_blau()` functions in vignette and README
+* Added example for `holder` argument in `atkinson()` function in README
 * Reformatted functions for consistent internal structure
 * Updated examples in vignette to showcase a larger variety of U.S. states
 * Updated examples in functions to better describe the metrics

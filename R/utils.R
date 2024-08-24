@@ -1,6 +1,6 @@
 # Internal function for the Dissimilarity Index (Duncan & Duncan 1955)
 ## Returns NA value if only one smaller geography in a larger geography
-d_fun <- function(x, omit_NAs) {
+ddd_fun <- function(x, omit_NAs) {
   xx <- x[ , c('subgroup', 'subgroup_ref')]
   if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(xx), ] }
   if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
@@ -203,5 +203,24 @@ g_fun <- function(x, omit_NAs) {
     G <- sum(titj * abs(pipj), na.rm = TRUE)
     G <- G / (2 * N ^ 2 * P * (1 - P))
     return(G)
+  }
+}
+
+# Internal function for the Dissimilarity Index (James & Taeuber 1985)
+## Returns NA value if only one smaller geography in a larger geography
+djt_fun <- function(x, omit_NAs) {
+  xx <- x[ , c('TotalPopE', 'subgroup')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(xx), ] }
+  if (nrow(x) < 2 || any(xx < 0) || any(is.na(xx))) {
+    NA
+  } else {
+    x_i <- xx$subgroup
+    X <- sum(xx$subgroup, na.rm = TRUE)
+    t_i <- xx$TotalPopE
+    N <- sum(xx$TotalPopE, na.rm = TRUE)
+    p_i <- x_i / t_i
+    P <- X / N
+    D <- sum(t_i * abs(p_i - P), na.rm = TRUE)/(2 * N * P * (1 - P))
+    return(D)
   }
 }

@@ -548,6 +548,7 @@ Since version v0.1.1, the [*ndi*](https://CRAN.R-project.org/package=ndi) packag
 11. `hoover()` function that computes the aspatial racial or ethnic Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089)
 12. `white_blau()` function that computes an index of spatial proximity (*SP*) based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0)
 13. `lieberson()` function that computes the aspatial racial or ethnic Isolation Index (_xPx\*_) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and [Bell (1954)](https://doi.org/10.2307/2574118)
+14. `james_taeuber()` function that computes the Dissimilarity Index (*D*) based on based on [James & Taeuber (1985)](https://doi.org/10.2307/270845)
 
 #### Compute Racial Isolation Index (*RI*)
 
@@ -1665,6 +1666,78 @@ ggplot() +
   ggtitle(
     'Isolation Index (Lieberson)\nDelaware census block groups to census tracts',
     subtitle = 'Black non-Hispanic'
+  )
+```
+
+#### Compute racial or ethnic Dissimilarity Index (*D*)
+
+Compute the aspatial racial or ethnic *D* values (2006-2010 5-year ACS) for Pennsylvania, U.S.A., counties from census tracts. This metric is based on [James & Taeuber (1985)](https://doi.org/10.2307/270845). Multiple racial or ethnic subgroups are available in the `james_taeuber()` function, including:
+
+| ACS table source | racial or ethnic subgroup | character for `subgroup`arguments |
+| -------------- | ------------- | ---------------- |
+| B03002_002 | not Hispanic or Latino | NHoL |
+| B03002_003 | not Hispanic or Latino, white alone | NHoLW |
+| B03002_004 | not Hispanic or Latino, Black or African American alone | NHoLB |
+| B03002_005 | not Hispanic or Latino, American Indian and Alaska Native alone | NHoLAIAN |
+| B03002_006 | not Hispanic or Latino, Asian alone | NHoLA |
+| B03002_007 | not Hispanic or Latino, Native Hawaiian and Other Pacific Islander alone | NHoLNHOPI |
+| B03002_008 | not Hispanic or Latino, some other race alone | NHoLSOR |
+| B03002_009 | not Hispanic or Latino, two or more races | NHoLTOMR |
+| B03002_010 | not Hispanic or Latino, two races including some other race | NHoLTRiSOR |
+| B03002_011 | not Hispanic or Latino, two races excluding some other race, and three or more races | NHoLTReSOR |
+| B03002_012 | Hispanic or Latino | HoL |
+| B03002_013 | Hispanic or Latino, white alone | HoLW |
+| B03002_014 | Hispanic or Latino, Black or African American alone | HoLB |
+| B03002_015 | Hispanic or Latino, American Indian and Alaska Native alone | HoLAIAN |
+| B03002_016 | Hispanic or Latino, Asian alone | HoLA |
+| B03002_017 | Hispanic or Latino, Native Hawaiian and other Pacific Islander alone | HoLNHOPI |
+| B03002_018 | Hispanic or Latino, some other race alone | HoLSOR |
+| B03002_019 | Hispanic or Latino, two or more races | HoLTOMR |
+| B03002_020 | Hispanic or Latino, two races including some other race | HoLTRiSOR |
+| B03002_021 | Hispanic or Latino, two races excluding some other race, and three or more races | HoLTReSOR |
+
+*D* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *D* can range in value from 0 to 1 and represents the proportion of racial or ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
+
+```{r james_taeuber_prep, results = 'hide'}
+james_taeuber2010PA <- james_taeuber(
+  geo_large = 'county',
+  geo_small = 'tract',
+  state = 'PA',
+  year = 2010,
+  subgroup = c('NHoLB', 'HoLB')
+)
+
+# Obtain the 2010 census counties from the 'tigris' package
+county2010PA <- counties(state = 'PA', year = 2010, cb = TRUE)
+# Remove first 9 characters from GEOID for compatibility with tigris information
+county2010PA$GEOID <- substring(county2010PA$GEO_ID, 10) 
+
+# Join the D values to the county geometry
+PA2010james_taeuber <- county2010PA %>%
+  left_join(james_taeuber2010PA$d, by = 'GEOID')
+```
+
+```{r james_taeuber_plot, fig.height = 4, fig.width = 7}
+# Visualize the D values (2006-2010 5-year ACS) for Pennsylvania, U.S.A., counties 
+ggplot() +
+  geom_sf(
+    data = PA2010james_taeuber,
+    aes(fill = D),
+    size = 0.05,
+    color = 'white'
+  ) +
+  geom_sf(
+    data = county2010PA,
+    fill = 'transparent',
+    color = 'white',
+    size = 0.2
+  ) +
+  theme_minimal() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
+  ggtitle(
+    'Dissimilarity Index (James & Taeuber)\nPennsylvania census tracts to counties',
+    subtitle = 'Black population'
   )
 ```
 
