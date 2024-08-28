@@ -3,7 +3,7 @@
 #' Compute the aspatial racial or ethnic Gini Index and retrieve the aspatial income Gini Index 
 #'
 #' @param geo_large Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = 'county'}.
-#' @param geo_small Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_large = 'tract'}.
+#' @param geo_small Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_small = 'tract'}.
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
 #' @param subgroup Character string specifying the racial or ethnic subgroup(s). See Details for available choices.
 #' @param omit_NAs Logical. If FALSE, will compute index for a larger geographical unit only if all of its smaller geographical units have values. The default is TRUE.
@@ -40,7 +40,7 @@
 #'
 #' According to the U.S. Census Bureau \url{https://www.census.gov/topics/income-poverty/income-inequality/about/metrics/gini-index.html}: 'The Gini Index is a summary measure of income inequality. The Gini coefficient incorporates the detailed shares data into a single statistic, which summarizes the dispersion of income across the entire income distribution. The Gini coefficient ranges from 0, indicating perfect equality (where everyone receives an equal share), to 1, perfect inequality (where only one recipient or group of recipients receives all the income). The Gini Index is based on the difference between the Lorenz curve (the observed cumulative income distribution) and the notion of a perfectly equal income distribution.' For racial or ethnic inequality, *G* is a summary measure of racial or ethnic unevenness or the mean absolute difference between a selected subgroup proportions weighted across all pairs of geographic units, expressed as a proportion of the maximum weighted difference. 
 #'
-#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, Combined Statistical Area \code{geo_large = 'csa'}, and Metropolitan Division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{V} value returned is NA. If the larger geographical unit is Combined Based Statistical Areas \code{geo_large = 'csa'} or Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{V} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{V} computation.
+#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, census-designated place \code{geo_large = 'place'}, core-based statistical area \code{geo_large = 'cbsa'}, combined statistical area \code{geo_large = 'csa'}, and metropolitan division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'cbg'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{V} value returned is NA. If the larger geographical unit is census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, or metropolitan divisions \code{geo_large = 'metro'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{V} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{V} computation.
 #'
 #' @return An object of class 'list'. This is a named list with the following components:
 #'
@@ -56,7 +56,7 @@
 #' @importFrom stringr str_trim
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
-#' @importFrom tigris combined_statistical_areas core_based_statistical_areas metro_divisions
+#' @importFrom tigris combined_statistical_areas core_based_statistical_areas metro_divisions places
 #' @importFrom utils stack
 #' @export
 #'
@@ -87,36 +87,36 @@ gini <- function(geo_large = 'county',
                  ...) {
   
   # Check arguments
-  match.arg(geo_large, choices = c('state', 'county', 'tract', 'cbsa', 'csa', 'metro'))
-  match.arg(geo_small, choices = c('county', 'tract', 'block group'))
+  match.arg(geo_large, choices = c('state', 'county', 'tract', 'place', 'cbsa', 'csa', 'metro'))
+  match.arg(geo_small, choices = c('county', 'tract', 'cbg', 'block group'))
   stopifnot(is.numeric(year), year >= 2009) # all variables available 2009 onward
   match.arg(
     subgroup,
-      several.ok = TRUE,
-      choices = c(
-        'NHoL',
-        'NHoLW',
-        'NHoLB',
-        'NHoLAIAN',
-        'NHoLA',
-        'NHoLNHOPI',
-        'NHoLSOR',
-        'NHoLTOMR',
-        'NHoLTRiSOR',
-        'NHoLTReSOR',
-        'HoL',
-        'HoLW',
-        'HoLB',
-        'HoLAIAN',
-        'HoLA',
-        'HoLNHOPI',
-        'HoLSOR',
-        'HoLTOMR',
-        'HoLTRiSOR',
-        'HoLTReSOR'
-      )
+    several.ok = TRUE,
+    choices = c(
+      'NHoL',
+      'NHoLW',
+      'NHoLB',
+      'NHoLAIAN',
+      'NHoLA',
+      'NHoLNHOPI',
+      'NHoLSOR',
+      'NHoLTOMR',
+      'NHoLTRiSOR',
+      'NHoLTReSOR',
+      'HoL',
+      'HoLW',
+      'HoLB',
+      'HoLAIAN',
+      'HoLA',
+      'HoLNHOPI',
+      'HoLSOR',
+      'HoLTOMR',
+      'HoLTRiSOR',
+      'HoLTReSOR'
     )
-
+  )
+  
   # Select census variable
   vars <- c(
     TotalPop = 'B03002_001',
@@ -146,19 +146,19 @@ gini <- function(geo_large = 'county',
   selected_vars <- vars[c('G_inc', 'TotalPop', subgroup)]
   out_names <- names(selected_vars) # save for output
   in_subgroup <- paste0(subgroup, 'E')
-
-    # Acquire Gvariables and sf geometries
-    out_dat <- suppressMessages(suppressWarnings(
-      tidycensus::get_acs(
-        geography = geo_small,
-        year = year,
-        output = 'wide',
-        variables = selected_vars,
-        geometry = TRUE,
-        keep_geo_vars = TRUE,
-        ...
-      )
-    ))
+  
+  # Acquire Gvariables and sf geometries
+  out_dat <- suppressMessages(suppressWarnings(
+    tidycensus::get_acs(
+      geography = geo_small,
+      year = year,
+      output = 'wide',
+      variables = selected_vars,
+      geometry = TRUE,
+      keep_geo_vars = TRUE,
+      ...
+    )
+  ))
   
   # Format output
   if (geo_small == 'county') {
@@ -170,11 +170,11 @@ gini <- function(geo_large = 'county',
       tidyr::separate(NAME.y, into = c('tract', 'county', 'state'), sep = ',') %>%
       dplyr::mutate(tract = gsub('[^0-9\\.]', '', tract))
   } 
-  if (geo_small == 'block group') {
+  if (geo_small == 'cbg' | geo_small == 'block group') {
     out_dat <- out_dat %>%
-      tidyr::separate(NAME.y, into = c('block.group', 'tract', 'county', 'state'), sep = ',') %>%
+      tidyr::separate(NAME.y, into = c('cbg', 'tract', 'county', 'state'), sep = ',') %>%
       dplyr::mutate(
-        tract = gsub('[^0-9\\.]', '', tract), block.group = gsub('[^0-9\\.]', '', block.group)
+        tract = gsub('[^0-9\\.]', '', tract), cbg = gsub('[^0-9\\.]', '', cbg)
       )
   } 
   
@@ -199,6 +199,27 @@ gini <- function(geo_large = 'county',
         oid = paste0(STATEFP, COUNTYFP),
         state = stringr::str_trim(state),
         county = stringr::str_trim(county)
+      ) %>% 
+      sf::st_drop_geometry()
+  }
+  if (geo_large == 'place') {
+    stopifnot(is.numeric(year), year >= 2011) # Places only available 2011 onward
+    lgeom <- suppressMessages(suppressWarnings(tigris::places(
+      year = year, state = unique(out_dat$state))
+    ))
+    wlgeom <- sf::st_within(out_dat, lgeom)
+    out_dat <- out_dat %>%
+      dplyr::mutate(
+        oid = lapply(wlgeom, function(x) { 
+          tmp <- lgeom[x, 4] %>% sf::st_drop_geometry()
+          lapply(tmp, function(x) { if (length(x) == 0) NA else x })
+        }) %>% 
+          unlist(),
+        place = lapply(wlgeom, function(x) { 
+          tmp <- lgeom[x, 5] %>% sf::st_drop_geometry()
+          lapply(tmp, function(x) { if (length(x) == 0) NA else x })
+        }) %>% 
+          unlist()
       ) %>% 
       sf::st_drop_geometry()
   }
@@ -241,7 +262,7 @@ gini <- function(geo_large = 'county',
       sf::st_drop_geometry()
   }
   if (geo_large == 'metro') {
-    stopifnot(is.numeric(year), year >= 2011) # Metro Divisions only available 2011 onward
+    stopifnot(is.numeric(year), year >= 2011) # Metropolitan Divisions only available 2011 onward
     lgeom <- suppressMessages(suppressWarnings(tigris::metro_divisions(year = year)))
     wlgeom <- sf::st_within(out_dat, lgeom)
     out_dat <- out_dat %>%
@@ -269,121 +290,115 @@ gini <- function(geo_large = 'county',
     out_dat <- out_dat %>%
       dplyr::mutate(subgroup = rowSums(.[, in_subgroup]))
   }
-    
-    # Compute G for race or ethnicity inequality
-    ## From Gini (1921) https://doi.org/10.2307/2223319
-    ## G = \sum_{n}^{i=1}\sum_{n}^{j=1}\left [ t_{i}t_{j}\left| p_{i}-p_{j}\right| /2T^{2}P(1-P)\right ]
-    ## Where:
-    ## t_{i} is the total population of area i
-    ## t_{j} is the total population of area j
-    ## p_{i} is the proportion of the subgroup population of area i
-    ## p_{j} is the proportion of the subgroup population of area j
-    ## T is the total population of all smaller geographical units
-    ## P is the proportion of the subgroup population of all smaller geographical units
-    
-    ## Compute
-    out_tmp <- out_dat %>%
-      split(., f = list(out_dat$oid)) %>%
-      lapply(., FUN = g_fun, omit_NAs = omit_NAs) %>%
-      utils::stack(.) %>%
-      dplyr::mutate(G_re = values, oid = ind) %>%
-      dplyr::select(G_re, oid)
   
-    # Warning for missingness of census characteristics
-    missingYN <- out_dat[, c('G_incE', 'TotalPopE', in_subgroup)]
-    names(missingYN) <- out_names
-    missingYN <- missingYN %>%
-      tidyr::pivot_longer(
-        cols = dplyr::everything(),
-        names_to = 'variable',
-        values_to = 'val'
-      ) %>%
-      dplyr::group_by(variable) %>%
-      dplyr::summarise(
-        total = dplyr::n(),
-        n_missing = sum(is.na(val)),
-        percent_missing = paste0(round(mean(is.na(val)) * 100, 2), ' %')
-      )
-    
-    if (quiet == FALSE) {
-      # Warning for missing census data
-      if (sum(missingYN$n_missing) > 0) {
-        message('Warning: Missing census data')
-      }
+  # Compute G for race or ethnicity inequality
+  ## From Gini (1921) https://doi.org/10.2307/2223319
+  ## G = \sum_{n}^{i=1}\sum_{n}^{j=1}\left [ t_{i}t_{j}\left| p_{i}-p_{j}\right| /2T^{2}P(1-P)\right ]
+  ## Where:
+  ## t_{i} is the total population of area i
+  ## t_{j} is the total population of area j
+  ## p_{i} is the proportion of the subgroup population of area i
+  ## p_{j} is the proportion of the subgroup population of area j
+  ## T is the total population of all smaller geographical units
+  ## P is the proportion of the subgroup population of all smaller geographical units
+  
+  ## Compute
+  out_tmp <- out_dat %>%
+    split(., f = list(out_dat$oid)) %>%
+    lapply(., FUN = g_fun, omit_NAs = omit_NAs) %>%
+    utils::stack(.) %>%
+    dplyr::mutate(G_re = values, oid = ind) %>%
+    dplyr::select(G_re, oid)
+  
+  # Warning for missingness of census characteristics
+  missingYN <- out_dat[, c('G_incE', 'TotalPopE', in_subgroup)]
+  names(missingYN) <- out_names
+  missingYN <- missingYN %>%
+    tidyr::pivot_longer(
+      cols = dplyr::everything(),
+      names_to = 'variable',
+      values_to = 'val'
+    ) %>%
+    dplyr::group_by(variable) %>%
+    dplyr::summarise(
+      total = dplyr::n(),
+      n_missing = sum(is.na(val)),
+      percent_missing = paste0(round(mean(is.na(val)) * 100, 2), ' %')
+    )
+  
+  if (quiet == FALSE) {
+    # Warning for missing census data
+    if (sum(missingYN$n_missing) > 0) {
+      message('Warning: Missing census data')
     }
-    
-    # Format output
-    if (geo_large == 'state') {
-      out <- out_dat %>%
-        dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, state, G_re) %>%
-        unique(.) %>%
-        dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, state, G_re) %>%
-        .[.$GEOID != 'NANA',]
-    }
-    if (geo_large == 'county') {
-      out <- out_dat %>%
-        dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, state, county, G_re) %>%
-        unique(.) %>%
-        dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, state, county, G_re) %>%
-        .[.$GEOID != 'NANA',]
-    }
-    if (geo_large == 'tract') {
-      out <- out_dat %>%
-        dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, state, county, tract, G_re) %>%
-        unique(.) %>%
-        dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, state, county, tract,G_re) %>%
-        .[.$GEOID != 'NANA',]
-    }
-    if (geo_large == 'cbsa') {
-      out <- out_dat %>%
-        dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, cbsa, G_re) %>%
-        unique(.) %>%
-        dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, cbsa, G_re) %>%
-        .[.$GEOID != 'NANA', ] %>%
-        dplyr::distinct(GEOID, .keep_all = TRUE) %>%
-        dplyr::filter(stats::complete.cases(.))
-    }
-    if (geo_large == 'csa') {
-      out <- out_dat %>%
-        dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, csa, G_re) %>%
-        unique(.) %>%
-        dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, csa, G_re) %>%
-        .[.$GEOID != 'NANA', ] %>%
-        dplyr::distinct(GEOID, .keep_all = TRUE) %>%
-        dplyr::filter(stats::complete.cases(.))
-    }
-    if (geo_large == 'metro') {
-      out <- out_dat %>%
-        dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
-        dplyr::select(oid, metro, G_re) %>%
-        unique(.) %>%
-        dplyr::mutate(GEOID = oid) %>%
-        dplyr::select(GEOID, metro, G_re) %>%
-        .[.$GEOID != 'NANA', ] %>%
-        dplyr::distinct(GEOID, .keep_all = TRUE) %>%
-        dplyr::filter(stats::complete.cases(.))
-    }
-    
+  }
+  
+  # Format output
+  out <- out_dat %>%
+    dplyr::left_join(out_tmp, by = dplyr::join_by(oid))
+  if (geo_large == 'state') {
     out <- out %>%
-      dplyr::arrange(GEOID) %>%
-      dplyr::as_tibble()
-    
-    out_dat <- out_dat %>%
-      dplyr::rename(G_inc = G_incE) %>%
-      dplyr::arrange(GEOID) %>%
-      dplyr::as_tibble()
-    
-    out <- list(g = out, g_data = out_dat, missing = missingYN)
+      dplyr::select(oid, state, G_re) %>%
+      unique(.) %>%
+      dplyr::mutate(GEOID = oid) %>%
+      dplyr::select(GEOID, state, G_re)
+  }
+  if (geo_large == 'county') {
+    out <- out %>%
+      dplyr::select(oid, state, county, G_re) %>%
+      unique(.) %>%
+      dplyr::mutate(GEOID = oid) %>%
+      dplyr::select(GEOID, state, county, G_re)
+  }
+  if (geo_large == 'tract') {
+    out <- out %>%
+      dplyr::select(oid, state, county, tract, G_re) %>%
+      unique(.) %>%
+      dplyr::mutate(GEOID = oid) %>%
+      dplyr::select(GEOID, state, county, tract,G_re)
+  }
+  if (geo_large == 'place') {
+    out <- out %>%
+      dplyr::select(oid, place, G_re) %>%
+      unique(.) %>%
+      dplyr::mutate(GEOID = oid) %>%
+      dplyr::select(GEOID, place, G_re)
+  }
+  if (geo_large == 'cbsa') {
+    out <- out %>%
+      dplyr::select(oid, cbsa, G_re) %>%
+      unique(.) %>%
+      dplyr::mutate(GEOID = oid) %>%
+      dplyr::select(GEOID, cbsa, G_re)
+  }
+  if (geo_large == 'csa') {
+    out <- out %>%
+      dplyr::select(oid, csa, G_re) %>%
+      unique(.) %>%
+      dplyr::mutate(GEOID = oid) %>%
+      dplyr::select(GEOID, csa, G_re)
+  }
+  if (geo_large == 'metro') {
+    out <- out %>%
+      dplyr::select(oid, metro, G_re) %>%
+      unique(.) %>%
+      dplyr::mutate(GEOID = oid) %>%
+      dplyr::select(GEOID, metro, G_re)
+  }
+  
+  out <- out %>%
+    .[.$GEOID != 'NANA', ] %>%
+    dplyr::filter(!is.na(GEOID)) %>%
+    dplyr::distinct(GEOID, .keep_all = TRUE) %>%
+    dplyr::arrange(GEOID) %>%
+    dplyr::as_tibble()
+  
+  out_dat <- out_dat %>%
+    dplyr::rename(G_inc = G_incE) %>%
+    dplyr::arrange(GEOID) %>%
+    dplyr::as_tibble()
+  
+  out <- list(g = out, g_data = out_dat, missing = missingYN)
   
   return(out)
 }

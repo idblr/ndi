@@ -7,7 +7,7 @@
 anthopolos(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
 }
 \arguments{
-\item{geo}{Character string specifying the geography of the data either census tracts \code{geo = 'tract'} (the default) or counties \code{geo = 'county'}.}
+\item{geo}{Character string specifying the geography of the data either counties \code{geo = 'county'}, census tracts \code{geo = 'tract'} (the default), or census block groups \code{geo = 'cbg'}.}
 
 \item{year}{Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.}
 

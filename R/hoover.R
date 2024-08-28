@@ -3,7 +3,7 @@
 #' Compute the aspatial Delta (Hoover) of a selected racial or ethnic subgroup(s) and U.S. geographies.
 #'
 #' @param geo_large Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = 'county'}.
-#' @param geo_small Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_large = 'tract'}.
+#' @param geo_small Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_small = 'tract'}.
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
 #' @param subgroup Character string specifying the racial or ethnic subgroup(s). See Details for available choices.
 #' @param omit_NAs Logical. If FALSE, will compute index for a larger geographical unit only if all of its smaller geographical units have values. The default is TRUE.
@@ -40,7 +40,7 @@
 #' 
 #' \emph{DEL} is a measure of the proportion of members of one subgroup(s) residing in geographic units with above average density of members of the subgroup(s). The index provides the proportion of a subgroup population that would have to move across geographic units to achieve a uniform density. \emph{DEL} can range in value from 0 to 1.
 #' 
-#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, Combined Statistical Area \code{geo_large = 'csa'}, and Metropolitan Division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{DEL} value returned is NA. If the larger geographical unit is Combined Based Statistical Areas \code{geo_large = 'csa'} or Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{DEL} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{DEL} computation.
+#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, census-designated place \code{geo_large = 'place'}, core-based statistical area \code{geo_large = 'cbsa'}, combined statistical area \code{geo_large = 'csa'}, and metropolitan division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'cbg'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{DEL} value returned is NA. If the larger geographical unit is census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, or metropolitan divisions \code{geo_large = 'metro'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{DEL} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{DEL} computation.
 #' 
 #' @return An object of class 'list'. This is a named list with the following components:
 #' 
@@ -56,7 +56,7 @@
 #' @importFrom stringr str_trim
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
-#' @importFrom tigris combined_statistical_areas core_based_statistical_areas metro_divisions
+#' @importFrom tigris combined_statistical_areas core_based_statistical_areas metro_divisions places
 #' @importFrom utils stack
 #' @export
 #' 
@@ -87,8 +87,8 @@ hoover <- function(geo_large = 'county',
                    ...) {
   
   # Check arguments
-  match.arg(geo_large, choices = c('state', 'county', 'tract', 'cbsa', 'csa', 'metro'))
-  match.arg(geo_small, choices = c('county', 'tract', 'block group'))
+  match.arg(geo_large, choices = c('state', 'county', 'tract', 'place', 'cbsa', 'csa', 'metro'))
+  match.arg(geo_small, choices = c('county', 'tract', 'cbg', 'block group'))
   stopifnot(is.numeric(year), year >= 2009) # all variables available 2009 onward
   match.arg(
     subgroup,
@@ -169,11 +169,11 @@ hoover <- function(geo_large = 'county',
       tidyr::separate(NAME.y, into = c('tract', 'county', 'state'), sep = ',') %>%
       dplyr::mutate(tract = gsub('[^0-9\\.]', '', tract))
   } 
-  if (geo_small == 'block group') {
+  if (geo_small == 'cbg' | geo_small == 'block group') {
     out_dat <- out_dat %>%
-      tidyr::separate(NAME.y, into = c('block.group', 'tract', 'county', 'state'), sep = ',') %>%
+      tidyr::separate(NAME.y, into = c('cbg', 'tract', 'county', 'state'), sep = ',') %>%
       dplyr::mutate(
-        tract = gsub('[^0-9\\.]', '', tract), block.group = gsub('[^0-9\\.]', '', block.group)
+        tract = gsub('[^0-9\\.]', '', tract), cbg = gsub('[^0-9\\.]', '', cbg)
       )
   } 
   
@@ -201,6 +201,27 @@ hoover <- function(geo_large = 'county',
         oid = paste0(STATEFP, COUNTYFP, TRACTCE),
         state = stringr::str_trim(state),
         county = stringr::str_trim(county)
+      ) %>% 
+      sf::st_drop_geometry()
+  }
+  if (geo_large == 'place') {
+    stopifnot(is.numeric(year), year >= 2011) # Places only available 2011 onward
+    lgeom <- suppressMessages(suppressWarnings(tigris::places(
+      year = year, state = unique(out_dat$state))
+    ))
+    wlgeom <- sf::st_within(out_dat, lgeom)
+    out_dat <- out_dat %>%
+      dplyr::mutate(
+        oid = lapply(wlgeom, function(x) { 
+          tmp <- lgeom[x, 4] %>% sf::st_drop_geometry()
+          lapply(tmp, function(x) { if (length(x) == 0) NA else x })
+        }) %>% 
+          unlist(),
+        place = lapply(wlgeom, function(x) { 
+          tmp <- lgeom[x, 5] %>% sf::st_drop_geometry()
+          lapply(tmp, function(x) { if (length(x) == 0) NA else x })
+        }) %>% 
+          unlist()
       ) %>% 
       sf::st_drop_geometry()
   }
@@ -243,7 +264,7 @@ hoover <- function(geo_large = 'county',
       sf::st_drop_geometry()
   }
   if (geo_large == 'metro') {
-    stopifnot(is.numeric(year), year >= 2011) # Metro Divisions only available 2011 onward
+    stopifnot(is.numeric(year), year >= 2011) # Metropolitan Divisions only available 2011 onward
     lgeom <- suppressMessages(suppressWarnings(tigris::metro_divisions(year = year)))
     wlgeom <- sf::st_within(out_dat, lgeom)
     out_dat <- out_dat %>%
@@ -309,14 +330,14 @@ hoover <- function(geo_large = 'county',
   }
   
   # Format output
+  out <- out_dat %>%
+    dplyr::left_join(out_tmp, by = dplyr::join_by(oid))
   if (geo_large == 'state') {
-    out <- out_dat %>%
-      dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
+    out <- out %>%
       dplyr::select(oid, state, DEL) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, DEL) %>%
-      .[.$GEOID != 'NANA', ]
+      dplyr::select(GEOID, state, DEL)
   }
   if (geo_large == 'county') {
     out <- out_dat %>%
@@ -324,8 +345,7 @@ hoover <- function(geo_large = 'county',
       dplyr::select(oid, state, county, DEL) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, DEL) %>%
-      .[.$GEOID != 'NANA', ]
+      dplyr::select(GEOID, state, county, DEL)
   }
   if (geo_large == 'tract') {
     out <- out_dat %>%
@@ -333,8 +353,15 @@ hoover <- function(geo_large = 'county',
       dplyr::select(oid, state, county, tract, DEL) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, tract, DEL) %>%
-      .[.$GEOID != 'NANA', ]
+      dplyr::select(GEOID, state, county, tract, DEL)
+  }
+  if (geo_large == 'place') {
+    out <- out_dat %>%
+      dplyr::left_join(out_tmp, by = dplyr::join_by(oid)) %>%
+      dplyr::select(oid, place, DEL) %>%
+      unique(.) %>%
+      dplyr::mutate(GEOID = oid) %>%
+      dplyr::select(GEOID, place, DEL)
   }
   if (geo_large == 'cbsa') {
     out <- out_dat %>%
@@ -342,10 +369,7 @@ hoover <- function(geo_large = 'county',
       dplyr::select(oid, cbsa, DEL) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, cbsa, DEL) %>%
-      .[.$GEOID != 'NANA', ] %>%
-      dplyr::distinct(GEOID, .keep_all = TRUE) %>%
-      dplyr::filter(stats::complete.cases(.))
+      dplyr::select(GEOID, cbsa, DEL)
   }
   if (geo_large == 'csa') {
     out <- out_dat %>%
@@ -353,10 +377,7 @@ hoover <- function(geo_large = 'county',
       dplyr::select(oid, csa, DEL) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, csa, DEL) %>%
-      .[.$GEOID != 'NANA', ] %>%
-      dplyr::distinct(GEOID, .keep_all = TRUE) %>%
-      dplyr::filter(stats::complete.cases(.))
+      dplyr::select(GEOID, csa, DEL)
   }
   if (geo_large == 'metro') {
     out <- out_dat %>%
@@ -364,13 +385,13 @@ hoover <- function(geo_large = 'county',
       dplyr::select(oid, metro, DEL) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, metro, DEL) %>%
-      .[.$GEOID != 'NANA', ] %>%
-      dplyr::distinct(GEOID, .keep_all = TRUE) %>%
-      dplyr::filter(stats::complete.cases(.))
+      dplyr::select(GEOID, metro, DEL)
   }
   
   out <- out %>%
+    .[.$GEOID != 'NANA', ] %>%
+    dplyr::filter(!is.na(GEOID)) %>%
+    dplyr::distinct(GEOID, .keep_all = TRUE) %>%
     dplyr::arrange(GEOID) %>%
     dplyr::as_tibble()
   
