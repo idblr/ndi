@@ -268,6 +268,7 @@ globalVariables(
     'ACE',
     'C',
     'd',
-    'crs'
+    'crs',
+    'RCE'
   )
 )
