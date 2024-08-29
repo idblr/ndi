@@ -1,7 +1,7 @@
 Package: ndi
 Title: Neighborhood Deprivation Indices
-Version: 0.1.6.9006
-Date: 2024-08-24
+Version: 0.1.6.9007
+Date: 2024-08-29
 Authors@R:
     c(person(given = "Ian D.",
              family = "Buller",
@@ -11,10 +11,10 @@ Authors@R:
       person(given = "NCI",
              role = c("cph", "fnd")))
 Maintainer: Ian D. Buller <ian.buller@alumni.emory.edu>
-Description: Computes various metrics of socio-economic deprivation and disparity in
-             the United States. Some metrics are considered "spatial" because they 
+Description: Computes various indices of socioeconomic deprivation and disparity in
+             the United States. Some indices are considered "spatial" because they 
              consider the values of neighboring (i.e., adjacent) census geographies in
-             their computation, while other metrics are "aspatial" because they only 
+             their computation, while other indices are "aspatial" because they only 
              consider the value within each census geography. Two types of aspatial 
              neighborhood deprivation indices (NDI) are available: including:
              (1) based on Messer et al. (2006) <doi:10.1007/s11524-006-9094-x>
@@ -24,36 +24,10 @@ Description: Computes various metrics of socio-economic deprivation and disparit
              <doi:10.1111/j.1749-6632.2009.05333.x>. Both are a decomposition of multiple
              demographic characteristics from the U.S. Census Bureau American Community 
              Survey 5-year estimates (ACS-5; 2006-2010 onward). Using data from the ACS-5
-             (2005-2009 onward), the package can also (1) compute the spatial Racial Isolation
-             Index (RI) based on Anthopolos et al. (2011) <doi:10.1016/j.sste.2011.06.002>,
-             (2) compute the spatial Educational Isolation Index (EI) based on Bravo et al.
-             (2021) <doi:10.3390/ijerph18179384>, (3) compute the aspatial Index of 
-             Concentration at the Extremes (ICE) based on Feldman et al. (2015) 
-             <doi:10.1136/jech-2015-205728> and Krieger et al. (2016) 
-             <doi:10.2105/AJPH.2015.302955>, (4) compute the aspatial racial or ethnic 
-             Dissimilarity Index (D) based on Duncan & Duncan (1955) <doi:10.2307/2088328>, (5)
-             compute the aspatial income or racial or ethnic Atkinson Index (A) based on Atkinson 
-             (1970) <doi:10.1016/0022-0531(70)90039-6>, (6) aspatial racial or ethnic Interaction
-             Index (xPy*) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and Bell
-             (1954) <doi:10.2307/2574118>, (7) aspatial racial or ethnic Correlation Ratio (V)
-             based on Bell (1954) <doi:10.2307/2574118> and White (1986) <doi:10.2307/3644339>,
-             (8) aspatial racial or ethnic Location Quotient (LQ) based on Merton (1939) 
-             <doi:10.2307/2084686> and Sudano et al. (2013) 
-             <doi:10.1016/j.healthplace.2012.09.015>, (9) aspatial racial or ethnic Local
-             Exposure and Isolation (LEx/Is) metric based on Bemanian & Beyer (2017) 
-             <doi:10.1158/1055-9965.EPI-16-0926>, (10) aspatial racial or ethnic Delta (DEL) 
-             based on Hoover (1941) <doi:10.1017/S0022050700052980> and Duncan et al. (1961; 
-             LC:60007089), (11) an index of spatial proximity (SP) based on White (1986)
-             <doi:10.2307/3644339> and Blau (1977; ISBN-13:978-0-029-03660-0), (12) the 
-             aspatial racial or ethnic Isolation Index (xPx*) based on Lieberson (1981; 
-             ISBN-13:978-1-032-53884-6) and Bell (1954) <doi:10.2307/2574118>, (13) the
-             aspatial racial or ethnic Gini Index (G) based Gini (1921) <doi:10.2307/2223319>, 
-             (14) the aspatial racial or ethnic Dissimilarity Index (D) based on James & 
-             Taeuber (1985) <doi:10.2307/270845>, and (15) the aspatial racial or ethnic 
-             Entropy (H) based on Theil (1972; ISBN-13:978-0-444-10378-9) and Theil & Finizza
-             (1971) <doi:110.1080/0022250X.1971.9989795>. Also using data from the ACS-5 (2005-2009 
-             onward), the package can retrieve the aspatial income Gini Index (G) based on 
-             Gini (1921) <doi:10.2307/2223319>.
+             (2005-2009 onward), the package can also compute indices of racial or ethnic
+             residential segregation, including but limited to those discussed in Massey 
+             & Denton (1988) <doi:10.1093/sf/67.2.281>, and additional indices of 
+             socioeconomic disparity.
 License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true

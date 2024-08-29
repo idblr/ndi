@@ -536,7 +536,7 @@ bibentry(bibtype = 'Book',
 )
         
 bibentry(bibtype = 'Article',
-  title          = 'A note on the measurement of racial integration of schools by means of informational conceptsFootnote',
+  title          = 'A note on the measurement of racial integration of schools by means of informational concepts',
   author         = c(as.person('Henri Theil'),
                    as.person('Anthony J. Finizza')),
   journal        = 'Journal of Mathematical Sociology',
@@ -547,9 +547,47 @@ bibentry(bibtype = 'Article',
 
   textVersion    =
   paste('Henri Theil & Anthony J. Finizza (1971).',
-        'A note on the measurement of racial integration of schools by means of informational conceptsFootnote.',
+        'A note on the measurement of racial integration of schools by means of informational concepts.',
         'Journal of Mathematical Sociology, 1, 187-194.',
         'DOI:10.1080/0022250X.1971.9989795'),
+
+  header         = 'And (2):'
+)
+
+bibentry(bibtype = 'Book',
+  title          = 'Statistical Geography: Problems in Analyzing Area Data',
+  author         = c(as.person('Otis D. Duncan'),
+                    as.person('Ray P. Cuzzort'),
+                    as.person('Beverly Duncan')),
+  year           = '1961',
+  publisher      = 'Free Press',
+  lc             = '60007089',
+
+  textVersion    =
+  paste('Otis D. Duncan, Ray P. Cuzzort, & Beverly Duncan (1961).',
+        'Statistical Geography: Problems in Analyzing Area Data.',
+        'Free Press',
+        'LC:60007089'),
+
+  header         = 'If you computed ACE (Duncan & Cuzzort) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'The Dimensions of Residential Segregation',
+  author         = c(as.person('Douglas S. Massey'),
+                   as.person('Nancy A. Denton')),
+  journal        = 'Social Forces',
+  year           = '1988',
+  volume         = '67',
+  issue          = '2',
+  pages          = '281--315',
+  doi            = '10.1093/sf/67.2.281',
+
+  textVersion    =
+  paste('Douglas S. Massey & Nancy A. Denton (1988).',
+        'The Dimensions of Residential Segregation.',
+        'Social Forces, 67(1), 281-315.',
+        'DOI:10.1093/sf/67.2.281'),
 
   header         = 'And (2):'
 )

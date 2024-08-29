@@ -1,0 +1,338 @@
+---
+title: '3. Additional indices of socioeconomic disparity'
+author: 'Ian D. Buller (GitHub: @idblr)'
+date: '`r Sys.Date()`'
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{3. Additional indices of socioeconomic disparity}
+  %\VignetteEngine{R.rsp::asis}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, cache = FALSE, fig.show = 'hold')
+```
+
+Start with the necessary packages for the vignette.
+
+```{r packages, results = 'hide'}
+loadedPackages <- c('dplyr', 'ggplot2', 'ndi', 'sf', 'tidycensus', 'tigris')
+invisible(lapply(loadedPackages, library, character.only = TRUE))
+options(tigris_use_cache = TRUE)
+```
+
+Set your U.S. Census Bureau access key. Follow [this link](http://api.census.gov/data/key_signup.html) to obtain one. Specify your access key in the functions below using the `key` argument of the `get_acs()` function from the [*tidycensus*](https://CRAN.R-project.org/package=tidycensus) package called within each or by using the `census_api_key()` function from the [*tidycensus*](https://CRAN.R-project.org/package=tidycensus) package before running the functions.
+
+```{r access_key_private, echo = FALSE}
+source(file.path('..', 'dev', 'private_key.R'))
+census_api_key(private_key)
+```
+
+```{r access_key_public, eval = FALSE}
+census_api_key('...') # INSERT YOUR OWN KEY FROM U.S. CENSUS API
+```
+
+## Additional indices of socioeconomic disparity
+
+Since version v0.1.1, the [*ndi*](https://CRAN.R-project.org/package=ndi) package can use data from the ACS to compute additional indices of socioeconomic disparity, including:
+
+  * `atkinson()` function also computes the Atkinson Index (*A*) of income based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6)
+  * `bravo()` function that computes the Educational Isolation Index (*EI*) based on [Bravo et al. (2021)](https://doi.org/10.3390/ijerph18179384)
+  * `gini()` function also retrieves the Gini Index (*G*) of income inequality based on [Gini (1921)](https://doi.org/10.2307/2223319)
+  * `krieger()` function that computes the Index of Concentration at the Extremes (*ICE*) based on based on [Feldman et al. (2015)](https://doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://doi.org/10.2105/AJPH.2015.302955)
+
+#### Compute income Atkinson Index (*A*)
+
+Compute the income *A* values (2017-2021 5-year ACS) for Kentucky, U.S.A., counties from census block groups. This metric is based on [Atkinson (1970)](https://doi.org/10.2307/2088328) that assessed the distribution of income within 12 counties. To compare median household income, specify `subgroup = 'MedHHInc'` which will use the ACS variable 'B19013_001' in the computation and uses the Hölder mean. *A* is a measure of the inequality when comparing smaller geographical units to larger ones within which the smaller geographical units are located. *A* can range in value from 0 to 1 and smaller values of the index indicate lower levels of income inequality.
+
+*A* is sensitive to the choice of `epsilon` argument or the shape parameter that determines how to weight the increments to inequality contributed by different proportions of the Lorenz curve. A user must explicitly decide how heavily to weight smaller geographical units at different points on the Lorenz curve (i.e., whether the index should take greater account of differences among areas of over- or under-representation). The `epsilon` argument must have values between 0 and 1.0. For `0 <= epsilon < 0.5` or less 'inequality-averse,' smaller geographical units with a subgroup proportion smaller than the subgroup proportion of the larger geographical unit contribute more to inequality ('over-representation'). For `0.5 < epsilon <= 1.0` or more 'inequality-averse,' smaller geographical units with a subgroup proportion larger than the subgroup proportion of the larger geographical unit contribute more to inequality ('under-representation'). If `epsilon = 0.5` (the default), units of over- and under-representation contribute equally to the index. See Section 2.3 of [Saint-Jacques et al. (2020)](https://doi.org/10.48550/arXiv.2002.05819) for one method to select `epsilon`. We choose `epsilon = 0.67` in the example below:
+
+```{r atkinson_inc_prep, results = 'hide'}
+atkinson2021KY <- atkinson(
+  geo_large = 'county',
+  geo_small = 'block group',
+  state = 'KY',
+  year = 2021,
+  subgroup = 'MedHHInc',
+  epsilon = 0.33
+)
+
+# Obtain the 2021 census counties from the 'tigris' package
+county2021KY <- counties(state = 'KY', year = 2021, cb = TRUE)
+
+# Join the A values to the county geometry
+KY2021atkinson <- county2021KY %>% 
+  left_join(atkinson2021KY$a, by = 'GEOID')
+```
+
+```{r atkinson_inc_plot, fig.height = 4, fig.width = 7}
+# Visualize the A values (2017-2021 5-year ACS) for Kentucky, U.S.A., counties
+ggplot() +
+  geom_sf(
+    data = KY2021atkinson,
+    aes(fill = A),
+    size = 0.05,
+    color = 'white'
+  ) +
+  geom_sf(
+    data = county2021KY,
+    fill = 'transparent',
+    color = 'white',
+    size = 0.2
+  ) +
+  theme_minimal() +
+  scale_fill_viridis_c() +
+  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2017-2021 estimates') +
+  ggtitle(
+    'Atkinson Index (Atkinson)\nKentucky census block groups to counties',
+    subtitle = expression(paste('Median Household Income (', epsilon, ' = 0.33)'))
+  )
+```
+
+#### Compute Educational Isolation Index (*EI*)
+
+Compute the spatial *EI* (Bravo) values (2006-2010 5-year ACS) for Oklahoma, U.S.A., census tracts. This metric is based on [Bravo et al. (2021)](https://doi.org/10.3390/ijerph18179384) that assessed the educational isolation of the population without a four-year college degree. Multiple educational attainment categories are available in the `bravo()` function, including:
+
+| ACS table source | educational attainment category | character for `subgroup` argument |
+| -------------- | ------------- | ---------------- |
+| B06009_002 | less than high school graduate | LtHS |
+| B06009_003 | high school graduate (includes equivalency) | HSGiE |
+| B06009_004 | some college or associate's degree | SCoAD |
+| B06009_005 | Bachelor's degree | BD |
+| B06009_006 | graduate or professional degree | GoPD |
+Note: The ACS-5 data (2005-2009) uses the 'B15002' question.
+
+A census geography (and its neighbors) that has nearly all of its population with the specified educational attainment category (e.g., a four-year college degree or more) will have an *EI* (Bravo) value close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population with the specified educational attainment category (e.g., with a four-year college degree) will have an *EI* (Bravo) value close to 0.
+
+```{r bravo_prep, results = 'hide'}
+bravo2010OK <- bravo(state = 'OK', year = 2010, subgroup = c('LtHS', 'HSGiE', 'SCoAD'))
+
+# Obtain the 2010 census tracts from the 'tigris' package
+tract2010OK <- tracts(state = 'OK', year = 2010, cb = TRUE)
+# Remove first 9 characters from GEOID for compatibility with tigris information
+tract2010OK$GEOID <- substring(tract2010OK$GEO_ID, 10) 
+
+# Obtain the 2010 counties from the 'tigris' package
+county2010OK <- counties(state = 'OK', year = 2010, cb = TRUE)
+
+# Join the EI (Bravo) values to the census tract geometry
+OK2010bravo <- tract2010OK %>%
+  left_join(bravo2010OK$ei, by = 'GEOID')
+```
+
+```{r bravo_plot, fig.height = 4, fig.width = 7}
+# Visualize the EI (Bravo) values (2006-2010 5-year ACS) for Oklahoma, U.S.A., census tracts 
+ggplot() +
+  geom_sf(
+    data = OK2010bravo,
+    aes(fill = EI),
+    size = 0.05,
+    color = 'transparent'
+  ) +
+  geom_sf(
+    data = county2010OK,
+    fill = 'transparent',
+    color = 'white',
+    size = 0.2
+  ) +
+  theme_minimal() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
+  ggtitle(
+    'Educational Isolation Index (Bravo), without a four-year college degree',
+    subtitle = 'OK census tracts (not corrected for edge effects)'
+  )
+```
+
+Can correct one source of edge effect in the same manner as shown for the *RI* metric in vignette [2. Racial or Ethnic Residential Segregation Indices](ndi2.html)
+
+#### The income Gini Index (*G*)
+
+Retrieve the income Gini Index (*G*) values (2006-2010 5-year ACS) for Massachusetts, U.S.A., census tracts. This metric is based on [Gini (1921)](https://doi.org/10.2307/2223319), and the `gini()` function retrieves the estimate from the ACS-5 when calculating the Gini Index (*G*) for racial or ethnic inequality.
+
+According to the [U.S. Census Bureau](https://census.gov/topics/income-poverty/income-inequality/about/metrics/gini-index.html): 'The Gini Index is a summary measure of income inequality. The Gini coefficient incorporates the detailed shares data into a single statistic, which summarizes the dispersion of income across the entire income distribution. The Gini coefficient ranges from 0, indicating perfect equality (where everyone receives an equal share), to 1, perfect inequality (where only one recipient or group of recipients receives all the income). The Gini Index is based on the difference between the Lorenz curve (the observed cumulative income distribution) and the notion of a perfectly equal income distribution.'
+
+```{r gini_prep, results = 'hide'}
+gini2010MA <- gini(
+  geo_large = 'county',
+  geo_small = 'tract',
+  state = 'MA',
+  year = 2010,
+  subgroup = c('NHoLB', 'HoLB')
+)
+
+# Obtain the 2010 census tracts from the 'tigris' package
+tract2010MA <- tracts(state = 'MA', year = 2010, cb = TRUE)
+# Remove first 9 characters from GEOID for compatibility with tigris information
+tract2010MA$GEOID <- substring(tract2010MA$GEO_ID, 10) 
+
+# Obtain the 2010 counties from the 'tigris' package
+county2010MA <- counties(state = 'MA', year = 2010, cb = TRUE)
+
+# Join the G (Gini) values to the census tract geometry
+MA2010gini <- tract2010MA %>%
+  left_join(gini2010MA$g_data, by = 'GEOID')
+```
+
+```{r gini_plot, fig.height = 4, fig.width = 7}
+# Visualize the G (Gini) values (2006-2010 5-year ACS) for Massachusetts, U.S.A., census tracts 
+ggplot() +
+  geom_sf(
+    data = MA2010gini,
+    aes(fill = G_inc),
+    size = 0.05,
+    color = 'transparent'
+  ) +
+  geom_sf(
+    data = county2010MA,
+    fill = 'transparent',
+    color = 'white',
+    size = 0.2
+  ) +
+  theme_minimal() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
+  ggtitle('Gini Index', subtitle = 'Income of MA census tracts')
+```
+
+#### Index of Concentration at the Extremes (*ICE*)
+
+Compute the Index of Concentration at the Extremes values (2006-2010 5-year ACS) for Wayne County, Michigan, U.S.A., census tracts. Wayne County is the home of Detroit, Michigan, a highly segregated city in the U.S. This metric is based on [Feldman et al. (2015)](https://doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://doi.org/10.2105/AJPH.2015.302955) who expanded the metric designed by Massey in a chapter of [Booth & Crouter (2001)](https://doi.org/10.4324/9781410600141) initially designed for residential segregation. The `krieger()` function computes five *ICE* metrics using the following ACS groups:
+
+| ACS table group | *ICE* metric | Comparison |
+| -------------- | ------------- | ---------------- |
+| B19001 | Income, 'ICE_inc'| 80th income percentile vs. 20th income percentile |
+| B15002 | Education, 'ICE_edu'| less than high school vs. four-year college degree or more |
+| B03002 | Race or Ethnicity, 'ICE_rewb'| 80th income percentile vs. 20th income percentile |
+| B19001 & B19001B & B19001H | Income and race or ethnicity combined, 'ICE_wbinc' | white non-Hispanic in 80th income percentile vs. black alone (including Hispanic) in 20th income percentile |
+| B19001 & B19001H | Income and race or ethnicity combined, 'ICE_wpcinc'| white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile |
+
+*ICE* metrics can range in value from −1 (most deprived) to 1 (most privileged). A value of 0 can thus represent two possibilities: (1) none of the residents are in the most privileged or most deprived categories, or (2) an equal number of persons are in the most privileged and most deprived categories, and in both cases indicates that the area is not dominated by extreme concentrations of either of the two groups.
+
+```{r krieger_prep, results = 'hide'}
+ice2020WC <- krieger(state = 'MI', county = 'Wayne', year = 2010)
+
+# Obtain the 2010 census tracts from the 'tigris' package
+tract2010WC <- tracts(state = 'MI', county = 'Wayne', year = 2010, cb = TRUE)
+# Remove first 9 characters from GEOID for compatibility with tigris information
+tract2010WC$GEOID <- substring(tract2010WC$GEO_ID, 10) 
+
+# Join the ICE values to the census tract geometry
+ice2020WC <- tract2010WC %>%
+  left_join(ice2020WC$ice, by = 'GEOID')
+```
+
+```{r krieger_plot, fig.height = 5.5, fig.width = 7}
+# Plot ICE for Income
+ggplot() +
+  geom_sf(
+    data = ice2020WC,
+    aes(fill = ICE_inc),
+    color = 'white',
+    size = 0.05
+  ) +
+  theme_bw() +
+  scale_fill_gradient2(
+    low = '#998ec3',
+    mid = '#f7f7f7',
+    high = '#f1a340',
+    limits = c(-1, 1)
+  ) +
+  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
+  ggtitle(
+    'Index of Concentration at the Extremes\nIncome (Krieger)',
+    subtitle = '80th income percentile vs. 20th income percentile'
+  )
+
+# Plot ICE for Education
+ggplot() +
+  geom_sf(
+    data = ice2020WC,
+    aes(fill = ICE_edu),
+    color = 'white',
+    size = 0.05
+  ) +
+  theme_bw() +
+  scale_fill_gradient2(
+    low = '#998ec3',
+    mid = '#f7f7f7',
+    high = '#f1a340',
+    limits = c(-1, 1)
+  ) +
+  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
+  ggtitle(
+    'Index of Concentration at the Extremes\nEducation (Krieger)',
+    subtitle = 'less than high school vs. four-year college degree or more'
+  )
+
+# Plot ICE for Race or Ethnicity
+ggplot() +
+  geom_sf(
+    data = ice2020WC,
+    aes(fill = ICE_rewb),
+    color = 'white',
+    size = 0.05
+  ) +
+  theme_bw() +
+  scale_fill_gradient2(
+    low = '#998ec3',
+    mid = '#f7f7f7',
+    high = '#f1a340',
+    limits = c(-1, 1)
+  ) +
+  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
+  ggtitle(
+    'Index of Concentration at the Extremes\nRace or Ethnicity (Krieger)',
+    subtitle = 'white non-Hispanic vs. black non-Hispanic'
+  )
+
+# Plot ICE for Income and Race or Ethnicity Combined
+## white non-Hispanic in 80th income percentile vs. 
+## black (including Hispanic) in 20th income percentile
+ggplot() +
+  geom_sf(
+    data = ice2020WC,
+    aes(fill = ICE_wbinc),
+    color = 'white',
+    size = 0.05
+  ) +
+  theme_bw() +
+  scale_fill_gradient2(
+    low = '#998ec3',
+    mid = '#f7f7f7',
+    high = '#f1a340',
+    limits = c(-1, 1)
+  ) +
+  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
+  ggtitle(
+    'Index of Concentration at the Extremes\nIncome & race or ethnicity combined (Krieger)',
+    subtitle = 'white non-Hispanic in 80th inc ptcl vs. black alone in 20th inc pctl'
+  )
+
+# Plot ICE for Income and Race or Ethnicity Combined
+## white non-Hispanic in 80th income percentile vs. white non-Hispanic in 20th income percentile
+ggplot() +
+  geom_sf(
+    data = ice2020WC,
+    aes(fill = ICE_wpcinc),
+    color = 'white',
+    size = 0.05
+  ) +
+  theme_bw() +
+  scale_fill_gradient2(
+    low = '#998ec3',
+    mid = '#f7f7f7',
+    high = '#f1a340',
+    limits = c(-1, 1)
+  ) +
+  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
+  ggtitle(
+    'Index of Concentration at the Extremes\nIncome & race or ethnicity combined (Krieger)',
+    subtitle = 'white non-Hispanic (WNH) in 80th inc pctl vs. WNH in 20th inc pctl'
+  )
+```
+
+```{r system}
+sessionInfo()
+```

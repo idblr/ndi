@@ -12,11 +12,11 @@
 [![DOI](https://zenodo.org/badge/521439746.svg)](https://zenodo.org/badge/latestdoi/521439746)
 <!-- badges: end -->
 
-**Date repository last updated**: 2024-08-24
+**Date repository last updated**: 2024-08-29
 
 ### Overview
 
-The *ndi* package is a suite of [**R**](https://cran.r-project.org/) functions to compute various metrics of socio-economic deprivation and disparity in the United States. Some metrics are considered 'spatial' because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other metrics are 'aspatial' because they only consider the value within each census geography. Two types of aspatial neighborhood deprivation index (*NDI*) are available: (1) based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) who use variables chosen by [Roux and Mair (2010)](https://doi.org/10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of various demographic characteristics from the U.S. Census Bureau American Community Survey 5-year estimates (ACS-5; 2006-2010 onward) pulled by the [tidycensus](https://CRAN.R-project.org/package=tidycensus) package. Using data from the ACS-5 (2005-2009 onward), the *ndi* package can also compute the (1) spatial Racial Isolation Index (*RI*) based on [Anthopolos et al. (2011)](https://doi.org/10.1016/j.sste.2011.06.002), (2) spatial Educational Isolation Index (*EI*) based on [Bravo et al. (2021)](https://doi.org/10.3390/ijerph18179384), (3) aspatial Index of Concentration at the Extremes (*ICE*) based on [Feldman et al. (2015)](https://doi.org/10.1136/jech-2015-205728) and [Krieger et al. (2016)](https://doi.org/10.2105/AJPH.2015.302955), (4) aspatial racial or ethnic Dissimilarity Index (*D*) based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328), (5) aspatial income or racial or ethnic Atkinson Index (*A*) based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6), (6) aspatial racial or ethnic Interaction Index (_xPy\*_) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and [Bell (1954)](https://doi.org/10.2307/2574118), (7) aspatial racial or ethnic Correlation Ratio (*V*) based on [Bell (1954)](https://doi.org/10.2307/2574118) and [White (1986)](https://doi.org/10.2307/3644339), (8) aspatial racial or ethnic Location Quotient (*LQ*) based on [Merton (1939)](https://doi.org/10.2307/2084686) and [Sudano et al. (2013)](https://doi.org/10.1016/j.healthplace.2012.09.015), (9) aspatial racial or ethnic Local Exposure and Isolation (*LEx/Is*) metric based on [Bemanian & Beyer (2017)](https://doi.org/10.1158/1055-9965.EPI-16-0926), (10) aspatial racial or ethnic Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089), (11) an index of spatial proximity (*SP*) based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0), and (12) the aspatial racial or ethnic Isolation Index (_xPx\*_) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and [Bell (1954)](https://doi.org/10.2307/2574118), the (13) aspatial racial or ethnic Gini Index (*G*) based on [Gini (1921)](https://doi.org/10.2307/2223319), (14) aspatial racial or ethnic Dissimilarity Index (*D*) based on [James & Taeuber (1985)](https://doi.org/10.2307/270845), and (15) the aspatial racial or ethnic Entropy (*H*) based on Theil (1972; ISBN:978-0-444-10378-9) and [Theil & Finizza (1971)](https://doi.org/110.1080/0022250X.1971.9989795). Also using data from the ACS-5 (2005-2009 onward), the *ndi* package can retrieve the aspatial income Gini Index (*G*) based on [Gini (1921)](https://doi.org/10.2307/2223319).
+Computes various indices of socioeconomic deprivation and disparity in the United States. Some indices are considered "spatial" because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other indices are "aspatial" because they only consider the value within each census geography. Two types of aspatial neighborhood deprivation indices (NDI) are available: including: (1) based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) who use variables chosen by [Roux and Mair (2010)](https://doi.org/:10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of multiple demographic characteristics from the U.S. Census Bureau American Community  Survey 5-year estimates (ACS-5; 2006-2010 onward). Using data from the ACS-5 (2005-2009 onward), the package can also compute indices of racial or ethnic residential segregation, including but limited to those discussed in [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281), and selected metrics of socioeconomic deprivation and disparity.
 
 ### Installation
 
@@ -56,7 +56,7 @@ To install the development version from GitHub:
 </tr>
 <tr>
 <td><a href='/R/bemanian_beyer.R'><code>bemanian_beyer</code></a></td>
-<td>Compute the aspatial racial or ethnic Local Exposure and Isolation (<i>LEx/Is</i>) metric based on <a href='https://doi.org/10.1158/1055-9965.EPI-16-0926'>Bemanian & Beyer (2017)</a></td>
+<td>Compute the aspatial racial or ethnic Local Exposure and Isolation (<i>LEx/Is</i>) based on <a href='https://doi.org/10.1158/1055-9965.EPI-16-0926'>Bemanian & Beyer (2017)</a></td>
 </tr>
 <tr>
 <td><a href='/R/bravo.R'><code>bravo</code></a></td>
@@ -65,6 +65,10 @@ To install the development version from GitHub:
 <tr>
 <td><a href='/R/duncan.R'><code>duncan</code></a></td>
 <td>Compute the aspatial racial or ethnic Dissimilarity Index (<i>D</i>) based on <a href='https://doi.org/10.2307/2088328'>Duncan & Duncan (1955)</a></td>
+</tr>
+<tr>
+<td><a href='/R/duncan_cuzzort.R'><code>duncan_cuzzort</code></a></td>
+<td>Compute the aspatial racial or ethnic Absolute Centralization (<i>ACE</i>) based on Duncan, Cuzzort, & Duncan (1961; LC:60007089) and <a href='https://doi.org/10.1093/sf/67.2.281'>Massey & Denton (1988)</a></td>
 </tr>
 <tr>
 <td><a href='/R/gini.R'><code>gini</code></a></td>
@@ -142,7 +146,7 @@ The repository also includes the code to create the project hexagon sticker.
 
 ### Author
 
-* **Ian D. Buller** - *DLH, LLC (formerly Social & Scientific Systems, Inc.), Bethesda, Maryland (current)* - *Occupational and Environmental Epidemiology Branch, Division of Cancer Epidemiology and Genetics, National Cancer Institute, National Institutes of Health, Rockville, Maryland (original)* - [GitHub](https://github.com/idblr) - [ORCID](https://orcid.org/0000-0001-9477-8582)
+* **Ian D. Buller** - *DLH, LLC (formerly Social & Scientific Systems, Inc. and DLH Corporation), Bethesda, Maryland (current)* - *Occupational and Environmental Epidemiology Branch, Division of Cancer Epidemiology and Genetics, National Cancer Institute, National Institutes of Health, Rockville, Maryland (original)* - [GitHub](https://github.com/idblr) - [ORCID](https://orcid.org/0000-0001-9477-8582)
 
 See also the list of [contributors](https://github.com/idblr/ndi/graphs/contributors) who participated in this package, including:
 
@@ -154,7 +158,7 @@ See also the list of [contributors](https://github.com/idblr/ndi/graphs/contribu
 
 * **Davis Vaughan** - *Posit* - [GitHub](https://github.com/DavisVaughan) - [ORCID](https://orcid.org/0000-0003-4777-038X)
 
-Thank you to those who suggested additional metrics, including:
+Thank you to those who suggested additional indices, including:
 
 * **David Berrigan** - *Behavioral Research Program, Division of Cancer Control and Population Sciences, National Cancer Institute, National Institutes of Health, Rockville, Maryland* - [ORCID](https://orcid.org/0000-0002-5333-179X)
 
@@ -449,6 +453,369 @@ table(NDI_2020_DC$NDIQuart, NDI_2020_DC$NDIQuint)
 ```
 
 ``` r
+# ---------------------------------------------------- #
+# Compute spatial Racial Isoliation Index (Anthopolos) #
+# ---------------------------------------------------- #
+
+# Racial Isolation Index based on Anthopolos et al. (2011)
+## Selected subgroup: Not Hispanic or Latino, Black or African American alone
+RI_2020_DC <- anthopolos(state = 'DC', year = 2020, subgroup = 'NHoLB')
+
+# Obtain the 2020 census tracts from the 'tigris' package
+tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
+
+# Join the RI (Anthopolos) values to the census tract geometry
+RI_2020_DC <- tract_2020_DC %>%
+  left_join(RI_2020_DC$ri, by = 'GEOID')
+
+ggplot() +
+  geom_sf(
+    data = RI_2020_DC,
+    aes(fill = RI),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c() +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Racial Isolation Index\n
+    Not Hispanic or Latino, Black or African American alone (Anthopolos)',
+    subtitle = 'Washington, D.C. tracts (not corrected for edge effects)'
+  )
+```
+
+![](man/figures/ri.png)
+
+```r
+# ----------------------------------------------------------- #
+# Compute aspatial racial or ethnic Atkinson Index (Atkinson) #
+# ----------------------------------------------------------- #
+
+# Atkinson Index based on Atkinson (1970)
+## Selected subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected large geography: census tract
+## Selected small geography: census block group
+## Default epsilon (0.5 or over- and under-representation contribute equally)
+A_2020_DC <- atkinson(
+  geo_large = 'tract',
+  geo_small = 'block group',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB'
+)
+
+# Obtain the 2020 census tracts from the 'tigris' package
+tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
+
+# Join the AI (Atkinson) values to the census tract geometry
+A_2020_DC <- tract_2020_DC %>%
+  left_join(A_2020_DC$a, by = 'GEOID')
+
+ggplot() +
+  geom_sf(
+    data = A_2020_DC,
+    aes(fill = A),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Atkinson Index (Atkinson)\n
+    Washington, D.C. census block groups to tracts',
+    subtitle = expression(paste('Black non-Hispanic (', epsilon, ' = 0.5)'))
+  )
+```
+
+![](man/figures/a.png)
+
+```r
+# -------------------------------------------------------------------------------- #
+# Compute aspatial racial or ethnic Atkinson Index (Atkinson) with the Hölder mean #
+# -------------------------------------------------------------------------------- #
+
+# Atkinson Index based on Atkinson (1970)
+## Selected subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected large geography: census tract
+## Selected small geography: census block group
+## Default epsilon (0.5 or over- and under-representation contribute equally)
+## Using the Hölder mean based on the `Atkinson()` function from 'DescTools' package
+A_2020_DC <- atkinson(
+  geo_large = 'tract',
+  geo_small = 'block group',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB',
+  holder = TRUE
+)
+
+# Obtain the 2020 census tracts from the 'tigris' package
+tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
+
+# Join the AI (Atkinson) values to the census tract geometry
+A_2020_DC <- tract_2020_DC %>%
+  left_join(A_2020_DC$a, by = 'GEOID')
+
+ggplot() +
+  geom_sf(
+    data = A_2020_DC,
+    aes(fill = A),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Atkinson Index (Atkinson) with Hölder mean\n
+    Washington, D.C. census block groups to tracts',
+    subtitle = expression(paste('Black non-Hispanic (', epsilon, ' = 0.5)'))
+  )
+```
+
+![](man/figures/a_holder.png)
+
+```r
+# ---------------------------------------------------------- #
+# Compute aspatial racial or ethnic Interaction Index (Bell) #
+# ---------------------------------------------------------- #
+
+# Interaction Index based on Shevky & Williams (1949) and Bell (1954)
+## Selected subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected interaction subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected large geography: census tract
+## Selected small geography: census block group
+xPy_star_2020_DC <- bell(
+  geo_large = 'tract',
+  geo_small = 'block group',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB',
+  subgroup_ixn = 'NHoLW'
+)
+
+# Obtain the 2020 census tracts from the 'tigris' package
+tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
+
+# Join the xPy* (Bell) values to the census tract geometry
+xPy_star_2020_DC <- tract_2020_DC %>%
+  left_join(xPy_star_2020_DC$xpy_star, by = 'GEOID')
+
+ggplot() +
+  geom_sf(
+    data = xPy_star_2020_DC,
+    aes(fill = xPy_star),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Interaction Index (Bell)\n
+    Washington, D.C. census block groups to tracts',
+    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
+  )
+```
+
+![](man/figures/xpy_star.png)
+
+```r
+# --------------------------------------------------------------------------------- #
+# Compute aspatial racial or ethnic Local Exposure and Isolation (Bemanian & Beyer) #
+# --------------------------------------------------------------------------------- #
+
+# Local Exposure and Isolation based on Bemanian & Beyer (2017)
+## Selected subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected interaction subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected large geography: state
+## Selected small geography: census tract
+LExIs_2020_DC <- bemanian_beyer(
+  geo_large = 'state',
+  geo_small = 'tract',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB',
+  subgroup_ixn = 'NHoLW'
+)
+
+# Obtain the 2020 census tracts from the 'tigris' package
+tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
+
+# Join the LEx/Is (Bemanian & Beyer) values to the census tract geometry
+LExIs_2020_DC <- tract_2020_DC %>%
+  left_join(LExIs_2020_DC$lexis, by = 'GEOID')
+
+ggplot() +
+  geom_sf(
+    data = LExIs_2020_DC,
+    aes(fill = LExIs),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_gradient2(
+    low = '#998ec3', 
+    mid = '#f7f7f7', 
+    high = '#f1a340', 
+    midpoint = 0
+  ) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Local Exposure and Isolation (Bemanian & Beyer)\n
+    Washington, D.C. census block groups to tracts',
+    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
+  )
+```
+
+![](man/figures/lexis.png)
+
+``` r
+# ---------------------------------------------------- #
+# Compute spatial Educational Isoliation Index (Bravo) #
+# ---------------------------------------------------- #
+
+# Educational Isolation Index based on Bravo et al. (2021)
+## Selected subgroup: without four-year college degree
+EI_2020_DC <- bravo(state = 'DC', year = 2020, subgroup = c('LtHS', 'HSGiE', 'SCoAD'))
+
+# Obtain the 2020 census tracts from the 'tigris' package
+tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
+
+# Join the EI (Bravo) values to the census tract geometry
+EI_2020_DC <- tract_2020_DC %>% 
+  left_join(EI_2020_DC$ei, by = 'GEOID')
+
+ggplot() + 
+  geom_sf(
+    data = EI_2020_DC, 
+    aes(fill = EI),
+    color = 'white'
+  ) +
+  theme_bw() + 
+  scale_fill_viridis_c() +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  )+
+  ggtitle(
+    'Educational Isolation Index\nWithout a four-year college degree (Bravo)',
+    subtitle = 'Washington, D.C. tracts (not corrected for edge effects)'
+  )
+```
+
+![](man/figures/ei.png)
+
+```r
+# ----------------------------------------------------------------------- #
+# Compute aspatial racial or ethnic Dissimilarity Index (Duncan & Duncan) #
+# ----------------------------------------------------------------------- #
+
+# Dissimilarity Index based on Duncan & Duncan (1955)
+## Selected subgroup comparison: Not Hispanic or Latino, Black or African American alone
+## Selected subgroup reference: Not Hispanic or Latino, white alone
+## Selected large geography: census tract
+## Selected small geography: census block group
+D_2020_DC <- duncan(
+  geo_large = 'tract',
+  geo_small = 'block group',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB',
+  subgroup_ref = 'NHoLW'
+)
+
+# Obtain the 2020 census tracts from the 'tigris' package
+tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
+
+# Join the D (Duncan & Duncan) values to the census tract geometry
+D_2020_DC <- tract_2020_DC %>%
+  left_join(D_2020_DC$d, by = 'GEOID')
+
+ggplot() +
+  geom_sf(
+    data = D_2020_DC,
+    aes(fill = D),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Dissimilarity Index (Duncan & Duncan)\nWashington, D.C. census block groups to tracts',
+    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
+  )
+```
+
+![](man/figures/ddd.png)
+
+```r
+# ----------------------------------------------------------- #
+# Compute aspatial Absolute Centralization (Duncan & Cuzzort) #
+# ----------------------------------------------------------- #
+
+# Absolute Centralization based on Duncan, Cuzzort, & Duncan (1961) and Massey & Denton (1988)
+## Selected subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected large geography: census tract
+## Selected small geography: census block group
+ACE_2020_DC <- duncan_cuzzort(
+  geo_large = 'tract',
+  geo_small = 'block group',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB'
+)
+
+# Obtain the 2020 census tracts from the 'tigris' package
+tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
+
+# Join the ACE (Duncan & Cuzzort) values to the census tract geometry
+ACE_2020_DC <- tract_2020_DC %>%
+  left_join(ACE_2020_DC$ace, by = 'GEOID')
+
+ggplot() +
+  geom_sf(
+    data = ACE_2020_DC,
+    aes(fill = ACE),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_gradient2(
+    low = '#998ec3', 
+    mid = '#f7f7f7', 
+    high = '#f1a340', 
+    midpoint = 0,
+    limits = c(-1, 1)
+  )  +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Absolute Centralization (Duncan & Cuzzort)\n
+    Washington, D.C. census block groups to tracts',
+    subtitle = 'Black non-Hispanic'
+  )
+```
+
+![](man/figures/ace.png)
+
+``` r
 # ------------------------------------------ #
 # Compute aspatial race or ethnic Gini Index #
 # ------------------------------------------ #
@@ -538,78 +905,94 @@ ggplot() +
 
 ![](man/figures/g_inc.png)
 
-``` r
-# ---------------------------------------------------- #
-# Compute spatial Racial Isoliation Index (Anthopolos) #
-# ---------------------------------------------------- #
+```r
+# ------------------------------------------------ #
+# Compute aspatial racial or ethnic Delta (Hoover) #
+# ------------------------------------------------ #
 
-# Racial Isolation Index based on Anthopolos et al. (2011)
+# Delta based on Hoover (1941) and Duncan, Cuzzort, & Duncan (1961)
 ## Selected subgroup: Not Hispanic or Latino, Black or African American alone
-RI_2020_DC <- anthopolos(state = 'DC', year = 2020, subgroup = 'NHoLB')
+## Selected large geography: census tract
+## Selected small geography: census block group
+DEL_2020_DC <- hoover(
+  geo_large = 'tract',
+  geo_small = 'block group',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB'
+)
 
 # Obtain the 2020 census tracts from the 'tigris' package
 tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
-# Join the RI (Anthopolos) values to the census tract geometry
-RI_2020_DC <- tract_2020_DC %>%
-  left_join(RI_2020_DC$ri, by = 'GEOID')
+# Join the DEL (Hoover) values to the census tract geometry
+DEL_2020_DC <- tract_2020_DC %>% 
+  left_join(DEL_2020_DC$del, by = 'GEOID')
 
 ggplot() +
   geom_sf(
-    data = RI_2020_DC,
-    aes(fill = RI),
+    data = DEL_2020_DC,
+    aes(fill = DEL),
     color = 'white'
   ) +
   theme_bw() +
-  scale_fill_viridis_c() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
   labs(
     fill = 'Index (Continuous)',
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Racial Isolation Index\n
-    Not Hispanic or Latino, Black or African American alone (Anthopolos)',
-    subtitle = 'Washington, D.C. tracts (not corrected for edge effects)'
+    'Delta (Hoover)\n
+    Washington, D.C. census block groups to tracts',
+    subtitle = 'Black non-Hispanic'
   )
 ```
 
-![](man/figures/ri.png)
+![](man/figures/del.png)
 
-``` r
-# ---------------------------------------------------- #
-# Compute spatial Educational Isoliation Index (Bravo) #
-# ---------------------------------------------------- #
+```r
+# ----------------------------------------------------------------------- #
+# Compute aspatial racial or ethnic Dissimilarity Index (James & Taeuber) #
+# ----------------------------------------------------------------------- #
 
-# Educational Isolation Index based on Bravo et al. (2021)
-## Selected subgroup: without four-year college degree
-EI_2020_DC <- bravo(state = 'DC', year = 2020, subgroup = c('LtHS', 'HSGiE', 'SCoAD'))
+# Dissimilarity Index based on James & Taeuber (1985)
+## Selected subgroup comparison: Not Hispanic or Latino, Black or African American alone
+## Selected large geography: census tract
+## Selected small geography: census block group
+D_2020_DC <- james_taeuber(
+  geo_large = 'tract',
+  geo_small = 'block group',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB'
+)
 
 # Obtain the 2020 census tracts from the 'tigris' package
 tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
-# Join the EI (Bravo) values to the census tract geometry
-EI_2020_DC <- tract_2020_DC %>% 
-  left_join(EI_2020_DC$ei, by = 'GEOID')
+# Join the D (James & Taeuber) values to the census tract geometry
+D_2020_DC <- tract_2020_DC %>%
+  left_join(D_2020_DC$d, by = 'GEOID')
 
-ggplot() + 
+ggplot() +
   geom_sf(
-    data = EI_2020_DC, 
-    aes(fill = EI),
+    data = D_2020_DC,
+    aes(fill = D),
     color = 'white'
   ) +
-  theme_bw() + 
-  scale_fill_viridis_c() +
+  theme_bw() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
   labs(
     fill = 'Index (Continuous)',
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
-  )+
+  ) +
   ggtitle(
-    'Educational Isolation Index\nWithout a four-year college degree (Bravo)',
-    subtitle = 'Washington, D.C. tracts (not corrected for edge effects)'
+    'Dissimilarity Index (James & Taeuber)\nWashington, D.C. census block groups to tracts',
+    subtitle = 'Black non-Hispanic'
   )
 ```
 
-![](man/figures/ei.png)
+![](man/figures/djt.png)
 
 ``` r
 # ----------------------------------------------------------------- #
@@ -768,61 +1151,15 @@ ggplot() +
 ![](man/figures/ice5.png)
 
 ```r
-# ----------------------------------------------------------------------- #
-# Compute aspatial racial or ethnic Dissimilarity Index (Duncan & Duncan) #
-# ----------------------------------------------------------------------- #
+# ------------------------------------------------------------- #
+# Compute aspatial racial or ethnic Isolation Index (Lieberson) #
+# ------------------------------------------------------------- #
 
-# Dissimilarity Index based on Duncan & Duncan (1955)
-## Selected subgroup comparison: Not Hispanic or Latino, Black or African American alone
-## Selected subgroup reference: Not Hispanic or Latino, white alone
+# Interaction Index based on Lieberson (1981) and Bell (1954)
+## Selected subgroup: Not Hispanic or Latino, Black or African American alone
 ## Selected large geography: census tract
 ## Selected small geography: census block group
-D_2020_DC <- duncan(
-  geo_large = 'tract',
-  geo_small = 'block group',
-  state = 'DC',
-  year = 2020,
-  subgroup = 'NHoLB',
-  subgroup_ref = 'NHoLW'
-)
-
-# Obtain the 2020 census tracts from the 'tigris' package
-tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
-
-# Join the D (Duncan & Duncan) values to the census tract geometry
-D_2020_DC <- tract_2020_DC %>%
-  left_join(D_2020_DC$d, by = 'GEOID')
-
-ggplot() +
-  geom_sf(
-    data = D_2020_DC,
-    aes(fill = D),
-    color = 'white'
-  ) +
-  theme_bw() +
-  scale_fill_viridis_c(limits = c(0, 1)) +
-  labs(
-    fill = 'Index (Continuous)',
-    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
-  ) +
-  ggtitle(
-    'Dissimilarity Index (Duncan & Duncan)\nWashington, D.C. census block groups to tracts',
-    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
-  )
-```
-
-![](man/figures/ddd.png)
-
-```r
-# ----------------------------------------------------------------------- #
-# Compute aspatial racial or ethnic Dissimilarity Index (James & Taeuber) #
-# ----------------------------------------------------------------------- #
-
-# Dissimilarity Index based on James & Taeuber (1985)
-## Selected subgroup comparison: Not Hispanic or Latino, Black or African American alone
-## Selected large geography: census tract
-## Selected small geography: census block group
-D_2020_DC <- james_taeuber(
+xPx_star_2020_DC <- lieberson(
   geo_large = 'tract',
   geo_small = 'block group',
   state = 'DC',
@@ -833,14 +1170,14 @@ D_2020_DC <- james_taeuber(
 # Obtain the 2020 census tracts from the 'tigris' package
 tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
-# Join the D (James & Taeuber) values to the census tract geometry
-D_2020_DC <- tract_2020_DC %>%
-  left_join(D_2020_DC$d, by = 'GEOID')
+# Join the xPx* (Lieberson) values to the census tract geometry
+xPx_star_2020_DC <- tract_2020_DC %>%
+  left_join(xPx_star_2020_DC$xpx_star, by = 'GEOID')
 
 ggplot() +
   geom_sf(
-    data = D_2020_DC,
-    aes(fill = D),
+    data = xPx_star_2020_DC,
+    aes(fill = xPx_star),
     color = 'white'
   ) +
   theme_bw() +
@@ -850,25 +1187,69 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Dissimilarity Index (James & Taeuber)\nWashington, D.C. census block groups to tracts',
+    'Isolation Index (Lieberson)\n
+    Washington, D.C. census block groups to tracts',
     subtitle = 'Black non-Hispanic'
   )
 ```
 
-![](man/figures/djt.png)
-
+![](man/figures/xpx_star.png)
 
 ```r
-# ----------------------------------------------------------- #
-# Compute aspatial racial or ethnic Atkinson Index (Atkinson) #
-# ----------------------------------------------------------- #
+# ------------------------------------------------------------ #
+# Compute aspatial racial or ethnic Location Quotient (Sudano) #
+# ------------------------------------------------------------ #
 
-# Atkinson Index based on Atkinson (1970)
+# Location Quotient based on Merton (1938) and Sudano (2013)
+## Selected subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected large geography: state
+## Selected small geography: census tract
+LQ_2020_DC <- sudano(
+  geo_large = 'state',
+  geo_small = 'tract',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB'
+)
+
+# Obtain the 2020 census tracts from the 'tigris' package
+tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
+
+# Join the LQ (Sudano) values to the census tract geometry
+LQ_2020_DC <- tract_2020_DC %>%
+  left_join(LQ_2020_DC$lq, by = 'GEOID')
+
+ggplot() +
+  geom_sf(
+    data = LQ_2020_DC,
+    aes(fill = LQ),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c() +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Location Quotient (Sudano)\n
+    Washington, D.C. census tracts vs. "state"',
+    subtitle = 'Black non-Hispanic'
+  )
+```
+
+![](man/figures/lq.png)
+
+```r
+# ------------------------------------------------- #
+# Compute aspatial racial or ethnic Entropy (Theil) #
+# ------------------------------------------------- #
+
+# Entropy based on Theil (1972) and Theil & Finizza (1971)
 ## Selected subgroup: Not Hispanic or Latino, Black or African American alone
 ## Selected large geography: census tract
 ## Selected small geography: census block group
-## Default epsilon (0.5 or over- and under-representation contribute equally)
-A_2020_DC <- atkinson(
+H_2020_DC <- theil(
   geo_large = 'tract',
   geo_small = 'block group',
   state = 'DC',
@@ -879,14 +1260,14 @@ A_2020_DC <- atkinson(
 # Obtain the 2020 census tracts from the 'tigris' package
 tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
-# Join the AI (Atkinson) values to the census tract geometry
-A_2020_DC <- tract_2020_DC %>%
-  left_join(A_2020_DC$a, by = 'GEOID')
+# Join the H (Theil) values to the census tract geometry
+H_2020_DC <- tract_2020_DC %>%
+  left_join(H_2020_DC$h, by = 'GEOID')
 
 ggplot() +
   geom_sf(
-    data = A_2020_DC,
-    aes(fill = A),
+    data = H_2020_DC,
+    aes(fill = H),
     color = 'white'
   ) +
   theme_bw() +
@@ -896,108 +1277,13 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Atkinson Index (Atkinson)\n
+    'Entropy (Theil)\n
     Washington, D.C. census block groups to tracts',
-    subtitle = expression(paste('Black non-Hispanic (', epsilon, ' = 0.5)'))
+    subtitle = 'Black non-Hispanic'
   )
 ```
 
-![](man/figures/a.png)
-
-```r
-# -------------------------------------------------------------------------------- #
-# Compute aspatial racial or ethnic Atkinson Index (Atkinson) with the Hölder mean #
-# -------------------------------------------------------------------------------- #
-
-# Atkinson Index based on Atkinson (1970)
-## Selected subgroup: Not Hispanic or Latino, Black or African American alone
-## Selected large geography: census tract
-## Selected small geography: census block group
-## Default epsilon (0.5 or over- and under-representation contribute equally)
-## Using the Hölder mean based on the `Atkinson()` function from 'DescTools' package
-A_2020_DC <- atkinson(
-  geo_large = 'tract',
-  geo_small = 'block group',
-  state = 'DC',
-  year = 2020,
-  subgroup = 'NHoLB',
-  holder = TRUE
-)
-
-# Obtain the 2020 census tracts from the 'tigris' package
-tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
-
-# Join the AI (Atkinson) values to the census tract geometry
-A_2020_DC <- tract_2020_DC %>%
-  left_join(A_2020_DC$a, by = 'GEOID')
-
-ggplot() +
-  geom_sf(
-    data = A_2020_DC,
-    aes(fill = A),
-    color = 'white'
-  ) +
-  theme_bw() +
-  scale_fill_viridis_c(limits = c(0, 1)) +
-  labs(
-    fill = 'Index (Continuous)',
-    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
-  ) +
-  ggtitle(
-    'Atkinson Index (Atkinson) with Hölder mean\n
-    Washington, D.C. census block groups to tracts',
-    subtitle = expression(paste('Black non-Hispanic (', epsilon, ' = 0.5)'))
-  )
-```
-
-![](man/figures/a_holder.png)
-
-```r
-# ---------------------------------------------------------- #
-# Compute aspatial racial or ethnic Interaction Index (Bell) #
-# ---------------------------------------------------------- #
-
-# Interaction Index based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and Bell (1954)
-## Selected subgroup: Not Hispanic or Latino, Black or African American alone
-## Selected interaction subgroup: Not Hispanic or Latino, Black or African American alone
-## Selected large geography: census tract
-## Selected small geography: census block group
-xPy_star_2020_DC <- bell(
-  geo_large = 'tract',
-  geo_small = 'block group',
-  state = 'DC',
-  year = 2020,
-  subgroup = 'NHoLB',
-  subgroup_ixn = 'NHoLW'
-)
-
-# Obtain the 2020 census tracts from the 'tigris' package
-tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
-
-# Join the xPy* (Bell) values to the census tract geometry
-xPy_star_2020_DC <- tract_2020_DC %>%
-  left_join(xPy_star_2020_DC$xpy_star, by = 'GEOID')
-
-ggplot() +
-  geom_sf(
-    data = xPy_star_2020_DC,
-    aes(fill = xPy_star),
-    color = 'white'
-  ) +
-  theme_bw() +
-  scale_fill_viridis_c(limits = c(0, 1)) +
-  labs(
-    fill = 'Index (Continuous)',
-    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
-  ) +
-  ggtitle(
-    'Interaction Index (Bell)\n
-    Washington, D.C. census block groups to tracts',
-    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
-  )
-```
-
-![](man/figures/xpy_star.png)
+![](man/figures/h.png)
 
 ```r
 # ----------------------------------------------------------- #
@@ -1050,148 +1336,6 @@ ggplot() +
 ![](man/figures/v.png)
 
 ```r
-# ------------------------------------------------------------ #
-# Compute aspatial racial or ethnic Location Quotient (Sudano) #
-# ------------------------------------------------------------ #
-
-# Location Quotient based on Merton (1938) and Sudano (2013)
-## Selected subgroup: Not Hispanic or Latino, Black or African American alone
-## Selected large geography: state
-## Selected small geography: census tract
-LQ_2020_DC <- sudano(
-  geo_large = 'state',
-  geo_small = 'tract',
-  state = 'DC',
-  year = 2020,
-  subgroup = 'NHoLB'
-)
-
-# Obtain the 2020 census tracts from the 'tigris' package
-tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
-
-# Join the LQ (Sudano) values to the census tract geometry
-LQ_2020_DC <- tract_2020_DC %>%
-  left_join(LQ_2020_DC$lq, by = 'GEOID')
-
-ggplot() +
-  geom_sf(
-    data = LQ_2020_DC,
-    aes(fill = LQ),
-    color = 'white'
-  ) +
-  theme_bw() +
-  scale_fill_viridis_c() +
-  labs(
-    fill = 'Index (Continuous)',
-    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
-  ) +
-  ggtitle(
-    'Location Quotient (Sudano)\n
-    Washington, D.C. census tracts vs. "state"',
-    subtitle = 'Black non-Hispanic'
-  )
-```
-
-![](man/figures/lq.png)
-
-```r
-# ---------------------------------------------------------------------------------------- #
-# Compute aspatial racial or ethnic Local Exposure and Isolation (Bemanian & Beyer) metric #
-# ---------------------------------------------------------------------------------------- #
-
-# Local Exposure and Isolation metric based on Bemanian & Beyer (2017)
-## Selected subgroup: Not Hispanic or Latino, Black or African American alone
-## Selected interaction subgroup: Not Hispanic or Latino, Black or African American alone
-## Selected large geography: state
-## Selected small geography: census tract
-LExIs_2020_DC <- bemanian_beyer(
-  geo_large = 'state',
-  geo_small = 'tract',
-  state = 'DC',
-  year = 2020,
-  subgroup = 'NHoLB',
-  subgroup_ixn = 'NHoLW'
-)
-
-# Obtain the 2020 census tracts from the 'tigris' package
-tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
-
-# Join the LEx/Is (Bemanian & Beyer) values to the census tract geometry
-LExIs_2020_DC <- tract_2020_DC %>%
-  left_join(LExIs_2020_DC$lexis, by = 'GEOID')
-
-ggplot() +
-  geom_sf(
-    data = LExIs_2020_DC,
-    aes(fill = LExIs),
-    color = 'white'
-  ) +
-  theme_bw() +
-  scale_fill_gradient2(
-    low = '#998ec3', 
-    mid = '#f7f7f7', 
-    high = '#f1a340', 
-    midpoint = 0
-  ) +
-  labs(
-    fill = 'Index (Continuous)',
-    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
-  ) +
-  ggtitle(
-    'Local Exposure and Isolation (Bemanian & Beyer) metric\n
-    Washington, D.C. census block groups to tracts',
-    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
-  )
-```
-
-![](man/figures/lexis.png)
-
-```r
-# ------------------------------------------------ #
-# Compute aspatial racial or ethnic Delta (Hoover) #
-# ------------------------------------------------ #
-
-# Delta based on Hoover (1941) and Duncan et al. (1961)
-## Selected subgroup: Not Hispanic or Latino, Black or African American alone
-## Selected large geography: census tract
-## Selected small geography: census block group
-DEL_2020_DC <- hoover(
-  geo_large = 'tract',
-  geo_small = 'block group',
-  state = 'DC',
-  year = 2020,
-  subgroup = 'NHoLB'
-)
-
-# Obtain the 2020 census tracts from the 'tigris' package
-tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
-
-# Join the DEL (Hoover) values to the census tract geometry
-DEL_2020_DC <- tract_2020_DC %>% 
-  left_join(DEL_2020_DC$del, by = 'GEOID')
-
-ggplot() +
-  geom_sf(
-    data = DEL_2020_DC,
-    aes(fill = DEL),
-    color = 'white'
-  ) +
-  theme_bw() +
-  scale_fill_viridis_c(limits = c(0, 1)) +
-  labs(
-    fill = 'Index (Continuous)',
-    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
-  ) +
-  ggtitle(
-    'Delta (Hoover)\n
-    Washington, D.C. census block groups to tracts',
-    subtitle = 'Black non-Hispanic'
-  )
-```
-
-![](man/figures/del.png)
-
-```r
 # --------------------------------------------- #
 # Compute an index of spatial proximity (White) #
 # --------------------------------------------- #
@@ -1242,98 +1386,9 @@ ggplot() +
 
 ![](man/figures/sp.png)
 
-```r
-# ------------------------------------------------------------- #
-# Compute aspatial racial or ethnic Isolation Index (Lieberson) #
-# ------------------------------------------------------------- #
-
-# Interaction Index based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and Bell (1954)
-## Selected subgroup: Not Hispanic or Latino, Black or African American alone
-## Selected large geography: census tract
-## Selected small geography: census block group
-xPx_star_2020_DC <- lieberson(
-  geo_large = 'tract',
-  geo_small = 'block group',
-  state = 'DC',
-  year = 2020,
-  subgroup = 'NHoLB'
-)
-
-# Obtain the 2020 census tracts from the 'tigris' package
-tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
-
-# Join the xPx* (Lieberson) values to the census tract geometry
-xPx_star_2020_DC <- tract_2020_DC %>%
-  left_join(xPx_star_2020_DC$xpx_star, by = 'GEOID')
-
-ggplot() +
-  geom_sf(
-    data = xPx_star_2020_DC,
-    aes(fill = xPx_star),
-    color = 'white'
-  ) +
-  theme_bw() +
-  scale_fill_viridis_c(limits = c(0, 1)) +
-  labs(
-    fill = 'Index (Continuous)',
-    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
-  ) +
-  ggtitle(
-    'Isolation Index (Lieberson)\n
-    Washington, D.C. census block groups to tracts',
-    subtitle = 'Black non-Hispanic'
-  )
-```
-
-![](man/figures/xpx_star.png)
-
-```r
-# ------------------------------------------------- #
-# Compute aspatial racial or ethnic Entropy (Theil) #
-# ------------------------------------------------- #
-
-# Entropy based on Theil (1972; ISBN:978-0-444-10378-9) and Theil & Finizza (1971)
-## Selected subgroup: Not Hispanic or Latino, Black or African American alone
-## Selected large geography: census tract
-## Selected small geography: census block group
-H_2020_DC <- theil(
-  geo_large = 'tract',
-  geo_small = 'block group',
-  state = 'DC',
-  year = 2020,
-  subgroup = 'NHoLB'
-)
-
-# Obtain the 2020 census tracts from the 'tigris' package
-tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
-
-# Join the H (Theil) values to the census tract geometry
-H_2020_DC <- tract_2020_DC %>%
-  left_join(H_2020_DC$h, by = 'GEOID')
-
-ggplot() +
-  geom_sf(
-    data = H_2020_DC,
-    aes(fill = H),
-    color = 'white'
-  ) +
-  theme_bw() +
-  scale_fill_viridis_c(limits = c(0, 1)) +
-  labs(
-    fill = 'Index (Continuous)',
-    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
-  ) +
-  ggtitle(
-    'Entropy (Theil)\nWashington, D.C. census block groups to tracts',
-    subtitle = 'Black non-Hispanic'
-  )
-```
-
-![](man/figures/h.png)
-
 ### Funding
 
-This package was originally developed while the author was a postdoctoral fellow supported by the [Cancer Prevention Fellowship Program](https://cpfp.cancer.gov) at the [National Cancer Institute](https://www.cancer.gov). Any modifications since December 05, 2022 were made while the author was an employee of [DLH, LLC](https://www.dlhcorp.com) (formerly Social & Scientific Systems, Inc.).
+This package was originally developed while the author was a postdoctoral fellow supported by the [Cancer Prevention Fellowship Program](https://cpfp.cancer.gov) at the [National Cancer Institute](https://www.cancer.gov). Any modifications since December 05, 2022 were made while the author was an employee of [DLH, LLC](https://www.dlhcorp.com) (formerly Social & Scientific Systems, Inc. and DLH Corporation).
 
 ### Acknowledgments
 

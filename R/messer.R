@@ -210,7 +210,7 @@ messer <- function(geo = 'tract',
           ...
         )
       ))
-        
+      
       if (geo == 'tract') {
         ndi_data <- ndi_data %>%
           tidyr::separate(NAME, into = c('tract', 'county', 'state'), sep = ',') %>%

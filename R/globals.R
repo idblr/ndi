@@ -118,6 +118,7 @@ globalVariables(
     'STATEFP',
     'COUNTYFP',
     'TRACTCE',
+    'place',
     'cbsa',
     'csa',
     'metro',
@@ -247,7 +248,9 @@ globalVariables(
     'values',
     'ind',
     'oid',
-    'block.group',
+    'cbg',
+    'RI',
+    'EI',
     'V',
     'LQ',
     'LExIs',
@@ -261,6 +264,10 @@ globalVariables(
     'G_re', 
     'xPx_star', 
     'xPy_star',
-    'H'
+    'H',
+    'ACE',
+    'C',
+    'd',
+    'crs'
   )
 )

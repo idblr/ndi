@@ -2,7 +2,7 @@
 % Please edit documentation in R/hoover.R
 \name{hoover}
 \alias{hoover}
-\title{Delta based on Hoover (1941) and Duncan et al. (1961)}
+\title{Delta based on Hoover (1941) and Duncan, Cuzzort, & Duncan (1961)}
 \usage{
 hoover(
   geo_large = "county",
@@ -17,7 +17,7 @@ hoover(
 \arguments{
 \item{geo_large}{Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = 'county'}.}
 
-\item{geo_small}{Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_large = 'tract'}.}
+\item{geo_small}{Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_small = 'tract'}.}
 
 \item{year}{Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.}
 
@@ -44,7 +44,7 @@ Compute the aspatial Delta (Hoover) of a selected racial or ethnic subgroup(s) a
 \details{
 This function will compute the aspatial Delta (\emph{DEL}) of selected racial or ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Hoover (1941) \doi{10.1017/S0022050700052980} and Duncan, Cuzzort, and Duncan (1961; LC:60007089). This function provides the computation of \emph{DEL} for any of the U.S. Census Bureau race or ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 
-The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'csa'} or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial or ethnic subgroups (U.S. Census Bureau definitions) are:
+The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the aspatial computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'place'}, \code{geo_large = 'csa'}, or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial or ethnic subgroups (U.S. Census Bureau definitions) are:
 \itemize{
 \item \strong{B03002_002}: not Hispanic or Latino \code{'NHoL'}
 \item \strong{B03002_003}: not Hispanic or Latino, white alone \code{'NHoLW'}
@@ -72,7 +72,7 @@ Use the internal \code{state} and \code{county} arguments within the \code{\link
 
 \emph{DEL} is a measure of the proportion of members of one subgroup(s) residing in geographic units with above average density of members of the subgroup(s). The index provides the proportion of a subgroup population that would have to move across geographic units to achieve a uniform density. \emph{DEL} can range in value from 0 to 1.
 
-Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, Core Based Statistical Area \code{geo_large = 'cbsa'}, Combined Statistical Area \code{geo_large = 'csa'}, and Metropolitan Division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'block group'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{DEL} value returned is NA. If the larger geographical unit is Combined Based Statistical Areas \code{geo_large = 'csa'} or Core Based Statistical Areas \code{geo_large = 'cbsa'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{DEL} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{DEL} computation.
+Larger geographical units available include states \code{geo_large = 'state'}, counties \code{geo_large = 'county'}, census tracts \code{geo_large = 'tract'}, census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, and metropolitan divisions \code{geo_large = 'metro'}. Smaller geographical units available include, counties \code{geo_small = 'county'}, census tracts \code{geo_small = 'tract'}, and census block groups \code{geo_small = 'cbg'}. If a larger geographical unit is comprised of only one smaller geographical unit (e.g., a U.S county contains only one census tract), then the \emph{DEL} value returned is NA. If the larger geographical unit is census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, or metropolitan divisions \code{geo_large = 'metro'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{DEL} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{DEL} computation.
 }
 \examples{
 \dontrun{
