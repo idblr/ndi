@@ -64,11 +64,15 @@ To install the development version from GitHub:
 </tr>
 <tr>
 <td><a href='/R/duncan.R'><code>duncan</code></a></td>
-<td>Compute the aspatial racial or ethnic Dissimilarity Index (<i>D</i>) based on <a href='https://doi.org/10.2307/2088328'>Duncan & Duncan (1955)</a></td>
+<td>Compute the aspatial racial or ethnic Dissimilarity Index (<i>D</i>) based on <a href='https://doi.org/10.2307/2088328'>Duncan & Duncan (1955a)</a></td>
 </tr>
 <tr>
 <td><a href='/R/duncan_cuzzort.R'><code>duncan_cuzzort</code></a></td>
 <td>Compute the aspatial racial or ethnic Absolute Centralization (<i>ACE</i>) based on Duncan, Cuzzort, & Duncan (1961; LC:60007089) and <a href='https://doi.org/10.1093/sf/67.2.281'>Massey & Denton (1988)</a></td>
+</tr>
+<tr>
+<td><a href='/R/duncan_duncan.R'><code>duncan_duncan</code></a></td>
+<td>Compute the aspatial racial or ethnic Relative Centralization (<i>RCE</i>) based <a href='https://doi.org/10.1086/221609'>Duncan & Duncan (1955b)</a> and <a href='https://doi.org/10.1093/sf/67.2.281'>Massey & Denton (1988)</a></td>
 </tr>
 <tr>
 <td><a href='/R/gini.R'><code>gini</code></a></td>
@@ -723,7 +727,7 @@ ggplot() +
 # Compute aspatial racial or ethnic Dissimilarity Index (Duncan & Duncan) #
 # ----------------------------------------------------------------------- #
 
-# Dissimilarity Index based on Duncan & Duncan (1955)
+# Dissimilarity Index based on Duncan & Duncan (1955a)
 ## Selected subgroup comparison: Not Hispanic or Latino, Black or African American alone
 ## Selected subgroup reference: Not Hispanic or Latino, white alone
 ## Selected large geography: census tract
@@ -757,7 +761,8 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Dissimilarity Index (Duncan & Duncan)\nWashington, D.C. census block groups to tracts',
+    'Dissimilarity Index (Duncan & Duncan)\n
+    Washington, D.C. census block groups to tracts',
     subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
 ```
@@ -814,6 +819,59 @@ ggplot() +
 ```
 
 ![](man/figures/ace.png)
+
+```r
+# ---------------------------------------------------------- #
+# Compute aspatial Relative Centralization (Duncan & Duncan) #
+# ---------------------------------------------------------- #
+
+# Relative Centralization based on Duncan & Duncan (1955b) and Massey & Denton (1988)
+## Selected subgroup comparison: Not Hispanic or Latino, Black or African American alone
+## Selected subgroup reference: Not Hispanic or Latino, white alone
+## Selected large geography: census tract
+## Selected small geography: census block group
+RCE_2020_DC <- duncan_duncan(
+  geo_large = 'tract',
+  geo_small = 'block group',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB',
+  subgroup_ref = 'NHoLW'
+)
+
+# Obtain the 2020 census tracts from the 'tigris' package
+tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
+
+# Join the ACE (Duncan & Cuzzort) values to the census tract geometry
+RCE_2020_DC <- tract_2020_DC %>%
+  left_join(RCE_2020_DC$rce, by = 'GEOID')
+
+ggplot() +
+  geom_sf(
+    data = RCE_2020_DC,
+    aes(fill = RCE),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_gradient2(
+    low = '#998ec3', 
+    mid = '#f7f7f7', 
+    high = '#f1a340', 
+    midpoint = 0,
+    limits = c(-1, 1)
+  )  +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Relative Centralization (Duncan & Duncan)\n
+    Washington, D.C. census block groups to tracts',
+    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
+  )
+```
+
+![](man/figures/rce.png)
 
 ``` r
 # ------------------------------------------ #
@@ -987,7 +1045,8 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Dissimilarity Index (James & Taeuber)\nWashington, D.C. census block groups to tracts',
+    'Dissimilarity Index (James & Taeuber)\n
+    Washington, D.C. census block groups to tracts',
     subtitle = 'Black non-Hispanic'
   )
 ```

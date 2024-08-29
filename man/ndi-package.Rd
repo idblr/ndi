@@ -29,9 +29,11 @@ Key content of the 'ndi' package include:\cr
 
 \code{\link{bemanian_beyer}} Computes the aspatial Local Exposure and Isolation (\emph{LEx/Is}) based on Bemanian & Beyer (2017) \doi{10.1158/1055-9965.EPI-16-0926}.
 
-\code{\link{duncan}} Computes the aspatial Dissimilarity Index (\emph{D}) based on Duncan & Duncan (1955) \doi{10.2307/2088328}.
+\code{\link{duncan}} Computes the aspatial Dissimilarity Index (\emph{D}) based on Duncan & Duncan (1955a) \doi{10.2307/2088328}.
 
 \code{\link{duncan_cuzzort}} Computes the aspatial Absolute Centralization (\emph{ACE}) based on Duncan, Cuzzort, & Duncan (1961; LC:60007089) and Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
+
+\code{\link{duncan_duncan}} Computes the aspatial Relative Centralization (\emph{RCE}) based on Duncan & Duncan (1955b) \doi{10.1086/221609} and Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
 
 \code{\link{gini}} Computes the aspatial Gini Index (\emph{G}) based on Gini (1921) \doi{10.2307/2223319}.
 

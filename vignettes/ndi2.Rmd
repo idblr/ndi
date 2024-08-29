@@ -39,7 +39,7 @@ Since version v0.1.1, the [*ndi*](https://CRAN.R-project.org/package=ndi) packag
 
 **Evenness**:
 
-  * `james_taeuber()` function that computes the Dissimilarity Index (*D*) based on based on [James & Taeuber (1985)](https://doi.org/10.2307/270845)
+  * `james_taeuber()` function that computes the Dissimilarity Index (*D*) based on [James & Taeuber (1985)](https://doi.org/10.2307/270845)
   * `gini()` function that computes the Gini Index (*G*) based on [Gini (1921)](https://doi.org/10.2307/2223319) 
   * `theil()` function that computes Entropy (*H*) based on Theil (1972; ISBN:978-0-444-10378-9) and [Theil & Finizza (1971)](https://doi.org/110.1080/0022250X.1971.9989795)
   * `atkinson()` function that computes the Atkinson Index (*A*) based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6)
@@ -63,7 +63,7 @@ Since version v0.1.1, the [*ndi*](https://CRAN.R-project.org/package=ndi) packag
 **Centralization**:
 
   * `duncan_cuzzort()` function that computes Absolute Centralization (*ACE*) based on Duncan, Cuzzort, & Duncan (1961; LC:60007089) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
-  * Relative Centralization (Planned)
+  * `duncan_duncan()` function that computes Relative Centralization (*RCE*) based on [Duncan & Duncan (1955b)](https://doi.org/10.1086/221609) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
   
 **Clustering**:
 
@@ -100,7 +100,7 @@ The [*ndi*](https://CRAN.R-project.org/package=ndi) package can use data from th
 | B03002_020 | Hispanic or Latino, two races including some other race | HoLTRiSOR |
 | B03002_021 | Hispanic or Latino, two races excluding some other race, and three or more races | HoLTReSOR |
 
-#### Compute racial or ethnic Dissimilarity Index (*D*)
+#### Compute Dissimilarity Index (*D*)
 
 Compute the racial or ethnic *D* values (2006-2010 5-year ACS) for Pennsylvania, U.S.A., counties from census tracts. This metric is based on [James & Taeuber (1985)](https://doi.org/10.2307/270845). *D* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *D* can range in value from 0 to 1 and represents the proportion of racial or ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
 
@@ -193,9 +193,9 @@ ggplot() +
   ggtitle('Gini Index', subtitle = 'Black population of MA counties')
 ```
 
-#### Compute racial or ethnic Entropy (*H*)
+#### Compute Entropy (*H*)
 
-Compute racial or ethnic *H* (2010-2014 5-year ACS) for Pennsylvania metropolitan area from census tracts. This metric is based on based on Theil (1972; ISBN:978-0-444-10378-9) and [Theil & Finizza (1971)](https://doi.org/110.1080/0022250X.1971.9989795). *H* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *H* can range in value from 0 to 1 and represents the (weighted) average deviation of each smaller geographical unit from the larger geographical unit's "entropy" or racial and ethnic diversity, which is greatest when each group is equally represented in the larger geographical unit. *H* varies between 0, when all smaller geographical units have the same racial or ethnic composition as the larger geographical area (i.e., maximum integration), to a high of 1, when all smaller geographical units contain one group only (maximum segregation).
+Compute racial or ethnic *H* (2010-2014 5-year ACS) for Pennsylvania metropolitan area from census tracts. This metric is based on Theil (1972; ISBN:978-0-444-10378-9) and [Theil & Finizza (1971)](https://doi.org/110.1080/0022250X.1971.9989795). *H* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *H* can range in value from 0 to 1 and represents the (weighted) average deviation of each smaller geographical unit from the larger geographical unit's "entropy" or racial and ethnic diversity, which is greatest when each group is equally represented in the larger geographical unit. *H* varies between 0, when all smaller geographical units have the same racial or ethnic composition as the larger geographical area (i.e., maximum integration), to a high of 1, when all smaller geographical units contain one group only (maximum segregation).
 
 ```{r theil_prep, results = 'hide'}
 theil2014PA <- theil(
@@ -242,7 +242,7 @@ ggplot() +
   )
 ```
 
-#### Compute racial or ethnic Atkinson Index (*A*)
+#### Compute Atkinson Index (*A*)
 
 Compute the racial or ethnic *A* values (2017-2021 5-year ACS) for Kentucky, U.S.A., counties from census block groups. This metric is based on [Atkinson (1970)](https://doi.org/10.2307/2088328) that assessed the distribution of income within 12 counties but has since been adapted to study racial or ethnic segregation (see [James & Taeuber 1985](https://doi.org/10.2307/270845)). *A* is a measure of the inequality and, in the context of residential race or ethnicity, segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *A* can range in value from 0 to 1 and smaller values of the index indicate lower levels of inequality (e.g., less segregation).
 
@@ -290,9 +290,9 @@ ggplot() +
   )
 ```
 
-#### Compute racial or ethnic Dissimilarity Index (*D*)
+#### Compute Dissimilarity Index (*D*)
 
-Compute the racial or ethnic *D* values (2006-2010 5-year ACS) for Pennsylvania, U.S.A., counties from census tracts. This metric is based on [Duncan & Duncan (1955)](https://doi.org/10.2307/2088328) that assessed the racial or ethnic isolation of students that identify as non-Hispanic or Latino, Black or African American alone compared to students that identify as non-Hispanic or Latino, white alone between schools and school districts. *D* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *D* can range in value from 0 to 1 and represents the proportion of racial or ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
+Compute the racial or ethnic *D* values (2006-2010 5-year ACS) for Pennsylvania, U.S.A., counties from census tracts. This metric is based on [Duncan & Duncan (1955a)](https://doi.org/10.2307/2088328) that assessed the racial or ethnic isolation of students that identify as non-Hispanic or Latino, Black or African American alone compared to students that identify as non-Hispanic or Latino, white alone between schools and school districts. *D* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *D* can range in value from 0 to 1 and represents the proportion of racial or ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
 
 ```{r duncan_prep, results = 'hide'}
 duncan2010PA <- duncan(
@@ -383,7 +383,7 @@ ggplot() +
   )
 ```
 
-#### Compute racial or ethnic Interaction Index (_xPy\*_)
+#### Compute Interaction Index (_xPy\*_)
 
 Compute the racial or ethnic _xPy\*_ values (2017-2021 5-year ACS) for Ohio, U.S.A., counties from census tracts. This metric is based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and adapted by [Bell (1954)](https://doi.org/10.2307/2574118). _xPy\*_ is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. _xPy\*_ can range in value from 0 to 1.
 
@@ -429,7 +429,7 @@ ggplot() +
   )
 ```
 
-#### Compute racial or ethnic Isolation Index (_xPx\*_)
+#### Compute Isolation Index (_xPx\*_)
 
 Compute the racial or ethnic _xPx\*_ values (2015-2019 5-year ACS) for Delaware, U.S.A., census tracts from census block groups. This metric is based on [Bell (1954)](https://doi.org/10.2307/2574118) and adapted by Lieberson (1981; ISBN-13:978-1-032-53884-6). _xPx\*_ is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. _xPx\*_ can range in value from 0 to 1.
 
@@ -740,9 +740,9 @@ ggplot() +
   )
 ```
 
-#### Compute racial or ethnic Absolute Centralization (*ACE*)
+#### Compute Absolute Centralization (*ACE*)
 
-Compute the racial or ethnic *ACE* values (2013-2017 5-year ACS) for Connecticut census-designated places from census block groups. This metric is based on based on Duncan, Cuzzort, & Duncan (1961; LC:60007089) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *ACE* is a measure of the degree to which racial or ethnic populations within smaller geographical units are located near the center of a larger geographical unit. *ACE* can range in value from -1 to 1 and represents the spatial distribution of racial or ethnic populations within smaller geographical units compared to the distribution of land area around the center of a larger geographical unit. Positive values indicate a tendency for racial or ethnic populations to reside close to the center of a larger geographical unit, while negative values indicate a tendency to live in outlying areas. A score of 0 means that racial or ethnic populations have a uniform distribution throughout a larger geographical unit. *ACE* gives the proportion of racial or ethnic populations required to change residence to achieve a uniform distribution of population around the center of a larger geographical unit.
+Compute the racial or ethnic *ACE* values (2013-2017 5-year ACS) for Connecticut census-designated places from census block groups. This metric is based on Duncan, Cuzzort, & Duncan (1961; LC:60007089) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *ACE* is a measure of the degree to which racial or ethnic populations within smaller geographical units are located near the center of a larger geographical unit. *ACE* can range in value from -1 to 1 and represents the spatial distribution of racial or ethnic populations within smaller geographical units compared to the distribution of land area around the center of a larger geographical unit. Positive values indicate a tendency for racial or ethnic populations to reside close to the center of a larger geographical unit, while negative values indicate a tendency to live in outlying areas. A score of 0 means that racial or ethnic populations have a uniform distribution throughout a larger geographical unit. *ACE* gives the proportion of racial or ethnic populations required to change residence to achieve a uniform distribution of population around the center of a larger geographical unit.
 
 Note: The original metric used the location of the central business district (CBD) to compute the metric, but the U.S. Census Bureau has not defined CBDs for U.S. cities since the [1982 Census of Retail Trade](http://www.census.gov/geo/www/cbd.html). Therefore, this function uses the the centroids of each larger geographical unit as the 'centre', but may not represent the current CBD. 
 
@@ -760,7 +760,7 @@ places2017 <- places(year = 2017, state = 'CT')
 # Obtain the 2014 state from the 'tigris' package
 states2017 <- states(cb = TRUE)
 
-# Join the SP values to the CSA geometries and filter for Georgia
+# Join the SP values to the CSA geometries and filter for Connecticut
 CT2010duncan_cuzzort <- places2017 %>%
   left_join(duncan_cuzzort2017CT$ace, by = 'GEOID') %>%
   filter(!st_is_empty(.)) %>%
@@ -792,8 +792,66 @@ ggplot() +
   ) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2013-2017 estimates') +
   ggtitle(
-    'Absolute Centralization (Duncan & Cuzzort)\nCensus tracts to Metro Divisions in Pennsylvania',
+    'Absolute Centralization (Duncan & Cuzzort)\nCensus tracts to census-designated places in Connecticut',
     subtitle = 'Black population'
+  )
+```
+
+#### Compute Relative Centralization (*RCE*)
+
+Compute the racial or ethnic *RCE* values (2013-2017 5-year ACS) for Connecticut census-designated places from census block groups. This metric is based on [Duncan & Duncan (1955b)](https://doi.org/10.1086/221609) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *RCE* is a measure of the degree to which racial or ethnic populations within smaller geographical units are located near the center of a larger geographical unit. *RCE* can range in value from -1 to 1 and represents the spatial distribution of racial or ethnic populations within smaller geographical units relative to the compared to the distribution of the referent racial or ethnic population around the center of a larger geographical unit. Positive values indicate a tendency for racial or ethnic populations to reside closer to the center of a larger geographical unit than the referent racial or ethnic population, while negative values indicate the racial or ethnic population is distributed farther from the center of a larger geographical unit than the referent racial or ethnic population. A score of 0 means that racial or ethnic populations have a uniform distribution throughout a larger geographical unit. *RCE* gives the proportion of racial or ethnic populations required to change residence to match the degree of centralization of the referent racial or ethnic population.
+
+Note: The original metric used the location of the central business district (CBD) to compute the metric, but the U.S. Census Bureau has not defined CBDs for U.S. cities since the [1982 Census of Retail Trade](http://www.census.gov/geo/www/cbd.html). Therefore, this function uses the the centroids of each larger geographical unit as the 'centre', but may not represent the current CBD. 
+
+```{r duncan_duncan_prep, results = 'hide'}
+duncan_duncan2017CT <- duncan_duncan(
+  geo_large = 'place',
+  geo_small = 'cbg',
+  state = 'CT',
+  year = 2017,
+  subgroup = 'NHoLB',
+  subgroup_ref = 'NHoLW'
+)
+
+# Obtain the 2017 census-designated places in Connecticut from the 'tigris' package
+places2017 <- places(year = 2017, state = 'CT')
+# Obtain the 2014 state from the 'tigris' package
+states2017 <- states(cb = TRUE)
+
+# Join the SP values to the CSA geometries and filter for Connecticut
+CT2010duncan_duncan <- places2017 %>%
+  left_join(duncan_duncan2017CT$rce, by = 'GEOID') %>%
+  filter(!st_is_empty(.)) %>%
+  filter(!is.na(RCE)) %>%
+  st_filter(states2017 %>% filter(STUSPS == 'CT')) %>%
+  st_make_valid()
+```
+
+```{r duncan_duncan_plot, fig.height = 4, fig.width = 7}
+# Visualize the ACE values (2013-2017 5-year ACS) for Connecticut, U.S.A., census-designated places
+ggplot() +
+  geom_sf(
+    data = CT2010duncan_duncan,
+    aes(fill = RCE)
+  ) +
+  geom_sf(
+    data = states2017 %>% filter(STUSPS == 'CT'),
+    fill = 'transparent',
+    color = 'black',
+    size = 0.2
+  ) +
+  theme_minimal() +
+  scale_fill_gradient2(
+    low = '#998ec3', 
+    mid = '#f7f7f7', 
+    high = '#f1a340', 
+    midpoint = 0,
+    limits = c(-1, 1)
+  ) +
+  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2013-2017 estimates') +
+  ggtitle(
+    'Relative Centralization (Duncan & Duncan)\nCensus tracts to census-designated places in Connecticut',
+    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
 ```
 

@@ -300,3 +300,36 @@ ace_fun <- function(x, lgeom, crs, omit_NAs) {
     return(ACE)
   }
 }
+
+# Internal function for Relative Centralization
+## Duncan & Duncan (1955) https://doi.org/10.1086/221609
+## Returns NA value if only one smaller geography in a larger geography
+rce_fun <- function(x, lgeom, crs, omit_NAs) {
+  xx <- x[ , c('oid', 'subgroup', 'subgroup_ref')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(sf::st_drop_geometry(xx)), ] }
+  if (nrow(sf::st_drop_geometry(x)) < 2 || any(sf::st_drop_geometry(xx) < 0) || any(is.na(sf::st_drop_geometry(xx)))) {
+    NA
+  } else {
+    C <- lgeom %>%
+      dplyr::filter(GEOID == unique(xx$oid)) %>%
+      sf::st_transform(crs = crs) %>%
+      sf::st_geometry() %>%
+      sf::st_centroid()
+    xx <- xx %>% 
+      sf::st_transform(crs = crs) %>%
+      dplyr::mutate(d = sf::st_distance(sf::st_geometry(.), C)) %>%
+      dplyr::arrange(d) %>%
+      sf::st_drop_geometry()
+    x_i <- xx$subgroup
+    x_n <- sum(x_i, na.rm = TRUE)
+    X_i <- cumsum(x_i / x_n)
+    y_i <- xx$subgroup_ref
+    y_n <- sum(y_i, na.rm = TRUE)
+    Y_i <- cumsum(y_i / y_n)
+    I_i <- matrix(c(seq(1, (length(x_i)-1), 1), seq(2, length(x_i), 1)), ncol = 2)
+    Xi_1Yi <- sum(X_i[I_i[, 1]] * Y_i[I_i[, 2]], na.rm = TRUE)
+    XiY1_1 <- sum(X_i[I_i[, 2]] * Y_i[I_i[, 1]], na.rm = TRUE)
+    RCE <- Xi_1Yi - XiY1_1
+    return(RCE)
+  }
+}
