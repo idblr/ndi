@@ -4,7 +4,14 @@
 \alias{bravo}
 \title{Educational Isolation Index based on Bravo et al. (2021)}
 \usage{
-bravo(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
+bravo(
+  geo = "tract",
+  year = 2020,
+  subgroup,
+  crs = "ESRI:102008",
+  quiet = FALSE,
+  ...
+)
 }
 \arguments{
 \item{geo}{Character string specifying the geography of the data either census tracts \code{geo = 'tract'} (the default) or counties \code{geo = 'county'}.}
@@ -12,6 +19,8 @@ bravo(geo = "tract", year = 2020, subgroup, quiet = FALSE, ...)
 \item{year}{Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.}
 
 \item{subgroup}{Character string specifying the educational attainment category(ies). See Details for available choices.}
+
+\item{crs}{Numeric or character string specifying the coordinate reference system to compute the distance-based metric. The default is Albers North America \code{crs = 'ESRI:102008'}.}
 
 \item{quiet}{Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.}
 

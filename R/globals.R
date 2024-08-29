@@ -264,6 +264,10 @@ globalVariables(
     'G_re', 
     'xPx_star', 
     'xPy_star',
-    'H'
+    'H',
+    'ACE',
+    'C',
+    'd',
+    'crs'
   )
 )

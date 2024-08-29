@@ -86,7 +86,7 @@ test_that('atkinson works', {
   expect_silent(atkinson(
     state = 'DC',
     year = 2020,
-    subgroup = c('NHoLB', 'HoLB'),
+    subgroup = 'MedHHInc',
     quiet = TRUE
   ))
   

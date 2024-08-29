@@ -168,12 +168,13 @@ del_fun <- function(x, omit_NAs) {
 # Internal function for an index of spatial proximity 
 ## White (1986) https://doi.org/10.2307/3644339
 ## Returns NA value if only one smaller geography in a larger geography
-sp_fun <- function(x, omit_NAs) {
+sp_fun <- function(x, crs, omit_NAs) {
   xx <- x[ , c('TotalPopE', 'subgroup', 'subgroup_ref', 'ALAND')]
   if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(sf::st_drop_geometry(xx)), ] }
   if (nrow(sf::st_drop_geometry(x)) < 2 || any(sf::st_drop_geometry(xx) < 0) || any(is.na(sf::st_drop_geometry(xx)))) {
     NA
   } else {
+    xx <- xx %>% sf::st_transform(crs = crs)
     d_ij <- suppressWarnings(sf::st_distance(sf::st_centroid(xx), sf::st_centroid(xx)))
     diag(d_ij) <- sqrt(0.6 * xx$ALAND)
     c_ij <- -d_ij %>% 
@@ -263,5 +264,39 @@ h_fun <- function(x, omit_NAs) {
     H_i[is.infinite(H_i)] <- NA
     H <- sum(H_i, na.rm = TRUE) 
     return(H)
+  }
+}
+
+# Internal function for Absolute Centralization
+## Duncan, Cuzzort, & Duncan (1961; LC:60007089)
+## Returns NA value if only one smaller geography in a larger geography
+ace_fun <- function(x, lgeom, crs, omit_NAs) {
+  xx <- x[ , c('oid', 'subgroup', 'ALAND')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(sf::st_drop_geometry(xx)), ] }
+  if (nrow(sf::st_drop_geometry(x)) < 2 || any(sf::st_drop_geometry(xx) < 0) || any(is.na(sf::st_drop_geometry(xx)))) {
+    NA
+  } else {
+    L <- lgeom %>%
+      dplyr::filter(GEOID == unique(xx$oid)) %>%
+      sf::st_transform(crs = crs)
+    C <- L %>%
+      sf::st_geometry() %>%
+      sf::st_centroid()
+    A <- L %>% 
+      sf::st_drop_geometry()
+    xx <- xx %>% 
+      sf::st_transform(crs = crs) %>%
+      dplyr::mutate(d = sf::st_distance(sf::st_geometry(.), C)) %>%
+      dplyr::arrange(d) %>%
+      sf::st_drop_geometry()
+    x_i <- xx$subgroup
+    x_n <- sum(x_i, na.rm = TRUE)
+    X_i <- cumsum(x_i / x_n) 
+    A_i <- cumsum(xx$ALAND / A$ALAND) 
+    I_i <- matrix(c(seq(1, (length(x_i)-1), 1), seq(2, length(x_i), 1)), ncol = 2)
+    Xi_1Ai <- sum(X_i[I_i[, 1]] * A_i[I_i[, 2]], na.rm = TRUE)
+    XiA1_1 <- sum(X_i[I_i[, 2]] * A_i[I_i[, 1]], na.rm = TRUE)
+    ACE <- Xi_1Ai - XiA1_1
+    return(ACE)
   }
 }

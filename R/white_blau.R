@@ -7,13 +7,14 @@
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
 #' @param subgroup Character string specifying the racial or ethnic subgroup(s) as the comparison population. See Details for available choices.
 #' @param subgroup_ref Character string specifying the racial or ethnic subgroup(s) as the reference population. See Details for available choices.
+#' @param crs Numeric or character string specifying the coordinate reference system to compute the distance-based metric. The default is Albers North America \code{crs = 'ESRI:102008'}.
 #' @param omit_NAs Logical. If FALSE, will compute index for a larger geographical unit only if all of its smaller geographical units have values. The default is TRUE.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
 #' @details This function will compute an index of spatial proximity (\emph{SP}) of selected racial or ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on White (1986) \doi{10.2307/3644339} and Blau (1977; ISBN-13:978-0-029-03660-0). This function provides the computation of \emph{SP} for any of the U.S. Census Bureau race or ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #' 
-#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'csa'} or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial or ethnic subgroups (U.S. Census Bureau definitions) are:
+#' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'place'}, \code{geo_large = 'csa'}, or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial or ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
 #'  \item \strong{B03002_002}: not Hispanic or Latino \code{'NHoL'}
 #'  \item \strong{B03002_003}: not Hispanic or Latino, white alone \code{'NHoLW'}
@@ -43,7 +44,7 @@
 #'
 #' The metric uses the exponential transform of a distance matrix (kilometers) between smaller geographical area centroids, with a diagonal defined as \code{(0.6*a_{i})^{0.5}} where \code{a_{i}} is the area (square kilometers) of smaller geographical unit \code{i} as defined by White (1983) \doi{10.1086/227768}.
 #'
-#' Larger geographies available include state \code{geo_large = 'state'}, county \code{geo_large = 'county'}, census tract \code{geo_large = 'tract'}, census-designated place \code{geo_large = 'place'}, core-based statistical area \code{geo_large = 'cbsa'}, combined statistical area \code{geo_large = 'csa'}, and metropolitan division \code{geo_large = 'metro'} levels. Smaller geographies available include, county \code{geo_small = 'county'}, census tract \code{geo_small = 'tract'}, and census block group \code{geo_small = 'cbg'} levels. If a larger geographical area is comprised of only one smaller geographical area (e.g., a U.S county contains only one census tract), then the \emph{SP} value returned is NA. If the larger geographical unit is census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, or metropolitan divisions \code{geo_large = 'metro'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{V} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{SP} computation.
+#' Larger geographical units available include states \code{geo_large = 'state'}, counties \code{geo_large = 'county'}, census tracts \code{geo_large = 'tract'}, census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, and metropolitan divisions \code{geo_large = 'metro'}. Smaller geographical units available include, counties \code{geo_small = 'county'}, census tracts \code{geo_small = 'tract'}, and census block groups \code{geo_small = 'cbg'}. If a larger geographical unit is comprised of only one smaller geographical unit (e.g., a U.S county contains only one census tract), then the \emph{SP} value returned is NA. If the larger geographical unit is census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, or metropolitan divisions \code{geo_large = 'metro'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{V} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{SP} computation.
 #' 
 #' @return An object of class 'list'. This is a named list with the following components:
 #'
@@ -54,7 +55,7 @@
 #' }
 #'
 #' @import dplyr
-#' @importFrom sf st_centroid st_distance st_drop_geometry st_within
+#' @importFrom sf st_centroid st_distance st_drop_geometry st_transform st_within
 #' @importFrom stats complete.cases
 #' @importFrom stringr str_trim
 #' @importFrom tidycensus get_acs
@@ -88,6 +89,7 @@ white_blau <- function(geo_large = 'county',
                        year = 2020,
                        subgroup,
                        subgroup_ref,
+                       crs = 'ESRI:102008',
                        omit_NAs = TRUE,
                        quiet = FALSE,
                        ...) {
@@ -340,8 +342,9 @@ white_blau <- function(geo_large = 'county',
   
   ## Compute
   out_tmp <- out_dat %>%
-    split(., f = list(out_dat$oid)) %>%
-    lapply(., FUN = sp_fun, omit_NAs = omit_NAs) %>%
+    .[.$oid != 'NANA', ] %>%
+    split(., f = list(.$oid)) %>%
+    lapply(., FUN = sp_fun, crs = crs, omit_NAs = omit_NAs) %>%
     utils::stack(.) %>%
     dplyr::mutate(
       SP = values,
@@ -399,6 +402,13 @@ white_blau <- function(geo_large = 'county',
       dplyr::mutate(GEOID = oid) %>%
       dplyr::select(GEOID, state, county, tract, SP)
   }
+  if (geo_large == 'place') {
+    out <- out %>%
+      dplyr::select(oid, place, SP) %>%
+      unique(.) %>%
+      dplyr::mutate(GEOID = oid) %>%
+      dplyr::select(GEOID, place, SP)
+  }
   if (geo_large == 'cbsa') {
     out <- out %>%
       dplyr::select(oid, cbsa, SP) %>%
@@ -419,13 +429,6 @@ white_blau <- function(geo_large = 'county',
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
       dplyr::select(GEOID, metro, SP)
-  }
-  if (geo_large == 'place') {
-    out <- out %>%
-      dplyr::select(oid, place, SP) %>%
-      unique(.) %>%
-      dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, place, SP)
   }
   
   out <- out %>%

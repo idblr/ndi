@@ -5,6 +5,7 @@
 #' @param geo Character string specifying the geography of the data either counties \code{geo = 'county'}, census tracts \code{geo = 'tract'} (the default), or census block groups \code{geo = 'cbg'}.
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
 #' @param subgroup Character string specifying the racial or ethnic subgroup(s). See Details for available choices.
+#' @param crs Numeric or character string specifying the coordinate reference system to compute the distance-based metric. The default is Albers North America \code{crs = 'ESRI:102008'}.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
@@ -47,7 +48,7 @@
 #'
 #' @import dplyr
 #' @importFrom Matrix sparseMatrix
-#' @importFrom sf st_drop_geometry st_geometry st_intersects
+#' @importFrom sf st_drop_geometry st_geometry st_intersects st_transform
 #' @importFrom stringr str_trim
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
@@ -73,6 +74,7 @@
 anthopolos <- function(geo = 'tract',
                        year = 2020,
                        subgroup,
+                       crs = 'ESRI:102008',
                        quiet = FALSE,
                        ...) {
   
@@ -186,6 +188,7 @@ anthopolos <- function(geo = 'tract',
   
   ## Geospatial adjacency matrix (w_ij)
   tmp <- out_dat %>%
+    sf::st_transform(crs = crs) %>%
     sf::st_geometry() %>%
     sf::st_intersects(sparse = TRUE)
   names(tmp) <- as.character(seq_len(nrow(out_dat)))

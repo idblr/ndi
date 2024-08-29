@@ -5,6 +5,7 @@
 #' @param geo Character string specifying the geography of the data either census tracts \code{geo = 'tract'} (the default) or counties \code{geo = 'county'}.
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
 #' @param subgroup Character string specifying the educational attainment category(ies). See Details for available choices.
+#' @param crs Numeric or character string specifying the coordinate reference system to compute the distance-based metric. The default is Albers North America \code{crs = 'ESRI:102008'}.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
@@ -33,7 +34,7 @@
 #'
 #' @import dplyr
 #' @importFrom Matrix sparseMatrix
-#' @importFrom sf st_drop_geometry st_geometry st_intersects
+#' @importFrom sf st_drop_geometry st_geometry st_intersects st_transform
 #' @importFrom stats setNames
 #' @importFrom stringr str_trim
 #' @importFrom tidycensus get_acs
@@ -60,6 +61,7 @@
 bravo <- function(geo = 'tract',
                   year = 2020,
                   subgroup,
+                  crs = 'ESRI:102008',
                   quiet = FALSE,
                   ...) {
   
@@ -242,7 +244,10 @@ bravo <- function(geo = 'tract',
   ### such that the weight of the index unit, i, is larger than the weights assigned to adjacent tracts
   
   ## Geospatial adjacency matrix (w_ij)
-  tmp <- sf::st_intersects(sf::st_geometry(out_dat), sparse = TRUE)
+  tmp <- out_dat %>%
+    sf::st_transform(crs = crs) %>%
+    sf::st_geometry() %>%
+    sf::st_intersects(sparse = TRUE)
   names(tmp) <- as.character(seq_len(nrow(out_dat)))
   tmp_L <- length(tmp)
   tmp_counts <- unlist(Map(length, tmp))
