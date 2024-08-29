@@ -29,11 +29,12 @@
 * Re-formatted code and documentation throughout for consistent readability
 * Renamed 'race/ethnicity' or 'racial/ethnic' to 'race or ethnicity' or 'racial or ethnic' throughout documentation to use more modern, inclusive, and appropriate language
 * Updated documentation about value range of *V* (White) from `{0 to 1}` to `{-Inf to Inf}`
-* Added examples for `atkinson()`, `duncan_cuzzort()`, `gini()`, `hoover()`, `james_taeuber()`, `lieberson()`, `theil()`, and `white_blau()` functions in vignette and README
+* Split up vignette into three separate vignettes: 'ndi1', 'ndi2', and 'ndi3' for the *NDI*, racial or ethnic residential segregation, and additional socioeconomic disparity indices, respectively
+* Added examples for `atkinson()`, `duncan_cuzzort()`, `gini()`, `hoover()`, `james_taeuber()`, `lieberson()`, `theil()`, and `white_blau()` functions in vignettes and README
 * Added example for `holder` argument in `atkinson()` function in README
 * Reordered the README examples alphabetically
 * Reordered the vignette examples to group the racial or ethnic residential segregation indices
-* Updated examples in vignette to showcase a larger variety of U.S. states
+* Updated examples in vignettes to showcase a larger variety of U.S. states
 * Updated examples in functions to better describe the metrics
 * Updated documentation formatting of metric names in all functions
 
