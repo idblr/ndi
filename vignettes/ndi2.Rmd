@@ -58,7 +58,7 @@ Since version v0.1.1, the [*ndi*](https://CRAN.R-project.org/package=ndi) packag
 
   * `hoover()` function that computes Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan, Cuzzort, & Duncan (1961; LC:60007089)
   * `massey()` function that compute Absolute Clustering (*ACL*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
-  * Relative Concentration (Planned)
+  * `denton()` function that compute Relative Clustering (*RCL*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
 
 **Centralization**:
 
@@ -791,13 +791,68 @@ ggplot() +
     low = '#998ec3', 
     mid = '#f7f7f7', 
     high = '#f1a340', 
-    midpoint = 0,
-    limits = c(-1, 1)
+    midpoint = 0
   ) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2013-2017 estimates') +
   ggtitle(
     'Absolute Clustering (Massey & Denton)\nCensus block groups within census tracts of Harris County, TX',
     subtitle = 'Black population'
+  )
+```
+
+#### Compute Relative Clustering (*RCL*)
+
+Compute the racial or ethnic *RCL* values (2014-2018 5-year ACS) for census block groups within census tracts of Harris County, TX. This metric is based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *RCL* equals 0 when the racial or ethnic subgroup population displays the same amount of clustering as the referent racial or ethnic subgroup population, and is positive whenever the racial or ethnic subgroup population members display greater clustering than is typical of the the referent racial or ethnic subgroup population. If the racial or ethnic subgroup population members were less clustered than the the referent racial or ethnic subgroup population, then *RCL* would be negative.
+
+```{r denton_prep, results = 'hide'}
+denton2018HTX <- denton(
+  geo_large = 'tract',
+  geo_small = 'cbg',
+  state = 'TX',
+  county = 'Harris County',
+  year = 2018,
+  subgroup = 'NHoLB',
+  subgroup_ref = 'NHoLW'
+)
+
+# Obtain the 2018 census tracts in Harris County, TX, from the 'tigris' package
+tract2018 <- tracts(year = 2018, state = 'TX')
+# Obtain the 2018 Texas counties from the 'tigris' package
+county2018 <- counties(state = 'TX', year = 2018, cb = TRUE)
+
+# Join the RCL values to the census tract geometries and filter for Harris County, TX
+HTX2010denton <- tract2018 %>%
+  left_join(denton2018HTX$rcl, by = 'GEOID') %>%
+  filter(!st_is_empty(.)) %>%
+  filter(!is.na(RCL)) %>%
+  st_filter(county2018 %>% filter(NAME == 'Harris')) %>%
+  st_make_valid()
+```
+
+```{r denton_plot, fig.height = 4, fig.width = 7}
+# Visualize the RCL values (2013-2017 5-year ACS) for census block groups within census tracts of Harris County, TX
+ggplot() +
+  geom_sf(
+    data = HTX2010denton,
+    aes(fill = RCL)
+  ) +
+  geom_sf(
+    data = county2018 %>% filter(NAME == 'Harris County'),
+    fill = 'transparent',
+    color = 'black',
+    size = 0.2
+  ) +
+  theme_minimal() +
+  scale_fill_gradient2(
+    low = '#998ec3', 
+    mid = '#f7f7f7', 
+    high = '#f1a340', 
+    midpoint = 0
+  ) +
+  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2013-2017 estimates') +
+  ggtitle(
+    'Relative Clustering (Massey & Denton)\nCensus block groups within census tracts of Harris County, TX',
+    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
 ```
 

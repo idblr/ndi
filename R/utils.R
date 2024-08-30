@@ -8,9 +8,9 @@ ddd_fun <- function(x, omit_NAs) {
     NA
   } else {
     x_i <- xx$subgroup
-    n_i <- sum(xx$subgroup, na.rm = TRUE)
+    n_i <- sum(x_i, na.rm = TRUE)
     y_i <- xx$subgroup_ref
-    m_i <- sum(xx$subgroup_ref, na.rm = TRUE)
+    m_i <- sum(y_i, na.rm = TRUE)
     D <- 0.5 * sum(abs((x_i/n_i) - (y_i/m_i)), na.rm = TRUE)
     return(D)
   }
@@ -38,9 +38,9 @@ a_fun <- function(x, epsilon, omit_NAs, holder) {
       }
     } else {
       x_i <- xx$subgroup
-      X <- sum(xx$subgroup, na.rm = TRUE)
+      X <- sum(x_i, na.rm = TRUE)
       t_i <- xx$TotalPopE
-      N <- sum(xx$TotalPopE, na.rm = TRUE)
+      N <- sum(t_i, na.rm = TRUE)
       p_i <- x_i / t_i
       P <- X / N
       b <- epsilon
@@ -60,7 +60,7 @@ xpy_star_fun <- function(x, omit_NAs) {
     NA
   } else {
     x_i <- xx$subgroup
-    X <- sum(xx$subgroup, na.rm = TRUE)
+    X <- sum(x_i, na.rm = TRUE)
     y_i <- xx$subgroup_ixn
     t_i <- xx$TotalPopE
     xPy_star <- sum((x_i / X) * (y_i / t_i), na.rm = TRUE)
@@ -78,7 +78,7 @@ xpx_star_fun <- function(x, omit_NAs) {
     NA
   } else {
     x_i <- xx$subgroup
-    X <- sum(xx$subgroup, na.rm = TRUE)
+    X <- sum(x_i, na.rm = TRUE)
     t_i <- xx$TotalPopE
     xPx_star <- sum((x_i / X) * (x_i / t_i), na.rm = TRUE)
     return(xPx_star)
@@ -95,9 +95,9 @@ v_fun <- function(x, omit_NAs) {
     NA
   } else {
     x_i <- xx$subgroup
-    X <- sum(xx$subgroup, na.rm = TRUE)
+    X <- sum(x_i, na.rm = TRUE)
     t_i <- xx$TotalPopE
-    N <- sum(xx$TotalPopE, na.rm = TRUE)
+    N <- sum(t_i, na.rm = TRUE)
     xPx_star <- sum((x_i / X) * (x_i / t_i), na.rm = TRUE)
     P <- X / N
     V <- (xPx_star - P) / (1 - P)
@@ -117,8 +117,8 @@ lq_fun <- function(x, omit_NAs) {
     x_i <- xx$subgroup # x_im
     t_i <- xx$TotalPopE # X_i
     p_i <- x_i / t_i # p_im
-    X <- sum(xx$subgroup, na.rm = TRUE) # X_m
-    N <- sum(xx$TotalPopE, na.rm = TRUE) # X
+    X <- sum(x_i, na.rm = TRUE) # X_m
+    N <- sum(t_i, na.rm = TRUE) # X
     if (anyNA(p_i)) { p_i[is.na(p_i)] <- 0 }
     LQ <- p_i / (X / N) # (x_im/X_i)/(X_m/X)
     df <-  data.frame(LQ = LQ, GEOID = xx$GEOID)
@@ -139,8 +139,14 @@ lexis_fun <- function(x, omit_NAs) {
     if (anyNA(p_im)) { p_im[is.na(p_im)] <- 0 }
     p_in <- xx$subgroup_ixn / xx$TotalPopE
     if (anyNA(p_in)) { p_in[is.na(p_in) ] <- 0 }
-    P_m <- sum(xx$subgroup, na.rm = TRUE) / sum(xx$TotalPopE, na.rm = TRUE)
-    P_n <- sum(xx$subgroup_ixn, na.rm = TRUE) / sum(xx$TotalPopE, na.rm = TRUE)
+    x_i <- xx$subgroup
+    X <- sum(x_i, na.rm = TRUE)
+    y_i <- xx$subgroup_ixn
+    Y <- sum(y_i, na.rm = TRUE)
+    t_i <- xx$TotalPopE
+    N <- sum(t_i, na.rm = TRUE)
+    P_m <- X / N
+    P_n <- Y / N
     LExIs <- car::logit(p_im * p_in) - car::logit(P_m * P_n)
     df <-  data.frame(LExIs = LExIs, GEOID = xx$GEOID)
     return(df)
@@ -157,9 +163,9 @@ del_fun <- function(x, omit_NAs) {
     NA
   } else {
     x_i <- xx$subgroup
-    X <- sum(xx$subgroup, na.rm = TRUE)
+    X <- sum(x_i, na.rm = TRUE)
     a_i <- xx$ALAND
-    A <- sum(xx$ALAND, na.rm = TRUE)
+    A <- sum(a_i, na.rm = TRUE)
     DEL <- 0.5 * sum(abs((x_i / X) - (a_i / A)), na.rm = TRUE)
     return(DEL)
   }
@@ -181,12 +187,15 @@ sp_fun <- function(x, crs, omit_NAs) {
       units::set_units(value = km) %>%
       units::drop_units() %>%
       exp()
-    X <- sum(xx$subgroup, na.rm = TRUE)
-    Y <- sum(xx$subgroup_ref, na.rm = TRUE)
-    N <- sum(xx$TotalPopE, na.rm = TRUE)
-    P_xx <- sum((xx$subgroup * xx$subgroup * c_ij) / X^2, na.rm = TRUE)
-    P_xy <- sum((xx$subgroup * xx$subgroup_ref * c_ij) / (X * Y), na.rm = TRUE)
-    P_tt <- sum((xx$TotalPopE * xx$TotalPopE * c_ij) / N^2, na.rm = TRUE)
+    x_i <- xx$subgroup
+    X <- sum(x_i, na.rm = TRUE)
+    y_i <- xx$subgroup_ref
+    Y <- sum(y_i, na.rm = TRUE)
+    t_i <- xx$TotalPopE
+    N <- sum(t_i, na.rm = TRUE)
+    P_xx <- sum((x_i * x_i * c_ij) / X^2, na.rm = TRUE)
+    P_xy <- sum((x_i * y_i * c_ij) / (X * Y), na.rm = TRUE)
+    P_tt <- sum((t_i * t_i * c_ij) / N^2, na.rm = TRUE)
     SP <- ((X * P_xx) + (Y * P_xy)) / (N * P_tt)
     return(SP)
   }
@@ -202,9 +211,9 @@ g_fun <- function(x, omit_NAs) {
     NA
   } else {
     x_i <- xx$subgroup
-    X <- sum(xx$subgroup, na.rm = TRUE)
+    X <- sum(x_i, na.rm = TRUE)
     t_i <- xx$TotalPopE
-    N <- sum(xx$TotalPopE, na.rm = TRUE)
+    N <- sum(t_i, na.rm = TRUE)
     p_i <- x_i / t_i
     P <- X / N
     titj <- apply(expand.grid(t_i, t_i), MARGIN = 1, FUN = prod)
@@ -225,9 +234,9 @@ djt_fun <- function(x, omit_NAs) {
     NA
   } else {
     x_i <- xx$subgroup
-    X <- sum(xx$subgroup, na.rm = TRUE)
+    X <- sum(x_i, na.rm = TRUE)
     t_i <- xx$TotalPopE
-    N <- sum(xx$TotalPopE, na.rm = TRUE)
+    N <- sum(t_i, na.rm = TRUE)
     p_i <- x_i / t_i
     P <- X / N
     D <- sum(t_i * abs(p_i - P), na.rm = TRUE) / (2 * N * P * (1 - P))
@@ -249,9 +258,9 @@ h_fun <- function(x, omit_NAs) {
     NA
   } else {
     x_i <- xx$subgroup
-    X <- sum(xx$subgroup, na.rm = TRUE)
+    X <- sum(x_i, na.rm = TRUE)
     t_i <- xx$TotalPopE
-    N <- sum(xx$TotalPopE, na.rm = TRUE)
+    N <- sum(t_i, na.rm = TRUE)
     p_i <- x_i / t_i
     p_i[is.infinite(p_i)] <- 0
     P <- X / N
@@ -291,8 +300,9 @@ ace_fun <- function(x, lgeom, crs, omit_NAs) {
       sf::st_drop_geometry()
     x_i <- xx$subgroup
     x_n <- sum(x_i, na.rm = TRUE)
-    X_i <- cumsum(x_i / x_n) 
-    A_i <- cumsum(xx$ALAND / A$ALAND) 
+    X_i <- cumsum(x_i / x_n)
+    a_i <- xx$ALAND
+    A_i <- cumsum(a_i / A$ALAND) 
     I_i <- matrix(c(seq(1, (length(x_i)-1), 1), seq(2, length(x_i), 1)), ncol = 2)
     Xi_1Ai <- sum(X_i[I_i[, 1]] * A_i[I_i[, 2]], na.rm = TRUE)
     XiA1_1 <- sum(X_i[I_i[, 2]] * A_i[I_i[, 1]], na.rm = TRUE)
@@ -351,12 +361,39 @@ acl_fun <- function(x, crs, omit_NAs) {
       units::drop_units() %>%
       exp()
     x_i <- xx$subgroup
-    X <- sum(xx$subgroup, na.rm = TRUE)
-    n <- length(xx$subgroup)
+    X <- sum(x_i, na.rm = TRUE)
+    n <- length(x_i)
     t_i <- xx$TotalPopE
     num <- (sum(x_i / X, na.rm = TRUE) * sum(c_ij * x_i, na.rm = TRUE)) - ((X / n^2) * sum(c_ij, na.rm = TRUE))
     denom <- (sum(x_i / X, na.rm = TRUE) * sum(c_ij * t_i, na.rm = TRUE)) - ((X / n^2) * sum(c_ij, na.rm = TRUE))
     ACL <- num / denom
     return(ACL)
+  }
+}
+
+# Internal function for Relative Clustering
+## From Denton & Massey (1988) https://doi.org/10.1093/sf/67.2.281
+## Returns NA value if only one smaller geography in a larger geography
+rcl_fun <- function(x, crs, omit_NAs) {
+  xx <- x[ , c('subgroup', 'subgroup_ref', 'ALAND')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(sf::st_drop_geometry(xx)), ] }
+  if (nrow(sf::st_drop_geometry(x)) < 2 || any(sf::st_drop_geometry(xx) < 0) || any(is.na(sf::st_drop_geometry(xx)))) {
+    NA
+  } else {
+    xx <- xx %>% sf::st_transform(crs = crs)
+    d_ij <- suppressWarnings(sf::st_distance(sf::st_centroid(xx), sf::st_centroid(xx)))
+    diag(d_ij) <- sqrt(0.6 * xx$ALAND)
+    c_ij <- -d_ij %>% 
+      units::set_units(value = km) %>%
+      units::drop_units() %>%
+      exp()
+    x_i <- xx$subgroup
+    X <- sum(x_i, na.rm = TRUE)
+    y_i <- xx$subgroup_ref
+    Y <- sum(y_i, na.rm = TRUE)
+    P_xx <- sum((x_i * x_i * c_ij) / X^2, na.rm = TRUE)
+    P_yy <- sum((y_i * y_i * c_ij) / Y^2, na.rm = TRUE)
+    RCL <- (P_xx / P_yy) - 1
+    return(RCL)
   }
 }

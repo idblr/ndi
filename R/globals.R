@@ -270,6 +270,7 @@ globalVariables(
     'd',
     'crs',
     'RCE',
-    'ACL'
+    'ACL',
+    'RCL'
   )
 )
