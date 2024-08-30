@@ -12,7 +12,7 @@
 [![DOI](https://zenodo.org/badge/521439746.svg)](https://zenodo.org/badge/latestdoi/521439746)
 <!-- badges: end -->
 
-**Date repository last updated**: 2024-08-29
+**Date repository last updated**: 2024-08-30
 
 ### Overview
 
@@ -61,6 +61,10 @@ To install the development version from GitHub:
 <tr>
 <td><a href='/R/bravo.R'><code>bravo</code></a></td>
 <td>Compute the spatial Educational Isolation Index (<i>EI</i>) based on <a href='https://doi.org/10.3390/ijerph18179384'>Bravo et al. (2021)</a></td>
+</tr>
+<tr>
+<td><a href='/R/denton.R'><code>denton</code></a></td>
+<td>Compute the aspatial racial or ethnic Relative Clustering (<i>RCL</i>) based on <a href='https://doi.org/10.1093/sf/67.2.281'>Massey & Denton (1988)</a></td>
 </tr>
 <tr>
 <td><a href='/R/duncan.R'><code>duncan</code></a></td>
@@ -286,6 +290,7 @@ ggplot() +
     subtitle = 'Washington, D.C. tracts as the referent'
   )
 ```
+
 ![](man/figures/messer1.png)
 ![](man/figures/messer2.png)
 
@@ -323,7 +328,7 @@ powell_wiley_2020_DC$missing
 # Obtain the 2020 census tracts from the 'tigris' package
 tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
-# Join the NDI (powell_wiley) values to the census tract geometry
+# Join the NDI (Powell-Wiley) values to the census tract geometry
 DC_2020_powell_wiley <- tract_2020_DC %>%
   left_join(powell_wiley_2020_DC$ndi, by = 'GEOID')
 DC_2020_powell_wiley <- DC_2020_powell_wiley %>%
@@ -459,6 +464,8 @@ cor(NDI_2020_DC$NDI.messer, NDI_2020_DC$NDI.powell_wiley, use = 'complete.obs') 
 # Check the similarity of the two NDI metrics (Messer and Powell-Wiley, imputed) as quartiles
 table(NDI_2020_DC$NDIQuart, NDI_2020_DC$NDIQuint)
 ```
+
+#### Additional indices of racial or ethnic residential segregation or socioeconomic disparity
 
 ``` r
 # ---------------------------------------------------- #
@@ -727,6 +734,58 @@ ggplot() +
 ![](man/figures/ei.png)
 
 ```r
+# ------------------------------------------------------ #
+# Compute aspatial Relative Clustering (Massey & Denton) #
+# ------------------------------------------------------ #
+
+# Relative Clustering based on Massey & Denton (1988)
+## Selected subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected subgroup reference: Not Hispanic or Latino, white alone
+## Selected large geography: census tract
+## Selected small geography: census block group
+RCL_2020_DC <- denton(
+  geo_large = 'tract',
+  geo_small = 'cbg',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB',
+  subgroup_ref = 'NHoLW'
+)
+
+# Obtain the 2020 census tracts from the 'tigris' package
+tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
+
+# Join the RCL (Massey & Denton) values to the census tract geometry
+RCL_2020_DC <- tract_2020_DC %>%
+  left_join(RCL_2020_DC$rcl, by = 'GEOID')
+
+ggplot() +
+  geom_sf(
+    data = RCL_2020_DC,
+    aes(fill = RCL),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_gradient2(
+    low = '#998ec3', 
+    mid = '#f7f7f7', 
+    high = '#f1a340', 
+    midpoint = 0
+  )  +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Relative Clustering (Massey & Denton)\n
+    Washington, D.C. census block groups to tracts',
+    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
+  )
+```
+
+![](man/figures/rcl.png)
+
+```r
 # ----------------------------------------------------------------------- #
 # Compute aspatial racial or ethnic Dissimilarity Index (Duncan & Duncan) #
 # ----------------------------------------------------------------------- #
@@ -846,7 +905,7 @@ RCE_2020_DC <- duncan_duncan(
 # Obtain the 2020 census tracts from the 'tigris' package
 tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
-# Join the ACE (Duncan & Cuzzort) values to the census tract geometry
+# Join the ACE (Duncan & Duncan) values to the census tract geometry
 RCE_2020_DC <- tract_2020_DC %>%
   left_join(RCE_2020_DC$rce, by = 'GEOID')
 
@@ -1278,7 +1337,7 @@ ACL_2020_DC <- massey(
 # Obtain the 2020 census tracts from the 'tigris' package
 tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
 
-# Join the ACL (Duncan & Cuzzort) values to the census tract geometry
+# Join the ACL (Massey & Denton) values to the census tract geometry
 ACL_2020_DC <- tract_2020_DC %>%
   left_join(ACL_2020_DC$acl, by = 'GEOID')
 

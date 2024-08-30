@@ -3,7 +3,7 @@ bibentry(bibtype = 'manual',
   author         = as.person('Ian D. Buller'),
   publisher      = 'The Comprehensive R Archive Network',
   year           = '2024',
-  number         = '0.1.6.9006.',
+  number         = '0.1.6.9010.',
   doi            = '10.5281/zenodo.6989030',
   url            = 'https://cran.r-project.org/package=ndi',
   
@@ -140,6 +140,44 @@ bibentry(bibtype = 'Article',
   header         = 'If you computed EI (Bravo) values, please also cite:'
 )
 
+bibentry(bibtype = 'Book',
+  title          = 'Statistical Geography: Problems in Analyzing Area Data',
+  author         = c(as.person('Otis D. Duncan'),
+                    as.person('Ray P. Cuzzort'),
+                    as.person('Beverly Duncan')),
+  year           = '1961',
+  publisher      = 'Free Press',
+  lc             = '60007089',
+
+  textVersion    =
+  paste('Otis D. Duncan, Ray P. Cuzzort, & Beverly Duncan (1961).',
+        'Statistical Geography: Problems in Analyzing Area Data.',
+        'Free Press',
+        'LC:60007089'),
+
+  header         = 'If you computed ACE (Duncan & Cuzzort) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'The Dimensions of Residential Segregation',
+  author         = c(as.person('Douglas S. Massey'),
+                   as.person('Nancy A. Denton')),
+  journal        = 'Social Forces',
+  year           = '1988',
+  volume         = '67',
+  issue          = '2',
+  pages          = '281--315',
+  doi            = '10.1093/sf/67.2.281',
+
+  textVersion    =
+  paste('Douglas S. Massey & Nancy A. Denton (1988).',
+        'The Dimensions of Residential Segregation.',
+        'Social Forces, 67(1), 281-315.',
+        'DOI:10.1093/sf/67.2.281'),
+
+  header         = 'And (2):'
+)
+
 bibentry(bibtype = 'Article',
   title          = 'A Methodological Analysis of Segregation Indexes',
   author         = c(as.person('Otis D. Duncan'),
@@ -161,6 +199,46 @@ bibentry(bibtype = 'Article',
 )
 
 bibentry(bibtype = 'Article',
+  title          = 'Residential Distribution and Occupational Stratification',
+  author         = c(as.person('Otis D. Duncan'),
+                   as.person('Beverly Duncan')),
+  journal        = 'American Journal of Sociology',
+  year           = '1955',
+  volume         = '60',
+  number         = '5',
+  pages          = '493--503',
+  doi            = '10.1086/221609',
+
+  textVersion    =
+  paste('Otis D. Duncan, Beverly Duncan (1955).',
+        'Residential Distribution and Occupational Stratification.',
+        'American Journal of Sociology, 60(5), 493-503.',
+        'DOI:10.1086/221609'),
+
+  header         = 'If you computed RCE (Duncan & Duncan) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'The Dimensions of Residential Segregation',
+  author         = c(as.person('Douglas S. Massey'),
+                   as.person('Nancy A. Denton')),
+  journal        = 'Social Forces',
+  year           = '1988',
+  volume         = '67',
+  issue          = '2',
+  pages          = '281--315',
+  doi            = '10.1093/sf/67.2.281',
+
+  textVersion    =
+  paste('Douglas S. Massey & Nancy A. Denton (1988).',
+        'The Dimensions of Residential Segregation.',
+        'Social Forces, 67(1), 281-315.',
+        'DOI:10.1093/sf/67.2.281'),
+
+  header         = 'And (2):'
+)
+
+bibentry(bibtype = 'Article',
   title          = 'Measurement of Inequality of Incomes',
   author         = as.person('Corrado Gini'),
   journal        = 'The Economic Journal',
@@ -177,6 +255,61 @@ bibentry(bibtype = 'Article',
         'DOI:10.2307/2223319'),
 
   header         = 'If you retrieved G (Gini) values, please also cite:'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'Interstate Redistribution of Population, 1850-1940',
+  author         = as.person('Edgar M. Hoover'),
+  journal        = 'Journal of Economic History',
+  year           = '1941',
+  volume         = '1',
+  pages          = '199--205',
+  doi            = '10.2307/2223319',
+
+  textVersion    =
+  paste('Edgar M. Hoover (1941).',
+        'Interstate Redistribution of Population, 1850-1940.',
+        'Journal of Economic History, 1, 199-205.',
+        'DOI:10.2307/2223319'),
+
+  header         = 'If you computed DEL (Hoover) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Book',
+  title          = 'Statistical Geography: Problems in Analyzing Area Data',
+  author         = c(as.person('Otis D. Duncan'),
+                    as.person('Ray P. Cuzzort'),
+                    as.person('Beverly Duncan')),
+  year           = '1961',
+  publisher      = 'Free Press',
+  lc             = '60007089',
+
+  textVersion    =
+  paste('Otis D. Duncan, Ray P. Cuzzort, & Beverly Duncan (1961).',
+        'Statistical Geography: Problems in Analyzing Area Data.',
+        'Free Press',
+        'LC:60007089'),
+
+  header         = 'And (2):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'Measures of Segregation',
+  author         = c(as.person('David R. James'),
+                   as.person('Karl K. Taeuber')),
+  journal        = 'Sociological Methodology',
+  year           = '1985',
+  volume         = '15',
+  pages          = '1--32',
+  doi            = '10.2307/270845',
+
+  textVersion    =
+  paste('David R. James & Karl K. Taeuber (1954).',
+        'Measures of Segregation.',
+        'Sociological Methodology, 15, 1-32.',
+        'DOI:10.2307/270845'),
+
+  header         = 'If you computed D (James & Taeuber) values, please also cite:'
 )
 
 bibentry(bibtype = 'Article',
@@ -223,6 +356,90 @@ bibentry(bibtype = 'Article',
         'DOI:10.2105/AJPH.2015.302955'),
 
   header         = 'And (2):'
+)
+
+bibentry(bibtype = 'InBook',
+  title          = 'Ethnic Segregation in Cities',
+  author         = as.person('Stanley Lieberson'),
+  chapter        = 'An Asymmetrical Approach to Segregation',
+  year           = '1981',
+  edition        = '1st edition',
+  editor         = c(as.person('Ceri Peach'),
+                     as.person('Vaughan Robinson'),
+                     as.person('Susan Smith')),
+  city           = 'London', 
+  publisher      = 'Croom Helm',
+  isbn           = '978-1-032-53884-6',
+
+  textVersion    =
+  paste('Stanley Lieberson (1981).',
+        '"An Asymmetrical Approach to Segregation." Pp. 61-82 in',
+        'Ethnic Segregation in Cities,',
+        'edited by Ceri Peach, Vaughan Robinson, and Susan Smith.',
+        '1st Ed.',
+        'London:Croom Helm.',
+        'ISBN-13:978-1-032-53884-6'),
+
+  header         = 'If you computed xPx* (Lieberson) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'A Probability Model for the Measurement of Ecological Segregation',
+  author         = as.person('Wendell Bell'),
+  journal        = 'Social Forces',
+  year           = '1954',
+  volume         = '32',
+  issue          = '4',
+  pages          = '357--364',
+  doi            = '10.2307/2574118',
+
+  textVersion    =
+  paste('Wendell Bell (1954).',
+        'A Probability Model for the Measurement of Ecological Segregation.',
+        'Social Forces, 32(4), 357-364.',
+        'DOI:10.2307/2574118'),
+
+  header         = 'And (2):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'The Dimensions of Residential Segregation',
+  author         = c(as.person('Douglas S. Massey'),
+                   as.person('Nancy A. Denton')),
+  journal        = 'Social Forces',
+  year           = '1988',
+  volume         = '67',
+  issue          = '2',
+  pages          = '281--315',
+  doi            = '10.1093/sf/67.2.281',
+
+  textVersion    =
+  paste('Douglas S. Massey & Nancy A. Denton (1988).',
+        'The Dimensions of Residential Segregation.',
+        'Social Forces, 67(1), 281-315.',
+        'DOI:10.1093/sf/67.2.281'),
+
+  header         = 'If you computed ACL (Massey & Denton) values, please also cite:'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'The Dimensions of Residential Segregation',
+  author         = c(as.person('Douglas S. Massey'),
+                   as.person('Nancy A. Denton')),
+  journal        = 'Social Forces',
+  year           = '1988',
+  volume         = '67',
+  issue          = '2',
+  pages          = '281--315',
+  doi            = '10.1093/sf/67.2.281',
+
+  textVersion    =
+  paste('Douglas S. Massey & Nancy A. Denton (1988).',
+        'The Dimensions of Residential Segregation.',
+        'Social Forces, 67(1), 281-315.',
+        'DOI:10.1093/sf/67.2.281'),
+
+  header         = 'If you computed RCL (Massey & Denton) values, please also cite:'
 )
 
 bibentry(bibtype = 'Article',
@@ -346,6 +563,42 @@ bibentry(bibtype = 'Article',
   header         = 'And (2):'
 )
 
+bibentry(bibtype = 'Book',
+  title          = 'Statistical decomposition analysis. With applications in the social and administrative sciences',
+  author         = as.person('Henri Theil'),
+  year           = '1972',
+  city           = 'Amsterdam', 
+  publisher      = 'North-Holland Publishing Company',
+  isbn           = '978-0-444-10378-9',
+
+  textVersion    =
+  paste('Henri Theil (1972).',
+        'Statistical decomposition analysis. With applications in the social and administrative sciences.',
+        'Amsterdam: North-Holland Publishing Company',
+        'ISBN-13:978-1-032-53884-6'),
+        
+  header         = 'If you computed H (Theil) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'A note on the measurement of racial integration of schools by means of informational concepts',
+  author         = c(as.person('Henri Theil'),
+                   as.person('Anthony J. Finizza')),
+  journal        = 'Journal of Mathematical Sociology',
+  year           = '1971',
+  volume         = '1',
+  pages          = '187--194',
+  doi            = '10.1080/0022250X.1971.9989795',
+
+  textVersion    =
+  paste('Henri Theil & Anthony J. Finizza (1971).',
+        'A note on the measurement of racial integration of schools by means of informational concepts.',
+        'Journal of Mathematical Sociology, 1, 187-194.',
+        'DOI:10.1080/0022250X.1971.9989795'),
+
+  header         = 'And (2):'
+)
+
 bibentry(bibtype = 'Article',
   title          = 'A Probability Model for the Measurement of Ecological Segregation',
   author         = as.person('Wendell Bell'),
@@ -385,42 +638,6 @@ bibentry(bibtype = 'Article',
 )
 
 bibentry(bibtype = 'Article',
-  title          = 'Interstate Redistribution of Population, 1850-1940',
-  author         = as.person('Edgar M. Hoover'),
-  journal        = 'Journal of Economic History',
-  year           = '1941',
-  volume         = '1',
-  pages          = '199--205',
-  doi            = '10.2307/2223319',
-
-  textVersion    =
-  paste('Edgar M. Hoover (1941).',
-        'Interstate Redistribution of Population, 1850-1940.',
-        'Journal of Economic History, 1, 199-205.',
-        'DOI:10.2307/2223319'),
-
-  header         = 'If you computed DEL (Hoover) values, please also cite (1):'
-)
-
-bibentry(bibtype = 'Book',
-  title          = 'Statistical Geography: Problems in Analyzing Area Data',
-  author         = c(as.person('Otis D. Duncan'),
-                    as.person('Ray P. Cuzzort'),
-                    as.person('Beverly Duncan')),
-  year           = '1961',
-  publisher      = 'Free Press',
-  lc             = '60007089',
-
-  textVersion    =
-  paste('Otis D. Duncan, Ray P. Cuzzort, & Beverly Duncan (1961).',
-        'Statistical Geography: Problems in Analyzing Area Data.',
-        'Free Press',
-        'LC:60007089'),
-
-  header         = 'And (2):'
-)
-
-bibentry(bibtype = 'Article',
   title          = 'Segregation and Diversity Measures in Population Distribution',
   author         = as.person('Michael J. White'),
   journal        = 'Population Index',
@@ -453,201 +670,4 @@ bibentry(bibtype = 'Book',
         'ISBN-13:978-0-029-03660-0'),
 
   header         = 'And (2):'
-)
-
-bibentry(bibtype = 'InBook',
-  title          = 'Ethnic Segregation in Cities',
-  author         = as.person('Stanley Lieberson'),
-  chapter        = 'An Asymmetrical Approach to Segregation',
-  year           = '1981',
-  edition        = '1st edition',
-  editor         = c(as.person('Ceri Peach'),
-                     as.person('Vaughan Robinson'),
-                     as.person('Susan Smith')),
-  city           = 'London', 
-  publisher      = 'Croom Helm',
-  isbn           = '978-1-032-53884-6',
-
-  textVersion    =
-  paste('Stanley Lieberson (1981).',
-        '"An Asymmetrical Approach to Segregation." Pp. 61-82 in',
-        'Ethnic Segregation in Cities,',
-        'edited by Ceri Peach, Vaughan Robinson, and Susan Smith.',
-        '1st Ed.',
-        'London:Croom Helm.',
-        'ISBN-13:978-1-032-53884-6'),
-
-  header         = 'If you computed xPx* (Lieberson) values, please also cite (1):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'A Probability Model for the Measurement of Ecological Segregation',
-  author         = as.person('Wendell Bell'),
-  journal        = 'Social Forces',
-  year           = '1954',
-  volume         = '32',
-  issue          = '4',
-  pages          = '357--364',
-  doi            = '10.2307/2574118',
-
-  textVersion    =
-  paste('Wendell Bell (1954).',
-        'A Probability Model for the Measurement of Ecological Segregation.',
-        'Social Forces, 32(4), 357-364.',
-        'DOI:10.2307/2574118'),
-
-  header         = 'And (2):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'Measures of Segregation',
-  author         = c(as.person('David R. James'),
-                   as.person('Karl K. Taeuber')),
-  journal        = 'Sociological Methodology',
-  year           = '1985',
-  volume         = '15',
-  pages          = '1--32',
-  doi            = '10.2307/270845',
-
-  textVersion    =
-  paste('David R. James & Karl K. Taeuber (1954).',
-        'Measures of Segregation.',
-        'Sociological Methodology, 15, 1-32.',
-        'DOI:10.2307/270845'),
-
-  header         = 'If you computed D (James & Taeuber) values, please also cite:'
-)
-
-bibentry(bibtype = 'Book',
-  title          = 'Statistical decomposition analysis. With applications in the social and administrative sciences',
-  author         = as.person('Henri Theil'),
-  year           = '1972',
-  city           = 'Amsterdam', 
-  publisher      = 'North-Holland Publishing Company',
-  isbn           = '978-0-444-10378-9',
-
-  textVersion    =
-  paste('Henri Theil (1972).',
-        'Statistical decomposition analysis. With applications in the social and administrative sciences.',
-        'Amsterdam: North-Holland Publishing Company',
-        'ISBN-13:978-1-032-53884-6'),
-        
-  header         = 'If you computed H (Theil) values, please also cite (1):'
-)
-        
-bibentry(bibtype = 'Article',
-  title          = 'A note on the measurement of racial integration of schools by means of informational concepts',
-  author         = c(as.person('Henri Theil'),
-                   as.person('Anthony J. Finizza')),
-  journal        = 'Journal of Mathematical Sociology',
-  year           = '1971',
-  volume         = '1',
-  pages          = '187--194',
-  doi            = '10.1080/0022250X.1971.9989795',
-
-  textVersion    =
-  paste('Henri Theil & Anthony J. Finizza (1971).',
-        'A note on the measurement of racial integration of schools by means of informational concepts.',
-        'Journal of Mathematical Sociology, 1, 187-194.',
-        'DOI:10.1080/0022250X.1971.9989795'),
-
-  header         = 'And (2):'
-)
-
-bibentry(bibtype = 'Book',
-  title          = 'Statistical Geography: Problems in Analyzing Area Data',
-  author         = c(as.person('Otis D. Duncan'),
-                    as.person('Ray P. Cuzzort'),
-                    as.person('Beverly Duncan')),
-  year           = '1961',
-  publisher      = 'Free Press',
-  lc             = '60007089',
-
-  textVersion    =
-  paste('Otis D. Duncan, Ray P. Cuzzort, & Beverly Duncan (1961).',
-        'Statistical Geography: Problems in Analyzing Area Data.',
-        'Free Press',
-        'LC:60007089'),
-
-  header         = 'If you computed ACE (Duncan & Cuzzort) values, please also cite (1):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'The Dimensions of Residential Segregation',
-  author         = c(as.person('Douglas S. Massey'),
-                   as.person('Nancy A. Denton')),
-  journal        = 'Social Forces',
-  year           = '1988',
-  volume         = '67',
-  issue          = '2',
-  pages          = '281--315',
-  doi            = '10.1093/sf/67.2.281',
-
-  textVersion    =
-  paste('Douglas S. Massey & Nancy A. Denton (1988).',
-        'The Dimensions of Residential Segregation.',
-        'Social Forces, 67(1), 281-315.',
-        'DOI:10.1093/sf/67.2.281'),
-
-  header         = 'And (2):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'Residential Distribution and Occupational Stratification',
-  author         = c(as.person('Otis D. Duncan'),
-                   as.person('Beverly Duncan')),
-  journal        = 'American Journal of Sociology',
-  year           = '1955',
-  volume         = '60',
-  number         = '5',
-  pages          = '493--503',
-  doi            = '10.1086/221609',
-
-  textVersion    =
-  paste('Otis D. Duncan, Beverly Duncan (1955).',
-        'Residential Distribution and Occupational Stratification.',
-        'American Journal of Sociology, 60(5), 493-503.',
-        'DOI:10.1086/221609'),
-
-  header         = 'If you computed RCE (Duncan & Duncan) values, please also cite (1):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'The Dimensions of Residential Segregation',
-  author         = c(as.person('Douglas S. Massey'),
-                   as.person('Nancy A. Denton')),
-  journal        = 'Social Forces',
-  year           = '1988',
-  volume         = '67',
-  issue          = '2',
-  pages          = '281--315',
-  doi            = '10.1093/sf/67.2.281',
-
-  textVersion    =
-  paste('Douglas S. Massey & Nancy A. Denton (1988).',
-        'The Dimensions of Residential Segregation.',
-        'Social Forces, 67(1), 281-315.',
-        'DOI:10.1093/sf/67.2.281'),
-
-  header         = 'And (2):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'The Dimensions of Residential Segregation',
-  author         = c(as.person('Douglas S. Massey'),
-                   as.person('Nancy A. Denton')),
-  journal        = 'Social Forces',
-  year           = '1988',
-  volume         = '67',
-  issue          = '2',
-  pages          = '281--315',
-  doi            = '10.1093/sf/67.2.281',
-
-  textVersion    =
-  paste('Douglas S. Massey & Nancy A. Denton (1988).',
-        'The Dimensions of Residential Segregation.',
-        'Social Forces, 67(1), 281-315.',
-        'DOI:10.1093/sf/67.2.281'),
-
-  header         = 'If you computed ACL (Massey & Denton) values, please also cite:'
 )
