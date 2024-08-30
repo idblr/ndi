@@ -1,18 +1,17 @@
-#' An index of spatial proximity based on White (1986) and Blau (1977)
+#' Absolute Clustering based on Massey & Denton (1988)
 #' 
-#' Compute an index of spatial proximity (White) of a selected racial or ethnic subgroup(s) and U.S. geographies.
+#' Compute the aspatial Absolute Clustering (Massey & Denton) of a selected racial or ethnic subgroup(s) and U.S. geographies.
 #'
 #' @param geo_large Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = 'county'}.
 #' @param geo_small Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_small = 'tract'}.
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
 #' @param subgroup Character string specifying the racial or ethnic subgroup(s) as the comparison population. See Details for available choices.
-#' @param subgroup_ref Character string specifying the racial or ethnic subgroup(s) as the reference population. See Details for available choices.
 #' @param crs Numeric or character string specifying the coordinate reference system to compute the distance-based metric. The default is Albers North America \code{crs = 'ESRI:102008'}.
 #' @param omit_NAs Logical. If FALSE, will compute index for a larger geographical unit only if all of its smaller geographical units have values. The default is TRUE.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute an index of spatial proximity (\emph{SP}) of selected racial or ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on White (1986) \doi{10.2307/3644339} and Blau (1977; ISBN-13:978-0-029-03660-0). This function provides the computation of \emph{SP} for any of the U.S. Census Bureau race or ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#' @details This function will compute the aspatial Absolute Clustering (\emph{ACL}) of selected racial or ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Massey & Denton (1988) \doi{10.1093/sf/67.2.281}. This function provides the computation of \emph{ACL} for any of the U.S. Census Bureau race or ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #' 
 #' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'place'}, \code{geo_large = 'csa'}, or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial or ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
@@ -40,18 +39,18 @@
 #'
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #'
-#' \emph{SP} is a measure of clustering of racial or ethnic populations within smaller geographical units that are located within larger geographical units. \emph{SP} can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering between subgroup and referent group members. A value greater than 1 indicates subgroup members live nearer to one another than to referent subgroup members. A value less than 1 indicates subgroup live nearer to and referent subgroup members than to their own subgroup members.
+#' \emph{ACL} is a measure of clustering of racial or ethnic populations within smaller geographical units that are located within larger geographical units. \emph{ACL} can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering of the racial or ethnic subgroup. A value greater than 1 indicates the racial or ethnic subgroup live nearer to one another. A value less than 1 indicates the racial or ethnic subgroup do not live near one another.
 #'
 #' The metric uses the exponential transform of a distance matrix (kilometers) between smaller geographical area centroids, with a diagonal defined as \code{(0.6*a_{i})^{0.5}} where \code{a_{i}} is the area (square kilometers) of smaller geographical unit \code{i} as defined by White (1983) \doi{10.1086/227768}.
 #'
-#' Larger geographical units available include states \code{geo_large = 'state'}, counties \code{geo_large = 'county'}, census tracts \code{geo_large = 'tract'}, census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, and metropolitan divisions \code{geo_large = 'metro'}. Smaller geographical units available include, counties \code{geo_small = 'county'}, census tracts \code{geo_small = 'tract'}, and census block groups \code{geo_small = 'cbg'}. If a larger geographical unit is comprised of only one smaller geographical unit (e.g., a U.S county contains only one census tract), then the \emph{SP} value returned is NA. If the larger geographical unit is census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, or metropolitan divisions \code{geo_large = 'metro'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{V} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{SP} computation.
+#' Larger geographical units available include states \code{geo_large = 'state'}, counties \code{geo_large = 'county'}, census tracts \code{geo_large = 'tract'}, census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, and metropolitan divisions \code{geo_large = 'metro'}. Smaller geographical units available include, counties \code{geo_small = 'county'}, census tracts \code{geo_small = 'tract'}, and census block groups \code{geo_small = 'cbg'}. If a larger geographical unit is comprised of only one smaller geographical unit (e.g., a U.S county contains only one census tract), then the \emph{ACL} value returned is NA. If the larger geographical unit is census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, or metropolitan divisions \code{geo_large = 'metro'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{V} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{ACL} computation.
 #' 
 #' @return An object of class 'list'. This is a named list with the following components:
 #'
 #' \describe{
-#' \item{\code{sp}}{An object of class 'tbl' for the GEOID, name, and \emph{SP} at specified larger census geographies.}
-#' \item{\code{sp_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{SP}.}
+#' \item{\code{acl}}{An object of class 'tbl' for the GEOID, name, and \emph{ACL} at specified larger census geographies.}
+#' \item{\code{acl_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{ACL}.}
 #' }
 #'
 #' @import dplyr
@@ -71,28 +70,26 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'
-#'   # Index of spatial proximity of non-Hispanic Black vs. non-Hispanic white populations
+#'   # Index of spatial proximity of Black populations
 #'   ## of census tracts within counties within Georgia, U.S.A., counties (2020)
-#'   white_blau(
+#'   massey(
 #'     geo_large = 'county',
 #'     geo_small = 'tract',
 #'     state = 'GA',
 #'     year = 2020,
-#'     subgroup = 'NHoLB',
-#'     subgroup_ref = 'NHoLW'
+#'     subgroup = c('NHoLB', 'HoLB')
 #'    )
 #'
 #' }
 #'
-white_blau <- function(geo_large = 'county',
-                       geo_small = 'tract',
-                       year = 2020,
-                       subgroup,
-                       subgroup_ref,
-                       crs = 'ESRI:102008',
-                       omit_NAs = TRUE,
-                       quiet = FALSE,
-                       ...) {
+massey <- function(geo_large = 'county',
+                   geo_small = 'tract',
+                   year = 2020,
+                   subgroup,
+                   crs = 'ESRI:102008',
+                   omit_NAs = TRUE,
+                   quiet = FALSE,
+                   ...) {
   
   # Check arguments
   match.arg(geo_large, choices = c('state', 'county', 'tract', 'place', 'cbsa', 'csa', 'metro'))
@@ -100,32 +97,6 @@ white_blau <- function(geo_large = 'county',
   stopifnot(is.numeric(year), year >= 2009) # all variables available 2009 onward
   match.arg(
     subgroup,
-    several.ok = TRUE,
-    choices = c(
-      'NHoL',
-      'NHoLW',
-      'NHoLB',
-      'NHoLAIAN',
-      'NHoLA',
-      'NHoLNHOPI',
-      'NHoLSOR',
-      'NHoLTOMR',
-      'NHoLTRiSOR',
-      'NHoLTReSOR',
-      'HoL',
-      'HoLW',
-      'HoLB',
-      'HoLAIAN',
-      'HoLA',
-      'HoLNHOPI',
-      'HoLSOR',
-      'HoLTOMR',
-      'HoLTRiSOR',
-      'HoLTReSOR'
-    )
-  )
-  match.arg(
-    subgroup_ref,
     several.ok = TRUE,
     choices = c(
       'NHoL',
@@ -176,12 +147,11 @@ white_blau <- function(geo_large = 'county',
     HoLTReSOR = 'B03002_021'
   )
   
-  selected_vars <- vars[c('TotalPop', subgroup, subgroup_ref)]
+  selected_vars <- vars[c('TotalPop', subgroup)]
   out_names <- names(selected_vars) # save for output
   in_subgroup <- paste0(subgroup, 'E')
-  in_subgroup_ref <- paste0(subgroup_ref, 'E')
   
-  # Acquire SP variables and sf geometries
+  # Acquire ACL variables and sf geometries
   out_dat <- suppressMessages(suppressWarnings(
     tidycensus::get_acs(
       geography = geo_small,
@@ -213,7 +183,7 @@ white_blau <- function(geo_large = 'county',
       )
   }
   
-  # Grouping IDs for SP computation
+  # Grouping IDs for ACL computation
   if (geo_large == 'state') {
     out_dat <- out_dat %>%
       dplyr::mutate(
@@ -321,25 +291,14 @@ white_blau <- function(geo_large = 'county',
     out_dat <- out_dat %>%
       dplyr::mutate(subgroup = rowSums(as.data.frame(.)[, in_subgroup]))
   }
-  ## Count of racial or ethnic reference subgroup population
-  if (length(in_subgroup_ref) == 1) {
-    out_dat <- out_dat %>%
-      dplyr::mutate(subgroup_ref = as.data.frame(.)[, in_subgroup_ref])
-  } else {
-    out_dat <- out_dat %>%
-      dplyr::mutate(subgroup_ref = rowSums(as.data.frame(.)[, in_subgroup_ref]))
-  }
   
-  # Compute SP
-  ## From White (1986) https://doi.org/10.2307/3644339
-  ## SP = (XP_{xx} + YP_{yy})/TP_{tt}
+  # Compute ACL
+  ## From Denton & Massey (1988) https://doi.org/10.1093/sf/67.2.281
+  ## ACL = \frac{\sum_{i=1}^{n}\frac{x_{i}}{X}\sum_{i=1}^{n}c_{ij}x_{j}-\frac{X}{n^{2}}\sum_{i=1}^{n}\sum_{ij=1}^{n}c_{ij}}
+  ##            {\sum_{i=1}^{n}\frac{x_{i}}{X}\sum_{i=1}^{n}c_{ij}t_{j}-\frac{X}{n^{2}}\sum_{i=1}^{n}\sum_{ij=1}^{n}c_{ij}}
   ## Where for i & j smaller geographical units:
-  ## P_{xx} = \frac{\sum_{i=1}^{n}\sum_{j=1}^{n}x_{i}x_{j}c_{ij}}{X^{2}}
-  ## P_{xy} = \frac{\sum_{i=1}^{n}\sum_{j=1}^{n}x_{i}y_{j}c_{ij}}{XY}
   ## x_{i} denotes the racial or ethnic subgroup population of smaller geographical unit i
   ## X denotes the racial or ethnic subgroup population of a larger geographical unit
-  ## y_{i} denotes the referent racial or ethnic subgroup population of smaller geographical unit i
-  ## Y denotes the referent racial or ethnic subgroup population of a larger geographical unit
   ## t_{i} denotes the total population of smaller geographical unit i
   ## c_{ij} denotes the distance function between smaller geographical units where
   ## c_{ij} = exp(-d_{ij})
@@ -351,17 +310,17 @@ white_blau <- function(geo_large = 'county',
   out_tmp <- out_dat %>%
     .[.$oid != 'NANA', ] %>%
     split(., f = list(.$oid)) %>%
-    lapply(., FUN = sp_fun, crs = crs, omit_NAs = omit_NAs) %>%
+    lapply(., FUN = acl_fun, crs = crs, omit_NAs = omit_NAs) %>%
     utils::stack(.) %>%
     dplyr::mutate(
-      SP = values,
+      ACL = values,
       oid = ind
     ) %>%
-    dplyr::select(SP, oid) %>%
+    dplyr::select(ACL, oid) %>%
     sf::st_drop_geometry()
   
   # Warning for missingness of census characteristics
-  missingYN <- out_dat[, c('TotalPopE', in_subgroup, in_subgroup_ref)] %>% 
+  missingYN <- out_dat[, c('TotalPopE', in_subgroup)] %>% 
     sf::st_drop_geometry()
   names(missingYN) <- out_names
   missingYN <- missingYN %>%
@@ -390,52 +349,52 @@ white_blau <- function(geo_large = 'county',
     dplyr::left_join(out_tmp, by = dplyr::join_by(oid))
   if (geo_large == 'state') {
     out <- out %>%
-      dplyr::select(oid, state, SP) %>%
+      dplyr::select(oid, state, ACL) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, SP)
+      dplyr::select(GEOID, state, ACL)
   }
   if (geo_large == 'county') {
     out <- out %>%
-      dplyr::select(oid, state, county, SP) %>%
+      dplyr::select(oid, state, county, ACL) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, SP)
+      dplyr::select(GEOID, state, county, ACL)
   }
   if (geo_large == 'tract') {
     out <- out %>%
-      dplyr::select(oid, state, county, tract, SP) %>%
+      dplyr::select(oid, state, county, tract, ACL) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, tract, SP)
+      dplyr::select(GEOID, state, county, tract, ACL)
   }
   if (geo_large == 'place') {
     out <- out %>%
-      dplyr::select(oid, place, SP) %>%
+      dplyr::select(oid, place, ACL) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, place, SP)
+      dplyr::select(GEOID, place, ACL)
   }
   if (geo_large == 'cbsa') {
     out <- out %>%
-      dplyr::select(oid, cbsa, SP) %>%
+      dplyr::select(oid, cbsa, ACL) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, cbsa, SP)
+      dplyr::select(GEOID, cbsa, ACL)
   }
   if (geo_large == 'csa') {
     out <- out %>%
-      dplyr::select(oid, csa, SP) %>%
+      dplyr::select(oid, csa, ACL) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, csa, SP)
+      dplyr::select(GEOID, csa, ACL)
   }
   if (geo_large == 'metro') {
     out <- out %>%
-      dplyr::select(oid, metro, SP) %>%
+      dplyr::select(oid, metro, ACL) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, metro, SP)
+      dplyr::select(GEOID, metro, ACL)
   }
   
   out <- out %>%
@@ -449,7 +408,7 @@ white_blau <- function(geo_large = 'county',
     dplyr::arrange(GEOID) %>%
     dplyr::as_tibble()
   
-  out <- list(sp = out, sp_data = out_dat, missing = missingYN)
+  out <- list(acl = out, acl_data = out_dat, missing = missingYN)
   
   return(out)
 }

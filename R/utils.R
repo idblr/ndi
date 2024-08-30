@@ -333,3 +333,30 @@ rce_fun <- function(x, lgeom, crs, omit_NAs) {
     return(RCE)
   }
 }
+
+# Internal function for Absolute Clustering
+## From Denton & Massey (1988) https://doi.org/10.1093/sf/67.2.281
+## Returns NA value if only one smaller geography in a larger geography
+acl_fun <- function(x, crs, omit_NAs) {
+  xx <- x[ , c('TotalPopE', 'subgroup', 'ALAND')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(sf::st_drop_geometry(xx)), ] }
+  if (nrow(sf::st_drop_geometry(x)) < 2 || any(sf::st_drop_geometry(xx) < 0) || any(is.na(sf::st_drop_geometry(xx)))) {
+    NA
+  } else {
+    xx <- xx %>% sf::st_transform(crs = crs)
+    d_ij <- suppressWarnings(sf::st_distance(sf::st_centroid(xx), sf::st_centroid(xx)))
+    diag(d_ij) <- sqrt(0.6 * xx$ALAND)
+    c_ij <- -d_ij %>% 
+      units::set_units(value = km) %>%
+      units::drop_units() %>%
+      exp()
+    x_i <- xx$subgroup
+    X <- sum(xx$subgroup, na.rm = TRUE)
+    n <- length(xx$subgroup)
+    t_i <- xx$TotalPopE
+    num <- (sum(x_i / X, na.rm = TRUE) * sum(c_ij * x_i, na.rm = TRUE)) - ((X / n^2) * sum(c_ij, na.rm = TRUE))
+    denom <- (sum(x_i / X, na.rm = TRUE) * sum(c_ij * t_i, na.rm = TRUE)) - ((X / n^2) * sum(c_ij, na.rm = TRUE))
+    ACL <- num / denom
+    return(ACL)
+  }
+}

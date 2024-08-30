@@ -16,7 +16,7 @@
 
 ### Overview
 
-Computes various indices of socioeconomic deprivation and disparity in the United States. Some indices are considered "spatial" because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other indices are "aspatial" because they only consider the value within each census geography. Two types of aspatial neighborhood deprivation indices (NDI) are available: including: (1) based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) who use variables chosen by [Roux and Mair (2010)](https://doi.org/:10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of multiple demographic characteristics from the U.S. Census Bureau American Community  Survey 5-year estimates (ACS-5; 2006-2010 onward). Using data from the ACS-5 (2005-2009 onward), the package can also compute indices of racial or ethnic residential segregation, including but limited to those discussed in [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281), and selected metrics of socioeconomic deprivation and disparity.
+Computes various geospatial indices of socioeconomic deprivation and disparity in the United States. Some indices are considered "spatial" because they consider the values of neighboring (i.e., adjacent) census geographies in their computation, while other indices are "aspatial" because they only consider the value within each census geography. Two types of aspatial neighborhood deprivation indices (NDI) are available: including: (1) based on [Messer et al. (2006)](https://doi.org/10.1007/s11524-006-9094-x) and (2) based on [Andrews et al. (2020)](https://doi.org/10.1080/17445647.2020.1750066) and [Slotman et al. (2022)](https://doi.org/10.1016/j.dib.2022.108002) who use variables chosen by [Roux and Mair (2010)](https://doi.org/:10.1111/j.1749-6632.2009.05333.x). Both are a decomposition of multiple demographic characteristics from the U.S. Census Bureau American Community  Survey 5-year estimates (ACS-5; 2006-2010 onward). Using data from the ACS-5 (2005-2009 onward), the package can also compute indices of racial or ethnic residential segregation, including but limited to those discussed in [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281), and selected metrics of socioeconomic deprivation and disparity.
 
 ### Installation
 
@@ -95,6 +95,10 @@ To install the development version from GitHub:
 <td>Compute the aspatial racial or ethnic Isolation Index (<i>xPx*</i>) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and <a href='https://doi.org/10.2307/2574118'>Bell (1954)</a></td>
 </tr>
 <tr>
+<td><a href='/R/massey.R'><code>massey</code></a></td>
+<td>Compute the aspatial racial or ethnic Absolute Clustering (<i>ACL</i>) based on <a href='https://doi.org/10.1093/sf/67.2.281'>Massey & Denton (1988)</a></td>
+</tr>
+<tr>
 <td><a href='/R/messer.R'><code>messer</code></a></td>
 <td>Compute the aspatial Neighborhood Deprivation Index (<i>NDI</i>) based on <a href='https://doi.org/10.1007/s11524-006-9094-x'>Messer et al. (2006)</a></td>
 </tr>
@@ -150,7 +154,7 @@ The repository also includes the code to create the project hexagon sticker.
 
 ### Author
 
-* **Ian D. Buller** - *DLH, LLC (formerly Social & Scientific Systems, Inc. and DLH Corporation), Bethesda, Maryland (current)* - *Occupational and Environmental Epidemiology Branch, Division of Cancer Epidemiology and Genetics, National Cancer Institute, National Institutes of Health, Rockville, Maryland (original)* - [GitHub](https://github.com/idblr) - [ORCID](https://orcid.org/0000-0001-9477-8582)
+* **Ian D. Buller** - *DLH, LLC (formerly  DLH Corporation and Social & Scientific Systems, Inc.), Bethesda, Maryland (current)* - *Occupational and Environmental Epidemiology Branch, Division of Cancer Epidemiology and Genetics, National Cancer Institute, National Institutes of Health, Rockville, Maryland (original)* - [GitHub](https://github.com/idblr) - [ORCID](https://orcid.org/0000-0001-9477-8582)
 
 See also the list of [contributors](https://github.com/idblr/ndi/graphs/contributors) who participated in this package, including:
 
@@ -505,7 +509,7 @@ ggplot() +
 ## Default epsilon (0.5 or over- and under-representation contribute equally)
 A_2020_DC <- atkinson(
   geo_large = 'tract',
-  geo_small = 'block group',
+  geo_small = 'cbg',
   state = 'DC',
   year = 2020,
   subgroup = 'NHoLB'
@@ -552,7 +556,7 @@ ggplot() +
 ## Using the Hölder mean based on the `Atkinson()` function from 'DescTools' package
 A_2020_DC <- atkinson(
   geo_large = 'tract',
-  geo_small = 'block group',
+  geo_small = 'cbg',
   state = 'DC',
   year = 2020,
   subgroup = 'NHoLB',
@@ -599,7 +603,7 @@ ggplot() +
 ## Selected small geography: census block group
 xPy_star_2020_DC <- bell(
   geo_large = 'tract',
-  geo_small = 'block group',
+  geo_small = 'cbg',
   state = 'DC',
   year = 2020,
   subgroup = 'NHoLB',
@@ -734,7 +738,7 @@ ggplot() +
 ## Selected small geography: census block group
 D_2020_DC <- duncan(
   geo_large = 'tract',
-  geo_small = 'block group',
+  geo_small = 'cbg',
   state = 'DC',
   year = 2020,
   subgroup = 'NHoLB',
@@ -780,7 +784,7 @@ ggplot() +
 ## Selected small geography: census block group
 ACE_2020_DC <- duncan_cuzzort(
   geo_large = 'tract',
-  geo_small = 'block group',
+  geo_small = 'cbg',
   state = 'DC',
   year = 2020,
   subgroup = 'NHoLB'
@@ -832,7 +836,7 @@ ggplot() +
 ## Selected small geography: census block group
 RCE_2020_DC <- duncan_duncan(
   geo_large = 'tract',
-  geo_small = 'block group',
+  geo_small = 'cbg',
   state = 'DC',
   year = 2020,
   subgroup = 'NHoLB',
@@ -884,7 +888,7 @@ ggplot() +
 ## Selected small geography: census block group
 G_2020_DC <- gini(
   geo_large = 'tract',
-  geo_small = 'block group',
+  geo_small = 'cbg',
   state = 'DC',
   year = 2020,
   subgroup = 'NHoLB'
@@ -974,7 +978,7 @@ ggplot() +
 ## Selected small geography: census block group
 DEL_2020_DC <- hoover(
   geo_large = 'tract',
-  geo_small = 'block group',
+  geo_small = 'cbg',
   state = 'DC',
   year = 2020,
   subgroup = 'NHoLB'
@@ -1019,7 +1023,7 @@ ggplot() +
 ## Selected small geography: census block group
 D_2020_DC <- james_taeuber(
   geo_large = 'tract',
-  geo_small = 'block group',
+  geo_small = 'cbg',
   state = 'DC',
   year = 2020,
   subgroup = 'NHoLB'
@@ -1220,7 +1224,7 @@ ggplot() +
 ## Selected small geography: census block group
 xPx_star_2020_DC <- lieberson(
   geo_large = 'tract',
-  geo_small = 'block group',
+  geo_small = 'cbg',
   state = 'DC',
   year = 2020,
   subgroup = 'NHoLB'
@@ -1253,6 +1257,57 @@ ggplot() +
 ```
 
 ![](man/figures/xpx_star.png)
+
+```r
+# ------------------------------------------------------ #
+# Compute aspatial Absolute Clustering (Massey & Denton) #
+# ------------------------------------------------------ #
+
+# Absolute Clustering based on Massey & Denton (1988)
+## Selected subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected large geography: census tract
+## Selected small geography: census block group
+ACL_2020_DC <- massey(
+  geo_large = 'tract',
+  geo_small = 'cbg',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB'
+)
+
+# Obtain the 2020 census tracts from the 'tigris' package
+tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
+
+# Join the ACL (Duncan & Cuzzort) values to the census tract geometry
+ACL_2020_DC <- tract_2020_DC %>%
+  left_join(ACL_2020_DC$acl, by = 'GEOID')
+
+ggplot() +
+  geom_sf(
+    data = ACL_2020_DC,
+    aes(fill = ACL),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_gradient2(
+    low = '#998ec3', 
+    mid = '#f7f7f7', 
+    high = '#f1a340', 
+    midpoint = 0,
+    limits = c(-1, 1)
+  )  +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Absolute Clustering (Massey & Denton)\n
+    Washington, D.C. census block groups to tracts',
+    subtitle = 'Black non-Hispanic'
+  )
+```
+
+![](man/figures/acl.png)
 
 ```r
 # ------------------------------------------------------------ #
@@ -1310,7 +1365,7 @@ ggplot() +
 ## Selected small geography: census block group
 H_2020_DC <- theil(
   geo_large = 'tract',
-  geo_small = 'block group',
+  geo_small = 'cbg',
   state = 'DC',
   year = 2020,
   subgroup = 'NHoLB'
@@ -1355,7 +1410,7 @@ ggplot() +
 ## Selected small geography: census block group
 V_2020_DC <- white(
   geo_large = 'tract',
-  geo_small = 'block group',
+  geo_small = 'cbg',
   state = 'DC',
   year = 2020,
   subgroup = 'NHoLB'
@@ -1405,7 +1460,7 @@ ggplot() +
 ## Selected small geography: census block group
 SP_2020_DC <- white_blau(
   geo_large = 'tract',
-  geo_small = 'block group',
+  geo_small = 'cbg',
   state = 'DC',
   year = 2020,
   subgroup = 'NHoLB',

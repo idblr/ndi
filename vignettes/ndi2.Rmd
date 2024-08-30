@@ -57,7 +57,7 @@ Since version v0.1.1, the [*ndi*](https://CRAN.R-project.org/package=ndi) packag
 **Concentration**:
 
   * `hoover()` function that computes Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan, Cuzzort, & Duncan (1961; LC:60007089)
-  * Absolute Concentration (Planned)
+  * `massey()` function that compute Absolute Clustering (*ACL*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
   * Relative Concentration (Planned)
 
 **Centralization**:
@@ -102,7 +102,7 @@ The [*ndi*](https://CRAN.R-project.org/package=ndi) package can use data from th
 
 #### Compute Dissimilarity Index (*D*)
 
-Compute the racial or ethnic *D* values (2006-2010 5-year ACS) for Pennsylvania, U.S.A., counties from census tracts. This metric is based on [James & Taeuber (1985)](https://doi.org/10.2307/270845). *D* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *D* can range in value from 0 to 1 and represents the proportion of racial or ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
+Compute the racial or ethnic *D* values (2006-2010 5-year ACS) for census tracts within counties of Pennsylvania. This metric is based on [James & Taeuber (1985)](https://doi.org/10.2307/270845). *D* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *D* can range in value from 0 to 1 and represents the proportion of racial or ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
 
 ```{r james_taeuber_prep, results = 'hide'}
 james_taeuber2010PA <- james_taeuber(
@@ -113,18 +113,18 @@ james_taeuber2010PA <- james_taeuber(
   subgroup = c('NHoLB', 'HoLB')
 )
 
-# Obtain the 2010 census counties from the 'tigris' package
+# Obtain the 2010 counties from the 'tigris' package
 county2010PA <- counties(state = 'PA', year = 2010, cb = TRUE)
 # Remove first 9 characters from GEOID for compatibility with tigris information
 county2010PA$GEOID <- substring(county2010PA$GEO_ID, 10) 
 
-# Join the D values to the county geometry
+# Join the D values to the county geometries
 PA2010james_taeuber <- county2010PA %>%
   left_join(james_taeuber2010PA$d, by = 'GEOID')
 ```
 
 ```{r james_taeuber_plot, fig.height = 4, fig.width = 7}
-# Visualize the D values (2006-2010 5-year ACS) for Pennsylvania, U.S.A., counties 
+# Visualize the D values (2006-2010 5-year ACS) for census tracts within counties of Pennsylvania
 ggplot() +
   geom_sf(
     data = PA2010james_taeuber,
@@ -142,14 +142,14 @@ ggplot() +
   scale_fill_viridis_c(limits = c(0, 1)) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
   ggtitle(
-    'Dissimilarity Index (James & Taeuber)\nPennsylvania census tracts to counties',
+    'Dissimilarity Index (James & Taeuber)\nCensus tracts within counties of Pennsylvania',
     subtitle = 'Black population'
   )
 ```
 
 #### The racial or ethnic Gini Index (*G*)
 
-Compute the racial or ethnic Gini Index (*G*) values (2006-2010 5-year ACS) for Massachusetts, U.S.A., census tracts within counties. This metric is based on [Gini (1921)](https://doi.org/10.2307/2223319). *G* is a measure of the evenness of racial or ethnic residential populations when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *G* can range in value from 0 to 1 and the mean absolute difference between a selected subgroup proportions weighted across all pairs of geographic units, expressed as a proportion of the maximum weighted difference.
+Compute the racial or ethnic Gini Index (*G*) values (2006-2010 5-year ACS) for census tracts within counties of Massachusetts. This metric is based on [Gini (1921)](https://doi.org/10.2307/2223319). *G* is a measure of the evenness of racial or ethnic residential populations when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *G* can range in value from 0 to 1 and the mean absolute difference between a selected subgroup proportions weighted across all pairs of geographic units, expressed as a proportion of the maximum weighted difference.
 
 ```{r g_re_prep, results = 'hide'}
 gini2010MA <- gini(
@@ -160,18 +160,18 @@ gini2010MA <- gini(
   subgroup = c('NHoLB', 'HoLB')
 )
 
-# Obtain the 2010 census tracts from the 'tigris' package
+# Obtain the 2010 counties from the 'tigris' package
 county2010MA <- counties(state = 'MA', year = 2010, cb = TRUE)
 # Remove first 9 characters from GEOID for compatibility with tigris information
 county2010MA$GEOID <- substring(county2010MA$GEO_ID, 10) 
 
-# Join the G (Gini) values to the census tract geometry
+# Join the G values to the census tract geometries
 MA2010gini <- county2010MA %>%
   left_join(gini2010MA$g, by = 'GEOID')
 ```
 
 ```{r g_re_plot, fig.height = 4, fig.width = 7}
-# Visualize the G (Gini) values (2006-2010 5-year ACS) for Massachusetts, U.S.A., census tracts 
+# Visualize the G values (2006-2010 5-year ACS) for census tracts within counties of Massachusetts
 ggplot() +
   geom_sf(
     data = MA2010gini,
@@ -190,12 +190,15 @@ ggplot() +
   labs(
     fill = 'Index (Continuous)',
     caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
-  ggtitle('Gini Index', subtitle = 'Black population of MA counties')
+  ggtitle(
+    'Gini Index (Gini)\nCensus tracts within counties of Massachusetts', 
+    subtitle = 'Black population'
+  )
 ```
 
 #### Compute Entropy (*H*)
 
-Compute racial or ethnic *H* (2010-2014 5-year ACS) for Pennsylvania metropolitan area from census tracts. This metric is based on Theil (1972; ISBN:978-0-444-10378-9) and [Theil & Finizza (1971)](https://doi.org/110.1080/0022250X.1971.9989795). *H* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *H* can range in value from 0 to 1 and represents the (weighted) average deviation of each smaller geographical unit from the larger geographical unit's "entropy" or racial and ethnic diversity, which is greatest when each group is equally represented in the larger geographical unit. *H* varies between 0, when all smaller geographical units have the same racial or ethnic composition as the larger geographical area (i.e., maximum integration), to a high of 1, when all smaller geographical units contain one group only (maximum segregation).
+Compute racial or ethnic *H* (2010-2014 5-year ACS) for census tracts within metropolitan divisions of Pennsylvania. This metric is based on Theil (1972; ISBN:978-0-444-10378-9) and [Theil & Finizza (1971)](https://doi.org/110.1080/0022250X.1971.9989795). *H* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *H* can range in value from 0 to 1 and represents the (weighted) average deviation of each smaller geographical unit from the larger geographical unit's "entropy" or racial and ethnic diversity, which is greatest when each group is equally represented in the larger geographical unit. *H* varies between 0, when all smaller geographical units have the same racial or ethnic composition as the larger geographical area (i.e., maximum integration), to a high of 1, when all smaller geographical units contain one group only (maximum segregation).
 
 ```{r theil_prep, results = 'hide'}
 theil2014PA <- theil(
@@ -206,12 +209,12 @@ theil2014PA <- theil(
   subgroup = c('NHoLB', 'HoLB')
 )
 
-# Obtain the 2014 Combined Statistical Areas from the 'tigris' package
+# Obtain the 2014 metropolitan divisions from the 'tigris' package
 metro2014 <- metro_divisions(year = 2014)
 # Obtain the 2014 state from the 'tigris' package
-state2014 <- states(cb = TRUE)
+state2014 <- states(year = 2014, cb = TRUE)
 
-# Join the SP values to the CSA geometries and filter for Georgia
+# Join the H values to the metropolitan divisions geometries and filter for Pennsylvania
 PA2010theil <- metro2014 %>%
   left_join(theil2014PA$h, by = 'GEOID') %>%
   filter(!st_is_empty(.)) %>%
@@ -221,7 +224,7 @@ PA2010theil <- metro2014 %>%
 ```
 
 ```{r theil_plot, fig.height = 4, fig.width = 7}
-# Visualize the H values (2010-2014 5-year ACS) for Pennsylvania, U.S.A., metro divisions 
+# Visualize the H values (2010-2014 5-year ACS) for census tracts within metropolitan divisions of Pennsylvania
 ggplot() +
   geom_sf(
     data = PA2010theil,
@@ -237,14 +240,14 @@ ggplot() +
   scale_fill_viridis_c(limits = c(0, 1)) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2010-2014 estimates') +
   ggtitle(
-    'Entropy (Theil)\nCensus tracts to Metro Divisions in Pennsylvania',
+    'Entropy (Theil)\nCensus tracts within Metro Divisions of Pennsylvania',
     subtitle = 'Black population'
   )
 ```
 
 #### Compute Atkinson Index (*A*)
 
-Compute the racial or ethnic *A* values (2017-2021 5-year ACS) for Kentucky, U.S.A., counties from census block groups. This metric is based on [Atkinson (1970)](https://doi.org/10.2307/2088328) that assessed the distribution of income within 12 counties but has since been adapted to study racial or ethnic segregation (see [James & Taeuber 1985](https://doi.org/10.2307/270845)). *A* is a measure of the inequality and, in the context of residential race or ethnicity, segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *A* can range in value from 0 to 1 and smaller values of the index indicate lower levels of inequality (e.g., less segregation).
+Compute the racial or ethnic *A* values (2017-2021 5-year ACS) for census block groups within counties of Kentucky. This metric is based on [Atkinson (1970)](https://doi.org/10.2307/2088328) that assessed the distribution of income within 12 counties but has since been adapted to study racial or ethnic segregation (see [James & Taeuber 1985](https://doi.org/10.2307/270845)). *A* is a measure of the inequality and, in the context of residential race or ethnicity, segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *A* can range in value from 0 to 1 and smaller values of the index indicate lower levels of inequality (e.g., less segregation).
 
 *A* is sensitive to the choice of `epsilon` argument or the shape parameter that determines how to weight the increments to inequality (segregation) contributed by different proportions of the Lorenz curve. A user must explicitly decide how heavily to weight smaller geographical units at different points on the Lorenz curve (i.e., whether the index should take greater account of differences among areas of over- or under-representation). The `epsilon` argument must have values between 0 and 1.0. For `0 <= epsilon < 0.5` or less 'inequality-averse,' smaller geographical units with a subgroup proportion smaller than the subgroup proportion of the larger geographical unit contribute more to inequality ('over-representation'). For `0.5 < epsilon <= 1.0` or more 'inequality-averse,' smaller geographical units with a subgroup proportion larger than the subgroup proportion of the larger geographical unit contribute more to inequality ('under-representation'). If `epsilon = 0.5` (the default), units of over- and under-representation contribute equally to the index. See Section 2.3 of [Saint-Jacques et al. (2020)](https://doi.org/10.48550/arXiv.2002.05819) for one method to select `epsilon`. We choose `epsilon = 0.67` in the example below:
 
@@ -261,13 +264,13 @@ atkinson2021KY <- atkinson(
 # Obtain the 2021 census counties from the 'tigris' package
 county2021KY <- counties(state = 'KY', year = 2021, cb = TRUE)
 
-# Join the A values to the county geometry
+# Join the A values to the county geometries
 KY2021atkinson <- county2021KY %>% 
   left_join(atkinson2021KY$a, by = 'GEOID')
 ```
 
 ```{r atkinson_plot, fig.height = 4, fig.width = 7}
-# Visualize the A values (2017-2021 5-year ACS) for Kentucky, U.S.A., counties
+# Visualize the A values (2017-2021 5-year ACS) for census block groups within counties of Kentucky
 ggplot() +
   geom_sf(
     data = KY2021atkinson,
@@ -285,14 +288,14 @@ ggplot() +
   scale_fill_viridis_c(limits = c(0, 1)) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2017-2021 estimates') +
   ggtitle(
-    'Atkinson Index (Atkinson)\nKentucky census block groups to counties',
+    'Atkinson Index (Atkinson)\nCensus block groups within counties of Kentucky',
     subtitle = expression(paste('Black non-Hispanic (', epsilon, ' = 0.67)'))
   )
 ```
 
 #### Compute Dissimilarity Index (*D*)
 
-Compute the racial or ethnic *D* values (2006-2010 5-year ACS) for Pennsylvania, U.S.A., counties from census tracts. This metric is based on [Duncan & Duncan (1955a)](https://doi.org/10.2307/2088328) that assessed the racial or ethnic isolation of students that identify as non-Hispanic or Latino, Black or African American alone compared to students that identify as non-Hispanic or Latino, white alone between schools and school districts. *D* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *D* can range in value from 0 to 1 and represents the proportion of racial or ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
+Compute the racial or ethnic *D* values (2006-2010 5-year ACS) for census tracts with counties of Pennsylvania. This metric is based on [Duncan & Duncan (1955a)](https://doi.org/10.2307/2088328) that assessed the racial or ethnic isolation of students that identify as non-Hispanic or Latino, Black or African American alone compared to students that identify as non-Hispanic or Latino, white alone between schools and school districts. *D* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *D* can range in value from 0 to 1 and represents the proportion of racial or ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
 
 ```{r duncan_prep, results = 'hide'}
 duncan2010PA <- duncan(
@@ -304,18 +307,18 @@ duncan2010PA <- duncan(
   subgroup_ref = 'NHoLW'
 )
 
-# Obtain the 2010 census counties from the 'tigris' package
+# Obtain the 2010 counties from the 'tigris' package
 county2010PA <- counties(state = 'PA', year = 2010, cb = TRUE)
 # Remove first 9 characters from GEOID for compatibility with tigris information
 county2010PA$GEOID <- substring(county2010PA$GEO_ID, 10) 
 
-# Join the D values to the county geometry
+# Join the D values to the county geometries
 PA2010duncan <- county2010PA %>%
   left_join(duncan2010PA$d, by = 'GEOID')
 ```
 
 ```{r duncan_plot, fig.height = 4, fig.width = 7}
-# Visualize the D values (2006-2010 5-year ACS) for Pennsylvania, U.S.A., counties 
+# Visualize the D values (2006-2010 5-year ACS) for census tracts within counties of Pennsylvania
 ggplot() +
   geom_sf(
     data = PA2010duncan,
@@ -333,14 +336,14 @@ ggplot() +
   scale_fill_viridis_c(limits = c(0, 1)) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
   ggtitle(
-    'Dissimilarity Index (Duncan & Duncan)\nPennsylvania census tracts to counties',
+    'Dissimilarity Index (Duncan & Duncan)\ncensus tracts within counties of Pennsylvania',
     subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
 ```
 
 #### Compute Location Quotient (*LQ*)
 
-Compute the racial or ethnic *LQ* values (2017-2021 5-year ACS) for Tennessee, U.S.A., counties vs. the state. This metric is based on [Merton (1939)](https://doi.org/10.2307/2084686) and adapted by [Sudano et al. (2013)](https://doi.org/10.1016/j.healthplace.2012.09.015). *LQ* is some measure of relative racial homogeneity of each smaller geography within a larger geography. *LQ* can range in value from 0 to infinity because it is ratio of two proportions in which the numerator is the proportion of subgroup population in a smaller geography and the denominator is the proportion of subgroup population in its larger geography. For example, a smaller geography with an *LQ* of 5 means that the proportion of the subgroup population living in the smaller geography is five times the proportion of the subgroup population in its larger geography. Unlike the previous metrics that aggregate to the larger geography, *LQ* computes values for each smaller geography relative to the larger geography.
+Compute the racial or ethnic *LQ* values (2017-2021 5-year ACS) for counties within state of Tennessee. This metric is based on [Merton (1939)](https://doi.org/10.2307/2084686) and adapted by [Sudano et al. (2013)](https://doi.org/10.1016/j.healthplace.2012.09.015). *LQ* is some measure of relative racial homogeneity of each smaller geography within a larger geography. *LQ* can range in value from 0 to infinity because it is ratio of two proportions in which the numerator is the proportion of subgroup population in a smaller geography and the denominator is the proportion of subgroup population in its larger geography. For example, a smaller geography with an *LQ* of 5 means that the proportion of the subgroup population living in the smaller geography is five times the proportion of the subgroup population in its larger geography. Unlike the previous metrics that aggregate to the larger geography, *LQ* computes values for each smaller geography relative to the larger geography.
 
 ```{r sudano_prep, results = 'hide'}
 sudano2021TN <- sudano(
@@ -356,11 +359,11 @@ county2021TN <- counties(state = 'TN', year = 2021, cb = TRUE)
 
 # Join the LQ values to the county geometry
 TN2021sudano <- county2021TN %>% 
-                   left_join(sudano2021TN$lq, by = 'GEOID')
+  left_join(sudano2021TN$lq, by = 'GEOID')
 ```
 
 ```{r sudano_plot, fig.height = 3, fig.width = 7}
-# Visualize the LQ values (2017-2021 5-year ACS) for Tennessee, U.S.A., counties
+# Visualize the LQ values (2017-2021 5-year ACS) for counties within state of Tennessee
 ggplot() +
   geom_sf(
     data = TN2021sudano,
@@ -378,14 +381,14 @@ ggplot() +
   scale_fill_viridis_c() +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2017-2021 estimates') +
   ggtitle(
-    'Location Quotient (Sudano)\nTennessee counties vs. state',
+    'Location Quotient (Sudano)\nCounties within state of Tennessee',
     subtitle = 'Black non-Hispanic'
   )
 ```
 
 #### Compute Interaction Index (_xPy\*_)
 
-Compute the racial or ethnic _xPy\*_ values (2017-2021 5-year ACS) for Ohio, U.S.A., counties from census tracts. This metric is based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and adapted by [Bell (1954)](https://doi.org/10.2307/2574118). _xPy\*_ is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. _xPy\*_ can range in value from 0 to 1.
+Compute the racial or ethnic _xPy\*_ values (2017-2021 5-year ACS) for census tracts within counties of Ohio. This metric is based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and adapted by [Bell (1954)](https://doi.org/10.2307/2574118). _xPy\*_ is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. _xPy\*_ can range in value from 0 to 1.
 
 ```{r bell_prep, results = 'hide'}
 bell2021OH <- bell(
@@ -397,16 +400,16 @@ bell2021OH <- bell(
   subgroup_ixn = 'NHoLW'
 )
 
-# Obtain the 2021 census counties from the 'tigris' package
+# Obtain the 2021 counties from the 'tigris' package
 county2021OH <- counties(state = 'OH', year = 2021, cb = TRUE)
 
-# Join the xPy* values to the county geometry
+# Join the xPy* values to the county geometries
 OH2021bell <- county2021OH %>%
   left_join(bell2021OH$xpy_star, by = 'GEOID')
 ```
 
 ```{r bell_plot, fig.height = 6, fig.width = 7}
-# Visualize the xPy* values (2017-2021 5-year ACS) for Ohio, U.S.A., counties
+# Visualize the xPy* values (2017-2021 5-year ACS) for census tracts within counties of Ohio
 ggplot() +
   geom_sf(
     data = OH2021bell,
@@ -424,14 +427,14 @@ ggplot() +
   scale_fill_viridis_c(limits = c(0, 1)) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2017-2021 estimates') +
   ggtitle(
-    'Interaction Index (Bell)\nOhio census tracts to counties',
+    'Interaction Index (Bell)\nCensus tracts within counties of Ohio',
     subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
 ```
 
 #### Compute Isolation Index (_xPx\*_)
 
-Compute the racial or ethnic _xPx\*_ values (2015-2019 5-year ACS) for Delaware, U.S.A., census tracts from census block groups. This metric is based on [Bell (1954)](https://doi.org/10.2307/2574118) and adapted by Lieberson (1981; ISBN-13:978-1-032-53884-6). _xPx\*_ is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. _xPx\*_ can range in value from 0 to 1.
+Compute the racial or ethnic _xPx\*_ values (2015-2019 5-year ACS) for census block groups within census tracts of Delaware. This metric is based on [Bell (1954)](https://doi.org/10.2307/2574118) and adapted by Lieberson (1981; ISBN-13:978-1-032-53884-6). _xPx\*_ is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. _xPx\*_ can range in value from 0 to 1.
 
 ```{r lieberson_prep, results = 'hide'}
 lieberson2021DE <- lieberson(
@@ -442,16 +445,16 @@ lieberson2021DE <- lieberson(
   subgroup = 'NHoLB'
 )
 
-# Obtain the 2021 census counties from the 'tigris' package
+# Obtain the 2021 census tracts from the 'tigris' package
 tract2021DE <- tracts(state = 'DE', year = 2019, cb = TRUE)
 
-# Join the xPx* values to the county geometry
+# Join the xPx* values to the cenus tract geometries
 DE2021lieberson <- tract2021DE %>%
   left_join(lieberson2021DE$xpx_star, by = 'GEOID')
 ```
 
 ```{r lieberson_plot, fig.height = 9, fig.width = 7}
-# Visualize the xPx* values (2015-2019 5-year ACS) for Delaware, U.S.A., census tracts
+# Visualize the xPx* values (2015-2019 5-year ACS) for census block groups within census tracts of Delaware
 ggplot() +
   geom_sf(
     data = DE2021lieberson,
@@ -469,14 +472,14 @@ ggplot() +
   scale_fill_viridis_c(limits = c(0, 1)) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2015-2019 estimates') +
   ggtitle(
-    'Isolation Index (Lieberson)\nDelaware census block groups to census tracts',
+    'Isolation Index (Lieberson)\nCensus block groups within census tracts of Delaware',
     subtitle = 'Black non-Hispanic'
   )
 ```
 
 #### Compute Correlation Ratio (*V*)
 
-Compute the racial or ethnic *V* values (2017-2021 5-year ACS) for South Carolina, U.S.A., counties from census tracts. This metric is based on [Bell (1954)](https://doi.org/10.2307/2574118) and adapted by [White (1986)](https://doi.org/10.2307/3644339). *V* removes the asymmetry from the Isolation Index by controlling for the effect of population composition when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. The Isolation Index is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation). *V* can range in value from 0 to Inf.
+Compute the racial or ethnic *V* values (2017-2021 5-year ACS) for census tracts within counties of South Carolina. This metric is based on [Bell (1954)](https://doi.org/10.2307/2574118) and adapted by [White (1986)](https://doi.org/10.2307/3644339). *V* removes the asymmetry from the Isolation Index by controlling for the effect of population composition when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. The Isolation Index is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation). *V* can range in value from 0 to Inf.
 
 ```{r white_prep, results = 'hide'}
 white2021SC <- white(
@@ -490,13 +493,13 @@ white2021SC <- white(
 # Obtain the 2021 census counties from the 'tigris' package
 county2021SC <- counties(state = 'SC', year = 2021, cb = TRUE)
 
-# Join the V values to the county geometry
+# Join the V values to the county geometries
 SC2021white <- county2021SC %>%
   left_join(white2021SC$v, by = 'GEOID')
 ```
 
 ```{r white_plot, fig.height = 6, fig.width = 7}
-# Visualize the V values (2017-2021 5-year ACS) for South Carolina, U.S.A., counties
+# Visualize the V values (2017-2021 5-year ACS) for census tracts within counties of South Carolina
 ggplot() +
   geom_sf(
     data = SC2021white,
@@ -519,14 +522,14 @@ ggplot() +
   ) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2017-2021 estimates') +
   ggtitle(
-    'Correlation Ratio (White)\nSouth Carolina census tracts to counties',
+    'Correlation Ratio (White)\nCensus tracts within counties of South Carolina',
     subtitle = 'Black non-Hispanic'
   )
 ```
 
 #### Compute Local Exposure and Isolation (*LEx/Is*)
 
-Compute the racial or ethnic Local Exposure and Isolation metric (2017-2021 5-year ACS) for Mississippi, U.S.A., counties vs. the state. This metric is based on [Bemanian & Beyer (2017)](https://doi.org/10.1158/1055-9965.EPI-16-0926). *LEx/Is* is a measure of the probability that two individuals living within a specific smaller geography (e.g., census tract) of either different (i.e., exposure) or the same (i.e., isolation) racial or ethnic subgroup(s) will interact, assuming that individuals within a smaller geography are randomly mixed. *LEx/Is* is standardized with a logit transformation and centered against an expected case that all races or ethnicities are evenly distributed across a larger geography. *LEx/Is* can range from negative infinity to infinity. If *LEx/Is* is zero then the estimated probability of the interaction between two people of the given subgroup(s) within a smaller geography is equal to the expected probability if the subgroup(s) were perfectly mixed in the larger geography. If *LEx/Is* is greater than zero then the interaction is more likely to occur within the smaller geography than in the larger geography, and if *LEx/Is* is less than zero then the interaction is less likely to occur within the smaller geography than in the larger geography. Note: the exponentiation of each *LEx/Is* metric results in the odds ratio of the specific exposure or isolation of interest in a smaller geography relative to the larger geography. Similar to *LQ* (Sudano), *LEx/Is* computes values for each smaller geography relative to the larger geography.
+Compute the racial or ethnic Local Exposure and Isolation metric (2017-2021 5-year ACS) for counties of state of Mississippi. This metric is based on [Bemanian & Beyer (2017)](https://doi.org/10.1158/1055-9965.EPI-16-0926). *LEx/Is* is a measure of the probability that two individuals living within a specific smaller geography (e.g., census tract) of either different (i.e., exposure) or the same (i.e., isolation) racial or ethnic subgroup(s) will interact, assuming that individuals within a smaller geography are randomly mixed. *LEx/Is* is standardized with a logit transformation and centered against an expected case that all races or ethnicities are evenly distributed across a larger geography. *LEx/Is* can range from negative infinity to infinity. If *LEx/Is* is zero then the estimated probability of the interaction between two people of the given subgroup(s) within a smaller geography is equal to the expected probability if the subgroup(s) were perfectly mixed in the larger geography. If *LEx/Is* is greater than zero then the interaction is more likely to occur within the smaller geography than in the larger geography, and if *LEx/Is* is less than zero then the interaction is less likely to occur within the smaller geography than in the larger geography. Note: the exponentiation of each *LEx/Is* metric results in the odds ratio of the specific exposure or isolation of interest in a smaller geography relative to the larger geography. Similar to *LQ* (Sudano), *LEx/Is* computes values for each smaller geography relative to the larger geography.
 
 ```{r bemanian_beyer_prep, results = 'hide'}
 bemanian_beyer2021MS <- bemanian_beyer(
@@ -541,13 +544,13 @@ bemanian_beyer2021MS <- bemanian_beyer(
 # Obtain the 2021 census counties from the 'tigris' package
 county2021MS <- counties(state = 'MS', year = 2021, cb = TRUE)
 
-# Join the LEx/Is values to the county geometry
+# Join the LEx/Is values to the county geometries
 MS2021bemanian_beyer <- county2021MS %>%
   left_join(bemanian_beyer2021MS$lexis, by = 'GEOID')
 ```
 
 ```{r bemanian_beyer_plot, fig.height = 7, fig.width = 6.5}
-# Visualize the LEx/Is values (2017-2021 5-year ACS) for Mississippi, U.S.A., counties
+# Visualize the LEx/Is values (2017-2021 5-year ACS) for counties of state of Mississippi
 ggplot() +
   geom_sf(
     data = MS2021bemanian_beyer,
@@ -569,14 +572,13 @@ ggplot() +
   ) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2017-2021 estimates') +
   ggtitle(
-    'Local Exposure and Isolation (Bemanian & Beyer)\nMississippi counties vs. state',
-    subtitle = 'Black non-Hispanic vs. White non-Hispanic'
+    'Local Exposure and Isolation (Bemanian & Beyer)\nCounties within state of Mississippi',
+    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
 ```
 
 ```{r bemanian_beyer_odds, fig.height = 7, fig.width = 6.5}
-# Visualize the exponentiated LEx/Is values (2017-2021 5-year ACS) for 
-## Mississippi, U.S.A., counties
+# Visualize the exponentiated LEx/Is values (2017-2021 5-year ACS) for Counties within state of Mississippi
 ggplot() +
   geom_sf(
     data = MS2021bemanian_beyer,
@@ -594,18 +596,21 @@ ggplot() +
   scale_fill_viridis_c() +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2017-2021 estimates') +
   ggtitle(
-    'Odds ratio of Local Exposure and Isolation (Bemanian & Beyer)\n
-    Mississippi counties vs. state',
-    subtitle = 'Black non-Hispanic vs. White non-Hispanic'
+    'Odds ratio of Local Exposure and Isolation (Bemanian & Beyer)\nCounties within state of Mississippi',
+    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
 ```
 
 #### Compute Racial Isolation Index (*RI*)
 
-Compute the spatial *RI*  values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts. This metric is based on [Anthopolos et al. (2011)](https://doi.org/10.1016/j.sste.2011.06.002) that assessed the racial isolation of the population that identifies as non-Hispanic or Latino, Black or African American alone. A census geography (and its neighbors) that has nearly all of its population who identify with the specified race or ethnicity subgroup(s) (e.g., Not Hispanic or Latino, Black or African American alone) will have an *RI* value close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population who identify with the specified race or ethnicity subgroup(s) (e.g., not Not Hispanic or Latino, Black or African American alone) will have an *RI* value close to 0.
+Compute the spatial *RI*  values (2006-2010 5-year ACS) for census tracts of North Carolina. This metric is based on [Anthopolos et al. (2011)](https://doi.org/10.1016/j.sste.2011.06.002) that assessed the racial isolation of the population that identifies as non-Hispanic or Latino, Black or African American alone. A census geography (and its neighbors) that has nearly all of its population who identify with the specified race or ethnicity subgroup(s) (e.g., Not Hispanic or Latino, Black or African American alone) will have an *RI* value close to 1. In contrast, a census geography (and its neighbors) that is nearly none of its population who identify with the specified race or ethnicity subgroup(s) (e.g., not Not Hispanic or Latino, Black or African American alone) will have an *RI* value close to 0.
 
 ```{r anthopolos_prep, results = 'hide'}
-anthopolos2010NC <- anthopolos(state = 'NC', year = 2010, subgroup = 'NHoLB')
+anthopolos2010NC <- anthopolos(
+  state = 'NC', 
+  year = 2010, 
+  subgroup = 'NHoLB'
+)
 
 # Obtain the 2010 census tracts from the 'tigris' package
 tract2010NC <- tracts(state = 'NC', year = 2010, cb = TRUE)
@@ -615,13 +620,13 @@ tract2010NC$GEOID <- substring(tract2010NC$GEO_ID, 10)
 # Obtain the 2010 counties from the 'tigris' package
 county2010NC <- counties(state = 'NC', year = 2010, cb = TRUE)
 
-# Join the RI values to the census tract geometry
+# Join the RI values to the census tract geometries
 NC2010anthopolos <- tract2010NC %>%
   left_join(anthopolos2010NC$ri, by = 'GEOID')
 ```
 
 ```{r anthopolos_plot, fig.height = 4, fig.width = 7}
-# Visualize the RI values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts 
+# Visualize the RI values (2006-2010 5-year ACS) for census tracts of North Carolina
 ggplot() +
   geom_sf(
     data = NC2010anthopolos,
@@ -639,8 +644,8 @@ ggplot() +
   scale_fill_viridis_c() +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
   ggtitle(
-    'Racial Isolation Index (Anthopolos), non-Hispanic Black',
-    subtitle = 'NC census tracts (not corrected for edge effects)'
+    'Racial Isolation Index (Anthopolos)\nCensus tracts of North Carolina',
+    subtitle = 'Black Non-Hispanic populations (not corrected for edge effects)'
   )
 ```
 
@@ -654,7 +659,7 @@ anthopolos2010GNSTV <- anthopolos(
   subgroup = 'NHoLB'
 )
 
-# Crop to only North Carolina, U.S.A. census tracts
+# Crop to only North Carolina census tracts
 anthopolos2010NCe <- anthopolos2010GNSTV$ri[anthopolos2010GNSTV$ri$GEOID %in% 
                                               anthopolos2010NC$ri$GEOID, ]
 
@@ -666,13 +671,13 @@ tract2010NC$GEOID <- substring(tract2010NC$GEO_ID, 10)
 # Obtain the 2010 counties from the 'tigris' package
 county2010NC <- counties(state = 'NC', year = 2010, cb = TRUE)
 
-# Join the RI values to the census tract geometry
+# Join the RI values to the census tract geometries
 edgeNC2010anthopolos <- tract2010NC %>% 
   left_join(anthopolos2010NCe, by = 'GEOID')
 ```
 
 ```{r anthopolos_edge_plot, fig.height = 4, fig.width = 7}
-# Visualize the RI values (2006-2010 5-year ACS) for North Carolina, U.S.A., census tracts 
+# Visualize the RI values (2006-2010 5-year ACS) for census tracts of North Carolina
 ggplot() +
   geom_sf(
     data = edgeNC2010anthopolos,
@@ -690,14 +695,14 @@ ggplot() +
   scale_fill_viridis_c() +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
   ggtitle(
-    'Racial Isolation Index (Anthopolos), non-Hispanic Black',
-    subtitle = 'NC census tracts (corrected for interstate edge effects)'
+    'Racial Isolation Index (Anthopolos)\nCensus tracts of North Carolina',
+    subtitle = 'Black Non-Hispanic populations (corrected for interstate edge effects)'
   )
 ```
 
 #### Compute Delta (*DEL*)
 
-Compute the racial or ethnic *DEL* values (2017-2021 5-year ACS) for Alabama, U.S.A., counties from census tracts. This metric is based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089). *DEL* is a measure of the proportion of members of one subgroup(s) residing in geographic units with above average density of members of the subgroup(s). The index provides the proportion of a subgroup population that would have to move across geographic units to achieve a uniform density. *DEL* can range in value from 0 to 1.
+Compute the racial or ethnic *DEL* values (2017-2021 5-year ACS) for census tracts within counties within Alabama. This metric is based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan et al. (1961; LC:60007089). *DEL* is a measure of the proportion of members of one subgroup(s) residing in geographic units with above average density of members of the subgroup(s). The index provides the proportion of a subgroup population that would have to move across geographic units to achieve a uniform density. *DEL* can range in value from 0 to 1.
 
 ```{r hoover_prep, results = 'hide'}
 hoover2021AL <- hoover(
@@ -708,16 +713,16 @@ hoover2021AL <- hoover(
   subgroup = 'NHoLB'
 )
 
-# Obtain the 2021 census counties from the 'tigris' package
+# Obtain the 2021 counties from the 'tigris' package
 county2021AL <- counties(state = 'AL', year = 2021, cb = TRUE)
 
-# Join the DEL values to the county geometry
+# Join the DEL values to the county geometries
 AL2021hoover <- county2021AL %>%
   left_join(hoover2021AL$del, by = 'GEOID')
 ```
 
 ```{r hoover_plot, fig.height = 7, fig.width = 6}
-# Visualize the DEL values (2017-2021 5-year ACS) for Alabama, U.S.A., counties
+# Visualize the DEL values (2017-2021 5-year ACS) for census tracts within counties within Alabama
 ggplot() +
   geom_sf(
     data = AL2021hoover,
@@ -735,14 +740,70 @@ ggplot() +
   scale_fill_viridis_c(limits = c(0, 1)) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2017-2021 estimates') +
   ggtitle(
-    'Delta (Hoover)\nAlabama census tracts to counties',
-    subtitle = 'Black non-Hispanic'
+    'Delta (Hoover)\ncensus tracts within counties within Alabama',
+    subtitle = 'Black Non-Hispanic population'
+  )
+```
+
+#### Compute Absolute Clustering (*ACL*)
+
+Compute the racial or ethnic *ACL* values (2014-2018 5-year ACS) for census block groups within census tracts of Harris County, TX. This metric is based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *ACL* is a measure of clustering of racial or ethnic populations within smaller geographical units that are located within larger geographical units. *ACL* can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering of the racial or ethnic subgroup. A value greater than 1 indicates the racial or ethnic subgroup live nearer to one another. A value less than 1 indicates the racial or ethnic subgroup do not live near one another.
+
+```{r massey_prep, results = 'hide'}
+massey2018HTX <- massey(
+  geo_large = 'tract',
+  geo_small = 'cbg',
+  state = 'TX',
+  county = 'Harris County',
+  year = 2018,
+  subgroup = c('NHoLB', 'HoLB')
+)
+
+# Obtain the 2018 census tracts in Harris County, TX, from the 'tigris' package
+tract2018 <- tracts(year = 2018, state = 'TX')
+# Obtain the 2018 Texas counties from the 'tigris' package
+county2018 <- counties(state = 'TX', year = 2018, cb = TRUE)
+
+# Join the ACL values to the census tract geometries and filter for Harris County, TX
+HTX2010massey <- tract2018 %>%
+  left_join(massey2018HTX$acl, by = 'GEOID') %>%
+  filter(!st_is_empty(.)) %>%
+  filter(!is.na(ACL)) %>%
+  st_filter(county2018 %>% filter(NAME == 'Harris')) %>%
+  st_make_valid()
+```
+
+```{r massey_plot, fig.height = 4, fig.width = 7}
+# Visualize the ACL values (2013-2017 5-year ACS) for census block groups within census tracts of Harris County, TX
+ggplot() +
+  geom_sf(
+    data = HTX2010massey,
+    aes(fill = ACL)
+  ) +
+  geom_sf(
+    data = county2018 %>% filter(NAME == 'Harris County'),
+    fill = 'transparent',
+    color = 'black',
+    size = 0.2
+  ) +
+  theme_minimal() +
+  scale_fill_gradient2(
+    low = '#998ec3', 
+    mid = '#f7f7f7', 
+    high = '#f1a340', 
+    midpoint = 0,
+    limits = c(-1, 1)
+  ) +
+  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2013-2017 estimates') +
+  ggtitle(
+    'Absolute Clustering (Massey & Denton)\nCensus block groups within census tracts of Harris County, TX',
+    subtitle = 'Black population'
   )
 ```
 
 #### Compute Absolute Centralization (*ACE*)
 
-Compute the racial or ethnic *ACE* values (2013-2017 5-year ACS) for Connecticut census-designated places from census block groups. This metric is based on Duncan, Cuzzort, & Duncan (1961; LC:60007089) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *ACE* is a measure of the degree to which racial or ethnic populations within smaller geographical units are located near the center of a larger geographical unit. *ACE* can range in value from -1 to 1 and represents the spatial distribution of racial or ethnic populations within smaller geographical units compared to the distribution of land area around the center of a larger geographical unit. Positive values indicate a tendency for racial or ethnic populations to reside close to the center of a larger geographical unit, while negative values indicate a tendency to live in outlying areas. A score of 0 means that racial or ethnic populations have a uniform distribution throughout a larger geographical unit. *ACE* gives the proportion of racial or ethnic populations required to change residence to achieve a uniform distribution of population around the center of a larger geographical unit.
+Compute the racial or ethnic *ACE* values (2013-2017 5-year ACS) for census block groups within census-designated places of Connecticut. This metric is based on Duncan, Cuzzort, & Duncan (1961; LC:60007089) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *ACE* is a measure of the degree to which racial or ethnic populations within smaller geographical units are located near the center of a larger geographical unit. *ACE* can range in value from -1 to 1 and represents the spatial distribution of racial or ethnic populations within smaller geographical units compared to the distribution of land area around the center of a larger geographical unit. Positive values indicate a tendency for racial or ethnic populations to reside close to the center of a larger geographical unit, while negative values indicate a tendency to live in outlying areas. A score of 0 means that racial or ethnic populations have a uniform distribution throughout a larger geographical unit. *ACE* gives the proportion of racial or ethnic populations required to change residence to achieve a uniform distribution of population around the center of a larger geographical unit.
 
 Note: The original metric used the location of the central business district (CBD) to compute the metric, but the U.S. Census Bureau has not defined CBDs for U.S. cities since the [1982 Census of Retail Trade](http://www.census.gov/geo/www/cbd.html). Therefore, this function uses the the centroids of each larger geographical unit as the 'centre', but may not represent the current CBD. 
 
@@ -757,10 +818,10 @@ duncan_cuzzort2017CT <- duncan_cuzzort(
 
 # Obtain the 2017 census-designated places in Connecticut from the 'tigris' package
 places2017 <- places(year = 2017, state = 'CT')
-# Obtain the 2014 state from the 'tigris' package
-states2017 <- states(cb = TRUE)
+# Obtain the 2017 state from the 'tigris' package
+states2017 <- states(year = 2017, cb = TRUE)
 
-# Join the SP values to the CSA geometries and filter for Connecticut
+# Join the ACE values to the census-designated places geometries and filter for Connecticut
 CT2010duncan_cuzzort <- places2017 %>%
   left_join(duncan_cuzzort2017CT$ace, by = 'GEOID') %>%
   filter(!st_is_empty(.)) %>%
@@ -770,7 +831,7 @@ CT2010duncan_cuzzort <- places2017 %>%
 ```
 
 ```{r duncan_cuzzort_plot, fig.height = 4, fig.width = 7}
-# Visualize the ACE values (2013-2017 5-year ACS) for Connecticut, U.S.A., census-designated places
+# Visualize the ACE values (2013-2017 5-year ACS) for census block groups within census-designated places of Connecticut
 ggplot() +
   geom_sf(
     data = CT2010duncan_cuzzort,
@@ -792,14 +853,14 @@ ggplot() +
   ) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2013-2017 estimates') +
   ggtitle(
-    'Absolute Centralization (Duncan & Cuzzort)\nCensus tracts to census-designated places in Connecticut',
+    'Absolute Centralization (Duncan & Cuzzort)\nCensus block groups within census-designated places of Connecticut',
     subtitle = 'Black population'
   )
 ```
 
 #### Compute Relative Centralization (*RCE*)
 
-Compute the racial or ethnic *RCE* values (2013-2017 5-year ACS) for Connecticut census-designated places from census block groups. This metric is based on [Duncan & Duncan (1955b)](https://doi.org/10.1086/221609) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *RCE* is a measure of the degree to which racial or ethnic populations within smaller geographical units are located near the center of a larger geographical unit. *RCE* can range in value from -1 to 1 and represents the spatial distribution of racial or ethnic populations within smaller geographical units relative to the compared to the distribution of the referent racial or ethnic population around the center of a larger geographical unit. Positive values indicate a tendency for racial or ethnic populations to reside closer to the center of a larger geographical unit than the referent racial or ethnic population, while negative values indicate the racial or ethnic population is distributed farther from the center of a larger geographical unit than the referent racial or ethnic population. A score of 0 means that racial or ethnic populations have a uniform distribution throughout a larger geographical unit. *RCE* gives the proportion of racial or ethnic populations required to change residence to match the degree of centralization of the referent racial or ethnic population.
+Compute the racial or ethnic *RCE* values (2013-2017 5-year ACS) for census block groups within census-designated places of Connecticut. This metric is based on [Duncan & Duncan (1955b)](https://doi.org/10.1086/221609) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *RCE* is a measure of the degree to which racial or ethnic populations within smaller geographical units are located near the center of a larger geographical unit. *RCE* can range in value from -1 to 1 and represents the spatial distribution of racial or ethnic populations within smaller geographical units relative to the compared to the distribution of the referent racial or ethnic population around the center of a larger geographical unit. Positive values indicate a tendency for racial or ethnic populations to reside closer to the center of a larger geographical unit than the referent racial or ethnic population, while negative values indicate the racial or ethnic population is distributed farther from the center of a larger geographical unit than the referent racial or ethnic population. A score of 0 means that racial or ethnic populations have a uniform distribution throughout a larger geographical unit. *RCE* gives the proportion of racial or ethnic populations required to change residence to match the degree of centralization of the referent racial or ethnic population.
 
 Note: The original metric used the location of the central business district (CBD) to compute the metric, but the U.S. Census Bureau has not defined CBDs for U.S. cities since the [1982 Census of Retail Trade](http://www.census.gov/geo/www/cbd.html). Therefore, this function uses the the centroids of each larger geographical unit as the 'centre', but may not represent the current CBD. 
 
@@ -815,10 +876,10 @@ duncan_duncan2017CT <- duncan_duncan(
 
 # Obtain the 2017 census-designated places in Connecticut from the 'tigris' package
 places2017 <- places(year = 2017, state = 'CT')
-# Obtain the 2014 state from the 'tigris' package
-states2017 <- states(cb = TRUE)
+# Obtain the 2017 state from the 'tigris' package
+states2017 <- states(year = 2017, cb = TRUE)
 
-# Join the SP values to the CSA geometries and filter for Connecticut
+# Join the ACE values to the census-designated places geometries and filter for Connecticut
 CT2010duncan_duncan <- places2017 %>%
   left_join(duncan_duncan2017CT$rce, by = 'GEOID') %>%
   filter(!st_is_empty(.)) %>%
@@ -828,7 +889,7 @@ CT2010duncan_duncan <- places2017 %>%
 ```
 
 ```{r duncan_duncan_plot, fig.height = 4, fig.width = 7}
-# Visualize the ACE values (2013-2017 5-year ACS) for Connecticut, U.S.A., census-designated places
+# Visualize the ACE values (2013-2017 5-year ACS) for census block groups within census-designated places of Connecticut
 ggplot() +
   geom_sf(
     data = CT2010duncan_duncan,
@@ -850,14 +911,14 @@ ggplot() +
   ) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2013-2017 estimates') +
   ggtitle(
-    'Relative Centralization (Duncan & Duncan)\nCensus tracts to census-designated places in Connecticut',
+    'Relative Centralization (Duncan & Duncan)\nCensus block groups within census-designated places of Connecticut',
     subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
 ```
 
 #### Compute an index of spatial proximity (*SP*)
 
-Compute an index of spatial proximity (2010-2014 5-year ACS) for Atlanta, GA, metropolitan area from census tracts. This metric is based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0) that designed the metric to identify racial or ethnic enclaves. *SP* is a measure of clustering of racial or ethnic populations within smaller geographical areas that are located within larger geographical areas. *SP* can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering between subgroup and referent group members. A value greater than 1 indicates subgroup members live nearer to one another than to referent subgroup members. A value less than 1 indicates subgroup live nearer to and referent subgroup members than to their own subgroup members.
+Compute an index of spatial proximity (2010-2014 5-year ACS) for census tracts within combined statistical areas of Georgia. This metric is based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0) that designed the metric to identify racial or ethnic enclaves. *SP* is a measure of clustering of racial or ethnic populations within smaller geographical areas that are located within larger geographical areas. *SP* can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering between subgroup and referent group members. A value greater than 1 indicates subgroup members live nearer to one another than to referent subgroup members. A value less than 1 indicates subgroup live nearer to and referent subgroup members than to their own subgroup members.
 
 ```{r white_blau_prep, results = 'hide'}
 whiteblau2014GA <- white_blau(
@@ -872,7 +933,7 @@ whiteblau2014GA <- white_blau(
 # Obtain the 2014 Combined Statistical Areas from the 'tigris' package
 csa2014 <- combined_statistical_areas(year = 2014, cb = TRUE)
 # Obtain the 2014 state from the 'tigris' package
-state2014 <- states(cb = TRUE)
+state2014 <- states(year = 2014, cb = TRUE)
 
 # Join the SP values to the CSA geometries and filter for Georgia
 GA2010whiteblau <- csa2014 %>%
@@ -884,7 +945,7 @@ GA2010whiteblau <- csa2014 %>%
 ```
 
 ```{r white_blau_plot, fig.height = 7, fig.width = 7}
-# Visualize the SP values (2010-2014 5-year ACS) for Georgia, U.S.A., CSAs 
+# Visualize the SP values (2010-2014 5-year ACS) for census tracts within combined statistical areas of Georgia
 ggplot() +
   geom_sf(
     data = GA2010whiteblau,
@@ -907,7 +968,7 @@ ggplot() +
   ) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2010-2014 estimates') +
   ggtitle(
-    'An index of spatial proximity (White)\nCensus tracts to Combined Statistical Areas in Georgia',
+    'An index of spatial proximity (White)\nCensus tracts within combined statistical areas of Georgia',
     subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
 ```

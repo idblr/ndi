@@ -1,7 +1,7 @@
 Package: ndi
 Title: Neighborhood Deprivation Indices
-Version: 0.1.6.9008
-Date: 2024-08-29
+Version: 0.1.6.9009
+Date: 2024-08-30
 Authors@R:
     c(person(given = "Ian D.",
              family = "Buller",
@@ -11,8 +11,8 @@ Authors@R:
       person(given = "NCI",
              role = c("cph", "fnd")))
 Maintainer: Ian D. Buller <ian.buller@alumni.emory.edu>
-Description: Computes various indices of socioeconomic deprivation and disparity in
-             the United States. Some indices are considered "spatial" because they 
+Description: Computes various geospatial indices of socioeconomic deprivation and disparity
+             in the United States. Some indices are considered "spatial" because they 
              consider the values of neighboring (i.e., adjacent) census geographies in
              their computation, while other indices are "aspatial" because they only 
              consider the value within each census geography. Two types of aspatial 
