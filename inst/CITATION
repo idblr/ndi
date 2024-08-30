@@ -631,3 +631,23 @@ bibentry(bibtype = 'Article',
 
   header         = 'And (2):'
 )
+
+bibentry(bibtype = 'Article',
+  title          = 'The Dimensions of Residential Segregation',
+  author         = c(as.person('Douglas S. Massey'),
+                   as.person('Nancy A. Denton')),
+  journal        = 'Social Forces',
+  year           = '1988',
+  volume         = '67',
+  issue          = '2',
+  pages          = '281--315',
+  doi            = '10.1093/sf/67.2.281',
+
+  textVersion    =
+  paste('Douglas S. Massey & Nancy A. Denton (1988).',
+        'The Dimensions of Residential Segregation.',
+        'Social Forces, 67(1), 281-315.',
+        'DOI:10.1093/sf/67.2.281'),
+
+  header         = 'If you computed ACL (Massey & Denton) values, please also cite:'
+)
