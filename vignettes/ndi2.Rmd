@@ -57,8 +57,8 @@ Since version v0.1.1, the [*ndi*](https://CRAN.R-project.org/package=ndi) packag
 **Concentration**:
 
   * `hoover()` function that computes Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan, Cuzzort, & Duncan (1961; LC:60007089)
-  * `massey()` function that compute Absolute Clustering (*ACL*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
-  * `denton()` function that compute Relative Clustering (*RCL*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
+  * `massey_duncan()` function that computes Absolute Concentration (*ACO*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281) and Duncan, Cuzzort, & Duncan (1961; LC:60007089)
+  * Relative Concentration (Planned)
 
 **Centralization**:
 
@@ -67,9 +67,9 @@ Since version v0.1.1, the [*ndi*](https://CRAN.R-project.org/package=ndi) packag
   
 **Clustering**:
 
-  * Absolute Clustering (Planned)
+  * `massey()` function that compute Absolute Clustering (*ACL*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
   * `white_blau()` function that computes an index of spatial proximity (*SP*) based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0)
-  * Relative Clustering (Planned)
+  * `denton()` function that compute Relative Clustering (*RCL*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
   * Distance Decay Interaction (Planned)
   * Distance Decay Isolation (Planned)
 
@@ -745,120 +745,59 @@ ggplot() +
   )
 ```
 
-#### Compute Absolute Clustering (*ACL*)
+#### Compute Absolute Concentration (*ACO*)
 
-Compute the racial or ethnic *ACL* values (2014-2018 5-year ACS) for census block groups within census tracts of Harris County, TX. This metric is based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *ACL* is a measure of clustering of racial or ethnic populations within smaller geographical units that are located within larger geographical units. *ACL* can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering of the racial or ethnic subgroup. A value greater than 1 indicates the racial or ethnic subgroup live nearer to one another. A value less than 1 indicates the racial or ethnic subgroup do not live near one another.
+Compute the racial or ethnic *ACO* values (2015-2019 5-year ACS) for census tracts within core-based statistical areas of Wisconsin. This metric is based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281) and Duncan, Cuzzort, & Duncan (1961; LC:60007089). *ACO* is a measure of concentration of racial or ethnic populations within smaller geographical units that are located within larger geographical units. *ACO* can range from 0 to 1 and represents the relative amount of physical space occupied by a racial or ethnic subgroup in a larger geographical unit. A value of 1 indicates that a racial or ethnic subgroup has achieved the maximum spatial concentration possible (all racial or ethnic subgroup members live in the smallest of the smaller geographical units). A value of 0 indicates the maximum deconcentration possible (all racial or ethnic subgroup members live in the largest of the smaller geographical units).
 
-```{r massey_prep, results = 'hide'}
-massey2018HTX <- massey(
-  geo_large = 'tract',
-  geo_small = 'cbg',
-  state = 'TX',
-  county = 'Harris County',
-  year = 2018,
+```{r massey_duncan_prep, results = 'hide'}
+massey_duncan2019WI <- massey_duncan(
+  geo_large = 'cbsa',
+  geo_small = 'tract',
+  state = c('WI', 'IL', 'MI', 'MN'),
+  year = 2019,
   subgroup = c('NHoLB', 'HoLB')
 )
 
-# Obtain the 2018 census tracts in Harris County, TX, from the 'tigris' package
-tract2018 <- tracts(year = 2018, state = 'TX')
-# Obtain the 2018 Texas counties from the 'tigris' package
-county2018 <- counties(state = 'TX', year = 2018, cb = TRUE)
+# Obtain the 2019 census-designated places from the 'tigris' package
+cbsa2019 <- core_based_statistical_areas(year = 2019, cb = TRUE)
+# Obtain the 2019 state from the 'tigris' package
+states2019 <- states(year = 2019, cb = TRUE)
 
-# Join the ACL values to the census tract geometries and filter for Harris County, TX
-HTX2010massey <- tract2018 %>%
-  left_join(massey2018HTX$acl, by = 'GEOID') %>%
+# Join the ACO values to the census-designated places geometries and filter for Connecticut
+WI2019massey_duncan <- cbsa2019 %>%
+  left_join(massey_duncan2019WI$aco, by = 'GEOID') %>%
   filter(!st_is_empty(.)) %>%
-  filter(!is.na(ACL)) %>%
-  st_filter(county2018 %>% filter(NAME == 'Harris')) %>%
+  filter(!is.na(ACO)) %>%
+  st_filter(states2019 %>% filter(STUSPS == 'WI'), .predicate = st_within) %>%
   st_make_valid()
 ```
 
-```{r massey_plot, fig.height = 4, fig.width = 7}
-# Visualize the ACL values (2013-2017 5-year ACS) for census block groups within census tracts of Harris County, TX
+```{r massey_duncan_plot, fig.height = 4, fig.width = 7}
+# Visualize the ACO values (2015-2019 5-year ACS) for census tracts within core-based statistical areas of Wisconsin.
 ggplot() +
   geom_sf(
-    data = HTX2010massey,
-    aes(fill = ACL)
+    data = WI2019massey_duncan,
+    aes(fill = ACO)
   ) +
   geom_sf(
-    data = county2018 %>% filter(NAME == 'Harris County'),
+    data = states2019 %>% filter(STUSPS == 'WI'),
     fill = 'transparent',
     color = 'black',
     size = 0.2
   ) +
   theme_minimal() +
-  scale_fill_gradient2(
-    low = '#998ec3', 
-    mid = '#f7f7f7', 
-    high = '#f1a340', 
-    midpoint = 0
-  ) +
-  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2013-2017 estimates') +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2015-2019 estimates') +
   ggtitle(
-    'Absolute Clustering (Massey & Denton)\nCensus block groups within census tracts of Harris County, TX',
+    'Absolute Concentration (Massey & Duncan)\ncensus tracts within core-based statistical areas of Wisconsin',
     subtitle = 'Black population'
-  )
-```
-
-#### Compute Relative Clustering (*RCL*)
-
-Compute the racial or ethnic *RCL* values (2014-2018 5-year ACS) for census block groups within census tracts of Harris County, TX. This metric is based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *RCL* equals 0 when the racial or ethnic subgroup population displays the same amount of clustering as the referent racial or ethnic subgroup population, and is positive whenever the racial or ethnic subgroup population members display greater clustering than is typical of the the referent racial or ethnic subgroup population. If the racial or ethnic subgroup population members were less clustered than the the referent racial or ethnic subgroup population, then *RCL* would be negative.
-
-```{r denton_prep, results = 'hide'}
-denton2018HTX <- denton(
-  geo_large = 'tract',
-  geo_small = 'cbg',
-  state = 'TX',
-  county = 'Harris County',
-  year = 2018,
-  subgroup = 'NHoLB',
-  subgroup_ref = 'NHoLW'
-)
-
-# Obtain the 2018 census tracts in Harris County, TX, from the 'tigris' package
-tract2018 <- tracts(year = 2018, state = 'TX')
-# Obtain the 2018 Texas counties from the 'tigris' package
-county2018 <- counties(state = 'TX', year = 2018, cb = TRUE)
-
-# Join the RCL values to the census tract geometries and filter for Harris County, TX
-HTX2010denton <- tract2018 %>%
-  left_join(denton2018HTX$rcl, by = 'GEOID') %>%
-  filter(!st_is_empty(.)) %>%
-  filter(!is.na(RCL)) %>%
-  st_filter(county2018 %>% filter(NAME == 'Harris')) %>%
-  st_make_valid()
-```
-
-```{r denton_plot, fig.height = 4, fig.width = 7}
-# Visualize the RCL values (2013-2017 5-year ACS) for census block groups within census tracts of Harris County, TX
-ggplot() +
-  geom_sf(
-    data = HTX2010denton,
-    aes(fill = RCL)
-  ) +
-  geom_sf(
-    data = county2018 %>% filter(NAME == 'Harris County'),
-    fill = 'transparent',
-    color = 'black',
-    size = 0.2
-  ) +
-  theme_minimal() +
-  scale_fill_gradient2(
-    low = '#998ec3', 
-    mid = '#f7f7f7', 
-    high = '#f1a340', 
-    midpoint = 0
-  ) +
-  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2013-2017 estimates') +
-  ggtitle(
-    'Relative Clustering (Massey & Denton)\nCensus block groups within census tracts of Harris County, TX',
-    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
 ```
 
 #### Compute Absolute Centralization (*ACE*)
 
-Compute the racial or ethnic *ACE* values (2013-2017 5-year ACS) for census block groups within census-designated places of Connecticut. This metric is based on Duncan, Cuzzort, & Duncan (1961; LC:60007089) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *ACE* is a measure of the degree to which racial or ethnic populations within smaller geographical units are located near the center of a larger geographical unit. *ACE* can range in value from -1 to 1 and represents the spatial distribution of racial or ethnic populations within smaller geographical units compared to the distribution of land area around the center of a larger geographical unit. Positive values indicate a tendency for racial or ethnic populations to reside close to the center of a larger geographical unit, while negative values indicate a tendency to live in outlying areas. A score of 0 means that racial or ethnic populations have a uniform distribution throughout a larger geographical unit. *ACE* gives the proportion of racial or ethnic populations required to change residence to achieve a uniform distribution of population around the center of a larger geographical unit.
+Compute the racial or ethnic *ACE* values (2013-2017 5-year ACS) for census block groups within census-designated places of Connecticut. This metric is based on Duncan, Cuzzort, & Duncan (1961; LC:60007089) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *ACE* is a measure of the degree to which racial or ethnic populations within smaller geographical units are located near the center of a larger geographical unit. *ACO* is a measure of concentration of racial or ethnic populations within smaller geographical units that are located within larger geographical units. *ACO* can range from 0 to 1 and represents the relative amount of physical space occupied by a racial or ethnic subgroup in a larger geographical unit. A value of 1 indicates that a racial or ethnic subgroup has achieved the maximum spatial concentration possible (all racial or ethnic subgroup members live in the smallest of the smaller geographical units). A value of 0 indicates the maximum deconcentration possible (all racial or ethnic subgroup members live in the largest of the smaller geographical units).
+
 
 Note: The original metric used the location of the central business district (CBD) to compute the metric, but the U.S. Census Bureau has not defined CBDs for U.S. cities since the [1982 Census of Retail Trade](http://www.census.gov/geo/www/cbd.html). Therefore, this function uses the the centroids of each larger geographical unit as the 'centre', but may not represent the current CBD. 
 
@@ -971,6 +910,61 @@ ggplot() +
   )
 ```
 
+#### Compute Absolute Clustering (*ACL*)
+
+Compute the racial or ethnic *ACL* values (2014-2018 5-year ACS) for census block groups within census tracts of Harris County, TX. This metric is based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *ACL* is a measure of clustering of racial or ethnic populations within smaller geographical units that are located within larger geographical units. *ACL* can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering of the racial or ethnic subgroup. A value greater than 1 indicates the racial or ethnic subgroup live nearer to one another. A value less than 1 indicates the racial or ethnic subgroup do not live near one another.
+
+```{r massey_prep, results = 'hide'}
+massey2018HTX <- massey(
+  geo_large = 'tract',
+  geo_small = 'cbg',
+  state = 'TX',
+  county = 'Harris County',
+  year = 2018,
+  subgroup = c('NHoLB', 'HoLB')
+)
+
+# Obtain the 2018 census tracts in Harris County, TX, from the 'tigris' package
+tract2018 <- tracts(year = 2018, state = 'TX')
+# Obtain the 2018 Texas counties from the 'tigris' package
+county2018 <- counties(state = 'TX', year = 2018, cb = TRUE)
+
+# Join the ACL values to the census tract geometries and filter for Harris County, TX
+HTX2010massey <- tract2018 %>%
+  left_join(massey2018HTX$acl, by = 'GEOID') %>%
+  filter(!st_is_empty(.)) %>%
+  filter(!is.na(ACL)) %>%
+  st_filter(county2018 %>% filter(NAME == 'Harris')) %>%
+  st_make_valid()
+```
+
+```{r massey_plot, fig.height = 4, fig.width = 7}
+# Visualize the ACL values (2013-2017 5-year ACS) for census block groups within census tracts of Harris County, TX
+ggplot() +
+  geom_sf(
+    data = HTX2010massey,
+    aes(fill = ACL)
+  ) +
+  geom_sf(
+    data = county2018 %>% filter(NAME == 'Harris County'),
+    fill = 'transparent',
+    color = 'black',
+    size = 0.2
+  ) +
+  theme_minimal() +
+  scale_fill_gradient2(
+    low = '#998ec3', 
+    mid = '#f7f7f7', 
+    high = '#f1a340', 
+    midpoint = 0
+  ) +
+  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2013-2017 estimates') +
+  ggtitle(
+    'Absolute Clustering (Massey & Denton)\nCensus block groups within census tracts of Harris County, TX',
+    subtitle = 'Black population'
+  )
+```
+
 #### Compute an index of spatial proximity (*SP*)
 
 Compute an index of spatial proximity (2010-2014 5-year ACS) for census tracts within combined statistical areas of Georgia. This metric is based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0) that designed the metric to identify racial or ethnic enclaves. *SP* is a measure of clustering of racial or ethnic populations within smaller geographical areas that are located within larger geographical areas. *SP* can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering between subgroup and referent group members. A value greater than 1 indicates subgroup members live nearer to one another than to referent subgroup members. A value less than 1 indicates subgroup live nearer to and referent subgroup members than to their own subgroup members.
@@ -1024,6 +1018,62 @@ ggplot() +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2010-2014 estimates') +
   ggtitle(
     'An index of spatial proximity (White)\nCensus tracts within combined statistical areas of Georgia',
+    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
+  )
+```
+
+#### Compute Relative Clustering (*RCL*)
+
+Compute the racial or ethnic *RCL* values (2014-2018 5-year ACS) for census block groups within census tracts of Harris County, TX. This metric is based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *RCL* equals 0 when the racial or ethnic subgroup population displays the same amount of clustering as the referent racial or ethnic subgroup population, and is positive whenever the racial or ethnic subgroup population members display greater clustering than is typical of the the referent racial or ethnic subgroup population. If the racial or ethnic subgroup population members were less clustered than the the referent racial or ethnic subgroup population, then *RCL* would be negative.
+
+```{r denton_prep, results = 'hide'}
+denton2018HTX <- denton(
+  geo_large = 'tract',
+  geo_small = 'cbg',
+  state = 'TX',
+  county = 'Harris County',
+  year = 2018,
+  subgroup = 'NHoLB',
+  subgroup_ref = 'NHoLW'
+)
+
+# Obtain the 2018 census tracts in Harris County, TX, from the 'tigris' package
+tract2018 <- tracts(year = 2018, state = 'TX')
+# Obtain the 2018 Texas counties from the 'tigris' package
+county2018 <- counties(state = 'TX', year = 2018, cb = TRUE)
+
+# Join the RCL values to the census tract geometries and filter for Harris County, TX
+HTX2010denton <- tract2018 %>%
+  left_join(denton2018HTX$rcl, by = 'GEOID') %>%
+  filter(!st_is_empty(.)) %>%
+  filter(!is.na(RCL)) %>%
+  st_filter(county2018 %>% filter(NAME == 'Harris')) %>%
+  st_make_valid()
+```
+
+```{r denton_plot, fig.height = 4, fig.width = 7}
+# Visualize the RCL values (2013-2017 5-year ACS) for census block groups within census tracts of Harris County, TX
+ggplot() +
+  geom_sf(
+    data = HTX2010denton,
+    aes(fill = RCL)
+  ) +
+  geom_sf(
+    data = county2018 %>% filter(NAME == 'Harris County'),
+    fill = 'transparent',
+    color = 'black',
+    size = 0.2
+  ) +
+  theme_minimal() +
+  scale_fill_gradient2(
+    low = '#998ec3', 
+    mid = '#f7f7f7', 
+    high = '#f1a340', 
+    midpoint = 0
+  ) +
+  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2013-2017 estimates') +
+  ggtitle(
+    'Relative Clustering (Massey & Denton)\nCensus block groups within census tracts of Harris County, TX',
     subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
 ```

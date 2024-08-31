@@ -12,7 +12,7 @@
 [![DOI](https://zenodo.org/badge/521439746.svg)](https://zenodo.org/badge/latestdoi/521439746)
 <!-- badges: end -->
 
-**Date repository last updated**: 2024-08-30
+**Date repository last updated**: 2024-08-31
 
 ### Overview
 
@@ -101,6 +101,10 @@ To install the development version from GitHub:
 <tr>
 <td><a href='/R/massey.R'><code>massey</code></a></td>
 <td>Compute the aspatial racial or ethnic Absolute Clustering (<i>ACL</i>) based on <a href='https://doi.org/10.1093/sf/67.2.281'>Massey & Denton (1988)</a></td>
+</tr>
+<tr>
+<td><a href='/R/massey_duncan.R'><code>massey_duncan</code></a></td>
+<td>Compute the aspatial racial or ethnic Absolute Concentration (<i>ACO</i>) based on <a href='https://doi.org/10.1093/sf/67.2.281'>Massey & Denton (1988)</a> and Duncan, Cuzzort, & Duncan (1961; LC:60007089)</td>
 </tr>
 <tr>
 <td><a href='/R/messer.R'><code>messer</code></a></td>
@@ -1367,6 +1371,51 @@ ggplot() +
 ```
 
 ![](man/figures/acl.png)
+
+```r
+# --------------------------------------------------------- #
+# Compute aspatial Absolute Concentration (Massey & Denton) #
+# --------------------------------------------------------- #
+
+# Absolute Concentration based on Massey & Denton (1988) and Duncan, Cuzzort, & Duncan (1961)
+## Selected subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected large geography: census tract
+## Selected small geography: census block group
+ACO_2020_DC <- massey_duncan(
+  geo_large = 'tract',
+  geo_small = 'cbg',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB'
+)
+
+# Obtain the 2020 census tracts from the 'tigris' package
+tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
+
+# Join the ACO (Massey & Denton) values to the census tract geometry
+ACO_2020_DC <- tract_2020_DC %>%
+  left_join(ACO_2020_DC$aco, by = 'GEOID')
+
+ggplot() +
+  geom_sf(
+    data = ACO_2020_DC,
+    aes(fill = ACO),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Absolute Concentration (Massey & Denton)\n
+    Washington, D.C. census block groups to tracts',
+    subtitle = 'Black non-Hispanic'
+  )
+```
+
+![](man/figures/aco.png)
 
 ```r
 # ------------------------------------------------------------ #
