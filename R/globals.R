@@ -271,6 +271,12 @@ globalVariables(
     'crs',
     'RCE',
     'ACL',
-    'RCL'
+    'RCL',
+    'ACO',
+    'ALAND',
+    'TotalPopE',
+    'n_1',
+    'n_2',
+    't_cs'
   )
 )

@@ -397,3 +397,73 @@ rcl_fun <- function(x, crs, omit_NAs) {
     return(RCL)
   }
 }
+
+# Internal function for Absolute Concentration
+## From Denton & Massey (1988) https://doi.org/10.1093/sf/67.2.281
+## Returns NA value if only one smaller geography in a larger geography
+aco_fun <- function(x, omit_NAs) {
+  # x <- out_tmp[[12]]
+  xx <- x[ , c('TotalPopE', 'subgroup', 'ALAND')]
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(sf::st_drop_geometry(xx)), ] }
+  if (nrow(sf::st_drop_geometry(x)) < 2 || any(sf::st_drop_geometry(xx) < 0) || any(is.na(sf::st_drop_geometry(xx)))) {
+    NA
+  } else {
+    a_i <- xx$ALAND
+    x_i <- xx$subgroup
+    X <- sum(x_i, na.rm = TRUE)
+    xx_tmp <- xx %>% 
+      sf::st_drop_geometry(xx) %>%
+      dplyr::arrange(ALAND) %>%
+      dplyr::mutate(
+        t_cs = cumsum(TotalPopE),
+        n_1 = t_cs <= X,
+      ) 
+    if (!(TRUE %in% xx_tmp$n_1)) { 
+      xx_1 <- xx_tmp %>% 
+        dplyr::slice(1) 
+    } else {
+      xx_1 <- xx_tmp %>%
+        dplyr::filter(n_1 == TRUE)
+    }
+    if (nrow(xx_1) == 1 & 0 %in% xx_1$TotalPopE) { 
+      xx_1 <- xx_tmp %>%
+        dplyr::filter(TotalPopE > 0) %>%
+        dplyr::slice(1) 
+    }
+    T_1 <- xx_1 %>%
+      dplyr::summarise(
+        T_1 = sum(TotalPopE)
+      ) %>%
+      unlist()
+    xx_tmp <- xx %>% 
+      sf::st_drop_geometry(xx) %>%
+      dplyr::arrange(-ALAND) %>%
+      dplyr::mutate(
+        t_cs = cumsum(TotalPopE),
+        n_2 = t_cs <= X,
+      )
+    if (!(TRUE %in% xx_tmp$n_2)) { 
+      xx_2 <- xx_tmp %>% 
+        dplyr::slice(1) 
+    } else {
+      xx_2 <- xx_tmp %>%
+        dplyr::filter(n_2 == TRUE)
+    }
+    if (nrow(xx_2) == 1 & 0 %in% xx_2$TotalPopE) { 
+      xx_2 <- xx_tmp %>%
+        dplyr::filter(TotalPopE > 0) %>%
+        dplyr::slice(1) 
+    }
+    T_2 <- xx_2 %>%
+      dplyr::summarise(
+        T_2 = sum(TotalPopE)
+      ) %>%
+      unlist()
+    num <- sum((x_i * a_i) / X, na.rm = TRUE) - sum((xx_1$TotalPopE * xx_1$ALAND) / T_1, na.rm = TRUE) 
+    denom <- sum((xx_2$TotalPopE * xx_2$ALAND) / T_2, na.rm = TRUE) - sum((xx_1$TotalPopE * xx_1$ALAND) / T_1, na.rm = TRUE) 
+    ACO_tmp <- (num / denom)
+    if (is.infinite(ACO_tmp) | is.na(ACO_tmp)) { ACO_tmp <- 0 }
+    ACO <- 1 - ACO_tmp
+    return(ACO)
+  }
+}

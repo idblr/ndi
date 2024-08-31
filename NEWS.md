@@ -1,6 +1,6 @@
 # ndi (development version)
 
-## ndi v0.1.6.9010
+## ndi v0.1.6.9011
 
 ### New Features
 
@@ -15,9 +15,10 @@
 * Added `denton()` function to compute the aspatial racial or ethnic Relative Clustering (*RCL*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
 * Added `duncan_duncan()` function to compute the aspatial racial or ethnic Relative Centralization (*RCE*) based on [Duncan & Duncan (1955b)](https://doi.org/10.1086/221609) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
 * Added `massey()` function to compute the aspatial racial or ethnic Absolute Clustering (*ACL*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
+* Added `massey_duncan()` function to compute the aspatial racial or ethnic Absolute Concentration (*ACO*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281) and Duncan, Cuzzort, & Duncan (1961; LC:60007089)
 
 #### New Function Capabilities
-* Added `geo_large = 'place'` for census-designated places, `geo_large = 'cbsa'` for core-based statistical areas, `geo_large = 'csa'` for combined statistical areas, and `geo_large = 'metro'` for metropolitan divisions as the larger geographical unit in `atkinson()`, `bell()`, `bemanian_beyer()`, `denton()`, `duncan()`, `duncan_cuzzort()`, `duncan_duncan()`, `hoover()`, `james_taeuber()`, `lieberson()`, `sudano()`, `theil()`, and `white()`, `white_blau()` functions.
+* Added `geo_large = 'place'` for census-designated places, `geo_large = 'cbsa'` for core-based statistical areas, `geo_large = 'csa'` for combined statistical areas, and `geo_large = 'metro'` for metropolitan divisions as the larger geographical unit in `atkinson()`, `bell()`, `bemanian_beyer()`, `denton()`, `duncan()`, `duncan_cuzzort()`, `duncan_duncan()`, `hoover()`, `james_taeuber()`, `lieberson()`, `massey()`, `massey_duncan()`, `sudano()`, `theil()`, and `white()`, `white_blau()` functions.
 * Added census block group computation for `anthopolos()` by specifying `geo == 'cbg'` or `geo == 'block group'`
 * Added `holder` argument to `atkinson()` function to toggle the computation with or without the Hölder mean. The function can now compute *A* without the Hölder mean. The default is `holder = FALSE`.
 * Added `crs` argument to `anthopolos()`, `bravo()`, and `white_blau()` functions to provide spatial projection of the distance-based metrics
@@ -43,7 +44,7 @@
 * Re-formatted code and documentation throughout for consistent readability
 * Renamed 'race/ethnicity' or 'racial/ethnic' to 'race or ethnicity' or 'racial or ethnic' throughout documentation to use more modern, inclusive, and appropriate language
 * Updated documentation about value range of *V* (White) from `{0 to 1}` to `{-Inf to Inf}`
-* Added examples for `atkinson()`, `duncan_cuzzort()`, `duncan_duncan()`, `gini()`, `hoover()`, `james_taeuber()`, `lieberson()`, `theil()`, and `white_blau()` functions in vignettes and README
+* Added examples for `atkinson()`, `duncan_cuzzort()`, `duncan_duncan()`, `gini()`, `hoover()`, `james_taeuber()`, `lieberson()`, `massey()`, `massey_duncan()`, `theil()`, and `white_blau()` functions in vignettes and README
 * Added example for `holder` argument in `atkinson()` function in README
 * Reordered the contents of 'ndi-package.R' thematically
 * Reordered the README examples alphabetically

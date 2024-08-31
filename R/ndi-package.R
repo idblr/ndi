@@ -36,11 +36,11 @@
 #'
 #' \code{\link{james_taeuber}} Computes the aspatial Dissimilarity Index (\emph{D}) based on James & Taeuber (1985) \doi{10.2307/270845}.
 #' 
-#' \code{\link{krieger}} Computes the aspatial Index of Concentration at the Extremes based on Feldman et al. (2015) \doi{10.1136/jech-2015-205728} and Krieger et al. (2016) \doi{10.2105/AJPH.2015.302955}.
-#' 
 #' \code{\link{lieberson}} Computes the aspatial Isolation Index (\emph{xPx\*}) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and Bell (1954) \doi{10.2307/2574118}.
 #' 
 #' \code{\link{massey}} Computes the aspatial Absolute Clustering (\emph{ACL}) based on Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
+#' 
+#' \code{\link{massey_duncan}} Computes the aspatial Absolute Concentration (\emph{ACO}) based on Massey & Denton (1988) \doi{10.1093/sf/67.2.281} and Duncan, Cuzzort, & Duncan (1961; LC:60007089).
 #'
 #' \code{\link{sudano}} Computes the aspatial Location Quotient (\emph{LQ}) based on Merton (1939) \doi{10.2307/2084686} and Sudano et al. (2013) \doi{10.1016/j.healthplace.2012.09.015}.
 #' 
@@ -57,6 +57,8 @@
 #' \code{\link{bravo}} Computes the spatial Educational Isolation Index (\emph{EI}) based on Bravo (2021) \doi{10.3390/ijerph18179384}.
 #' 
 #' \code{\link{gini}} Also retrieves the aspatial Gini Index (\emph{G}) of income inequality based on Gini (1921) \doi{10.2307/2223319}.
+#' 
+#' \code{\link{krieger}} Computes the aspatial Index of Concentration at the Extremes based on Feldman et al. (2015) \doi{10.1136/jech-2015-205728} and Krieger et al. (2016) \doi{10.2105/AJPH.2015.302955}.
 #' 
 #' \strong{Pre-formatted U.S. Census Data}
 #' 
