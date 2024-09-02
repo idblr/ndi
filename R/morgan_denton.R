@@ -1,17 +1,18 @@
-#' Distance-Decay Isolation Index based on Morgan (1983) and Massey & Denton (1988)
+#' Distance-Decay Interaction Index based on Morgan (1983) and Massey & Denton (1988)
 #' 
-#' Compute the aspatial Distance-Decay Isolation Index (Morgan) of a selected racial or ethnic subgroup(s) and U.S. geographies.
+#' Compute the aspatial Distance-Decay Interaction Index (Morgan) of a selected racial or ethnic subgroup(s) and U.S. geographies.
 #'
 #' @param geo_large Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = 'county'}.
 #' @param geo_small Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_small = 'tract'}.
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
 #' @param subgroup Character string specifying the racial or ethnic subgroup(s) as the comparison population. See Details for available choices.
+#' @param subgroup_ixn Character string specifying the racial or ethnic subgroup(s) as the interaction population. If the same as \code{subgroup}, will compute the simple isolation of the group. See Details for available choices.
 #' @param crs Numeric or character string specifying the coordinate reference system to compute the distance-based metric. The default is Albers North America \code{crs = 'ESRI:102008'}.
 #' @param omit_NAs Logical. If FALSE, will compute index for a larger geographical unit only if all of its smaller geographical units have values. The default is TRUE.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the aspatial Distance-Decay Isolation Index (_DPxx\*_) of selected racial or ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Morgan (1986) \url{https://www.jstor.org/stable/20001935} and Massey & Denton (1988) \doi{10.1093/sf/67.2.281}. This function provides the computation of _DPxx\*_ for any of the U.S. Census Bureau race or ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#' @details This function will compute the aspatial Distance-Decay Interaction Index (_DPxy\*_) of selected racial or ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Morgan (1986) \url{https://www.jstor.org/stable/20001935} and Massey & Denton (1988) \doi{10.1093/sf/67.2.281}. This function provides the computation of _DPxy\*_ for any of the U.S. Census Bureau race or ethnicity subgroups (including Hispanic and non-Hispanic individuals).
 #' 
 #' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'place'}, \code{geo_large = 'csa'}, or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial or ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
@@ -39,18 +40,18 @@
 #'
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #'
-#' _DPxx\*_ is a measure of clustering of racial or ethnic populations within smaller geographical units that are located within larger geographical units. _DPxx\*_ is some measure of the probability that a member of one racial or ethnic subgroup will meet or interact with a member of the same racial or ethnic subgroup. _DPxx\*_ can range in value from 0 to 1 with higher values signifying higher probability of isolation (less isolation).
+#' _DPxy\*_ is a measure of clustering of racial or ethnic populations within smaller geographical units that are located within larger geographical units. _DPxy\*_ is some measure of the probability that a member of a racial or ethnic subgroup will meet or interact with a member of another racial or ethnic subgroup(s). _DPxy\*_ can range in value from 0 to 1 with higher values signifying higher probability of interaction.
 #' 
 #' The metric uses the exponential transform of a distance matrix (kilometers) between smaller geographical area centroids, with a diagonal defined as \code{(0.6*a_{i})^{0.5}} where \code{a_{i}} is the area (square kilometers) of smaller geographical unit \code{i} as defined by White (1983) \doi{10.1086/227768}.
 #'
-#' Larger geographical units available include states \code{geo_large = 'state'}, counties \code{geo_large = 'county'}, census tracts \code{geo_large = 'tract'}, census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, and metropolitan divisions \code{geo_large = 'metro'}. Smaller geographical units available include, counties \code{geo_small = 'county'}, census tracts \code{geo_small = 'tract'}, and census block groups \code{geo_small = 'cbg'}. If a larger geographical unit is comprised of only one smaller geographical unit (e.g., a U.S county contains only one census tract), then the _DPxx\*_ value returned is NA. If the larger geographical unit is census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, or metropolitan divisions \code{geo_large = 'metro'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{V} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the _DPxx\*_ computation.
+#' Larger geographical units available include states \code{geo_large = 'state'}, counties \code{geo_large = 'county'}, census tracts \code{geo_large = 'tract'}, census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, and metropolitan divisions \code{geo_large = 'metro'}. Smaller geographical units available include, counties \code{geo_small = 'county'}, census tracts \code{geo_small = 'tract'}, and census block groups \code{geo_small = 'cbg'}. If a larger geographical unit is comprised of only one smaller geographical unit (e.g., a U.S county contains only one census tract), then the _DPxy\*_ value returned is NA. If the larger geographical unit is census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, or metropolitan divisions \code{geo_large = 'metro'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{V} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the _DPxy\*_ computation.
 #' 
 #' @return An object of class 'list'. This is a named list with the following components:
 #'
 #' \describe{
-#' \item{\code{dpxx_star}}{An object of class 'tbl' for the GEOID, name, and _DPxx\*_ at specified larger census geographies.}
-#' \item{\code{dpxx_star_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute _DPxx\*_.}
+#' \item{\code{dpxy_star}}{An object of class 'tbl' for the GEOID, name, and _DPxy\*_ at specified larger census geographies.}
+#' \item{\code{dpxy_star_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute _DPxy\*_.}
 #' }
 #'
 #' @import dplyr
@@ -70,23 +71,25 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'
-#'   # Distance-Decay Isolation Index (a measure of clustering)
-#'   ## of Black populations
+#'   # Distance-Decay Interaction Index (a measure of clustering)
+#'   ## of non-Hispanic Black vs. non-Hispanic white populations
 #'   ## in census tracts within counties of Georgia, U.S.A. (2020)
-#'   morgan_massey(
+#'   morgan_denton(
 #'     geo_large = 'county',
 #'     geo_small = 'tract',
 #'     state = 'GA',
 #'     year = 2020,
-#'     subgroup = c('NHoLB', 'HoLB')
+#'     subgroup = 'NHoLB',
+#'     subgroup_ixn = 'NHoLW'
 #'    )
 #'
 #' }
 #'
-morgan_massey <- function(geo_large = 'county',
+morgan_denton <- function(geo_large = 'county',
                           geo_small = 'tract',
                           year = 2020,
                           subgroup,
+                          subgroup_ixn,
                           crs = 'ESRI:102008',
                           omit_NAs = TRUE,
                           quiet = FALSE,
@@ -98,6 +101,32 @@ morgan_massey <- function(geo_large = 'county',
   stopifnot(is.numeric(year), year >= 2009) # all variables available 2009 onward
   match.arg(
     subgroup,
+    several.ok = TRUE,
+    choices = c(
+      'NHoL',
+      'NHoLW',
+      'NHoLB',
+      'NHoLAIAN',
+      'NHoLA',
+      'NHoLNHOPI',
+      'NHoLSOR',
+      'NHoLTOMR',
+      'NHoLTRiSOR',
+      'NHoLTReSOR',
+      'HoL',
+      'HoLW',
+      'HoLB',
+      'HoLAIAN',
+      'HoLA',
+      'HoLNHOPI',
+      'HoLSOR',
+      'HoLTOMR',
+      'HoLTRiSOR',
+      'HoLTReSOR'
+    )
+  )
+  match.arg(
+    subgroup_ixn,
     several.ok = TRUE,
     choices = c(
       'NHoL',
@@ -148,11 +177,12 @@ morgan_massey <- function(geo_large = 'county',
     HoLTReSOR = 'B03002_021'
   )
   
-  selected_vars <- vars[c('TotalPop', subgroup)]
+  selected_vars <- vars[c('TotalPop', subgroup, subgroup_ixn)]
   out_names <- c(names(selected_vars), 'ALAND') # save for output
   in_subgroup <- paste0(subgroup, 'E')
+  in_subgroup_ixn <- paste0(subgroup_ixn, 'E')
   
-  # Acquire DPxx_star variables and sf geometries
+  # Acquire DPxy_star variables and sf geometries
   out_dat <- suppressMessages(suppressWarnings(
     tidycensus::get_acs(
       geography = geo_small,
@@ -184,7 +214,7 @@ morgan_massey <- function(geo_large = 'county',
       )
   }
   
-  # Grouping IDs for DPxx_star computation
+  # Grouping IDs for DPxy_star computation
   if (geo_large == 'state') {
     out_dat <- out_dat %>%
       dplyr::mutate(
@@ -292,13 +322,22 @@ morgan_massey <- function(geo_large = 'county',
     out_dat <- out_dat %>%
       dplyr::mutate(subgroup = rowSums(as.data.frame(.)[, in_subgroup]))
   }
+  ## Count of racial or ethnic interaction subgroup population
+  if (length(in_subgroup_ixn) == 1) {
+    out_dat <- out_dat %>%
+      dplyr::mutate(subgroup_ixn = as.data.frame(.)[, in_subgroup_ixn])
+  } else {
+    out_dat <- out_dat %>%
+      dplyr::mutate(subgroup_ixn = rowSums(as.data.frame(.)[, in_subgroup_ixn]))
+  }
   
-  # Compute DPxx*
+  # Compute DPxy*
   ## From Massey & Denton (1988) https://doi.org/10.1093/sf/67.2.281
-  ## DP_{xx}^{*}=\sum_{i=1}^{n}\frac{x_{i}}{X}\sum_{j=1}^{n}\frac{K_{ij}x_{j}}{t_{j}}
+  ## DP_{xy}^{*}=\sum_{i=1}^{n}\frac{x_{i}}{X}\sum_{j=1}^{n}\frac{K_{ij}y_{j}}{t_{j}}
   ## Where for i & j smaller geographical units:
   ## x_{i} denotes the racial or ethnic subgroup population of smaller geographical unit i
   ## X denotes the racial or ethnic subgroup population of a larger geographical unit
+  ## y_{j} denotes the interaction racial or ethnic subgroup population of smaller geographical unit i
   ## t_{j} denotes the total population of smaller geographical unit j
   ## and
   ## K_{ij} = \frac{exp(-d_{ij})t_{j}}{\sum_{i=1}^{n}exp(-d_{ij})t_{j}}
@@ -307,17 +346,17 @@ morgan_massey <- function(geo_large = 'county',
   out_tmp <- out_dat %>%
     .[.$oid != 'NANA', ] %>%
     split(., f = list(.$oid)) %>%
-    lapply(., FUN = dpxx_star_fun, crs = crs, omit_NAs = omit_NAs) %>%
+    lapply(., FUN = dpxy_star_fun, crs = crs, omit_NAs = omit_NAs) %>%
     utils::stack(.) %>%
     dplyr::mutate(
-      DPxx_star = values,
+      DPxy_star = values,
       oid = ind
     ) %>%
-    dplyr::select(DPxx_star, oid) %>%
+    dplyr::select(DPxy_star, oid) %>%
     sf::st_drop_geometry()
   
   # Warning for missingness of census characteristics
-  missingYN <- out_dat[, c('TotalPopE', in_subgroup, 'ALAND')] %>% 
+  missingYN <- out_dat[, c('TotalPopE', in_subgroup, in_subgroup_ixn, 'ALAND')] %>% 
     sf::st_drop_geometry()
   names(missingYN) <- out_names
   missingYN <- missingYN %>%
@@ -346,52 +385,52 @@ morgan_massey <- function(geo_large = 'county',
     dplyr::left_join(out_tmp, by = dplyr::join_by(oid))
   if (geo_large == 'state') {
     out <- out %>%
-      dplyr::select(oid, state, DPxx_star) %>%
+      dplyr::select(oid, state, DPxy_star) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, DPxx_star)
+      dplyr::select(GEOID, state, DPxy_star)
   }
   if (geo_large == 'county') {
     out <- out %>%
-      dplyr::select(oid, state, county, DPxx_star) %>%
+      dplyr::select(oid, state, county, DPxy_star) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, DPxx_star)
+      dplyr::select(GEOID, state, county, DPxy_star)
   }
   if (geo_large == 'tract') {
     out <- out %>%
-      dplyr::select(oid, state, county, tract, DPxx_star) %>%
+      dplyr::select(oid, state, county, tract, DPxy_star) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, tract, DPxx_star)
+      dplyr::select(GEOID, state, county, tract, DPxy_star)
   }
   if (geo_large == 'place') {
     out <- out %>%
-      dplyr::select(oid, place, DPxx_star) %>%
+      dplyr::select(oid, place, DPxy_star) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, place, DPxx_star)
+      dplyr::select(GEOID, place, DPxy_star)
   }
   if (geo_large == 'cbsa') {
     out <- out %>%
-      dplyr::select(oid, cbsa, DPxx_star) %>%
+      dplyr::select(oid, cbsa, DPxy_star) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, cbsa, DPxx_star)
+      dplyr::select(GEOID, cbsa, DPxy_star)
   }
   if (geo_large == 'csa') {
     out <- out %>%
-      dplyr::select(oid, csa, DPxx_star) %>%
+      dplyr::select(oid, csa, DPxy_star) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, csa, DPxx_star)
+      dplyr::select(GEOID, csa, DPxy_star)
   }
   if (geo_large == 'metro') {
     out <- out %>%
-      dplyr::select(oid, metro, DPxx_star) %>%
+      dplyr::select(oid, metro, DPxy_star) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, metro, DPxx_star)
+      dplyr::select(GEOID, metro, DPxy_star)
   }
   
   out <- out %>%
@@ -405,7 +444,7 @@ morgan_massey <- function(geo_large = 'county',
     dplyr::arrange(GEOID) %>%
     dplyr::as_tibble()
   
-  out <- list(dpxx_star = out, dpxx_star_data = out_dat, missing = missingYN)
+  out <- list(dpxy_star = out, dpxy_star_data = out_dat, missing = missingYN)
   
   return(out)
 }

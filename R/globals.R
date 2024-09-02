@@ -283,6 +283,7 @@ globalVariables(
     'n_1',
     'n_2',
     't_cs',
-    'DPxx_star'
+    'DPxx_star',
+    'DPxy_star'
   )
 )

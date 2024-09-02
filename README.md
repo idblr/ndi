@@ -115,6 +115,10 @@ To install the development version from GitHub:
 <td>Compute the aspatial Neighborhood Deprivation Index (<i>NDI</i>) based on <a href='https://doi.org/10.1007/s11524-006-9094-x'>Messer et al. (2006)</a></td>
 </tr>
 <tr>
+<td><a href='/R/morgan_denton.R'><code>morgan_denton</code></a></td>
+<td>Compute the aspatial racial or ethnic Distance-Decay Interaction Index (<i>DPxy*</i>) based on <a href='https://www.jstor.org/stable/20001935'>Morgan (1983)</a> and <a href='https://doi.org/10.1093/sf/67.2.281'>Massey & Denton (1988)</a>
+</tr>
+<tr>
 <td><a href='/R/morgan_massey.R'><code>morgan_massey</code></a></td>
 <td>Compute the aspatial racial or ethnic Distance-Decay Isolation Index (<i>DPxx*</i>) based on <a href='https://www.jstor.org/stable/20001935'>Morgan (1983)</a> and <a href='https://doi.org/10.1093/sf/67.2.281'>Massey & Denton (1988)</a>
 </tr>
@@ -1356,7 +1360,7 @@ ggplot() +
 # Compute aspatial racial or ethnic Isolation Index (Lieberson) #
 # ------------------------------------------------------------- #
 
-# Interaction Index based on Lieberson (1981) and Bell (1954)
+# Isolation Index based on Lieberson (1981) and Bell (1954)
 ## Selected subgroup: Not Hispanic or Latino, Black or African American alone
 ## Selected large geography: census tract
 ## Selected small geography: census block group
@@ -1491,6 +1495,53 @@ ggsave(file.path('man', 'figures', 'aco.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/aco.png)
+
+```r
+# --------------------------------------------------------------------------- #
+# Compute aspatial racial or ethnic Distance-Decay Interaction Index (Morgan) #
+# --------------------------------------------------------------------------- #
+
+# Distance-Decay Interaction Index based on Morgan (1983) and Massey & Denton (1988)
+## Selected subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected interaction subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected large geography: census tract
+## Selected small geography: census block group
+DPxy_star_2020_DC <- morgan_denton(
+  geo_large = 'tract',
+  geo_small = 'cbg',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB',
+  subgroup_ixn = 'NHoLW'
+)
+
+# Obtain the 2020 census tracts from the 'tigris' package
+tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
+
+# Join the DPxx* (Morgan) values to the census tract geometry
+DPxy_star_2020_DC <- tract_2020_DC %>%
+  left_join(DPxy_star_2020_DC$dpxy_star, by = 'GEOID')
+
+ggplot() +
+  geom_sf(
+    data = DPxy_star_2020_DC,
+    aes(fill = DPxy_star),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Distance-Decay Interaction Index (Morgan)\nCensus block groups within tracts of Washington, D.C.',
+    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
+  )
+ggsave(file.path('man', 'figures', 'dpxy_star.png'), height = 7, width = 7)
+```
+
+![](man/figures/dpxy_star.png)
 
 ```r
 # ------------------------------------------------------------------------- #

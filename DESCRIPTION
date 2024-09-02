@@ -1,6 +1,6 @@
 Package: ndi
 Title: Neighborhood Deprivation Indices
-Version: 0.1.6.9013
+Version: 0.1.6.9014
 Date: 2024-09-02
 Authors@R:
     c(person(given = "Ian D.",
