@@ -58,7 +58,7 @@ Since version v0.1.1, the [*ndi*](https://CRAN.R-project.org/package=ndi) packag
 
   * `hoover()` function that computes Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan, Cuzzort, & Duncan (1961; LC:60007089)
   * `massey_duncan()` function that computes Absolute Concentration (*ACO*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281) and Duncan, Cuzzort, & Duncan (1961; LC:60007089)
-  * Relative Concentration (Planned)
+  * `denton_cuzzort()` function that computes Relative Concentration (*RCO*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281) and Duncan, Cuzzort, & Duncan (1961; LC:60007089)
 
 **Centralization**:
 
@@ -514,12 +514,7 @@ ggplot() +
     size = 0.2
   ) +
   theme_minimal() +
-  scale_fill_gradient2(
-    low = '#998ec3', 
-    mid = '#f7f7f7', 
-    high = '#f1a340', 
-    midpoint = 1
-  ) +
+  scale_fill_viridis_c() +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2017-2021 estimates') +
   ggtitle(
     'Correlation Ratio (White)\nCensus tracts within counties of South Carolina',
@@ -745,6 +740,61 @@ ggplot() +
   )
 ```
 
+#### Compute Relative Concentration (*RCO*)
+
+Compute the racial or ethnic *RCO* values (2015-2019 5-year ACS) for census tracts within core-based statistical areas of Wisconsin. This metric is based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281) and Duncan, Cuzzort, & Duncan (1961; LC:60007089). *RCO* is a measure of concentration of racial or ethnic populations within smaller geographical units that are located within larger geographical units. *RCO* can range from -1 to 1 and represents the share of a larger geographical unit occupied by a racial or ethnic subgroup compared to a referent racial or ethnic subgroup. A value of 1 indicates that the concentration of the racial or ethnic subgroup exceeds the concentration of the referent racial or ethnic subgroup at the maximum extent possible. A value of -1 is the converse. Note: Computed as designed, but values smaller than -1 are possible if the racial or ethnic subgroup population is larger than the referent racial or ethnic subgroup population.
+
+```{r denton_cuzzort_prep, results = 'hide'}
+denton_cuzzort2019WI <- denton_cuzzort(
+  geo_large = 'cbsa',
+  geo_small = 'tract',
+  state = c('WI', 'IL', 'MI', 'MN'),
+  year = 2019,
+  subgroup = 'NHoLB',
+  subgroup_ref = 'NHoLW'
+)
+
+# Obtain the 2019 census-designated places from the 'tigris' package
+cbsa2019 <- core_based_statistical_areas(year = 2019, cb = TRUE)
+# Obtain the 2019 state from the 'tigris' package
+states2019 <- states(year = 2019, cb = TRUE)
+
+# Join the RCO values to the census-designated places geometries and filter for Connecticut
+WI2019denton_cuzzort <- cbsa2019 %>%
+  left_join(denton_cuzzort2019WI$rco, by = 'GEOID') %>%
+  filter(!st_is_empty(.)) %>%
+  filter(!is.na(RCO)) %>%
+  st_filter(states2019 %>% filter(STUSPS == 'WI'), .predicate = st_within) %>%
+  st_make_valid()
+```
+
+```{r denton_cuzzort_plot, fig.height = 4, fig.width = 7}
+# Visualize the RCO values (2015-2019 5-year ACS) for census tracts within core-based statistical areas of Wisconsin.
+ggplot() +
+  geom_sf(
+    data = WI2019denton_cuzzort,
+    aes(fill = RCO)
+  ) +
+  geom_sf(
+    data = states2019 %>% filter(STUSPS == 'WI'),
+    fill = 'transparent',
+    color = 'black',
+    size = 0.2
+  ) +
+  theme_minimal() +
+  scale_fill_gradient2(
+    low = '#998ec3', 
+    mid = '#f7f7f7', 
+    high = '#f1a340', 
+    midpoint = 0
+  ) +
+  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2015-2019 estimates') +
+  ggtitle(
+    'Relative Concentration (Massey & Duncan)\ncensus tracts within core-based statistical areas of Wisconsin',
+    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
+  )
+```
+
 #### Compute Absolute Concentration (*ACO*)
 
 Compute the racial or ethnic *ACO* values (2015-2019 5-year ACS) for census tracts within core-based statistical areas of Wisconsin. This metric is based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281) and Duncan, Cuzzort, & Duncan (1961; LC:60007089). *ACO* is a measure of concentration of racial or ethnic populations within smaller geographical units that are located within larger geographical units. *ACO* can range from 0 to 1 and represents the relative amount of physical space occupied by a racial or ethnic subgroup in a larger geographical unit. A value of 1 indicates that a racial or ethnic subgroup has achieved the maximum spatial concentration possible (all racial or ethnic subgroup members live in the smallest of the smaller geographical units). A value of 0 indicates the maximum deconcentration possible (all racial or ethnic subgroup members live in the largest of the smaller geographical units).
@@ -796,8 +846,7 @@ ggplot() +
 
 #### Compute Absolute Centralization (*ACE*)
 
-Compute the racial or ethnic *ACE* values (2013-2017 5-year ACS) for census block groups within census-designated places of Connecticut. This metric is based on Duncan, Cuzzort, & Duncan (1961; LC:60007089) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *ACE* is a measure of the degree to which racial or ethnic populations within smaller geographical units are located near the center of a larger geographical unit. *ACO* is a measure of concentration of racial or ethnic populations within smaller geographical units that are located within larger geographical units. *ACO* can range from 0 to 1 and represents the relative amount of physical space occupied by a racial or ethnic subgroup in a larger geographical unit. A value of 1 indicates that a racial or ethnic subgroup has achieved the maximum spatial concentration possible (all racial or ethnic subgroup members live in the smallest of the smaller geographical units). A value of 0 indicates the maximum deconcentration possible (all racial or ethnic subgroup members live in the largest of the smaller geographical units).
-
+Compute the racial or ethnic *ACE* values (2013-2017 5-year ACS) for census block groups within census-designated places of Connecticut. This metric is based on Duncan, Cuzzort, & Duncan (1961; LC:60007089) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *ACE* is a measure of the degree to which racial or ethnic populations within smaller geographical units are located near the center of a larger geographical unit. *ACE* is a measure of concentration of racial or ethnic populations within smaller geographical units that are located within larger geographical units. *ACE* can range from 0 to 1 and represents the relative amount of physical space occupied by a racial or ethnic subgroup in a larger geographical unit. A value of 1 indicates that a racial or ethnic subgroup has achieved the maximum spatial concentration possible (all racial or ethnic subgroup members live in the smallest of the smaller geographical units). A value of 0 indicates the maximum deconcentration possible (all racial or ethnic subgroup members live in the largest of the smaller geographical units).
 
 Note: The original metric used the location of the central business district (CBD) to compute the metric, but the U.S. Census Bureau has not defined CBDs for U.S. cities since the [1982 Census of Retail Trade](http://www.census.gov/geo/www/cbd.html). Therefore, this function uses the the centroids of each larger geographical unit as the 'centre', but may not represent the current CBD. 
 

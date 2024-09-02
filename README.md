@@ -12,7 +12,7 @@
 [![DOI](https://zenodo.org/badge/521439746.svg)](https://zenodo.org/badge/latestdoi/521439746)
 <!-- badges: end -->
 
-**Date repository last updated**: 2024-08-31
+**Date repository last updated**: 2024-09-01
 
 ### Overview
 
@@ -65,6 +65,10 @@ To install the development version from GitHub:
 <tr>
 <td><a href='/R/denton.R'><code>denton</code></a></td>
 <td>Compute the aspatial racial or ethnic Relative Clustering (<i>RCL</i>) based on <a href='https://doi.org/10.1093/sf/67.2.281'>Massey & Denton (1988)</a></td>
+</tr>
+<tr>
+<td><a href='/R/denton_cuzzort.R'><code>denton_cuzzort</code></a></td>
+<td>Compute the aspatial racial or ethnic Relative Concentration (<i>RCO</i>) based on <a href='https://doi.org/10.1093/sf/67.2.281'>Massey & Denton (1988)</a> and Duncan, Cuzzort, & Duncan (1961; LC:60007089)</td>
 </tr>
 <tr>
 <td><a href='/R/duncan.R'><code>duncan</code></a></td>
@@ -261,6 +265,7 @@ ggplot() +
     'Neighborhood Deprivation Index\nContinuous (Messer, non-imputed)',
     subtitle = 'Washington, D.C. tracts as the referent'
   )
+ggsave(file.path('man', 'figures', 'messer1.png'), height = 7, width = 7)
 
 ## Categorical Index (Quartiles)
 ### Rename '9-NDI not avail' level as NA for plotting
@@ -293,6 +298,7 @@ ggplot() +
     'Neighborhood Deprivation Index\nQuartiles (Messer, non-imputed)',
     subtitle = 'Washington, D.C. tracts as the referent'
   )
+ggsave(file.path('man', 'figures', 'messer2.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/messer1.png)
@@ -358,6 +364,7 @@ ggplot() +
     'Neighborhood Deprivation Index\nContinuous (Powell-Wiley, non-imputed)',
     subtitle = 'Washington, D.C. tracts as the referent'
   )
+ggsave(file.path('man', 'figures', 'powell_wiley1.png'), height = 7, width = 7)
 
 ## Non-imputed missing tracts (Categorical quintiles)
 ### Rename '9-NDI not avail' level as NA for plotting
@@ -390,6 +397,7 @@ ggplot() +
     Population-weighted Quintiles (Powell-Wiley, non-imputed)',
     subtitle = 'Washington, D.C. tracts as the referent'
   )
+ggsave(file.path('man', 'figures', 'powell_wiley2.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/powell_wiley1.png)
@@ -413,6 +421,7 @@ ggplot() +
     'Neighborhood Deprivation Index\nContinuous (Powell-Wiley, imputed)',
     subtitle = 'Washington, D.C. tracts as the referent'
   )
+ggsave(file.path('man', 'figures', 'powell_wiley3.png'), height = 7, width = 7)
 
 ## Imputed missing tracts (Categorical quintiles)
 ### Rename '9-NDI not avail' level as NA for plotting
@@ -444,6 +453,7 @@ ggplot() +
     'Neighborhood Deprivation Index\nPopulation-weighted Quintiles (Powell-Wiley, imputed)',
     subtitle = 'Washington, D.C. tracts as the referent'
   )
+ggsave(file.path('man', 'figures', 'powell_wiley4.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/powell_wiley3.png)
@@ -478,7 +488,11 @@ table(NDI_2020_DC$NDIQuart, NDI_2020_DC$NDIQuint)
 
 # Racial Isolation Index based on Anthopolos et al. (2011)
 ## Selected subgroup: Not Hispanic or Latino, Black or African American alone
-RI_2020_DC <- anthopolos(state = 'DC', year = 2020, subgroup = 'NHoLB')
+RI_2020_DC <- anthopolos(
+  state = 'DC', 
+  year = 2020, 
+  subgroup = 'NHoLB'
+)
 
 # Obtain the 2020 census tracts from the 'tigris' package
 tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
@@ -500,10 +514,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Racial Isolation Index\n
-    Not Hispanic or Latino, Black or African American alone (Anthopolos)',
+    'Racial Isolation Index\nNot Hispanic or Latino, Black or African American alone (Anthopolos)',
     subtitle = 'Washington, D.C. tracts (not corrected for edge effects)'
   )
+ggsave(file.path('man', 'figures', 'ri.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/ri.png)
@@ -546,10 +560,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Atkinson Index (Atkinson)\n
-    Washington, D.C. census block groups to tracts',
+    'Atkinson Index (Atkinson)\nCensus block groups within tracts of Washington, D.C.',
     subtitle = expression(paste('Black non-Hispanic (', epsilon, ' = 0.5)'))
   )
+ggsave(file.path('man', 'figures', 'a.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/a.png)
@@ -594,10 +608,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Atkinson Index (Atkinson) with Hölder mean\n
-    Washington, D.C. census block groups to tracts',
+    'Atkinson Index (Atkinson) with Hölder mean\nCensus block groups within tracts of Washington, D.C.',
     subtitle = expression(paste('Black non-Hispanic (', epsilon, ' = 0.5)'))
   )
+ggsave(file.path('man', 'figures', 'a_holder.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/a_holder.png)
@@ -641,10 +655,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Interaction Index (Bell)\n
-    Washington, D.C. census block groups to tracts',
+    'Interaction Index (Bell)\nCensus block groups within tracts of Washington, D.C.',
     subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
+ggsave(file.path('man', 'figures', 'xpy_star.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/xpy_star.png)
@@ -693,10 +707,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Local Exposure and Isolation (Bemanian & Beyer)\n
-    Washington, D.C. census block groups to tracts',
+    'Local Exposure and Isolation (Bemanian & Beyer)\nCensus block groups within tracts of Washington, D.C.',
     subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
+ggsave(file.path('man', 'figures', 'lexis.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/lexis.png)
@@ -708,7 +722,11 @@ ggplot() +
 
 # Educational Isolation Index based on Bravo et al. (2021)
 ## Selected subgroup: without four-year college degree
-EI_2020_DC <- bravo(state = 'DC', year = 2020, subgroup = c('LtHS', 'HSGiE', 'SCoAD'))
+EI_2020_DC <- bravo(
+  state = 'DC', 
+  year = 2020, 
+  subgroup = c('LtHS', 'HSGiE', 'SCoAD')
+)
 
 # Obtain the 2020 census tracts from the 'tigris' package
 tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
@@ -733,6 +751,7 @@ ggplot() +
     'Educational Isolation Index\nWithout a four-year college degree (Bravo)',
     subtitle = 'Washington, D.C. tracts (not corrected for edge effects)'
   )
+ggsave(file.path('man', 'figures', 'ei.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/ei.png)
@@ -781,13 +800,65 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Relative Clustering (Massey & Denton)\n
-    Washington, D.C. census block groups to tracts',
+    'Relative Clustering (Massey & Denton)\nCensus block groups within tracts of Washington, D.C.',
     subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
+ggsave(file.path('man', 'figures', 'rcl.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/rcl.png)
+
+```r
+# --------------------------------------------------------- #
+# Compute aspatial Relative Concentration (Massey & Denton) #
+# --------------------------------------------------------- #
+
+# Relative Concentration based on Massey & Denton (1988) and Duncan, Cuzzort, & Duncan (1961)
+## Selected subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected subgroup reference: Not Hispanic or Latino, white alone
+## Selected large geography: census tract
+## Selected small geography: census block group
+RCO_2020_DC <- denton_cuzzort(
+  geo_large = 'tract',
+  geo_small = 'cbg',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB',
+  subgroup_ref = 'NHoLW'
+)
+
+# Obtain the 2020 census tracts from the 'tigris' package
+tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
+
+# Join the RCO (Massey & Denton) values to the census tract geometry
+RCO_2020_DC <- tract_2020_DC %>%
+  left_join(RCO_2020_DC$rco, by = 'GEOID')
+
+ggplot() +
+  geom_sf(
+    data = RCO_2020_DC,
+    aes(fill = RCO),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_gradient2(
+    low = '#998ec3', 
+    mid = '#f7f7f7', 
+    high = '#f1a340', 
+    midpoint = 0
+  ) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Relative Concentration (Massey & Denton)\nCensus block groups within tracts of Washington, D.C.',
+    subtitle = 'Black non-Hispanic vs. white non-Hispanic'
+  )
+ggsave(file.path('man', 'figures', 'rco.png'), height = 7, width = 7)
+```
+
+![](man/figures/rco.png)
 
 ```r
 # ----------------------------------------------------------------------- #
@@ -828,10 +899,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Dissimilarity Index (Duncan & Duncan)\n
-    Washington, D.C. census block groups to tracts',
+    'Dissimilarity Index (Duncan & Duncan)\nCensus block groups within tracts of Washington, D.C.',
     subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
+ggsave(file.path('man', 'figures', 'ddd.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/ddd.png)
@@ -879,10 +950,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Absolute Centralization (Duncan & Cuzzort)\n
-    Washington, D.C. census block groups to tracts',
+    'Absolute Centralization (Duncan & Cuzzort)\nCensus block groups within tracts of Washington, D.C.',
     subtitle = 'Black non-Hispanic'
   )
+ggsave(file.path('man', 'figures', 'ace.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/ace.png)
@@ -932,10 +1003,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Relative Centralization (Duncan & Duncan)\n
-    Washington, D.C. census block groups to tracts',
+    'Relative Centralization (Duncan & Duncan)\nCensus block groups within tracts of Washington, D.C.',
     subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
+ggsave(file.path('man', 'figures', 'rce.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/rce.png)
@@ -977,10 +1048,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Gini Index\n
-    Washington, D.C. census block groups to tracts',
+    'Gini Index (Gini)\nCensus block groups within tracts of Washington, D.C.',
     subtitle = 'Black non-Hispanic'
   )
+ggsave(file.path('man', 'figures', 'g_re.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/g_re.png)
@@ -1022,10 +1093,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Gini Index\n
-    Washington, D.C. census tracts',
+    'Gini Index (Gini)\nCensus block groups within tracts of Washington, D.C.',
     subtitle = 'Income'
   )
+ggsave(file.path('man', 'figures', 'g_inc.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/g_inc.png)
@@ -1067,10 +1138,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Delta (Hoover)\n
-    Washington, D.C. census block groups to tracts',
+    'Delta (Hoover)\nCensus block groups within tracts of Washington, D.C.',
     subtitle = 'Black non-Hispanic'
   )
+ggsave(file.path('man', 'figures', 'del.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/del.png)
@@ -1112,10 +1183,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Dissimilarity Index (James & Taeuber)\n
-    Washington, D.C. census block groups to tracts',
+    'Dissimilarity Index (James & Taeuber)\nCensus block groups within tracts of Washington, D.C.',
     subtitle = 'Black non-Hispanic'
   )
+ggsave(file.path('man', 'figures', 'djt.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/djt.png)
@@ -1313,10 +1384,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Isolation Index (Lieberson)\n
-    Washington, D.C. census block groups to tracts',
+    'Isolation Index (Lieberson)\nCensus block groups within tracts of Washington, D.C.',
     subtitle = 'Black non-Hispanic'
   )
+ggsave(file.path('man', 'figures', 'xpx_star.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/xpx_star.png)
@@ -1364,10 +1435,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Absolute Clustering (Massey & Denton)\n
-    Washington, D.C. census block groups to tracts',
+    'Absolute Clustering (Massey & Denton)\nCensus block groups within tracts of Washington, D.C.',
     subtitle = 'Black non-Hispanic'
   )
+ggsave(file.path('man', 'figures', 'acl.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/acl.png)
@@ -1409,10 +1480,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Absolute Concentration (Massey & Denton)\n
-    Washington, D.C. census block groups to tracts',
+    'Absolute Concentration (Massey & Denton)\nCensus block groups within tracts of Washington, D.C.',
     subtitle = 'Black non-Hispanic'
   )
+ggsave(file.path('man', 'figures', 'aco.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/aco.png)
@@ -1454,10 +1525,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Location Quotient (Sudano)\n
-    Washington, D.C. census tracts vs. "state"',
+    'Location Quotient (Sudano)\nCensus tracts within "state"" of Washington, D.C.',
     subtitle = 'Black non-Hispanic'
   )
+ggsave(file.path('man', 'figures', 'lq.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/lq.png)
@@ -1499,10 +1570,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Entropy (Theil)\n
-    Washington, D.C. census block groups to tracts',
+    'Entropy (Theil)\nCensus block groups within tracts of Washington, D.C.',
     subtitle = 'Black non-Hispanic'
   )
+ggsave(file.path('man', 'figures', 'h.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/h.png)
@@ -1538,21 +1609,16 @@ ggplot() +
     color = 'white'
   ) +
   theme_bw() +
-  scale_fill_gradient2(
-    low = '#998ec3', 
-    mid = '#f7f7f7', 
-    high = '#f1a340', 
-    midpoint = 0
-  ) +
+  scale_fill_viridis_c() +
   labs(
     fill = 'Index (Continuous)',
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'Correlation Ratio (White)\n
-    Washington, D.C. census block groups to tracts',
+    'Correlation Ratio (White)\nCensus block groups within tracts of Washington, D.C.',
     subtitle = 'Black non-Hispanic'
   )
+ggsave(file.path('man', 'figures', 'v.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/v.png)
@@ -1600,10 +1666,10 @@ ggplot() +
     caption = 'Source: U.S. Census ACS 2016-2020 estimates'
   ) +
   ggtitle(
-    'An index of spatial proximity (White)\n
-    Washington, D.C. census block groups to tracts',
+    'An index of spatial proximity (White)\nCensus block groups within tracts of Washington, D.C.',
     subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
+ggsave(file.path('man', 'figures', 'sp.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/sp.png)

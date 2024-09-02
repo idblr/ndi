@@ -153,6 +153,7 @@ denton <- function(geo_large = 'county',
   
   # Select census variables
   vars <- c(
+    TotalPop = 'B03002_001',
     NHoL = 'B03002_002',
     NHoLW = 'B03002_003',
     NHoLB = 'B03002_004',
@@ -175,8 +176,8 @@ denton <- function(geo_large = 'county',
     HoLTReSOR = 'B03002_021'
   )
   
-  selected_vars <- vars[c(subgroup, subgroup_ref)]
-  out_names <- names(selected_vars) # save for output
+  selected_vars <- vars[c('TotalPop', subgroup, subgroup_ref)]
+  out_names <- c(names(selected_vars), 'ALAND') # save for output
   in_subgroup <- paste0(subgroup, 'E')
   in_subgroup_ref <- paste0(subgroup_ref, 'E')
   
@@ -330,7 +331,7 @@ denton <- function(geo_large = 'county',
   }
   
   # Compute RCL
-  ## From Denton & Massey (1988) https://doi.org/10.1093/sf/67.2.281
+  ## From Massey & Denton (1988) https://doi.org/10.1093/sf/67.2.281
   ## RCL = P_{xx}/P_{yy}-1
   ## Where for i & j smaller geographical units:
   ## P_{xx} = \frac{\sum_{i=1}^{n}\sum_{j=1}^{n}x_{i}x_{j}c_{ij}}{X^{2}}
@@ -359,7 +360,7 @@ denton <- function(geo_large = 'county',
     sf::st_drop_geometry()
   
   # Warning for missingness of census characteristics
-  missingYN <- out_dat[, c(in_subgroup, in_subgroup_ref)] %>% 
+  missingYN <- out_dat[, c('TotalPopE', in_subgroup, in_subgroup_ref, 'ALAND')] %>% 
     sf::st_drop_geometry()
   names(missingYN) <- out_names
   missingYN <- missingYN %>%

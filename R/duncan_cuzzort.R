@@ -124,6 +124,7 @@ duncan_cuzzort <- function(geo_large = 'county',
   
   # Select census variables
   vars <- c(
+    TotalPop = 'B03002_001',
     NHoL = 'B03002_002',
     NHoLW = 'B03002_003',
     NHoLB = 'B03002_004',
@@ -146,8 +147,8 @@ duncan_cuzzort <- function(geo_large = 'county',
     HoLTReSOR = 'B03002_021'
   )
   
-  selected_vars <- vars[subgroup]
-  out_names <- names(selected_vars) # save for output
+  selected_vars <- vars[c('TotalPop', subgroup)]
+  out_names <- c(names(selected_vars), 'ALAND') # save for output
   in_subgroup <- paste0(subgroup, 'E')
   
   # Acquire ACE variables and sf geometries
@@ -321,7 +322,7 @@ duncan_cuzzort <- function(geo_large = 'county',
     sf::st_drop_geometry()
   
   # Warning for missingness of census characteristics
-  missingYN <- out_dat[, in_subgroup] %>% 
+  missingYN <- out_dat[, c('TotalPopE', in_subgroup, 'ALAND')] %>% 
     sf::st_drop_geometry()
   names(missingYN) <- out_names
   missingYN <- missingYN %>%

@@ -1,19 +1,18 @@
-#' Relative Centralization based on Duncan, Cuzzort, & Duncan (1961) and Massey & Denton (1988)
-#' 
-#' Compute the aspatial Relative Centralization (Duncan & Duncan) of a selected racial or ethnic subgroup(s) and U.S. geographies.
+#' Relative Concentration based on Massey & Denton (1988) and Duncan, Cuzzort, & Duncan (1961)
+#'
+#' Compute the aspatial Relative Concentration (Massey & Denton) of a selected racial or ethnic subgroup(s) and U.S. geographies.
 #'
 #' @param geo_large Character string specifying the larger geographical unit of the data. The default is counties \code{geo_large = 'county'}.
 #' @param geo_small Character string specifying the smaller geographical unit of the data. The default is census tracts \code{geo_small = 'tract'}.
 #' @param year Numeric. The year to compute the estimate. The default is 2020, and the years 2009 onward are currently available.
 #' @param subgroup Character string specifying the racial or ethnic subgroup(s) as the comparison population. See Details for available choices.
 #' @param subgroup_ref Character string specifying the racial or ethnic subgroup(s) as the reference population. See Details for available choices.
-#' @param crs Numeric or character string specifying the coordinate reference system to compute the distance-based metric. The default is Albers North America \code{crs = 'ESRI:102008'}.
 #' @param omit_NAs Logical. If FALSE, will compute index for a larger geographical unit only if all of its smaller geographical units have values. The default is TRUE.
 #' @param quiet Logical. If TRUE, will display messages about potential missing census information. The default is FALSE.
 #' @param ... Arguments passed to \code{\link[tidycensus]{get_acs}} to select state, county, and other arguments for census characteristics
 #'
-#' @details This function will compute the aspatial Relative Centralization (\emph{RCE}) of selected racial or ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Duncan & Duncan (1955) \doi{10.1086/221609} and Massey & Denton (1988) \doi{10.1093/sf/67.2.281}. This function provides the computation of \emph{RCE} for any of the U.S. Census Bureau race or ethnicity subgroups (including Hispanic and non-Hispanic individuals).
-#' 
+#' @details This function will compute the aspatial Relative Concentration (\emph{RCO}) of selected racial or ethnic subgroups and U.S. geographies for a specified geographical extent (e.g., the entire U.S. or a single state) based on Massey & Denton (1988) \doi{10.1093/sf/67.2.281} and Duncan, Cuzzort, & Duncan (1961; LC:60007089). This function provides the computation of \emph{RCO} for any of the U.S. Census Bureau race or ethnicity subgroups (including Hispanic and non-Hispanic individuals).
+#'
 #' The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. Census Bureau 5-year American Community Survey characteristics used for the computation. The yearly estimates are available for 2009 onward when ACS-5 data are available (2010 onward for \code{geo_large = 'cbsa'} and 2011 onward for \code{geo_large = 'place'}, \code{geo_large = 'csa'}, or \code{geo_large = 'metro'}) but may be available from other U.S. Census Bureau surveys. The twenty racial or ethnic subgroups (U.S. Census Bureau definitions) are:
 #' \itemize{
 #'  \item \strong{B03002_002}: not Hispanic or Latino \code{'NHoL'}
@@ -40,18 +39,16 @@
 #'
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify geographic extent of the data output.
 #'
-#' \emph{RCE} is a measure of the degree to which racial or ethnic populations within smaller geographical units are located near the center of a larger geographical unit. \emph{RCE} can range in value from -1 to 1 and represents the spatial distribution of racial or ethnic populations within smaller geographical units relative to the compared to the distribution of the referent racial or ethnic population around the center of a larger geographical unit. Positive values indicate a tendency for racial or ethnic populations to reside closer to the center of a larger geographical unit than the referent racial or ethnic population, while negative values indicate the racial or ethnic population is distributed farther from the center of a larger geographical unit than the referent racial or ethnic population. A score of 0 means that racial or ethnic populations have a uniform distribution throughout a larger geographical unit. \emph{RCE} gives the proportion of racial or ethnic populations required to change residence to match the degree of centralization of the referent racial or ethnic population.
+#' \emph{RCO} is a measure of concentration of racial or ethnic populations within smaller geographical units that are located within larger geographical units. \emph{RCO} is a measure of concentration of racial or ethnic populations within smaller geographical units that are located within larger geographical units. \emph{RCO} can range from -1 to 1 and represents the share of a larger geographical unit occupied by a racial or ethnic subgroup compared to a referent racial or ethnic subgroup. A value of 1 indicates that the concentration of the racial or ethnic subgroup exceeds the concentration of the referent racial or ethnic subgroup at the maximum extent possible. A value of -1 is the converse. Note: Computed as designed, but values smaller than -1 are possible if the racial or ethnic subgroup population is larger than the referent racial or ethnic subgroup population.
+#' 
+#' Larger geographical units available include states \code{geo_large = 'state'}, counties \code{geo_large = 'county'}, census tracts \code{geo_large = 'tract'}, census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, and metropolitan divisions \code{geo_large = 'metro'}. Smaller geographical units available include, counties \code{geo_small = 'county'}, census tracts \code{geo_small = 'tract'}, and census block groups \code{geo_small = 'cbg'}. If a larger geographical unit is comprised of only one smaller geographical unit (e.g., a U.S county contains only one census tract), then the \emph{RCO} value returned is NA. If the larger geographical unit is census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, or metropolitan divisions \code{geo_large = 'metro'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{V} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{RCO} computation.
 #'
-#' Larger geographical units available include states \code{geo_large = 'state'}, counties \code{geo_large = 'county'}, census tracts \code{geo_large = 'tract'}, census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, and metropolitan divisions \code{geo_large = 'metro'}. Smaller geographical units available include, counties \code{geo_small = 'county'}, census tracts \code{geo_small = 'tract'}, and census block groups \code{geo_small = 'cbg'}. If a larger geographical unit is comprised of only one smaller geographical unit (e.g., a U.S county contains only one census tract), then the \emph{RCE} value returned is NA. If the larger geographical unit is census-designated places \code{geo_large = 'place'}, core-based statistical areas \code{geo_large = 'cbsa'}, combined statistical areas \code{geo_large = 'csa'}, or metropolitan divisions \code{geo_large = 'metro'}, only the smaller geographical units completely within a larger geographical unit are considered in the \emph{V} computation (see internal \code{\link[sf]{st_within}} function for more information) and recommend specifying all states within which the interested larger geographical unit are located using the internal \code{state} argument to ensure all appropriate smaller geographical units are included in the \emph{RCE} computation.
-#' 
-#' \emph{Important consideration}: The original metric used the location of the central business district (CBD) to compute the metric, but the U.S. Census Bureau has not defined CBDs for U.S. cities since the 1982 Census of Retail Trade. Therefore, this function uses the the centroids of each larger geographical unit as the 'centre', but may not represent the current CBD. 
-#' 
 #' @return An object of class 'list'. This is a named list with the following components:
 #'
 #' \describe{
-#' \item{\code{rce}}{An object of class 'tbl' for the GEOID, name, and \emph{RCE} at specified larger census geographies.}
-#' \item{\code{rce_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
-#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{RCE}.}
+#' \item{\code{rco}}{An object of class 'tbl' for the GEOID, name, and \emph{RCO} at specified larger census geographies.}
+#' \item{\code{rco_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
+#' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{RCO}.}
 #' }
 #'
 #' @import dplyr
@@ -60,7 +57,7 @@
 #' @importFrom stringr str_trim
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
-#' @importFrom tigris combined_statistical_areas core_based_statistical_areas counties metro_divisions places states tracts
+#' @importFrom tigris combined_statistical_areas core_based_statistical_areas metro_divisions places
 #' @importFrom units drop_units set_units
 #' @importFrom utils stack
 #' @export
@@ -71,9 +68,9 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'
-#'   # Relative Centralization of Black populations
+#'   # Index of spatial proximity of Black populations
 #'   ## of census tracts within counties within Georgia, U.S.A., counties (2020)
-#'   duncan_duncan(
+#'   denton_cuzzort(
 #'     geo_large = 'county',
 #'     geo_small = 'tract',
 #'     state = 'GA',
@@ -84,15 +81,14 @@
 #'
 #' }
 #'
-duncan_duncan <- function(geo_large = 'county',
-                          geo_small = 'tract',
-                          year = 2020,
-                          subgroup,
-                          subgroup_ref,
-                          crs = 'ESRI:102008',
-                          omit_NAs = TRUE,
-                          quiet = FALSE,
-                          ...) {
+denton_cuzzort <- function(geo_large = 'county',
+                           geo_small = 'tract',
+                           year = 2020,
+                           subgroup,
+                           subgroup_ref,
+                           omit_NAs = TRUE,
+                           quiet = FALSE,
+                           ...) {
   
   # Check arguments
   match.arg(geo_large, choices = c('state', 'county', 'tract', 'place', 'cbsa', 'csa', 'metro'))
@@ -181,7 +177,7 @@ duncan_duncan <- function(geo_large = 'county',
   in_subgroup <- paste0(subgroup, 'E')
   in_subgroup_ref <- paste0(subgroup_ref, 'E')
   
-  # Acquire RCE variables and sf geometries
+  # Acquire RCO variables and sf geometries
   out_dat <- suppressMessages(suppressWarnings(
     tidycensus::get_acs(
       geography = geo_small,
@@ -213,56 +209,53 @@ duncan_duncan <- function(geo_large = 'county',
       )
   }
   
-  # Grouping IDs for RCE computation
+  # Grouping IDs for RCO computation
   if (geo_large == 'state') {
-    lgeom <- suppressMessages(suppressWarnings(tigris::states(year = year)))
     out_dat <- out_dat %>%
       dplyr::mutate(
         oid = STATEFP,
         state = stringr::str_trim(state)
-      )
+      ) %>% 
+      sf::st_drop_geometry()
   }
   if (geo_large == 'tract') {
-    lgeom <- suppressMessages(suppressWarnings(tigris::tracts(
-      year = year, state = unique(out_dat$state)
-    )))
     out_dat <- out_dat %>%
       dplyr::mutate(
         oid = paste0(STATEFP, COUNTYFP, TRACTCE),
         state = stringr::str_trim(state),
         county = stringr::str_trim(county)
-      )
+      ) %>% 
+      sf::st_drop_geometry()
   }
   if (geo_large == 'county') {
-    lgeom <- suppressMessages(suppressWarnings(tigris::counties(
-      year = year, state = unique(out_dat$state)
-    )))
     out_dat <- out_dat %>%
       dplyr::mutate(
         oid = paste0(STATEFP, COUNTYFP),
         state = stringr::str_trim(state),
         county = stringr::str_trim(county)
-      )
+      ) %>% 
+      sf::st_drop_geometry()
   }
   if (geo_large == 'place') {
     stopifnot(is.numeric(year), year >= 2011) # Places only available 2011 onward
     lgeom <- suppressMessages(suppressWarnings(tigris::places(
-      year = year, state = unique(out_dat$state)
-    )))
+      year = year, state = unique(out_dat$state))
+    ))
     wlgeom <- sf::st_within(out_dat, lgeom)
     out_dat <- out_dat %>%
       dplyr::mutate(
-        oid = lapply(wlgeom, function(x) { 
+        oid = lapply(wlgeom, function(x) {
           tmp <- lgeom[x, 4] %>% sf::st_drop_geometry()
           lapply(tmp, function(x) { if (length(x) == 0) NA else x })
-        }) %>% 
+        }) %>%
           unlist(),
-        place = lapply(wlgeom, function(x) { 
+        place = lapply(wlgeom, function(x) {
           tmp <- lgeom[x, 5] %>% sf::st_drop_geometry()
           lapply(tmp, function(x) { if (length(x) == 0) NA else x })
-        }) %>% 
+        }) %>%
           unlist()
-      )
+      ) %>% 
+      sf::st_drop_geometry()
   }
   if (geo_large == 'cbsa') {
     stopifnot(is.numeric(year), year >= 2010) # CBSAs only available 2010 onward
@@ -270,17 +263,18 @@ duncan_duncan <- function(geo_large = 'county',
     wlgeom <- sf::st_within(out_dat, lgeom)
     out_dat <- out_dat %>%
       dplyr::mutate(
-        oid = lapply(wlgeom, function(x) { 
+        oid = lapply(wlgeom, function(x) {
           tmp <- lgeom[x, 3] %>% sf::st_drop_geometry()
           lapply(tmp, function(x) { if (length(x) == 0) NA else x })
-        }) %>% 
+        }) %>%
           unlist(),
-        cbsa = lapply(wlgeom, function(x) { 
+        cbsa = lapply(wlgeom, function(x) {
           tmp <- lgeom[x, 4] %>% sf::st_drop_geometry()
           lapply(tmp, function(x) { if (length(x) == 0) NA else x })
-        }) %>% 
+        }) %>%
           unlist()
-      )
+      ) %>% 
+      sf::st_drop_geometry()
   }
   if (geo_large == 'csa') {
     stopifnot(is.numeric(year), year >= 2011) # CSAs only available 2011 onward
@@ -288,17 +282,18 @@ duncan_duncan <- function(geo_large = 'county',
     wlgeom <- sf::st_within(out_dat, lgeom)
     out_dat <- out_dat %>%
       dplyr::mutate(
-        oid = lapply(wlgeom, function(x) { 
+        oid = lapply(wlgeom, function(x) {
           tmp <- lgeom[x, 2] %>% sf::st_drop_geometry()
           lapply(tmp, function(x) { if (length(x) == 0) NA else x })
-        }) %>% 
+        }) %>%
           unlist(),
-        csa = lapply(wlgeom, function(x) { 
+        csa = lapply(wlgeom, function(x) {
           tmp <- lgeom[x, 3] %>% sf::st_drop_geometry()
           lapply(tmp, function(x) { if (length(x) == 0) NA else x })
-        }) %>% 
+        }) %>%
           unlist()
-      )
+      ) %>% 
+      sf::st_drop_geometry()
   }
   if (geo_large == 'metro') {
     stopifnot(is.numeric(year), year >= 2011) # Metropolitan Divisions only available 2011 onward
@@ -306,17 +301,18 @@ duncan_duncan <- function(geo_large = 'county',
     wlgeom <- sf::st_within(out_dat, lgeom)
     out_dat <- out_dat %>%
       dplyr::mutate(
-        oid = lapply(wlgeom, function(x) { 
+        oid = lapply(wlgeom, function(x) {
           tmp <- lgeom[x, 4] %>% sf::st_drop_geometry()
           lapply(tmp, function(x) { if (length(x) == 0) NA else x })
-        }) %>% 
+        }) %>%
           unlist(),
-        metro = lapply(wlgeom, function(x) { 
+        metro = lapply(wlgeom, function(x) {
           tmp <- lgeom[x, 5] %>% sf::st_drop_geometry()
           lapply(tmp, function(x) { if (length(x) == 0) NA else x })
-        }) %>% 
+        }) %>%
           unlist()
-      )
+      ) %>% 
+      sf::st_drop_geometry()
   }
   
   # Count of racial or ethnic subgroup populations
@@ -337,30 +333,41 @@ duncan_duncan <- function(geo_large = 'county',
       dplyr::mutate(subgroup_ref = rowSums(as.data.frame(.)[, in_subgroup_ref]))
   }
   
-  # Compute RCE
-  ## From Duncan & Duncan (1955) https://doi.org/10.1086/221609
-  ## RCE = \left ( \sum_{i=2}^{n}X_{i-1}Y_{i} \right ) - \left ( \sum_{i=1}^{n}X_{i}Y_{i-1} \right )
-  ## Where for i smaller geographical units:
-  ## X_{i} is the cumulative proportion of the subgroup population through smaller geographical unit i
-  ## Y_{i} is the cumulative proportion of the referent subgroup population through smaller geographical unit i
-  ## when smaller geographical units are ordered by increasing distance 
-  ## from the center of a larger geographical unit
+  # Compute RCO
+  ## From Massey & Denton (1988) https://doi.org/10.1093/sf/67.2.281
+  ## RCO=\frac{\left(\sum_{i=1}^{n}\frac{x_{i}a_{i}}{X}/\sum_{i=1}^{n}\frac{y_{i}a_{i}}{Y}\right)-1}
+  ##          {\left(\sum_{i=1}^{n_{1}}\frac{t_{i}a_{i}}{T_{1}}/\sum_{i=n^{2}}^{n}\frac{t_{i}a_{i}}{T_{2}}\right)-1}
+  ## Where for i smaller geographical units are ordered by geographic size from smallest to largest
+  ## a_{i} denotes the land area of smaller geographical unit i
+  ## x_{i} denotes the racial or ethnic subgroup population of smaller geographical unit i
+  ## X denotes the racial or ethnic subgroup population of a larger geographical unit
+  ## y_{i} denotes the referent racial or ethnic subgroup population of smaller geographical unit i
+  ## Y denotes the referent racial or ethnic subgroup population of a larger geographical unit
+  ## n_{1} denotes the rank of the smaller geographic unit where the cumulative total population of
+  ##       smaller geographical units equals the total racial or ethnic subgroup population of a
+  ##       larger geographical unit, summing from the smallest unit up
+  ## n_{2} denotes the rank of the smaller geographic unit where the cumulative total population of
+  ##       smaller geographical units equals a total racial or ethnic subgroup population
+  ##       totaling from the largest unit down
+  ## t_{i} denotes the total population of smaller geographical unit i
+  ## T_{1} denotes the total population of smaller geographical units from 1 to n_{1}
+  ## T_{2} denotes the total population of smaller geographical units from n_{2} to n
   
   ## Compute
   out_tmp <- out_dat %>%
     .[.$oid != 'NANA', ] %>%
     split(., f = list(.$oid)) %>%
-    lapply(., FUN = rce_fun, lgeom = lgeom, crs = crs, omit_NAs = omit_NAs) %>%
+    lapply(., FUN = rco_fun, omit_NAs = omit_NAs) %>%
     utils::stack(.) %>%
     dplyr::mutate(
-      RCE = values,
+      RCO = values,
       oid = ind
     ) %>%
-    dplyr::select(RCE, oid) %>%
+    dplyr::select(RCO, oid) %>%
     sf::st_drop_geometry()
   
   # Warning for missingness of census characteristics
-  missingYN <- out_dat[, c('TotalPopE', in_subgroup, in_subgroup_ref, 'ALAND')] %>% 
+  missingYN <- out_dat[, c('TotalPopE', in_subgroup, in_subgroup_ref, 'ALAND')] %>%
     sf::st_drop_geometry()
   names(missingYN) <- out_names
   missingYN <- missingYN %>%
@@ -389,52 +396,52 @@ duncan_duncan <- function(geo_large = 'county',
     dplyr::left_join(out_tmp, by = dplyr::join_by(oid))
   if (geo_large == 'state') {
     out <- out %>%
-      dplyr::select(oid, state, RCE) %>%
+      dplyr::select(oid, state, RCO) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, RCE)
+      dplyr::select(GEOID, state, RCO)
   }
   if (geo_large == 'county') {
     out <- out %>%
-      dplyr::select(oid, state, county, RCE) %>%
+      dplyr::select(oid, state, county, RCO) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, RCE)
+      dplyr::select(GEOID, state, county, RCO)
   }
   if (geo_large == 'tract') {
     out <- out %>%
-      dplyr::select(oid, state, county, tract, RCE) %>%
+      dplyr::select(oid, state, county, tract, RCO) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, state, county, tract, RCE)
+      dplyr::select(GEOID, state, county, tract, RCO)
   }
   if (geo_large == 'place') {
     out <- out %>%
-      dplyr::select(oid, place, RCE) %>%
+      dplyr::select(oid, place, RCO) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, place, RCE)
+      dplyr::select(GEOID, place, RCO)
   }
   if (geo_large == 'cbsa') {
     out <- out %>%
-      dplyr::select(oid, cbsa, RCE) %>%
+      dplyr::select(oid, cbsa, RCO) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, cbsa, RCE)
+      dplyr::select(GEOID, cbsa, RCO)
   }
   if (geo_large == 'csa') {
     out <- out %>%
-      dplyr::select(oid, csa, RCE) %>%
+      dplyr::select(oid, csa, RCO) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, csa, RCE)
+      dplyr::select(GEOID, csa, RCO)
   }
   if (geo_large == 'metro') {
     out <- out %>%
-      dplyr::select(oid, metro, RCE) %>%
+      dplyr::select(oid, metro, RCO) %>%
       unique(.) %>%
       dplyr::mutate(GEOID = oid) %>%
-      dplyr::select(GEOID, metro, RCE)
+      dplyr::select(GEOID, metro, RCO)
   }
   
   out <- out %>%
@@ -448,7 +455,7 @@ duncan_duncan <- function(geo_large = 'county',
     dplyr::arrange(GEOID) %>%
     dplyr::as_tibble()
   
-  out <- list(rce = out, rce_data = out_dat, missing = missingYN)
+  out <- list(rco = out, rco_data = out_dat, missing = missingYN)
   
   return(out)
 }

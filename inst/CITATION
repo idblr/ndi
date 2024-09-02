@@ -3,7 +3,7 @@ bibentry(bibtype = 'manual',
   author         = as.person('Ian D. Buller'),
   publisher      = 'The Comprehensive R Archive Network',
   year           = '2024',
-  number         = '0.1.6.9011.',
+  number         = '0.1.6.9012.',
   doi            = '10.5281/zenodo.6989030',
   url            = 'https://cran.r-project.org/package=ndi',
   
@@ -11,7 +11,7 @@ bibentry(bibtype = 'manual',
   paste('Ian D. Buller (2024).',
         'ndi: Neighborhood Deprivation Indices.',
         'The Comprehensive R Archive Network.',
-        'v0.1.6.9000.',
+        'v0.1.6.9012.',
         'DOI:10.5281/zenodo.6989030',
         'Accessed by: https://cran.r-project.org/package=ndi'),
         
@@ -440,6 +440,44 @@ bibentry(bibtype = 'Article',
         'DOI:10.1093/sf/67.2.281'),
 
   header         = 'If you computed ACO (Massey & Denton) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Book',
+  title          = 'Statistical Geography: Problems in Analyzing Area Data',
+  author         = c(as.person('Otis D. Duncan'),
+                    as.person('Ray P. Cuzzort'),
+                    as.person('Beverly Duncan')),
+  year           = '1961',
+  publisher      = 'Free Press',
+  lc             = '60007089',
+
+  textVersion    =
+  paste('Otis D. Duncan, Ray P. Cuzzort, & Beverly Duncan (1961).',
+        'Statistical Geography: Problems in Analyzing Area Data.',
+        'Free Press',
+        'LC:60007089'),
+
+  header         = 'And (2):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'The Dimensions of Residential Segregation',
+  author         = c(as.person('Douglas S. Massey'),
+                   as.person('Nancy A. Denton')),
+  journal        = 'Social Forces',
+  year           = '1988',
+  volume         = '67',
+  issue          = '2',
+  pages          = '281--315',
+  doi            = '10.1093/sf/67.2.281',
+
+  textVersion    =
+  paste('Douglas S. Massey & Nancy A. Denton (1988).',
+        'The Dimensions of Residential Segregation.',
+        'Social Forces, 67(1), 281-315.',
+        'DOI:10.1093/sf/67.2.281'),
+
+  header         = 'If you computed RCO (Massey & Denton) values, please also cite (1):'
 )
 
 bibentry(bibtype = 'Book',
