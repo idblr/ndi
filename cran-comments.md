@@ -10,9 +10,10 @@
   * Added `lieberson()` function to compute the aspatial racial or ethnic Isolation Index (_xPx\*_) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and and [Bell (1954)](https://doi.org/10.2307/2574118)
   * Added `massey()` function to compute the aspatial racial or ethnic Absolute Clustering (*ACL*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
   * Added `massey_duncan()` function to compute the aspatial racial or ethnic Absolute Concentration (*ACO*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281) and Duncan, Cuzzort, & Duncan (1961; LC:60007089)
+  * Added `morgan_massey()` function to compute the aspatial racial or ethnic Distance-Decay Isolation Index (_DPxx\*_) based on [Morgan (1983)](https://www.jstor.org/stable/20001935) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
   * Added `theil()` function the aspatial racial or ethnic Entropy (*H*) based on Theil (1972; ISBN:978-0-444-10378-9) and [Theil & Finizza (1971)](https://doi.org/110.1080/0022250X.1971.9989795)
   * Added `white_blau()` function to compute an index of spatial proximity (*SP*) based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0)
-  * Added `geo_large = 'place'` for census-designated places, `geo_large = 'cbsa'` for core-based statistical areas, `geo_large = 'csa'` for combined statistical areas, and `geo_large = 'metro'` for metropolitan divisions as the larger geographical unit in `atkinson()`, `bell()`, `bemanian_beyer()`, `denton()`, `denton_cuzzort()`, `duncan()`, `duncan_cuzzort()`, `duncan_duncan()`, `hoover()`, `james_taeuber()`, `lieberson()`, `massey()`, `massey_duncan()`, `sudano()`, `theil()`, and `white()`, `white_blau()` functions.
+  * Added `geo_large = 'place'` for census-designated places, `geo_large = 'cbsa'` for core-based statistical areas, `geo_large = 'csa'` for combined statistical areas, and `geo_large = 'metro'` for metropolitan divisions as the larger geographical unit in `atkinson()`, `bell()`, `bemanian_beyer()`, `denton()`, `denton_cuzzort()`, `duncan()`, `duncan_cuzzort()`, `duncan_duncan()`, `hoover()`, `james_taeuber()`, `lieberson()`, `massey()`, `massey_duncan()`, `morgan_massey()`, `sudano()`, `theil()`, and `white()`, `white_blau()` functions.
   * Added census block group computation for `anthopolos()` by specifying `geo == 'cbg'` or `geo == 'block group'`
   * Added `holder` argument to `atkinson()` function to toggle the computation with or without the Hölder mean. The function can now compute *A* without the Hölder mean. The default is `holder = FALSE`.
   * Added `crs` argument to `anthopolos()`, `bravo()`, and `white_blau()` functions to provide spatial projection of the distance-based metrics
@@ -30,7 +31,7 @@
   * Renamed 'race/ethnicity' or 'racial/ethnic' to 'race or ethnicity' or 'racial or ethnic' throughout documentation to use more modern, inclusive, and appropriate language
   * Updated documentation about value range of *V* (White) from `{0 to 1}` to `{-Inf to Inf}`
   * Split up vignette into three separate vignettes: 'ndi1', 'ndi2', and 'ndi3' for the *NDI*, racial or ethnic residential segregation, and additional socioeconomic disparity indices, respectively
-  * Added examples for `atkinson()`, `duncan_cuzzort()`, `duncan_duncan()`, `gini()`, `hoover()`, `james_taeuber()`, `lieberson()`, `massey()`, `massey_duncan()`, `theil()`, and `white_blau()` functions in vignettes and README
+  * Added examples for `atkinson()`, `duncan_cuzzort()`, `duncan_duncan()`, `gini()`, `hoover()`, `james_taeuber()`, `lieberson()`, `massey()`, `massey_duncan()`, `morgan_massey()`,  `theil()`, and `white_blau()` functions in vignettes and README
   * Added example for `holder` argument in `atkinson()` function in README
   * Reordered the README examples alphabetically
   * Reordered the vignette examples to group the racial or ethnic residential segregation indices

@@ -68,9 +68,9 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'
-#'   # Entropy (Theil) 
+#'   # Entropy (a measure of evenness) 
 #'   ## of Black populations
-#'   ## of census tracts within counties within Georgia, U.S.A., counties (2020)
+#'   ## in census tracts within counties of Georgia, U.S.A. (2020)
 #'   theil(
 #'     geo_large = 'county',
 #'     geo_small = 'tract',

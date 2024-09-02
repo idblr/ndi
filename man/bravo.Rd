@@ -58,8 +58,9 @@ A census geography (and its neighbors) that has nearly all of its population wit
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
 
-  # Educational Isolation Index of less than some college or associate's degree attainment
-  ## of census tracts within Georgia, U.S.A., counties (2020)
+  # Educational Isolation Index (a measure of exposure)
+  ## of less than some college or associate's degree attainment
+  ## in census tracts of Georgia, U.S.A. (2020)
   bravo(
     geo = 'tract',
     state = 'GA',

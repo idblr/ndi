@@ -67,11 +67,11 @@ Since version v0.1.1, the [*ndi*](https://CRAN.R-project.org/package=ndi) packag
   
 **Clustering**:
 
-  * `massey()` function that compute Absolute Clustering (*ACL*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
+  * `massey()` function that computes Absolute Clustering (*ACL*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
   * `white_blau()` function that computes an index of spatial proximity (*SP*) based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0)
   * `denton()` function that compute Relative Clustering (*RCL*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
   * Distance Decay Interaction (Planned)
-  * Distance Decay Isolation (Planned)
+  * `morgan_massey()` function that computes the Distance-Decay Isolation Index (_DPxx\*_) based on [Morgan (1983)](https://www.jstor.org/stable/20001935) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
 
 ### Racial or ethnic residential segregation indices
 
@@ -261,7 +261,7 @@ atkinson2021KY <- atkinson(
   epsilon = 0.67
 )
 
-# Obtain the 2021 census counties from the 'tigris' package
+# Obtain the 2021 counties from the 'tigris' package
 county2021KY <- counties(state = 'KY', year = 2021, cb = TRUE)
 
 # Join the A values to the county geometries
@@ -307,7 +307,7 @@ duncan2010PA <- duncan(
   subgroup_ref = 'NHoLW'
 )
 
-# Obtain the 2010 counties from the 'tigris' package
+# Obtain the 2010 counties of Pennsylvania from the 'tigris' package
 county2010PA <- counties(state = 'PA', year = 2010, cb = TRUE)
 # Remove first 9 characters from GEOID for compatibility with tigris information
 county2010PA$GEOID <- substring(county2010PA$GEO_ID, 10) 
@@ -336,7 +336,7 @@ ggplot() +
   scale_fill_viridis_c(limits = c(0, 1)) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2006-2010 estimates') +
   ggtitle(
-    'Dissimilarity Index (Duncan & Duncan)\ncensus tracts within counties of Pennsylvania',
+    'Dissimilarity Index (Duncan & Duncan)\nCensus tracts within counties of Pennsylvania',
     subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
 ```
@@ -354,7 +354,7 @@ sudano2021TN <- sudano(
   subgroup = 'NHoLB'
 )
 
-# Obtain the 2021 census counties from the 'tigris' package
+# Obtain the 2021 counties of Tennessee from the 'tigris' package
 county2021TN <- counties(state = 'TN', year = 2021, cb = TRUE)
 
 # Join the LQ values to the county geometry
@@ -400,7 +400,7 @@ bell2021OH <- bell(
   subgroup_ixn = 'NHoLW'
 )
 
-# Obtain the 2021 counties from the 'tigris' package
+# Obtain the 2021 counties of Ohio from the 'tigris' package
 county2021OH <- counties(state = 'OH', year = 2021, cb = TRUE)
 
 # Join the xPy* values to the county geometries
@@ -434,7 +434,7 @@ ggplot() +
 
 #### Compute Isolation Index (_xPx\*_)
 
-Compute the racial or ethnic _xPx\*_ values (2015-2019 5-year ACS) for census block groups within census tracts of Delaware. This metric is based on [Bell (1954)](https://doi.org/10.2307/2574118) and adapted by Lieberson (1981; ISBN-13:978-1-032-53884-6). _xPx\*_ is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. _xPx\*_ can range in value from 0 to 1.
+Compute the racial or ethnic _xPx\*_ values (2015-2019 5-year ACS) for census block groups within census tracts of Delaware. This metric is based on [Bell (1954)](https://doi.org/10.2307/2574118) and adapted by Lieberson (1981; ISBN-13:978-1-032-53884-6). _xPx\*_ is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. _xPx\*_ can range in value from 0 to 1 with higher values signifying higher probability of interaction (less isolation).
 
 ```{r lieberson_prep, results = 'hide'}
 lieberson2021DE <- lieberson(
@@ -445,10 +445,10 @@ lieberson2021DE <- lieberson(
   subgroup = 'NHoLB'
 )
 
-# Obtain the 2021 census tracts from the 'tigris' package
+# Obtain the 2021 census tracts of Delaware from the 'tigris' package
 tract2021DE <- tracts(state = 'DE', year = 2019, cb = TRUE)
 
-# Join the xPx* values to the cenus tract geometries
+# Join the xPx* values to the census tract geometries
 DE2021lieberson <- tract2021DE %>%
   left_join(lieberson2021DE$xpx_star, by = 'GEOID')
 ```
@@ -490,7 +490,7 @@ white2021SC <- white(
   subgroup = 'NHoLB'
 )
 
-# Obtain the 2021 census counties from the 'tigris' package
+# Obtain the 2021 counties of South Carolina from the 'tigris' package
 county2021SC <- counties(state = 'SC', year = 2021, cb = TRUE)
 
 # Join the V values to the county geometries
@@ -536,7 +536,7 @@ bemanian_beyer2021MS <- bemanian_beyer(
   subgroup_ixn = 'NHoLW'
 )
 
-# Obtain the 2021 census counties from the 'tigris' package
+# Obtain the 2021 counties of Mississippi from the 'tigris' package
 county2021MS <- counties(state = 'MS', year = 2021, cb = TRUE)
 
 # Join the LEx/Is values to the county geometries
@@ -607,12 +607,12 @@ anthopolos2010NC <- anthopolos(
   subgroup = 'NHoLB'
 )
 
-# Obtain the 2010 census tracts from the 'tigris' package
+# Obtain the 2010 census tracts of North Carolina from the 'tigris' package
 tract2010NC <- tracts(state = 'NC', year = 2010, cb = TRUE)
 # Remove first 9 characters from GEOID for compatibility with tigris information
 tract2010NC$GEOID <- substring(tract2010NC$GEO_ID, 10) 
 
-# Obtain the 2010 counties from the 'tigris' package
+# Obtain the 2010 counties of North Carolina from the 'tigris' package
 county2010NC <- counties(state = 'NC', year = 2010, cb = TRUE)
 
 # Join the RI values to the census tract geometries
@@ -654,16 +654,16 @@ anthopolos2010GNSTV <- anthopolos(
   subgroup = 'NHoLB'
 )
 
-# Crop to only North Carolina census tracts
+# Crop to only census tracts of North Carolina
 anthopolos2010NCe <- anthopolos2010GNSTV$ri[anthopolos2010GNSTV$ri$GEOID %in% 
                                               anthopolos2010NC$ri$GEOID, ]
 
-# Obtain the 2010 census tracts from the 'tigris' package
+# Obtain the 2010 census tracts of North Carlina from the 'tigris' package
 tract2010NC <- tracts(state = 'NC', year = 2010, cb = TRUE)
 # Remove first 9 characters from GEOID for compatibility with tigris information
 tract2010NC$GEOID <- substring(tract2010NC$GEO_ID, 10) 
 
-# Obtain the 2010 counties from the 'tigris' package
+# Obtain the 2010 counties of North Carolina from the 'tigris' package
 county2010NC <- counties(state = 'NC', year = 2010, cb = TRUE)
 
 # Join the RI values to the census tract geometries
@@ -708,7 +708,7 @@ hoover2021AL <- hoover(
   subgroup = 'NHoLB'
 )
 
-# Obtain the 2021 counties from the 'tigris' package
+# Obtain the 2021 counties of Alabama from the 'tigris' package
 county2021AL <- counties(state = 'AL', year = 2021, cb = TRUE)
 
 # Join the DEL values to the county geometries
@@ -735,7 +735,7 @@ ggplot() +
   scale_fill_viridis_c(limits = c(0, 1)) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2017-2021 estimates') +
   ggtitle(
-    'Delta (Hoover)\ncensus tracts within counties within Alabama',
+    'Delta (Hoover)\nCensus tracts within counties within Alabama',
     subtitle = 'Black Non-Hispanic population'
   )
 ```
@@ -759,7 +759,7 @@ cbsa2019 <- core_based_statistical_areas(year = 2019, cb = TRUE)
 # Obtain the 2019 state from the 'tigris' package
 states2019 <- states(year = 2019, cb = TRUE)
 
-# Join the RCO values to the census-designated places geometries and filter for Connecticut
+# Join the RCO values to the census-designated places geometries and filter for Wisconsin
 WI2019denton_cuzzort <- cbsa2019 %>%
   left_join(denton_cuzzort2019WI$rco, by = 'GEOID') %>%
   filter(!st_is_empty(.)) %>%
@@ -790,7 +790,7 @@ ggplot() +
   ) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2015-2019 estimates') +
   ggtitle(
-    'Relative Concentration (Massey & Duncan)\ncensus tracts within core-based statistical areas of Wisconsin',
+    'Relative Concentration (Massey & Duncan)\nCensus tracts within core-based statistical areas of Wisconsin',
     subtitle = 'Black non-Hispanic vs. white non-Hispanic'
   )
 ```
@@ -813,7 +813,7 @@ cbsa2019 <- core_based_statistical_areas(year = 2019, cb = TRUE)
 # Obtain the 2019 state from the 'tigris' package
 states2019 <- states(year = 2019, cb = TRUE)
 
-# Join the ACO values to the census-designated places geometries and filter for Connecticut
+# Join the ACO values to the census-designated places geometries and filter for Wisconsin
 WI2019massey_duncan <- cbsa2019 %>%
   left_join(massey_duncan2019WI$aco, by = 'GEOID') %>%
   filter(!st_is_empty(.)) %>%
@@ -839,7 +839,7 @@ ggplot() +
   scale_fill_viridis_c(limits = c(0, 1)) +
   labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2015-2019 estimates') +
   ggtitle(
-    'Absolute Concentration (Massey & Duncan)\ncensus tracts within core-based statistical areas of Wisconsin',
+    'Absolute Concentration (Massey & Duncan)\nCensus tracts within core-based statistical areas of Wisconsin',
     subtitle = 'Black population'
   )
 ```
@@ -859,7 +859,7 @@ duncan_cuzzort2017CT <- duncan_cuzzort(
   subgroup = c('NHoLB', 'HoLB')
 )
 
-# Obtain the 2017 census-designated places in Connecticut from the 'tigris' package
+# Obtain the 2017 census-designated places of Connecticut from the 'tigris' package
 places2017 <- places(year = 2017, state = 'CT')
 # Obtain the 2017 state from the 'tigris' package
 states2017 <- states(year = 2017, cb = TRUE)
@@ -917,7 +917,7 @@ duncan_duncan2017CT <- duncan_duncan(
   subgroup_ref = 'NHoLW'
 )
 
-# Obtain the 2017 census-designated places in Connecticut from the 'tigris' package
+# Obtain the 2017 census-designated places of Connecticut from the 'tigris' package
 places2017 <- places(year = 2017, state = 'CT')
 # Obtain the 2017 state from the 'tigris' package
 states2017 <- states(year = 2017, cb = TRUE)
@@ -973,7 +973,7 @@ massey2018HTX <- massey(
   subgroup = c('NHoLB', 'HoLB')
 )
 
-# Obtain the 2018 census tracts in Harris County, TX, from the 'tigris' package
+# Obtain the 2018 census tracts of Texas from the 'tigris' package
 tract2018 <- tracts(year = 2018, state = 'TX')
 # Obtain the 2018 Texas counties from the 'tigris' package
 county2018 <- counties(state = 'TX', year = 2018, cb = TRUE)
@@ -1086,7 +1086,7 @@ denton2018HTX <- denton(
   subgroup_ref = 'NHoLW'
 )
 
-# Obtain the 2018 census tracts in Harris County, TX, from the 'tigris' package
+# Obtain the 2018 census tracts of Texas from the 'tigris' package
 tract2018 <- tracts(year = 2018, state = 'TX')
 # Obtain the 2018 Texas counties from the 'tigris' package
 county2018 <- counties(state = 'TX', year = 2018, cb = TRUE)
@@ -1124,6 +1124,57 @@ ggplot() +
   ggtitle(
     'Relative Clustering (Massey & Denton)\nCensus block groups within census tracts of Harris County, TX',
     subtitle = 'Black non-Hispanic vs. white non-Hispanic'
+  )
+```
+
+#### Compute Distance-Decay Isolation Index (_DPxx\*_)
+
+Compute the racial or ethnic _DPxx\*_ values (2017-2021 5-year ACS) for census tracts within census-designated placed of Louisiana. This metric is based on [Morgan (1983)](https://www.jstor.org/stable/20001935) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). _DPxx\*_ is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s). _DPxx\*_ can range in value from 0 to 1 with higher values signifying higher probability of isolation (less isolation).
+
+```{r morgan_massey_prep, results = 'hide'}
+morgan_massey2021LA <- morgan_massey(
+  geo_large = 'cbsa',
+  geo_small = 'tract',
+  state = 'LA',
+  year = 2021,
+  subgroup = c('NHoLB', 'HoLB')
+)
+
+# Obtain the 2021 core-based statistical areas from the 'tigris' package
+cbsa2021 <- core_based_statistical_areas(year = 2021, cb = TRUE)
+# Obtain the 2021 state from the 'tigris' package
+states2021 <- states(year = 2021, cb = TRUE)
+
+# Join the DPxx* values to the core-based statistical area geometries and filter for Louisiana
+LA2021morgan_massey <- cbsa2021 %>%
+  left_join(morgan_massey2021LA$dpxx_star, by = 'GEOID') %>%
+  filter(!st_is_empty(.)) %>%
+  filter(!is.na(DPxx_star)) %>%
+  st_filter(states2021 %>% filter(STUSPS == 'LA'), .predicate = st_within) %>%
+  st_make_valid()
+```
+
+```{r morgan_massey_plot, fig.height = 7, fig.width = 7}
+# Visualize the DPxx* values (2017-2021 5-year ACS) for census tracts within core-based statistical areas of Louisiana
+ggplot() +
+  geom_sf(
+    data = LA2021morgan_massey,
+    aes(fill = DPxx_star),
+    size = 0.05,
+    color = 'white'
+  ) +
+  geom_sf(
+    data = states2021 %>% filter(STUSPS == 'LA'),
+    fill = 'transparent',
+    color = 'black',
+    size = 0.2
+  ) +
+  theme_minimal() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(fill = 'Index (Continuous)', caption = 'Source: U.S. Census ACS 2017-2021 estimates') +
+  ggtitle(
+    'Distance-Decay Isolation Index (Morgan)\nCensus tracts within core-based statistical areas of Louisiana',
+    subtitle = 'Black population'
   )
 ```
 

@@ -41,7 +41,7 @@ Key content of the 'ndi' package include:\cr
 
 \code{\link{gini}} Computes the aspatial Gini Index (\emph{G}) based on Gini (1921) \doi{10.2307/2223319}.
 
-\code{\link{hoover}} Computes the aspatial Delta (\emph{DEL}) based on Hoover (1941) \doi{doi:10.1017/S0022050700052980} and Duncan, Cuzzort, & Duncan (1961; LC:60007089).
+\code{\link{hoover}} Computes the aspatial Delta (\emph{DEL}) based on Hoover (1941) \doi{10.1017/S0022050700052980} and Duncan, Cuzzort, & Duncan (1961; LC:60007089).
 
 \code{\link{james_taeuber}} Computes the aspatial Dissimilarity Index (\emph{D}) based on James & Taeuber (1985) \doi{10.2307/270845}.
 
@@ -51,13 +51,15 @@ Key content of the 'ndi' package include:\cr
 
 \code{\link{massey_duncan}} Computes the aspatial Absolute Concentration (\emph{ACO}) based on Massey & Denton (1988) \doi{10.1093/sf/67.2.281} and Duncan, Cuzzort, & Duncan (1961; LC:60007089).
 
+\code{\link{morgan_massey}} Computes the aspatial Distance-Decay Isolation Index (\emph{DPxx\*}) based on Morgan (1986) \url{https://www.jstor.org/stable/20001935} and Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
+
 \code{\link{sudano}} Computes the aspatial Location Quotient (\emph{LQ}) based on Merton (1939) \doi{10.2307/2084686} and Sudano et al. (2013) \doi{10.1016/j.healthplace.2012.09.015}.
 
 \code{\link{theil}} Computes the aspatial Entropy (\emph{H}) based on Theil (1972; ISBN-13:978-0-444-10378-9) and Theil & Finizza (1971) \doi{110.1080/0022250X.1971.9989795}.
 
 \code{\link{white}} Computes the aspatial Correlation Ratio (\emph{V}) based on Bell (1954) \doi{10.2307/2574118} and White (1986) \doi{10.2307/3644339}.
 
-\code{\link{white_blau}} Computes an index of spatial proximity (\emph{SP}) based on White (1986) \doi{10.2307/3644339} and Blau (1977; ISBN-13:978-0-029-03660-0).
+\code{\link{white_blau}} Computes an index of spatial proximity (\emph{SP}) based on White (1986) \doi{10.2307/3644339} \url{} and Blau (1977; ISBN-13:978-0-029-03660-0).
 
 \strong{Additional Indices of Socioeconomic Disparity}
 

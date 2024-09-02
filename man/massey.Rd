@@ -83,8 +83,9 @@ Larger geographical units available include states \code{geo_large = 'state'}, c
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
 
-  # Index of spatial proximity of Black populations
-  ## of census tracts within counties within Georgia, U.S.A., counties (2020)
+  # Absolute Clustering (a measure of clustering)
+  ## of Black populations
+  ## in census tracts within counties of Georgia, U.S.A. (2020)
   massey(
     geo_large = 'county',
     geo_small = 'tract',

@@ -282,6 +282,7 @@ globalVariables(
     'TotalPopE',
     'n_1',
     'n_2',
-    't_cs'
+    't_cs',
+    'DPxx_star'
   )
 )

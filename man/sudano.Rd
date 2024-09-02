@@ -78,8 +78,9 @@ Larger geographical units available include states \code{geo_large = 'state'}, c
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
 
-  # Location Quotient (a measure of relative homogeneity) of Black populations
-  ## of census tracts within counties within Georgia, U.S.A., counties (2020)
+  # Location Quotient (a measure of relative homogeneity) 
+  ## of Black populations
+  ## in census tracts within counties of Georgia, U.S.A. (2020)
   sudano(
     geo_large = 'county',
     geo_small = 'tract',
