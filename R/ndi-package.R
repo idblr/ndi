@@ -44,6 +44,8 @@
 #' 
 #' \code{\link{massey_duncan}} Computes the aspatial Absolute Concentration (\emph{ACO}) based on Massey & Denton (1988) \doi{10.1093/sf/67.2.281} and Duncan, Cuzzort, & Duncan (1961; LC:60007089).
 #'
+#' \code{\link{morgan_denton}} Computes the aspatial Distance-Decay Interaction Index (\emph{DPxy\*}) based on Morgan (1986) \url{https://www.jstor.org/stable/20001935} and Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
+#'
 #' \code{\link{morgan_massey}} Computes the aspatial Distance-Decay Isolation Index (\emph{DPxx\*}) based on Morgan (1986) \url{https://www.jstor.org/stable/20001935} and Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
 #' 
 #' \code{\link{sudano}} Computes the aspatial Location Quotient (\emph{LQ}) based on Merton (1939) \doi{10.2307/2084686} and Sudano et al. (2013) \doi{10.1016/j.healthplace.2012.09.015}.
