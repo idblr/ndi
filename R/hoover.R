@@ -66,8 +66,9 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'   
-#'   # Delta (a measure of concentration) of non-Hispanic Black populations
-#'   ## of census tracts within counties within Georgia, U.S.A., counties (2020)
+#'   # Delta (a measure of concentration) 
+#'   ## of non-Hispanic Black populations
+#'   ## in census tracts within counties of Georgia, U.S.A. (2020)
 #'   hoover(
 #'     geo_large = 'county',
 #'     geo_small = 'tract',

@@ -66,8 +66,9 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'   
-#'   # Correlation Ratio (a measure of isolation) of Black populations
-#'   ## of census tracts within counties within Georgia, U.S.A., counties (2020)
+#'   # Correlation Ratio (a measure of exposure) 
+#'   ## of Black populations
+#'   ## in census tracts within counties of Georgia, U.S.A. (2020)
 #'   white(
 #'     geo_large = 'county',
 #'     geo_small = 'tract', 

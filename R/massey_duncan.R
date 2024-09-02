@@ -67,8 +67,9 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'
-#'   # Index of spatial proximity of Black populations
-#'   ## of census tracts within counties within Georgia, U.S.A., counties (2020)
+#'   # Absolute Concentration (a measure of concentration)
+#'   ## of Black populations
+#'   ## in census tracts within counties of Georgia, U.S.A. (2020)
 #'   massey_duncan(
 #'     geo_large = 'county',
 #'     geo_small = 'tract',

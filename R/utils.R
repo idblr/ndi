@@ -221,6 +221,33 @@ djt_fun <- function(x, omit_NAs) {
   }
 }
 
+# Internal function for Distance Decay Isolation
+## From Massey & Denton (1988) https://doi.org/10.1093/sf/67.2.281
+## Returns NA value if only one smaller geography with population in a larger geography
+dpxx_star_fun <- function(x, crs, omit_NAs) {
+  xx <- x %>%
+    dplyr::select(TotalPopE, subgroup, ALAND) %>%
+    dplyr::filter(TotalPopE > 0)
+  if (omit_NAs == TRUE) { xx <- xx[stats::complete.cases(sf::st_drop_geometry(xx)), ] }
+  if (nrow(sf::st_drop_geometry(xx)) < 2 || any(sf::st_drop_geometry(xx) < 0) || any(is.na(sf::st_drop_geometry(xx)))) {
+    NA
+  } else {
+    xx <- xx %>% sf::st_transform(crs = crs)
+    x_i <- x_j <- xx$subgroup
+    X <- sum(x_i, na.rm = TRUE)
+    t_j <- xx$TotalPopE
+    d_ij <- suppressWarnings(sf::st_distance(sf::st_centroid(xx), sf::st_centroid(xx)))
+    diag(d_ij) <- sqrt(0.6 * xx$ALAND)
+    c_ij <- -d_ij %>% 
+      units::set_units(value = km) %>%
+      units::drop_units() %>%
+      exp()
+    K_ij <- c_ij * t_j /  sum(c_ij * t_j, na.rm = TRUE)  
+    DPxx_star <- sum(x_i / X, na.rm = TRUE) * sum(K_ij * x_j / t_j, na.rm = TRUE)  
+    return(DPxx_star)
+  }
+}
+
 # Internal function for the Gini Index 
 ## Gini (1921) https://doi.org/10.2307/2223319
 ## Returns NA value if only one smaller geography with population in a larger geography

@@ -3,7 +3,7 @@ bibentry(bibtype = 'manual',
   author         = as.person('Ian D. Buller'),
   publisher      = 'The Comprehensive R Archive Network',
   year           = '2024',
-  number         = '0.1.6.9012.',
+  number         = '0.1.6.9013.',
   doi            = '10.5281/zenodo.6989030',
   url            = 'https://cran.r-project.org/package=ndi',
   
@@ -11,7 +11,7 @@ bibentry(bibtype = 'manual',
   paste('Ian D. Buller (2024).',
         'ndi: Neighborhood Deprivation Indices.',
         'The Comprehensive R Archive Network.',
-        'v0.1.6.9012.',
+        'v0.1.6.9013.',
         'DOI:10.5281/zenodo.6989030',
         'Accessed by: https://cran.r-project.org/package=ndi'),
         
@@ -456,6 +456,45 @@ bibentry(bibtype = 'Book',
         'Statistical Geography: Problems in Analyzing Area Data.',
         'Free Press',
         'LC:60007089'),
+
+  header         = 'And (2):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'A Distance-Decay Based Interaction Index to Measure Residential Segregation',
+  author         = as.person('Barrie S. Morgan'),
+  journal        = 'Area',
+  year           = '1983',
+  volume         = '15',
+  issue          = '4',
+  pages          = '211--217',
+  url            = 'https://www.jstor.org/stable/20001935',
+
+  textVersion    =
+  paste('Barrie S. Morgan (1983).',
+        'A Distance-Decay Based Interaction Index to Measure Residential Segregation.',
+        'Area, 15(4), 211-217.',
+        'https://www.jstor.org/stable/20001935'),
+
+  header         = 'If you computed DPxx* (Morgan) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'The Dimensions of Residential Segregation',
+  author         = c(as.person('Douglas S. Massey'),
+                   as.person('Nancy A. Denton')),
+  journal        = 'Social Forces',
+  year           = '1988',
+  volume         = '67',
+  issue          = '2',
+  pages          = '281--315',
+  doi            = '10.1093/sf/67.2.281',
+
+  textVersion    =
+  paste('Douglas S. Massey & Nancy A. Denton (1988).',
+        'The Dimensions of Residential Segregation.',
+        'Social Forces, 67(1), 281-315.',
+        'DOI:10.1093/sf/67.2.281'),
 
   header         = 'And (2):'
 )

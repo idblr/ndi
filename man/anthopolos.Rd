@@ -72,8 +72,9 @@ A census geography (and its neighbors) that has nearly all of its population who
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
 
-  # Racial Isolation Index of Black populations
-  ## of census tracts within Georgia, U.S.A., counties (2020)
+  # Racial Isolation Index (a measure of isolation)
+  ## of Black populations
+  ## in census tracts of Georgia, U.S.A. (2020)
   anthopolos(
     geo = 'tract',
     state = 'GA',

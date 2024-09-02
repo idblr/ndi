@@ -71,8 +71,9 @@
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.
 #'
-#'   # Index of spatial proximity of non-Hispanic Black vs. non-Hispanic white populations
-#'   ## of census tracts within counties within Georgia, U.S.A., counties (2020)
+#'   # Index of spatial proximity (a measure of clustering)
+#'   ## of non-Hispanic Black vs. non-Hispanic white populations
+#'   ## in census tracts within counties of Georgia, U.S.A. (2020)
 #'   white_blau(
 #'     geo_large = 'county',
 #'     geo_small = 'tract',

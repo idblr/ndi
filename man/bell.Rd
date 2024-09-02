@@ -81,8 +81,9 @@ Larger geographical units available include states \code{geo_large = 'state'}, c
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
 
-  # Interaction of non-Hispanic Black vs. non-Hispanic white populations
-  ## of census tracts within counties within Georgia, U.S.A., counties (2020)
+  # Interaction Index (a measure of exposure)
+  ## of non-Hispanic Black vs. non-Hispanic white populations
+  ## in census tracts within counties of Georgia, U.S.A. (2020)
   bell(
     geo_large = 'county',
     geo_small = 'tract',

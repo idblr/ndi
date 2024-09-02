@@ -12,7 +12,7 @@
 [![DOI](https://zenodo.org/badge/521439746.svg)](https://zenodo.org/badge/latestdoi/521439746)
 <!-- badges: end -->
 
-**Date repository last updated**: 2024-09-01
+**Date repository last updated**: 2024-09-02
 
 ### Overview
 
@@ -113,6 +113,10 @@ To install the development version from GitHub:
 <tr>
 <td><a href='/R/messer.R'><code>messer</code></a></td>
 <td>Compute the aspatial Neighborhood Deprivation Index (<i>NDI</i>) based on <a href='https://doi.org/10.1007/s11524-006-9094-x'>Messer et al. (2006)</a></td>
+</tr>
+<tr>
+<td><a href='/R/morgan_massey.R'><code>morgan_massey</code></a></td>
+<td>Compute the aspatial racial or ethnic Distance-Decay Isolation Index (<i>DPxx*</i>) based on <a href='https://www.jstor.org/stable/20001935'>Morgan (1983)</a> and <a href='https://doi.org/10.1093/sf/67.2.281'>Massey & Denton (1988)</a>
 </tr>
 <tr>
 <td><a href='/R/powell_wiley.R'><code>powell_wiley</code></a></td>
@@ -757,9 +761,9 @@ ggsave(file.path('man', 'figures', 'ei.png'), height = 7, width = 7)
 ![](man/figures/ei.png)
 
 ```r
-# ------------------------------------------------------ #
-# Compute aspatial Relative Clustering (Massey & Denton) #
-# ------------------------------------------------------ #
+# ----------------------------------------------------------------------- #
+# Compute aspatial racial or ethnic Relative Clustering (Massey & Denton) #
+# ----------------------------------------------------------------------- #
 
 # Relative Clustering based on Massey & Denton (1988)
 ## Selected subgroup: Not Hispanic or Latino, Black or African American alone
@@ -809,9 +813,9 @@ ggsave(file.path('man', 'figures', 'rcl.png'), height = 7, width = 7)
 ![](man/figures/rcl.png)
 
 ```r
-# --------------------------------------------------------- #
-# Compute aspatial Relative Concentration (Massey & Denton) #
-# --------------------------------------------------------- #
+# -------------------------------------------------------------------------- #
+# Compute aspatial racial or ethnic Relative Concentration (Massey & Denton) #
+# -------------------------------------------------------------------------- #
 
 # Relative Concentration based on Massey & Denton (1988) and Duncan, Cuzzort, & Duncan (1961)
 ## Selected subgroup: Not Hispanic or Latino, Black or African American alone
@@ -908,9 +912,9 @@ ggsave(file.path('man', 'figures', 'ddd.png'), height = 7, width = 7)
 ![](man/figures/ddd.png)
 
 ```r
-# ----------------------------------------------------------- #
-# Compute aspatial Absolute Centralization (Duncan & Cuzzort) #
-# ----------------------------------------------------------- #
+# ---------------------------------------------------------------------------- #
+# Compute aspatial racial or ethnic Absolute Centralization (Duncan & Cuzzort) #
+# ---------------------------------------------------------------------------- #
 
 # Absolute Centralization based on Duncan, Cuzzort, & Duncan (1961) and Massey & Denton (1988)
 ## Selected subgroup: Not Hispanic or Latino, Black or African American alone
@@ -959,9 +963,9 @@ ggsave(file.path('man', 'figures', 'ace.png'), height = 7, width = 7)
 ![](man/figures/ace.png)
 
 ```r
-# ---------------------------------------------------------- #
-# Compute aspatial Relative Centralization (Duncan & Duncan) #
-# ---------------------------------------------------------- #
+# --------------------------------------------------------------------------- #
+# Compute aspatial racial or ethnic Relative Centralization (Duncan & Duncan) #
+# --------------------------------------------------------------------------- #
 
 # Relative Centralization based on Duncan & Duncan (1955b) and Massey & Denton (1988)
 ## Selected subgroup comparison: Not Hispanic or Latino, Black or African American alone
@@ -1012,9 +1016,9 @@ ggsave(file.path('man', 'figures', 'rce.png'), height = 7, width = 7)
 ![](man/figures/rce.png)
 
 ``` r
-# ------------------------------------------ #
-# Compute aspatial race or ethnic Gini Index #
-# ------------------------------------------ #
+# -------------------------------------------- #
+# Compute aspatial racial or ethnic Gini Index #
+# -------------------------------------------- #
 
 # Gini Index based on Gini (1921)
 ## Selected subgroup: Not Hispanic or Latino, Black or African American alone
@@ -1393,9 +1397,9 @@ ggsave(file.path('man', 'figures', 'xpx_star.png'), height = 7, width = 7)
 ![](man/figures/xpx_star.png)
 
 ```r
-# ------------------------------------------------------ #
-# Compute aspatial Absolute Clustering (Massey & Denton) #
-# ------------------------------------------------------ #
+# ----------------------------------------------------------------------- #
+# Compute aspatial racial or ethnic Absolute Clustering (Massey & Denton) #
+# ----------------------------------------------------------------------- #
 
 # Absolute Clustering based on Massey & Denton (1988)
 ## Selected subgroup: Not Hispanic or Latino, Black or African American alone
@@ -1444,9 +1448,9 @@ ggsave(file.path('man', 'figures', 'acl.png'), height = 7, width = 7)
 ![](man/figures/acl.png)
 
 ```r
-# --------------------------------------------------------- #
-# Compute aspatial Absolute Concentration (Massey & Denton) #
-# --------------------------------------------------------- #
+# -------------------------------------------------------------------------- #
+# Compute aspatial racial or ethnic Absolute Concentration (Massey & Denton) #
+# -------------------------------------------------------------------------- #
 
 # Absolute Concentration based on Massey & Denton (1988) and Duncan, Cuzzort, & Duncan (1961)
 ## Selected subgroup: Not Hispanic or Latino, Black or African American alone
@@ -1487,6 +1491,51 @@ ggsave(file.path('man', 'figures', 'aco.png'), height = 7, width = 7)
 ```
 
 ![](man/figures/aco.png)
+
+```r
+# ------------------------------------------------------------------------- #
+# Compute aspatial racial or ethnic Distance-Decay Isolation Index (Morgan) #
+# ------------------------------------------------------------------------- #
+
+# Distance-Decay Isolation Index based on Morgan (1983) and Massey & Denton (1988)
+## Selected subgroup: Not Hispanic or Latino, Black or African American alone
+## Selected large geography: census tract
+## Selected small geography: census block group
+DPxx_star_2020_DC <- morgan_massey(
+  geo_large = 'tract',
+  geo_small = 'cbg',
+  state = 'DC',
+  year = 2020,
+  subgroup = 'NHoLB'
+)
+
+# Obtain the 2020 census tracts from the 'tigris' package
+tract_2020_DC <- tracts(state = 'DC', year = 2020, cb = TRUE)
+
+# Join the DPxx* (Morgan) values to the census tract geometry
+DPxx_star_2020_DC <- tract_2020_DC %>%
+  left_join(DPxx_star_2020_DC$dpxx_star, by = 'GEOID')
+
+ggplot() +
+  geom_sf(
+    data = DPxx_star_2020_DC,
+    aes(fill = DPxx_star),
+    color = 'white'
+  ) +
+  theme_bw() +
+  scale_fill_viridis_c(limits = c(0, 1)) +
+  labs(
+    fill = 'Index (Continuous)',
+    caption = 'Source: U.S. Census ACS 2016-2020 estimates'
+  ) +
+  ggtitle(
+    'Distance-Decay Isolation Index (Morgan)\nCensus block groups within tracts of Washington, D.C.',
+    subtitle = 'Black non-Hispanic'
+  )
+ggsave(file.path('man', 'figures', 'dpxx_star.png'), height = 7, width = 7)
+```
+
+![](man/figures/dpxx_star.png)
 
 ```r
 # ------------------------------------------------------------ #
@@ -1624,9 +1673,9 @@ ggsave(file.path('man', 'figures', 'v.png'), height = 7, width = 7)
 ![](man/figures/v.png)
 
 ```r
-# --------------------------------------------- #
-# Compute an index of spatial proximity (White) #
-# --------------------------------------------- #
+# ------------------------------------------------------------- #
+# Compute a racial or ethnic index of spatial proximity (White) #
+# ------------------------------------------------------------- #
 
 # An index of spatial proximity based on White (1986) & Blau (1977) 
 ## Selected subgroup: Not Hispanic or Latino, Black or African American alone

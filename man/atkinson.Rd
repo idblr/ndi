@@ -86,8 +86,9 @@ Larger geographical units available include states \code{geo_large = 'state'}, c
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
 
-  # Atkinson Index (a measure of the evenness) of Black populations
-  ## of census tracts within counties within Georgia, U.S.A., counties (2020)
+  # Atkinson Index (a measure of the evenness) 
+  ## of Black populations
+  ## in census tracts within counties of Georgia, U.S.A. (2020)
   atkinson(
     geo_large = 'county',
     geo_small = 'tract',
@@ -96,8 +97,9 @@ Larger geographical units available include states \code{geo_large = 'state'}, c
     subgroup = c('NHoLB', 'HoLB')
   )
  
-  # Atkinson Index of median household income
-  ## of census tracts within counties within Georgia, U.S.A., counties (2020)
+  # Atkinson Index (a measure of the evenness) 
+  ## of median household income
+  ## in census tracts within counties of Georgia, U.S.A. (2020)
   atkinson(
     geo_large = 'county',
     geo_small = 'tract',

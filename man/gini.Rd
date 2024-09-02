@@ -78,8 +78,9 @@ Larger geographical units available include states \code{geo_large = 'state'}, c
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
 
-  # Gini Index (a metric of unevenness) of Black populations
-  ## of census tracts within Georgia, U.S.A., counties (2020)
+  # Gini Index (a metric of evenness) 
+  ## of Black populations
+  ## in census tracts of Georgia, U.S.A. (2020)
   gini(
     geo_large = 'county',
     geo_small = 'tract', 

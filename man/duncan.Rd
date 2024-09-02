@@ -81,9 +81,9 @@ Larger geographical units available include states \code{geo_large = 'state'}, c
 \dontrun{
 # Wrapped in \dontrun{} because these examples require a Census API key.
 
-  # Dissimilarity Index (Duncan & Duncan)
+  # Dissimilarity Index (Duncan & Duncan; a measure of evenness)
   ## of non-Hispanic Black vs. non-Hispanic white populations
-  ## of census tracts within counties within Georgia, U.S.A., counties (2020)
+  ## in census tracts within counties of Georgia, U.S.A. (2020)
   duncan(
     geo_large = 'county',
     geo_small = 'tract',
