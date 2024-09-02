@@ -149,6 +149,7 @@ duncan <- function(geo_large = 'county',
   
   # Select census variables
   vars <- c(
+    TotalPop = 'B03002_001',
     NHoL = 'B03002_002',
     NHoLW = 'B03002_003',
     NHoLB = 'B03002_004',
@@ -171,7 +172,7 @@ duncan <- function(geo_large = 'county',
     HoLTReSOR = 'B03002_021'
   )
   
-  selected_vars <- vars[c(subgroup, subgroup_ref)]
+  selected_vars <- vars[c('TotalPop', subgroup, subgroup_ref)]
   out_names <- names(selected_vars) # save for output
   in_subgroup <- paste0(subgroup, 'E')
   in_subgroup_ref <- paste0(subgroup_ref, 'E')
@@ -355,7 +356,7 @@ duncan <- function(geo_large = 'county',
     dplyr::select(D, oid)
   
   # Warning for missingness of census characteristics
-  missingYN <- out_dat[, c(in_subgroup, in_subgroup_ref)]
+  missingYN <- out_dat[, c('TotalPopE', in_subgroup, in_subgroup_ref)]
   names(missingYN) <- out_names
   missingYN <- missingYN %>%
     tidyr::pivot_longer(

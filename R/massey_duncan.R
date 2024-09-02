@@ -144,7 +144,7 @@ massey_duncan <- function(geo_large = 'county',
   )
   
   selected_vars <- vars[c('TotalPop', subgroup)]
-  out_names <- names(selected_vars) # save for output
+  out_names <- c(names(selected_vars), 'ALAND') # save for output
   in_subgroup <- paste0(subgroup, 'E')
   
   # Acquire ACO variables and sf geometries
@@ -185,7 +185,8 @@ massey_duncan <- function(geo_large = 'county',
       dplyr::mutate(
         oid = STATEFP,
         state = stringr::str_trim(state)
-      )
+      ) %>% 
+      sf::st_drop_geometry()
   }
   if (geo_large == 'tract') {
     out_dat <- out_dat %>%
@@ -193,7 +194,8 @@ massey_duncan <- function(geo_large = 'county',
         oid = paste0(STATEFP, COUNTYFP, TRACTCE),
         state = stringr::str_trim(state),
         county = stringr::str_trim(county)
-      )
+      ) %>% 
+      sf::st_drop_geometry()
   }
   if (geo_large == 'county') {
     out_dat <- out_dat %>%
@@ -201,7 +203,8 @@ massey_duncan <- function(geo_large = 'county',
         oid = paste0(STATEFP, COUNTYFP),
         state = stringr::str_trim(state),
         county = stringr::str_trim(county)
-      )
+      ) %>% 
+      sf::st_drop_geometry()
   }
   if (geo_large == 'place') {
     stopifnot(is.numeric(year), year >= 2011) # Places only available 2011 onward
@@ -221,7 +224,8 @@ massey_duncan <- function(geo_large = 'county',
           lapply(tmp, function(x) { if (length(x) == 0) NA else x })
         }) %>%
           unlist()
-      )
+      ) %>% 
+      sf::st_drop_geometry()
   }
   if (geo_large == 'cbsa') {
     stopifnot(is.numeric(year), year >= 2010) # CBSAs only available 2010 onward
@@ -239,7 +243,8 @@ massey_duncan <- function(geo_large = 'county',
           lapply(tmp, function(x) { if (length(x) == 0) NA else x })
         }) %>%
           unlist()
-      )
+      ) %>% 
+      sf::st_drop_geometry()
   }
   if (geo_large == 'csa') {
     stopifnot(is.numeric(year), year >= 2011) # CSAs only available 2011 onward
@@ -257,7 +262,8 @@ massey_duncan <- function(geo_large = 'county',
           lapply(tmp, function(x) { if (length(x) == 0) NA else x })
         }) %>%
           unlist()
-      )
+      ) %>% 
+      sf::st_drop_geometry()
   }
   if (geo_large == 'metro') {
     stopifnot(is.numeric(year), year >= 2011) # Metropolitan Divisions only available 2011 onward
@@ -275,7 +281,8 @@ massey_duncan <- function(geo_large = 'county',
           lapply(tmp, function(x) { if (length(x) == 0) NA else x })
         }) %>%
           unlist()
-      )
+      ) %>% 
+      sf::st_drop_geometry()
   }
   
   # Count of racial or ethnic subgroup populations
@@ -289,7 +296,7 @@ massey_duncan <- function(geo_large = 'county',
   }
   
   # Compute ACO
-  ## From Denton & Massey (1988) https://doi.org/10.1093/sf/67.2.281
+  ## From Massey & Denton (1988) https://doi.org/10.1093/sf/67.2.281
   ## ACO = 1-\frac{\sum_{i=1}^{n}\frac{x_{i}a_{i}}{X}-\sum_{i=1}^{n_{1}}\frac{t_{i}a_{i}}{T_{1}}}
   ##              {\sum_{i=n^{2}}^{n}\frac{t_{i}a_{i}}{T_{2}}-\sum_{i=1}^{n_{1}}\frac{t_{i}a_{i}}{T_{1}}}
   ## Where for i smaller geographical units are ordered by geographic size from smallest to largest
@@ -320,7 +327,7 @@ massey_duncan <- function(geo_large = 'county',
     sf::st_drop_geometry()
   
   # Warning for missingness of census characteristics
-  missingYN <- out_dat[, c('TotalPopE', in_subgroup)] %>%
+  missingYN <- out_dat[, c('TotalPopE', in_subgroup, 'ALAND')] %>%
     sf::st_drop_geometry()
   names(missingYN) <- out_names
   missingYN <- missingYN %>%

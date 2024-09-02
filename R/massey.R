@@ -148,7 +148,7 @@ massey <- function(geo_large = 'county',
   )
   
   selected_vars <- vars[c('TotalPop', subgroup)]
-  out_names <- names(selected_vars) # save for output
+  out_names <- c(names(selected_vars), 'ALAND') # save for output
   in_subgroup <- paste0(subgroup, 'E')
   
   # Acquire ACL variables and sf geometries
@@ -293,7 +293,7 @@ massey <- function(geo_large = 'county',
   }
   
   # Compute ACL
-  ## From Denton & Massey (1988) https://doi.org/10.1093/sf/67.2.281
+  ## From Massey & Denton (1988) https://doi.org/10.1093/sf/67.2.281
   ## ACL = \frac{\sum_{i=1}^{n}\frac{x_{i}}{X}\sum_{i=1}^{n}c_{ij}x_{j}-\frac{X}{n^{2}}\sum_{i=1}^{n}\sum_{ij=1}^{n}c_{ij}}
   ##            {\sum_{i=1}^{n}\frac{x_{i}}{X}\sum_{i=1}^{n}c_{ij}t_{j}-\frac{X}{n^{2}}\sum_{i=1}^{n}\sum_{ij=1}^{n}c_{ij}}
   ## Where for i & j smaller geographical units:
@@ -320,7 +320,7 @@ massey <- function(geo_large = 'county',
     sf::st_drop_geometry()
   
   # Warning for missingness of census characteristics
-  missingYN <- out_dat[, c('TotalPopE', in_subgroup)] %>% 
+  missingYN <- out_dat[, c('TotalPopE', in_subgroup, 'ALAND')] %>% 
     sf::st_drop_geometry()
   names(missingYN) <- out_names
   missingYN <- missingYN %>%

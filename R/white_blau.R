@@ -177,7 +177,7 @@ white_blau <- function(geo_large = 'county',
   )
   
   selected_vars <- vars[c('TotalPop', subgroup, subgroup_ref)]
-  out_names <- names(selected_vars) # save for output
+  out_names <- c(names(selected_vars), 'ALAND') # save for output
   in_subgroup <- paste0(subgroup, 'E')
   in_subgroup_ref <- paste0(subgroup_ref, 'E')
   
@@ -361,7 +361,7 @@ white_blau <- function(geo_large = 'county',
     sf::st_drop_geometry()
   
   # Warning for missingness of census characteristics
-  missingYN <- out_dat[, c('TotalPopE', in_subgroup, in_subgroup_ref)] %>% 
+  missingYN <- out_dat[, c('TotalPopE', in_subgroup, in_subgroup_ref, 'ALAND')] %>% 
     sf::st_drop_geometry()
   names(missingYN) <- out_names
   missingYN <- missingYN %>%

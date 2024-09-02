@@ -142,7 +142,7 @@ hoover <- function(geo_large = 'county',
     HoLTReSOR = 'B03002_021'
   )
   
-  selected_vars <- vars[subgroup]
+  selected_vars <- vars[c('TotalPop', subgroup)]
   out_names <- c(names(selected_vars), 'ALAND') # save for output
   in_subgroup <- paste0(subgroup, 'E')
   
@@ -312,7 +312,7 @@ hoover <- function(geo_large = 'county',
     dplyr::select(DEL, oid)
   
   # Warning for missingness of census characteristics
-  missingYN <- out_dat[ , c(in_subgroup, 'ALAND')]
+  missingYN <- out_dat[ , c('TotalPopE', in_subgroup, 'ALAND')]
   names(missingYN) <- out_names
   missingYN <- missingYN %>%
     tidyr::pivot_longer(cols = dplyr::everything(), names_to = 'variable', values_to = 'val') %>%

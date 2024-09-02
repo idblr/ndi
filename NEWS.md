@@ -1,6 +1,6 @@
 # ndi (development version)
 
-## ndi v0.1.6.9011
+## ndi v0.1.6.9012
 
 ### New Features
 
@@ -13,12 +13,13 @@
 * Added `white_blau()` function to compute an index of spatial proximity (*SP*) based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0)
 * Thank you for the feature suggestions above, [Symielle Gaston](https://orcid.org/0000-0001-9495-1592)
 * Added `denton()` function to compute the aspatial racial or ethnic Relative Clustering (*RCL*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
+* Added `denton_cuzzort()` function to compute the aspatial racial or ethnic Relative Concentration (*RCO*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281) and Duncan, Cuzzort, & Duncan (1961; LC:60007089)
 * Added `duncan_duncan()` function to compute the aspatial racial or ethnic Relative Centralization (*RCE*) based on [Duncan & Duncan (1955b)](https://doi.org/10.1086/221609) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
 * Added `massey()` function to compute the aspatial racial or ethnic Absolute Clustering (*ACL*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
 * Added `massey_duncan()` function to compute the aspatial racial or ethnic Absolute Concentration (*ACO*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281) and Duncan, Cuzzort, & Duncan (1961; LC:60007089)
 
 #### New Function Capabilities
-* Added `geo_large = 'place'` for census-designated places, `geo_large = 'cbsa'` for core-based statistical areas, `geo_large = 'csa'` for combined statistical areas, and `geo_large = 'metro'` for metropolitan divisions as the larger geographical unit in `atkinson()`, `bell()`, `bemanian_beyer()`, `denton()`, `duncan()`, `duncan_cuzzort()`, `duncan_duncan()`, `hoover()`, `james_taeuber()`, `lieberson()`, `massey()`, `massey_duncan()`, `sudano()`, `theil()`, and `white()`, `white_blau()` functions.
+* Added `geo_large = 'place'` for census-designated places, `geo_large = 'cbsa'` for core-based statistical areas, `geo_large = 'csa'` for combined statistical areas, and `geo_large = 'metro'` for metropolitan divisions as the larger geographical unit in `atkinson()`, `bell()`, `bemanian_beyer()`, `denton()`, `denton_cuzzort()`, `duncan()`, `duncan_cuzzort()`, `duncan_duncan()`, `hoover()`, `james_taeuber()`, `lieberson()`, `massey()`, `massey_duncan()`, `sudano()`, `theil()`, and `white()`, `white_blau()` functions.
 * Added census block group computation for `anthopolos()` by specifying `geo == 'cbg'` or `geo == 'block group'`
 * Added `holder` argument to `atkinson()` function to toggle the computation with or without the Hölder mean. The function can now compute *A* without the Hölder mean. The default is `holder = FALSE`.
 * Added `crs` argument to `anthopolos()`, `bravo()`, and `white_blau()` functions to provide spatial projection of the distance-based metrics
