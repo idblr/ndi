@@ -62,11 +62,13 @@ test_that('james_taeuber throws error with invalid arguments', {
 test_that('james_taeuber works', {
   skip_if(Sys.getenv('CENSUS_API_KEY') == '')
   
-  expect_silent(james_taeuber(
-    state = 'DC',
-    year = 2020,
-    subgroup = c('NHoLB', 'HoLB'),
-  ))
+  expect_silent(
+    james_taeuber(
+      state = 'DC',
+      year = 2020,
+      subgroup = c('NHoLB', 'HoLB'),
+    )
+  )
   
   expect_silent(
     james_taeuber(
@@ -77,11 +79,13 @@ test_that('james_taeuber works', {
     )
   )
   
-  expect_silent(james_taeuber(
-    state = 'DC',
-    year = 2020,
-    subgroup = c('NHoLB', 'HoLB'),
-    quiet = TRUE
-  ))
+  expect_silent(
+    james_taeuber(
+      state = 'DC',
+      year = 2020,
+      subgroup = c('NHoLB', 'HoLB'),
+      quiet = TRUE
+    )
+  )
   
 })

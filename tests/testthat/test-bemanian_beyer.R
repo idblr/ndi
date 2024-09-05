@@ -76,12 +76,14 @@ test_that('bemanian_beyer throws error with invalid arguments', {
 test_that('bemanian_beyer works', {
   skip_if(Sys.getenv('CENSUS_API_KEY') == '')
   
-  expect_warning(bemanian_beyer(
-    state = 'DC',
-    year = 2020,
-    subgroup = c('NHoLB', 'HoLB'),
-    subgroup_ixn = c('NHoLW', 'HoLW')
-  ))
+  expect_warning(
+    bemanian_beyer(
+      state = 'DC',
+      year = 2020,
+      subgroup = c('NHoLB', 'HoLB'),
+      subgroup_ixn = c('NHoLW', 'HoLW')
+    )
+  )
   
   expect_warning(
     bemanian_beyer(
@@ -93,12 +95,14 @@ test_that('bemanian_beyer works', {
     )
   )
   
-  expect_warning(bemanian_beyer(
-    state = 'DC',
-    year = 2020,
-    subgroup = c('NHoLB', 'HoLB'),
-    subgroup_ixn = c('NHoLW', 'HoLW'),
-    quiet = TRUE
-  ))
+  expect_warning(
+    bemanian_beyer(
+      state = 'DC',
+      year = 2020,
+      subgroup = c('NHoLB', 'HoLB'),
+      subgroup_ixn = c('NHoLW', 'HoLW'),
+      quiet = TRUE
+    )
+  )
   
 })

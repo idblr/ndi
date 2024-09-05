@@ -50,6 +50,14 @@
 #' \item{\code{xpy_star_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
 #' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute _xPy\*_.}
 #' }
+#' 
+#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+#' @seealso Other interaction indices: \code{\link{morgan_denton}}
+#' @seealso Isolation indices: \code{\link{anthopolos}}, \code{\link{bemanian_beyer}}, \code{\link{lieberson}}, \code{\link{morgan_massey}}, \code{\link{white}}
+#' 
+#' @references Eshref, S, & Williams, M (1949). \emph{The Social Areas of Los Angeles: Analysis and Typology}. 1st Ed. Los Angeles:John Randolph Haynes and Dora Haynes Foundation. ISBN-13:978-0-837-15637-8
+#' @references Bell, W (1954) A probability model for the measurement of ecological segregation. \emph{Social Forces}, 32(4):357-364. \doi{10.2307/2574118}
+#' @references Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
 #'
 #' @import dplyr
 #' @importFrom sf st_drop_geometry st_within
@@ -60,8 +68,6 @@
 #' @importFrom tigris combined_statistical_areas core_based_statistical_areas metro_divisions places
 #' @importFrom utils stack
 #' @export
-#'
-#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
 #'
 #' @examples
 #' \dontrun{

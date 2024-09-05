@@ -85,6 +85,15 @@ A census geography (and its neighbors) that has nearly all of its population who
 }
 
 }
+\references{
+Anthopolos, R, James, SA, Gelfand, AE, & Miranda, ML (2011) A Spatial Measure of Neighborhood Level Racial Isolation Applied to Low Birthweight, Preterm Birth, and Birthweight in North Carolina. \emph{Spatial and Spatio-temporal Epidemiology}, 2(4):235-246. \doi{10.1016/j.sste.2011.06.002}
+}
 \seealso{
 \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+
+Other isolation indices: \code{\link{bemanian_beyer}}, \code{\link{lieberson}}, \code{\link{morgan_massey}}, \code{\link{white}}
+
+Interaction indices: \code{\link{bell}}, \code{\link{morgan_denton}}
+
+Education Isolation Index: \code{\link{bravo}}
 }

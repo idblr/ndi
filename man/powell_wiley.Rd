@@ -86,6 +86,13 @@ powell_wiley(df = DCtracts2020[ , -c(3:10)])
 }
 
 }
+\references{
+Andrews, MA, Tomura, K, Claudel, SE, Xu, S, Ceasar, JN, Collins, BS, Langerman, S, Mitchell, VM, Baumer, Y, & Powell-Wiley TM (2022) Geospatial Analysis of Neighborhood Deprivation Index (NDI) for the United States by County. \emph{Journal of Maps}, 16(1):101-112. \doi{10.1080/17445647.2020.1750066}
+
+Slotman, BA, Stinchcomb, DG, Powell-Wiley, TM, Ostendorf, DM, Saelens, BE, Gorin, AA, Zenk, SN, & Berrigan, D (2022) Environmental Data and Methods from the Accumulating Data to Optimally Predict Obesity Treatment (ADOPT) Core Measures Environmental Working Group. \emph{Data in Brief}, 41:108002. \doi{10.1016/j.dib.2022.108002}
+}
 \seealso{
 \code{\link[tidycensus]{get_acs}} for additional arguments for geographic referent selection (i.e., \code{state} and \code{county}).
+
+Neighborhood Deprivation Index: \code{\link{messer}}
 }

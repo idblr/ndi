@@ -92,6 +92,17 @@ Larger geographical units available include states \code{geo_large = 'state'}, c
 }
 
 }
+\references{
+Gini, C (1921) Measurement of Inequality of Incomes. \emph{The Economic Journal}, 31(121):124-126. \doi{10.2307/2223319}
+
+Duncan, OD, & Duncan, B (1955) Residential Distribution and Occupational Stratification. \emph{American Journal of Sociology}, 60(5):493-503. \doi{10.2307/2088328}
+
+Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
+}
 \seealso{
 \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+
+Other one-group evenness indices: \code{\link{atkinson}}, \code{\link{james_taeuber}}, \code{\link{sudano}}, \code{\link{theil}}
+
+Between groups dissimilarity indices: \code{\link{duncan}}
 }

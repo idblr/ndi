@@ -53,6 +53,12 @@
 #' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{LEx/Is}.}
 #' }
 #'
+#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+#' @seealso Other isolation indices: \code{\link{anthopolos}}, \code{\link{lieberson}}, \code{\link{morgan_massey}}, \code{\link{white}}
+#' @seealso Interaction indices: \code{\link{bell}}, \code{\link{morgan_denton}}
+#' 
+#' @references Bemanian, A, & Beyer, KMM (2017) Measures Matter: The Local Exposure/Isolation (LEx/Is) Metrics and Relationships between Local-Level Segregation and Breast Cancer Survival. \emph{Cancer Epidemiology, Biomarkers & Prevention}, 26(4):516-524. \doi{10.1158/1055-9965.EPI-16-0926}
+#'
 #' @import dplyr
 #' @importFrom car logit
 #' @importFrom sf st_drop_geometry st_within
@@ -63,9 +69,7 @@
 #' @importFrom tigris combined_statistical_areas core_based_statistical_areas metro_divisions places
 #' @importFrom utils stack
 #' @export
-#'
-#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
-#'
+#' 
 #' @examples
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.

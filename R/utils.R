@@ -14,11 +14,11 @@ a_fun <- function(x, epsilon, omit_NAs, holder) {
       x_i <- xx$subgroup
       if (epsilon == 1) {
         A <- 1 - (exp(mean(log(stats::na.omit(x_i)), na.rm = TRUE)) / mean(x_i, na.rm = TRUE))
-        return(A)
+        return(round(A, 4))
       } else {
         xxx <- (x_i / mean(x_i, na.rm = TRUE)) ^ (1 - epsilon)
         A <- 1 - mean(xxx, na.rm = TRUE) ^ (1 / (1 - epsilon))
-        return(A)
+        return(round(A, 4))
       }
     } else {
       x_i <- xx$subgroup
@@ -29,7 +29,7 @@ a_fun <- function(x, epsilon, omit_NAs, holder) {
       P <- X / N
       b <- epsilon
       A <- 1 - (P / (1 - P)) * abs(sum((1 - p_i) ^ (1 - b) * p_i ^ b * t_i / (P * N), na.rm = TRUE)) ^ (1 / (1 - b))
-      return(A)
+      return(round(A, 4))
     }
   }
 }
@@ -67,7 +67,7 @@ ace_fun <- function(x, lgeom, crs, omit_NAs) {
     Xi_1Ai <- sum(X_i[I_i[, 1]] * A_i[I_i[, 2]], na.rm = TRUE)
     XiA1_1 <- sum(X_i[I_i[, 2]] * A_i[I_i[, 1]], na.rm = TRUE)
     ACE <- Xi_1Ai - XiA1_1
-    return(ACE)
+    return(round(ACE, 4))
   }
 }
 
@@ -96,7 +96,7 @@ acl_fun <- function(x, crs, omit_NAs) {
     num <- (sum(x_i / X, na.rm = TRUE) * sum(c_ij * x_i, na.rm = TRUE)) - ((X / n^2) * sum(c_ij, na.rm = TRUE))
     denom <- (sum(x_i / X, na.rm = TRUE) * sum(c_ij * t_i, na.rm = TRUE)) - ((X / n^2) * sum(c_ij, na.rm = TRUE))
     ACL <- num / denom
-    return(ACL)
+    return(round(ACL, 4))
   }
 }
 
@@ -155,7 +155,7 @@ aco_fun <- function(x, omit_NAs) {
     ACO_tmp <- (num / denom)
     if (is.infinite(ACO_tmp) | is.na(ACO_tmp)) { ACO_tmp <- 0 }
     ACO <- 1 - ACO_tmp
-    return(ACO)
+    return(round(ACO, 4))
   }
 }
 
@@ -175,7 +175,7 @@ ddd_fun <- function(x, omit_NAs) {
     y_i <- xx$subgroup_ref
     m_i <- sum(y_i, na.rm = TRUE)
     D <- 0.5 * sum(abs((x_i/n_i) - (y_i/m_i)), na.rm = TRUE)
-    return(D)
+    return(round(D, 4))
   }
 }
 
@@ -195,7 +195,7 @@ del_fun <- function(x, omit_NAs) {
     a_i <- xx$ALAND
     A <- sum(a_i, na.rm = TRUE)
     DEL <- 0.5 * sum(abs((x_i / X) - (a_i / A)), na.rm = TRUE)
-    return(DEL)
+    return(round(DEL, 4))
   }
 }
 
@@ -217,7 +217,7 @@ djt_fun <- function(x, omit_NAs) {
     p_i <- x_i / t_i
     P <- X / N
     D <- sum(t_i * abs(p_i - P), na.rm = TRUE) / (2 * N * P * (1 - P))
-    return(D)
+    return(round(D, 4))
   }
 }
 
@@ -245,7 +245,7 @@ dpxy_star_fun <- function(x, crs, omit_NAs) {
       exp()
     K_ij <- c_ij * t_j /  sum(c_ij * t_j, na.rm = TRUE)  
     DPxx_star <- sum(x_i / X, na.rm = TRUE) * sum(K_ij * y_j / t_j, na.rm = TRUE)  
-    return(DPxx_star)
+    return(round(DPxx_star, 4))
   }
 }
 
@@ -272,7 +272,7 @@ dpxx_star_fun <- function(x, crs, omit_NAs) {
       exp()
     K_ij <- c_ij * t_j /  sum(c_ij * t_j, na.rm = TRUE)  
     DPxx_star <- sum(x_i / X, na.rm = TRUE) * sum(K_ij * x_j / t_j, na.rm = TRUE)  
-    return(DPxx_star)
+    return(round(DPxx_star, 4))
   }
 }
 
@@ -297,7 +297,7 @@ g_fun <- function(x, omit_NAs) {
     pipj <- apply(expand.grid(p_i, p_i), MARGIN = 1, FUN = diff)
     G <- sum(titj * abs(pipj), na.rm = TRUE)
     G <- G / (2 * N ^ 2 * P * (1 - P))
-    return(G)
+    return(round(G, 4))
   }
 }
 
@@ -331,7 +331,7 @@ h_fun <- function(x, omit_NAs) {
     H_i <- t_i * abs(E - E_i) / (E * N)
     H_i[is.infinite(H_i)] <- NA
     H <- sum(H_i, na.rm = TRUE) 
-    return(H)
+    return(round(H, 4))
   }
 }
 
@@ -359,7 +359,7 @@ lexis_fun <- function(x, omit_NAs) {
     P_m <- X / N
     P_n <- Y / N
     LExIs <- car::logit(p_im * p_in) - car::logit(P_m * P_n)
-    df <-  data.frame(LExIs = LExIs, GEOID = xx$GEOID)
+    df <-  data.frame(LExIs = round(LExIs, 4), GEOID = xx$GEOID)
     return(df)
   }
 }
@@ -382,7 +382,7 @@ lq_fun <- function(x, omit_NAs) {
     N <- sum(t_i, na.rm = TRUE) # X
     if (anyNA(p_i)) { p_i[is.na(p_i)] <- 0 }
     LQ <- p_i / (X / N) # (x_im/X_i)/(X_m/X)
-    df <-  data.frame(LQ = LQ, GEOID = xx$GEOID)
+    df <-  data.frame(LQ = round(LQ, 4), GEOID = xx$GEOID)
     return(df)
   }
 }
@@ -418,7 +418,7 @@ rce_fun <- function(x, lgeom, crs, omit_NAs) {
     Xi_1Yi <- sum(X_i[I_i[, 1]] * Y_i[I_i[, 2]], na.rm = TRUE)
     XiY1_1 <- sum(X_i[I_i[, 2]] * Y_i[I_i[, 1]], na.rm = TRUE)
     RCE <- Xi_1Yi - XiY1_1
-    return(RCE)
+    return(round(RCE, 4))
   }
 }
 
@@ -447,7 +447,7 @@ rcl_fun <- function(x, crs, omit_NAs) {
     P_xx <- sum((x_i * x_i * c_ij) / X^2, na.rm = TRUE)
     P_yy <- sum((y_i * y_i * c_ij) / Y^2, na.rm = TRUE)
     RCL <- (P_xx / P_yy) - 1
-    return(RCL)
+    return(round(RCL, 4))
   }
 }
 
@@ -479,7 +479,7 @@ sp_fun <- function(x, crs, omit_NAs) {
     P_xy <- sum((x_i * y_i * c_ij) / (X * Y), na.rm = TRUE)
     P_tt <- sum((t_i * t_i * c_ij) / N^2, na.rm = TRUE)
     SP <- ((X * P_xx) + (Y * P_xy)) / (N * P_tt)
-    return(SP)
+    return(round(SP, 4))
   }
 }
 
@@ -543,7 +543,7 @@ rco_fun <- function(x, omit_NAs) {
     if (is.infinite(RCO) & sign(RCO) == 1) { RCO <- 1 }   
     # if (is.finite(RCO) & RCO < -1) { RCO <- -1 }
     # if (is.finite(RCO) & RCO > -1) { RCO <- 1 }    
-    return(RCO)
+    return(round(RCO, 4))
   }
 }
 
@@ -565,7 +565,7 @@ v_fun <- function(x, omit_NAs) {
     xPx_star <- sum((x_i / X) * (x_i / t_i), na.rm = TRUE)
     P <- X / N
     V <- (xPx_star - P) / (1 - P)
-    return(V)
+    return(round(V, 4))
   }
 }
 
@@ -584,7 +584,7 @@ xpx_star_fun <- function(x, omit_NAs) {
     X <- sum(x_i, na.rm = TRUE)
     t_i <- xx$TotalPopE
     xPx_star <- sum((x_i / X) * (x_i / t_i), na.rm = TRUE)
-    return(xPx_star)
+    return(round(xPx_star, 4))
   }
 }
 
@@ -604,6 +604,6 @@ xpy_star_fun <- function(x, omit_NAs) {
     y_i <- xx$subgroup_ixn
     t_i <- xx$TotalPopE
     xPy_star <- sum((x_i / X) * (y_i / t_i), na.rm = TRUE)
-    return(xPy_star)
+    return(round(xPy_star, 4))
   }
 }

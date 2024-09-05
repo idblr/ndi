@@ -52,6 +52,14 @@
 #' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{H}.}
 #' }
 #'
+#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+#' @seealso Other one-group evenness indices: \code{\link{atkinson}}, \code{\link{gini}}, \code{\link{james_taeuber}}, \code{\link{sudano}}
+#' @seealso Between groups dissimilarity indices: \code{\link{duncan}}
+#' 
+#' @references Theil, H (1972) \emph{Statistical decomposition analysis: with applications in the social and administrative}. Amsterdam: North-Holland Publishing Company. ISBN-13:978-1-032-53884-6
+#' @references Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
+#' 
+#' 
 #' @import dplyr
 #' @importFrom sf st_drop_geometry st_within
 #' @importFrom stats complete.cases
@@ -61,9 +69,7 @@
 #' @importFrom tigris combined_statistical_areas core_based_statistical_areas metro_divisions places
 #' @importFrom utils stack
 #' @export
-#'
-#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
-#'
+#' 
 #' @examples
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.

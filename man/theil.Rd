@@ -94,6 +94,15 @@ Note: The computation differs from Massey & Denton (1988) \doi{10.1093/sf/67.2.2
 }
 
 }
+\references{
+Theil, H (1972) \emph{Statistical decomposition analysis: with applications in the social and administrative}. Amsterdam: North-Holland Publishing Company. ISBN-13:978-1-032-53884-6
+
+Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
+}
 \seealso{
 \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+
+Other one-group evenness indices: \code{\link{atkinson}}, \code{\link{gini}}, \code{\link{james_taeuber}}, \code{\link{sudano}}
+
+Between groups dissimilarity indices: \code{\link{duncan}}
 }

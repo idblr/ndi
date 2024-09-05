@@ -62,11 +62,13 @@ test_that('massey throws error with invalid arguments', {
 test_that('massey works', {
   skip_if(Sys.getenv('CENSUS_API_KEY') == '')
   
-  expect_silent(massey(
-    state = 'DC',
-    year = 2020,
-    subgroup = c('NHoLB', 'HoLB'),
-  ))
+  expect_silent(
+    massey(
+      state = 'DC',
+      year = 2020,
+      subgroup = c('NHoLB', 'HoLB'),
+    )
+  )
   
   expect_silent(
     massey(
@@ -77,11 +79,13 @@ test_that('massey works', {
     )
   )
   
-  expect_silent(massey(
-    state = 'DC',
-    year = 2020,
-    subgroup = c('NHoLB', 'HoLB'),
-    quiet = TRUE
-  ))
+  expect_silent(
+    massey(
+      state = 'DC',
+      year = 2020,
+      subgroup = c('NHoLB', 'HoLB'),
+      quiet = TRUE
+    )
+  )
   
 })

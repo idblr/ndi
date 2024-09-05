@@ -41,6 +41,11 @@
 #' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{NDI}.}
 #' }
 #' 
+#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic referent selection (i.e., \code{state} and \code{county}).
+#' @seealso Neighborhood Deprivation Index: \code{\link{powell_wiley}}
+#' 
+#' @references Messer, LC, Laraia, BA, Kaufman, JS, Eyster, J, Holzman, C, Culhane, J, Elo, I, Burke, J, O'Campo, P (2006) The Development of a Standardized Neighborhood Deprivation Index. \emph{Journal of Urban Health}, 83(6):1041-1062. \doi{10.1007/s11524-006-9094-x}
+#' 
 #' @import dplyr
 #' @importFrom psych principal
 #' @importFrom stats quantile
@@ -49,8 +54,6 @@
 #' @importFrom tidyr pivot_longer separate
 #' @export
 #' 
-#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic referent selection (i.e., \code{state} and \code{county}).
-#'
 #' @examples
 #' 
 #' messer(df = DCtracts2020[ , c(1, 3:10)])

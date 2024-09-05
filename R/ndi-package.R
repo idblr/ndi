@@ -11,48 +11,58 @@
 #' \code{\link{messer}} Computes the aspatial Neighborhood Deprivation Index (\emph{NDI}) based on Messer et al. (2006) \doi{10.1007/s11524-006-9094-x}.
 #' 
 #' \code{\link{powell_wiley}} Computes the aspatial Neighborhood Deprivation Index (\emph{NDI}) based on Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} who use variables chosen by Roux and Mair (2010) \doi{10.1111/j.1749-6632.2009.05333.x}.
-#' 
+#'
 #' \strong{Indices of Racial or Ethnic Residential Segregation}
 #' 
-#' \code{\link{anthopolos}} Computes the spatial Racial Isolation Index (\emph{RI}) based on Anthopolos (2011) \doi{10.1016/j.sste.2011.06.002}.
+#' \emph{Indices of Racial or Ethnic Residential Evenness}
 #' 
 #' \code{\link{atkinson}} Computes the aspatial Atkinson Index (\emph{A}) based on Atkinson (1970) \doi{10.1016/0022-0531(70)90039-6}.
 #' 
-#' \code{\link{bell}} Computes the aspatial Interaction Index (\emph{xPy\*}) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and Bell (1954) \doi{10.2307/2574118}.
-#' 
-#' \code{\link{bemanian_beyer}} Computes the aspatial Local Exposure and Isolation (\emph{LEx/Is}) based on Bemanian & Beyer (2017) \doi{10.1158/1055-9965.EPI-16-0926}.
-#' 
-#' \code{\link{denton}} Computes the aspatial Relative Clustering (\emph{RCL}) based on Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
-#'
-#' \code{\link{denton_cuzzort}} Computes the aspatial Relative Concentration (\emph{RCO}) based on Massey & Denton (1988) \doi{10.1093/sf/67.2.281} and Duncan, Cuzzort, & Duncan (1961; LC:60007089).
-#' 
 #' \code{\link{duncan}} Computes the aspatial Dissimilarity Index (\emph{D}) based on Duncan & Duncan (1955a) \doi{10.2307/2088328}.
 #' 
-#' \code{\link{duncan_cuzzort}} Computes the aspatial Absolute Centralization (\emph{ACE}) based on Duncan, Cuzzort, & Duncan (1961; LC:60007089) and Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
-#'
-#' \code{\link{duncan_duncan}} Computes the aspatial Relative Centralization (\emph{RCE}) based on Duncan & Duncan (1955b) \doi{10.1086/221609} and Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
-#'
 #' \code{\link{gini}} Computes the aspatial Gini Index (\emph{G}) based on Gini (1921) \doi{10.2307/2223319}.
 #' 
-#' \code{\link{hoover}} Computes the aspatial Delta (\emph{DEL}) based on Hoover (1941) \doi{10.1017/S0022050700052980} and Duncan, Cuzzort, & Duncan (1961; LC:60007089).
-#'
 #' \code{\link{james_taeuber}} Computes the aspatial Dissimilarity Index (\emph{D}) based on James & Taeuber (1985) \doi{10.2307/270845}.
-#' 
-#' \code{\link{lieberson}} Computes the aspatial Isolation Index (\emph{xPx\*}) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and Bell (1954) \doi{10.2307/2574118}.
-#' 
-#' \code{\link{massey}} Computes the aspatial Absolute Clustering (\emph{ACL}) based on Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
-#' 
-#' \code{\link{massey_duncan}} Computes the aspatial Absolute Concentration (\emph{ACO}) based on Massey & Denton (1988) \doi{10.1093/sf/67.2.281} and Duncan, Cuzzort, & Duncan (1961; LC:60007089).
-#'
-#' \code{\link{morgan_denton}} Computes the aspatial Distance-Decay Interaction Index (\emph{DPxy\*}) based on Morgan (1986) \url{https://www.jstor.org/stable/20001935} and Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
-#'
-#' \code{\link{morgan_massey}} Computes the aspatial Distance-Decay Isolation Index (\emph{DPxx\*}) based on Morgan (1986) \url{https://www.jstor.org/stable/20001935} and Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
 #' 
 #' \code{\link{sudano}} Computes the aspatial Location Quotient (\emph{LQ}) based on Merton (1939) \doi{10.2307/2084686} and Sudano et al. (2013) \doi{10.1016/j.healthplace.2012.09.015}.
 #' 
 #' \code{\link{theil}} Computes the aspatial Entropy (\emph{H}) based on Theil (1972; ISBN-13:978-0-444-10378-9) and Theil & Finizza (1971) \doi{110.1080/0022250X.1971.9989795}.
 #' 
+#' \emph{Indices of Racial or Ethnic Residential Exposure}
+#' 
+#' \code{\link{anthopolos}} Computes the spatial Racial Isolation Index (\emph{RI}) based on Anthopolos (2011) \doi{10.1016/j.sste.2011.06.002}.
+#' 
+#' \code{\link{bell}} Computes the aspatial Interaction Index (\emph{xPy\*}) based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and Bell (1954) \doi{10.2307/2574118}.
+#' 
+#' \code{\link{bemanian_beyer}} Computes the aspatial Local Exposure and Isolation (\emph{LEx/Is}) based on Bemanian & Beyer (2017) \doi{10.1158/1055-9965.EPI-16-0926}.
+#' 
+#' \code{\link{lieberson}} Computes the aspatial Isolation Index (\emph{xPx\*}) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and Bell (1954) \doi{10.2307/2574118}.
+#' 
 #' \code{\link{white}} Computes the aspatial Correlation Ratio (\emph{V}) based on Bell (1954) \doi{10.2307/2574118} and White (1986) \doi{10.2307/3644339}.
+#' 
+#' \emph{Indices of Racial or Ethnic Residential Concentration}
+#' 
+#' \code{\link{denton_cuzzort}} Computes the aspatial Relative Concentration (\emph{RCO}) based on Massey & Denton (1988) \doi{10.1093/sf/67.2.281} and Duncan, Cuzzort, & Duncan (1961; LC:60007089).
+#' 
+#' \code{\link{hoover}} Computes the aspatial Delta (\emph{DEL}) based on Hoover (1941) \doi{10.1017/S0022050700052980} and Duncan, Cuzzort, & Duncan (1961; LC:60007089).
+#' 
+#' \code{\link{massey_duncan}} Computes the aspatial Absolute Concentration (\emph{ACO}) based on Massey & Denton (1988) \doi{10.1093/sf/67.2.281} and Duncan, Cuzzort, & Duncan (1961; LC:60007089).
+#' 
+#' \emph{Indices of Racial or Ethnic Residential Centralization}
+#' 
+#' \code{\link{duncan_cuzzort}} Computes the aspatial Absolute Centralization (\emph{ACE}) based on Duncan, Cuzzort, & Duncan (1961; LC:60007089) and Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
+#' 
+#' \code{\link{duncan_duncan}} Computes the aspatial Relative Centralization (\emph{RCE}) based on Duncan & Duncan (1955b) \doi{10.1086/221609} and Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
+#' 
+#' \emph{Indices of Racial or Ethnic Residential Clustering}
+#' 
+#' \code{\link{denton}} Computes the aspatial Relative Clustering (\emph{RCL}) based on Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
+#'
+#' \code{\link{massey}} Computes the aspatial Absolute Clustering (\emph{ACL}) based on Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
+#' 
+#' \code{\link{morgan_denton}} Computes the aspatial Distance-Decay Interaction Index (\emph{DPxy\*}) based on Morgan (1986) \url{https://www.jstor.org/stable/20001935} and Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
+#'
+#' \code{\link{morgan_massey}} Computes the aspatial Distance-Decay Isolation Index (\emph{DPxx\*}) based on Morgan (1986) \url{https://www.jstor.org/stable/20001935} and Massey & Denton (1988) \doi{10.1093/sf/67.2.281}.
 #' 
 #' \code{\link{white_blau}} Computes an index of spatial proximity (\emph{SP}) based on White (1986) \doi{10.2307/3644339} \url{} and Blau (1977; ISBN-13:978-0-029-03660-0).
 #' 

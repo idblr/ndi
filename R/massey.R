@@ -53,6 +53,12 @@
 #' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{ACL}.}
 #' }
 #'
+#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+#' @seealso Relative Clustering Index: \code{\link{denton}}
+#' @seealso Proximity measures: \code{\link{morgan_denton}}, \code{\link{morgan_massey}}, \code{\link{white_blau}}
+#' 
+#' @references Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
+#' 
 #' @import dplyr
 #' @importFrom sf st_centroid st_distance st_drop_geometry st_transform st_within
 #' @importFrom stats complete.cases
@@ -63,8 +69,6 @@
 #' @importFrom units drop_units set_units
 #' @importFrom utils stack
 #' @export
-#'
-#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
 #'
 #' @examples
 #' \dontrun{

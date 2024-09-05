@@ -31,7 +31,12 @@
 #' \item{\code{ei}}{An object of class 'tbl' for the GEOID, name, \emph{EI}, and raw census values of specified census geographies.}
 #' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{EI}.}
 #' }
-#'
+#' 
+#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+#' @seealso Racial Isolation Index: \code{\link{anthopolos}}
+#' 
+#' @references Bravo, MA, Leong, MC, Gelfand, AE, & Miranda, ML (2021) Assessing Disparity Using Measures of Racial and Educational Isolation. \emph{International Journal of Environmental Research and Public Health}, 18(17):9384. \doi{10.3390/ijerph18179384}
+#' 
 #' @import dplyr
 #' @importFrom Matrix sparseMatrix
 #' @importFrom sf st_drop_geometry st_geometry st_intersects st_transform
@@ -41,7 +46,7 @@
 #' @importFrom tidyr pivot_longer separate
 #' @export
 #'
-#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+#' 
 #'
 #' @examples
 #' \dontrun{

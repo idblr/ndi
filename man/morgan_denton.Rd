@@ -101,6 +101,17 @@ Larger geographical units available include states \code{geo_large = 'state'}, c
 }
 
 }
+\references{
+Morgan, BS (1983) A Distance-Decay Based Interaction Index to Measure Residential Segregation. \emph{Area}, 15(3):211-217. \url{https://www.jstor.org/stable/20001935}
+
+Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
+}
 \seealso{
 \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+
+Other proximity measures: \code{\link{morgan_massey}}, \code{\link{white_blau}}
+
+Other interaction indices: \code{\link{bell}}
+
+Isolation indices: \code{\link{anthopolos}}, \code{\link{bemanian_beyer}}, \code{\link{lieberson}}, \code{\link{morgan_massey}}, \code{\link{white}}
 }

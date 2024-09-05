@@ -92,6 +92,17 @@ Larger geographical units available include states \code{geo_large = 'state'}, c
 }
 
 }
+\references{
+Bell, W (1954) A probability model for the measurement of ecological segregation. \emph{Social Forces}, 32(4):357-364. \doi{10.2307/2574118}
+
+White, MJ (1986) Segregation and Diversity Measures in Population Distribution. \emph{Population Index}, 52(2):198-221. \doi{10.2307/3644339}
+
+Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
+}
 \seealso{
 \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+
+Other isolation indices: \code{\link{anthopolos}}, \code{\link{bemanian_beyer}}, \code{\link{lieberson}}, \code{\link{morgan_massey}}
+
+Interaction indices: \code{\link{bell}}, \code{\link{morgan_denton}}
 }
