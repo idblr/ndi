@@ -53,7 +53,7 @@
 #' @importFrom stringr str_trim
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
-#' @importFrom wtd quantile
+#' @importFrom Hmisc wtd.quantile
 #' @export
 #'
 #' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic referent selection (i.e., \code{state} and \code{county}).
@@ -348,7 +348,7 @@ powell_wiley <- function(geo = 'tract',
     dplyr::mutate(
       NDIQuint = cut(
         NDI,
-        breaks = wtd::quantile(
+        breaks = Hmisc::wtd.quantile(
           NDI,
           weights = TotalPop,
           probs = c(0, 0.2, 0.4, 0.6, 0.8, 1),
