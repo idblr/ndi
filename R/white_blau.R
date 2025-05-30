@@ -54,6 +54,15 @@
 #' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{SP}.}
 #' }
 #'
+#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+#' @seealso Other proximity measures: \code{\link{morgan_denton}}, \code{\link{morgan_massey}} 
+#' @seealso Relative Clustering: \code{\link{denton}}
+#' @seealso Absolute Clustering: \code{\link{massey}}
+#' 
+#' @references White, MJ (1986) Segregation and Diversity Measures in Population Distribution. \emph{Population Index}, 52(2):198-221. \doi{10.2307/3644339}
+#' @references Blau, PM (1977) \emph{Inequality and Heterogeneity: A Primitive Theory of Social Structure}. Free Press. ISBN-13:978-0-029-03660-0
+#' @references Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
+#' 
 #' @import dplyr
 #' @importFrom sf st_centroid st_distance st_drop_geometry st_transform st_within
 #' @importFrom stats complete.cases
@@ -64,8 +73,6 @@
 #' @importFrom units drop_units set_units
 #' @importFrom utils stack
 #' @export
-#'
-#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
 #'
 #' @examples
 #' \dontrun{

@@ -49,7 +49,14 @@
 #' \item{\code{aco_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
 #' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{ACO}.}
 #' }
-#'
+#' 
+#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+#' @seealso Relative Concentration: \code{\link{denton_cuzzort}}
+#' @seealso Delta: \code{\link{hoover}}
+#' 
+#' @references Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
+#' @references Duncan, OD, Cuzzort, RP, & Duncan, B (1961) \emph{Statistical Geography: Problems in Analyzing Area Data}. Free Press. LC:60007089
+#' 
 #' @import dplyr
 #' @importFrom sf st_centroid st_distance st_drop_geometry st_transform st_within
 #' @importFrom stats complete.cases
@@ -60,9 +67,7 @@
 #' @importFrom units drop_units set_units
 #' @importFrom utils stack
 #' @export
-#'
-#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
-#'
+#' 
 #' @examples
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.

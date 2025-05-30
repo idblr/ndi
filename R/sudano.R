@@ -50,6 +50,13 @@
 #' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{LQ}.}
 #' }
 #'
+#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+#' @seealso Other one-group evenness indices: \code{\link{atkinson}}, \code{\link{gini}}, \code{\link{james_taeuber}}, \code{\link{theil}}
+#' @seealso Between groups dissimilarity indices: \code{\link{duncan}}
+#' 
+#' @references Merton, RK (1938) Social Structure and Anomie. \emph{American Sociological Review}, 3(5):672-682. \doi{10.2307/2084686}
+#' @references Sudano, JJ, Perzynski, A, Wong, DW, Colabianchi, N, Litaker, D (2013) Neighborhood Racial Residential Segregation and Changes in Health or Death Among Older Adults. \emph{Health & Place}, 19:80-88. \doi{10.1016/j.healthplace.2012.09.015}
+#' 
 #' @import dplyr
 #' @importFrom sf st_drop_geometry st_within
 #' @importFrom stats complete.cases
@@ -59,8 +66,6 @@
 #' @importFrom tigris combined_statistical_areas core_based_statistical_areas metro_divisions places
 #' @importFrom utils stack
 #' @export
-#'
-#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
 #'
 #' @examples
 #' \dontrun{

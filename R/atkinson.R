@@ -53,6 +53,14 @@
 #' \item{\code{a_data}}{An object of class 'tbl' for the raw census values at specified smaller census geographies.}
 #' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{A}.}
 #' }
+#' 
+#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+#' @seealso Other one-group evenness indices: \code{\link{gini}}, \code{\link{james_taeuber}}, \code{\link{sudano}}, \code{\link{theil}}
+#' @seealso Between groups dissimilarity indices: \code{\link{duncan}}
+#' 
+#' @references Atkinson, AB (1970) On the Measurement of Inequality. \emph{Journal of Economic Theory}, 2(3):244-263. \doi{10.1016/0022-0531(70)90039-6}
+#' @references James, D, & Taeuber, KE (1985) Measures of Segregation. \emph{Sociological Methodology}, 15:1-32. \doi{10.2307/270845}
+#' @references Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
 #'
 #' @import dplyr
 #' @importFrom sf st_drop_geometry st_within
@@ -63,8 +71,6 @@
 #' @importFrom tigris combined_statistical_areas core_based_statistical_areas metro_divisions places
 #' @importFrom utils stack
 #' @export
-#'
-#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
 #'
 #' @examples
 #' \dontrun{

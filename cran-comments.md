@@ -20,10 +20,12 @@
   * Added `crs` argument to `anthopolos()`, `bravo()`, and `white_blau()` functions to provide spatial projection of the distance-based metrics
   * The `gini()` function now computes the aspatial racial or ethnic Gini Index (*G*) based on [Gini (1921)](https://doi.org/10.2307/2223319) as the main outcome. Arguments `geo_large`, `geo_small`, `subgroup`, and `omit_NAs` were added and argument `geo` was deprecated. The `gini()` function still retrieves the original output of the aspatial income Gini Index (*G*) at each smaller geography and is moved from the `g` output to `g_data` output.
   * Specifying census block groups in `geo` or `geo_small` arguments is now `'block group'` or `'cbg'` to match internal `get_acs()` function from the [tidycensus](https://CRAN.R-project.org/package=tidycensus) package
+  * Fixed NOTE in CRAN checks to provide package anchors for Rd \link{} targets not in the package itself and the base packages  within 'ndi-package.Rd'
   * `bell()` function computes the Interaction Index (Bell) not the Isolation Index as previously documented. Updated documentation throughout.
   * Fixed bug in `bell()`, `bemanian_beyer()`, `duncan()`, `sudano()`, and `white()` functions when a smaller geography contains n=0 total population, will assign a value of zero (0) in the internal calculation instead of NA
   * Fixed bug in `atkinson()` function to properly compute the income Atkinson Index
   * Renamed *AI* as *A*, *DI* as *D*, *Gini* as *G*, and *II* as _xPy\*_ to align with the definitions from [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). The output for `atkinson()` now produces `a` instead of `ai`. The output for `duncan()` now produces `d` instead of `ai`. The output for `gini()` now produces `g` instead of `gini`. The output for `bell()` now produces `xPy_star` instead of `II`. The internal functions `ai_fun()`, `di_fun()` and `ii_fun()` were renamed `a_fun()`, `ddd_fun()` and `xpy_star_fun()`, respectively.
+  * Output of racial or ethnic residential segregation indices is now rounded to four significant digits
   * `tigris` and `units` are now Imports
   * Reformatted functions for consistent internal structure
   * 'package.R' deprecated. Replaced with 'ndi-package.R' and reordered the contents
@@ -34,6 +36,8 @@
   * Split up vignette into three separate vignettes: 'ndi1', 'ndi2', and 'ndi3' for the *NDI*, racial or ethnic residential segregation, and additional socioeconomic disparity indices, respectively
   * Added examples for `atkinson()`, `duncan_cuzzort()`, `duncan_duncan()`, `gini()`, `hoover()`, `james_taeuber()`, `lieberson()`, `massey()`, `massey_duncan()`, `morgan_massey()`,  `theil()`, and `white_blau()` functions in vignettes and README
   * Added example for `holder` argument in `atkinson()` function in README
+  * Added internal and external references within each functions documentation
+  * Reordered and reformatted CITATION alphabetically by index abbreviation
   * Reordered the README examples alphabetically
   * Reordered the vignette examples to group the racial or ethnic residential segregation indices
   * Updated examples in vignettes to showcase a larger variety of U.S. states

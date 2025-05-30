@@ -62,11 +62,13 @@ test_that('duncan_cuzzort throws error with invalid arguments', {
 test_that('duncan_cuzzort works', {
   skip_if(Sys.getenv('CENSUS_API_KEY') == '')
   
-  expect_silent(duncan_cuzzort(
-    state = 'DC',
-    year = 2020,
-    subgroup = c('NHoLB', 'HoLB'),
-  ))
+  expect_silent(
+    duncan_cuzzort(
+      state = 'DC',
+      year = 2020,
+      subgroup = c('NHoLB', 'HoLB'),
+    )
+  )
   
   expect_silent(
     duncan_cuzzort(
@@ -77,11 +79,13 @@ test_that('duncan_cuzzort works', {
     )
   )
   
-  expect_silent(duncan_cuzzort(
-    state = 'DC',
-    year = 2020,
-    subgroup = c('NHoLB', 'HoLB'),
-    quiet = TRUE
-  ))
+  expect_silent(
+    duncan_cuzzort(
+      state = 'DC',
+      year = 2020,
+      subgroup = c('NHoLB', 'HoLB'),
+      quiet = TRUE
+    )
+  )
   
 })

@@ -76,12 +76,14 @@ test_that('duncan_duncan throws error with invalid arguments', {
 test_that('duncan_duncan works', {
   skip_if(Sys.getenv('CENSUS_API_KEY') == '')
   
-  expect_silent(duncan_duncan(
-    state = 'DC',
-    year = 2020,
-    subgroup = c('NHoLB', 'HoLB'),
-    subgroup_ref = c('NHoLW', 'HoLW')
-  ))
+  expect_silent(
+    duncan_duncan(
+      state = 'DC',
+      year = 2020,
+      subgroup = c('NHoLB', 'HoLB'),
+      subgroup_ref = c('NHoLW', 'HoLW')
+    )
+  )
   
   expect_silent(
     duncan_duncan(
@@ -93,12 +95,14 @@ test_that('duncan_duncan works', {
     )
   )
   
-  expect_silent(duncan_duncan(
-    state = 'DC',
-    year = 2020,
-    subgroup = c('NHoLB', 'HoLB'),
-    subgroup_ref = c('NHoLW', 'HoLW'),
-    quiet = TRUE
-  ))
+  expect_silent(
+    duncan_duncan(
+      state = 'DC',
+      year = 2020,
+      subgroup = c('NHoLB', 'HoLB'),
+      subgroup_ref = c('NHoLW', 'HoLW'),
+      quiet = TRUE
+    )
+  )
   
 })

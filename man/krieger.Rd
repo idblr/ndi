@@ -63,6 +63,13 @@ Use the internal \code{state} and \code{county} arguments within the \code{\link
 }
 
 }
+\references{
+Feldman, JM, Waterman, PD, Coull, BA, & Krieger, N (2015) Spatial Social Polarisation: Using the Index of Concentration at the Extremes Jointly for Income and Race/Ethnicity to Analyse Risk of Hypertension. \emph{Journal of Epidemiology and Community Health}, 69(12):1199-207. \doi{10.1136/jech-2015-205728}
+
+Waterman, PD, Spasojevic, J, Li, W, Maduro, G, & Wye, GV (2016) Public Health Monitoring of Privilege and Deprivation With the Index of Concentration at the Extremes. \emph{American Journal of Public Health}, 106(2):256-263. \doi{10.2105/AJPH.2015.302955}
+}
 \seealso{
 \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+
+Other concentration metrics: \code{\link{denton_cuzzort}}, \code{\link{hoover}}, \code{\link{massey_duncan}}
 }

@@ -71,6 +71,11 @@ A census geography (and its neighbors) that has nearly all of its population wit
 }
 
 }
+\references{
+Bravo, MA, Leong, MC, Gelfand, AE, & Miranda, ML (2021) Assessing Disparity Using Measures of Racial and Educational Isolation. \emph{International Journal of Environmental Research and Public Health}, 18(17):9384. \doi{10.3390/ijerph18179384}
+}
 \seealso{
 \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+
+Racial Isolation Index: \code{\link{anthopolos}}
 }

@@ -1,6 +1,6 @@
 # ndi (development version)
 
-## ndi v0.1.6.9014
+## ndi v0.1.6.9015
 
 ### New Features
 
@@ -31,11 +31,13 @@
 ### Updates
 
 #### Bug Fixes
+* Fixed NOTE in CRAN checks to provide package anchors for Rd \link{} targets not in the package itself and the base packages  within 'ndi-package.Rd'
 * `bell()` function computes the Interaction Index (Bell) not the Isolation Index as previously documented. Updated documentation throughout.
 * Fixed bug in `bell()`, `bemanian_beyer()`, `duncan()`, `sudano()`, and `white()` functions when a smaller geography contains n=0 total population, will assign a value of zero (0) in the internal calculation instead of NA
 * Fixed bug in `atkinson()` function to properly compute the income Atkinson Index
 * Renamed *AI* as *A*, *DI* as *D*, *Gini* as *G*, and *II* as _xPy\*_ to align with the definitions from [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). The output for `atkinson()` now produces `a` instead of `ai`. The output for `duncan()` now produces `d` instead of `ai`. The output for `gini()` now produces `g` instead of `gini`. The output for `bell()` now produces `xPy_star` instead of `II`. The internal functions `ai_fun()`, `di_fun()` and `ii_fun()` were renamed `a_fun()`, `ddd_fun()` and `xpy_star_fun()`, respectively.
 * 'package.R' deprecated. Replaced with 'ndi-package.R'
+* Output of racial or ethnic residential segregation indices is now rounded to four significant digits
 
 #### New Dependencies
 * `tigris` and `units` are now Imports
@@ -49,6 +51,8 @@
 * Updated documentation about value range of *V* (White) from `{0 to 1}` to `{-Inf to Inf}`
 * Added examples for `atkinson()`, `duncan_cuzzort()`, `duncan_duncan()`, `gini()`, `hoover()`, `james_taeuber()`, `lieberson()`, `massey()`, `massey_duncan()`, `morgan_massey()`, `theil()`, and `white_blau()` functions in vignettes and README
 * Added example for `holder` argument in `atkinson()` function in README
+* Added internal and external references within each functions documentation
+* Reordered and reformatted CITATION alphabetically by index abbreviation
 * Reordered the contents of 'ndi-package.R' thematically
 * Reordered the README examples alphabetically
 * Reordered the vignette examples to group the racial or ethnic residential segregation indices

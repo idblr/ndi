@@ -92,6 +92,15 @@ Larger geographical units available include states \code{geo_large = 'state'}, c
 }
 
 }
+\references{
+James, D, & Taeuber, KE (1985) Measures of Segregation. \emph{Sociological Methodology}, 15:1-32. \doi{10.2307/270845}
+
+Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
+}
 \seealso{
 \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+
+Other one-group evenness indices: \code{\link{atkinson}}, \code{\link{gini}}, \code{\link{sudano}}, \code{\link{theil}}
+
+Between groups dissimilarity indices: \code{\link{duncan}}
 }

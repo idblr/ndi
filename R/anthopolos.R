@@ -45,6 +45,13 @@
 #' \item{\code{ri}}{An object of class 'tbl' for the GEOID, name, \emph{RI}, and raw census values of specified census geographies.}
 #' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{RI}.}
 #' }
+#' 
+#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+#' @seealso Other isolation indices: \code{\link{bemanian_beyer}}, \code{\link{lieberson}}, \code{\link{morgan_massey}}, \code{\link{white}}
+#' @seealso Interaction indices: \code{\link{bell}}, \code{\link{morgan_denton}}
+#' @seealso Education Isolation Index: \code{\link{bravo}}
+#' 
+#' @references Anthopolos, R, James, SA, Gelfand, AE, & Miranda, ML (2011) A Spatial Measure of Neighborhood Level Racial Isolation Applied to Low Birthweight, Preterm Birth, and Birthweight in North Carolina. \emph{Spatial and Spatio-temporal Epidemiology}, 2(4):235-246. \doi{10.1016/j.sste.2011.06.002}
 #'
 #' @import dplyr
 #' @importFrom Matrix sparseMatrix
@@ -53,9 +60,7 @@
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
 #' @export
-#'
-#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
-#'
+#' 
 #' @examples
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.

@@ -2,48 +2,26 @@ bibentry(bibtype = 'manual',
   title          = 'ndi: Neighborhood Deprivation Indices',
   author         = as.person('Ian D. Buller'),
   publisher      = 'The Comprehensive R Archive Network',
-  year           = '2024',
-  number         = '0.1.6.9014.',
-  doi            = '10.5281/zenodo.6989030',
+  year           = '2025',
+  number         = '0.1.6.9015.',
+  doi            = '10.32614/CRAN.package.ndi',
   url            = 'https://cran.r-project.org/package=ndi',
   
   textVersion    = 
-  paste('Ian D. Buller (2024).',
+  paste('Ian D. Buller (2025)',
         'ndi: Neighborhood Deprivation Indices.',
         'The Comprehensive R Archive Network.',
-        'v0.1.6.9014.',
-        'DOI:10.5281/zenodo.6989030',
+        'v0.1.6.9015.',
+        'DOI:10.32614/CRAN.package.ndi',
         'Accessed by: https://cran.r-project.org/package=ndi'),
         
   header         = 'To cite ndi in publications, please use the following and include the version number and DOI:'
 )
 
 bibentry(bibtype = 'Article',
-  title          = 'A spatial measure of neighborhood level racial isolation applied to low birthweight, preterm birth, and birthweight in North Carolina',
-  author         = c(as.person('Rebecca Anthopolos'),
-                   as.person('Sherman A. James'),
-                   as.person('Alan E. Gelfand'),
-                   as.person('Marie Lynn Miranda')),
-  journal        = 'Spatial and Spatio-temporal Epidemiology',
-  year           = '2011',
-  volume         = '2',
-  number         = '4',
-  pages          = '235--246',
-  doi            = '10.1016/j.sste.2011.06.002',
-
-  textVersion    =
-  paste('Rebecca Anthopolos, Sherman A. James, Alan E. Gelfand, Marie Lynn Miranda (2011).',
-        'A spatial measure of neighborhood level racial isolation applied to low birthweight, preterm birth, and birthweight in North Carolina.',
-        'Spatial and Spatio-temporal Epidemiology, 2(4), 235-246.',
-        'DOI:10.1016/j.sste.2011.06.002'),
-
-  header         = 'If you computed RI (Anthopolos) values, please also cite:'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'On the measurement of inequality',
+  title          = 'On the Measurement of Inequality',
   author         = as.person('Anthony B. Atkinson'),
-  journal        = 'Journal of economic theory',
+  journal        = 'Journal of Economic Theory',
   year           = '1970',
   volume         = '2',
   number         = '3',
@@ -51,93 +29,12 @@ bibentry(bibtype = 'Article',
   doi            = '10.1016/0022-0531(70)90039-6',
 
   textVersion    =
-  paste('Anthony B. Atkinson (1970).',
-        'On the measurement of inequality.',
-        'Journal of economic theory, 2(3), 244-263.',
+  paste('Anthony B. Atkinson (1970)',
+        'On the Measurement of Inequality.',
+        'Journal of Economic Theory, 2(3):244-263.',
         'DOI:10.1016/0022-0531(70)90039-6'),
 
   header         = 'If you computed A (Atkinson) values, please also cite:'
-)
-
-bibentry(bibtype = 'Book',
-  title          = 'The Social Areas of Los Angeles: Analysis and Typology',
-  author         = c(as.person('Eshref Shevky'),
-                   as.person('Marilyn Williams')),
-  year           = '1949',
-  edition        = '1st edition',
-  city           = 'Los Angeles', 
-  publisher      = 'John Randolph Haynes and Dora Haynes Foundation',
-  isbn           = '978-0-837-15637-8',
-
-  textVersion    =
-  paste('Eshref Shevky, Marilyn Williams (1949).',
-        'The Social Areas of Los Angeles: Analysis and Typology.',
-        '1st Ed.',
-        'Los Angeles:John Randolph Haynes and Dora Haynes Foundation.',
-        'ISBN-13:978-0-837-15637-8'),
-
-  header         = 'If you computed xPy* (Bell) values, please also cite (1):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'A Probability Model for the Measurement of Ecological Segregation',
-  author         = as.person('Wendell Bell'),
-  journal        = 'Social Forces',
-  year           = '1954',
-  volume         = '32',
-  issue          = '4',
-  pages          = '357--364',
-  doi            = '10.2307/2574118',
-
-  textVersion    =
-  paste('Wendell Bell (1954).',
-        'A Probability Model for the Measurement of Ecological Segregation.',
-        'Social Forces, 32(4), 357-364.',
-        'DOI:10.2307/2574118'),
-
-  header         = 'And (2):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'Measures Matter: The Local Exposure/Isolation (LEx/Is) Metrics and Relationships between Local-Level Segregation and Breast Cancer Survival',
-  author         = c(as.person('Amin Bemanian'),
-                   as.person('Kirsten M.M. Beyer')),
-  journal        = 'Cancer Epidemiology, Biomarkers & Prevention',
-  year           = '2017',
-  volume         = '26',
-  issue          = '4',
-  pages          = '516--524',
-  doi            = '10.1158/1055-9965.EPI-16-0926',
-
-  textVersion    =
-  paste('Amin Bemanian, Kirsten M.M. Beyer (2017).',
-        'Measures Matter: The Local Exposure/Isolation (LEx/Is) Metrics and Relationships between Local-Level Segregation and Breast Cancer Survival.',
-        'Cancer Epidemiology, Biomarkers & Prevention, 26(4), 516-524.',
-        'DOI:10.1158/1055-9965.EPI-16-0926'),
-
-  header         = 'If you computed LEx/Is (Bemanian & Beyer) values, please also cite:'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'Assessing Disparity Using Measures of Racial and Educational Isolation',
-  author         = c(as.person('Mercedes A. Bravo'),
-                   as.person('Man Chong Leong'),
-                   as.person('Alan E. Gelfand'),
-                   as.person('Marie Lynn Miranda')),
-  journal        = 'International Journal of Environmental Research and Public Health',
-  year           = '2021',
-  volume         = '18',
-  number         = '17',
-  pages          = '9384',
-  doi            = '10.3390/ijerph18179384',
-
-  textVersion    =
-  paste('Mercedes A. Bravo, Man Chong Leong, Alan E. Gelfand, Marie Lynn Miranda (2021).',
-        'Assessing Disparity Using Measures of Racial and Educational Isolation.',
-        'International Journal of Environmental Research and Public Health, 18(17), 9384.',
-        'DOI:10.3390/ijerph18179384'),
-
-  header         = 'If you computed EI (Bravo) values, please also cite:'
 )
 
 bibentry(bibtype = 'Book',
@@ -150,7 +47,7 @@ bibentry(bibtype = 'Book',
   lc             = '60007089',
 
   textVersion    =
-  paste('Otis D. Duncan, Ray P. Cuzzort, & Beverly Duncan (1961).',
+  paste('Otis D. Duncan, Ray P. Cuzzort, & Beverly Duncan (1961)',
         'Statistical Geography: Problems in Analyzing Area Data.',
         'Free Press',
         'LC:60007089'),
@@ -170,10 +67,68 @@ bibentry(bibtype = 'Article',
   doi            = '10.1093/sf/67.2.281',
 
   textVersion    =
-  paste('Douglas S. Massey & Nancy A. Denton (1988).',
+  paste('Douglas S. Massey & Nancy A. Denton (1988)',
         'The Dimensions of Residential Segregation.',
-        'Social Forces, 67(1), 281-315.',
+        'Social Forces, 67(1):281-315.',
         'DOI:10.1093/sf/67.2.281'),
+
+  header         = 'And (2):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'The Dimensions of Residential Segregation',
+  author         = c(as.person('Douglas S. Massey'),
+                   as.person('Nancy A. Denton')),
+  journal        = 'Social Forces',
+  year           = '1988',
+  volume         = '67',
+  issue          = '2',
+  pages          = '281--315',
+  doi            = '10.1093/sf/67.2.281',
+
+  textVersion    =
+  paste('Douglas S. Massey & Nancy A. Denton (1988)',
+        'The Dimensions of Residential Segregation.',
+        'Social Forces, 67(1):281-315.',
+        'DOI:10.1093/sf/67.2.281'),
+
+  header         = 'If you computed ACL (Massey & Denton) values, please also cite:'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'The Dimensions of Residential Segregation',
+  author         = c(as.person('Douglas S. Massey'),
+                   as.person('Nancy A. Denton')),
+  journal        = 'Social Forces',
+  year           = '1988',
+  volume         = '67',
+  issue          = '2',
+  pages          = '281--315',
+  doi            = '10.1093/sf/67.2.281',
+
+  textVersion    =
+  paste('Douglas S. Massey & Nancy A. Denton (1988)',
+        'The Dimensions of Residential Segregation.',
+        'Social Forces, 67(1):281-315.',
+        'DOI:10.1093/sf/67.2.281'),
+
+  header         = 'If you computed ACO (Massey & Denton) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Book',
+  title          = 'Statistical Geography: Problems in Analyzing Area Data',
+  author         = c(as.person('Otis D. Duncan'),
+                    as.person('Ray P. Cuzzort'),
+                    as.person('Beverly Duncan')),
+  year           = '1961',
+  publisher      = 'Free Press',
+  lc             = '60007089',
+
+  textVersion    =
+  paste('Otis D. Duncan, Ray P. Cuzzort, & Beverly Duncan (1961)',
+        'Statistical Geography: Problems in Analyzing Area Data.',
+        'Free Press',
+        'LC:60007089'),
 
   header         = 'And (2):'
 )
@@ -190,12 +145,409 @@ bibentry(bibtype = 'Article',
   doi            = '10.2307/2088328',
 
   textVersion    =
-  paste('Otis D. Duncan, Beverly Duncan (1955).',
+  paste('Otis D. Duncan, Beverly Duncan (1955)',
         'A Methodological Analysis of Segregation Indexes.',
-        'American Sociological Review, 20(2), 210-217.',
+        'American Sociological Review, 20(2):210-217.',
         'DOI:10.2307/2088328'),
 
   header         = 'If you computed D (Duncan & Duncan) values, please also cite:'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'Measures of Segregation',
+  author         = c(as.person('David R. James'),
+                   as.person('Karl K. Taeuber')),
+  journal        = 'Sociological Methodology',
+  year           = '1985',
+  volume         = '15',
+  pages          = '1--32',
+  doi            = '10.2307/270845',
+
+  textVersion    =
+  paste('David R. James & Karl K. Taeuber (1985)',
+        'Measures of Segregation.',
+        'Sociological Methodology, 15:1-32.',
+        'DOI:10.2307/270845'),
+
+  header         = 'If you computed D (James & Taeuber) values, please also cite:'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'Interstate Redistribution of Population, 1850-1940',
+  author         = as.person('Edgar M. Hoover'),
+  journal        = 'Journal of Economic History',
+  year           = '1941',
+  volume         = '1',
+  pages          = '199--205',
+  doi            = '10.2307/2223319',
+
+  textVersion    =
+  paste('Edgar M. Hoover (1941)',
+        'Interstate Redistribution of Population, 1850-1940.',
+        'Journal of Economic History, 1:199-205.',
+        'DOI:10.2307/2223319'),
+
+  header         = 'If you computed DEL (Hoover) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Book',
+  title          = 'Statistical Geography: Problems in Analyzing Area Data',
+  author         = c(as.person('Otis D. Duncan'),
+                    as.person('Ray P. Cuzzort'),
+                    as.person('Beverly Duncan')),
+  year           = '1961',
+  publisher      = 'Free Press',
+  lc             = '60007089',
+
+  textVersion    =
+  paste('Otis D. Duncan, Ray P. Cuzzort, & Beverly Duncan (1961)',
+        'Statistical Geography: Problems in Analyzing Area Data.',
+        'Free Press',
+        'LC:60007089'),
+
+  header         = 'And (2):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'A Distance-Decay Based Interaction Index to Measure Residential Segregation',
+  author         = as.person('Barrie S. Morgan'),
+  journal        = 'Area',
+  year           = '1983',
+  volume         = '15',
+  issue          = '4',
+  pages          = '211--217',
+  url            = 'https://www.jstor.org/stable/20001935',
+
+  textVersion    =
+  paste('Barrie S. Morgan (1983)',
+        'A Distance-Decay Based Interaction Index to Measure Residential Segregation.',
+        'Area, 15(4):211-217.',
+        'https://www.jstor.org/stable/20001935'),
+
+  header         = 'If you computed DPxx* (Morgan) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'The Dimensions of Residential Segregation',
+  author         = c(as.person('Douglas S. Massey'),
+                   as.person('Nancy A. Denton')),
+  journal        = 'Social Forces',
+  year           = '1988',
+  volume         = '67',
+  issue          = '2',
+  pages          = '281--315',
+  doi            = '10.1093/sf/67.2.281',
+
+  textVersion    =
+  paste('Douglas S. Massey & Nancy A. Denton (1988)',
+        'The Dimensions of Residential Segregation.',
+        'Social Forces, 67(1):281-315.',
+        'DOI:10.1093/sf/67.2.281'),
+
+  header         = 'And (2):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'A Distance-Decay Based Interaction Index to Measure Residential Segregation',
+  author         = as.person('Barrie S. Morgan'),
+  journal        = 'Area',
+  year           = '1983',
+  volume         = '15',
+  issue          = '4',
+  pages          = '211--217',
+  url            = 'https://www.jstor.org/stable/20001935',
+
+  textVersion    =
+  paste('Barrie S. Morgan (1983)',
+        'A Distance-Decay Based Interaction Index to Measure Residential Segregation.',
+        'Area, 15(4):211-217.',
+        'https://www.jstor.org/stable/20001935'),
+
+  header         = 'If you computed DPxy* (Morgan) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'The Dimensions of Residential Segregation',
+  author         = c(as.person('Douglas S. Massey'),
+                   as.person('Nancy A. Denton')),
+  journal        = 'Social Forces',
+  year           = '1988',
+  volume         = '67',
+  issue          = '2',
+  pages          = '281--315',
+  doi            = '10.1093/sf/67.2.281',
+
+  textVersion    =
+  paste('Douglas S. Massey & Nancy A. Denton (1988)',
+        'The Dimensions of Residential Segregation.',
+        'Social Forces, 67(1):281-315.',
+        'DOI:10.1093/sf/67.2.281'),
+
+  header         = 'And (2):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'Assessing Disparity Using Measures of Racial and Educational Isolation',
+  author         = c(as.person('Mercedes A. Bravo'),
+                   as.person('Man Chong Leong'),
+                   as.person('Alan E. Gelfand'),
+                   as.person('Marie Lynn Miranda')),
+  journal        = 'International Journal of Environmental Research and Public Health',
+  year           = '2021',
+  volume         = '18',
+  number         = '17',
+  pages          = '9384',
+  doi            = '10.3390/ijerph18179384',
+
+  textVersion    =
+  paste('Mercedes A. Bravo, Man Chong Leong, Alan E. Gelfand, Marie Lynn Miranda (2021)',
+        'Assessing Disparity Using Measures of Racial and Educational Isolation.',
+        'International Journal of Environmental Research and Public Health, 18(17):9384.',
+        'DOI:10.3390/ijerph18179384'),
+
+  header         = 'If you computed EI (Bravo) values, please also cite:'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'Measurement of Inequality of Incomes',
+  author         = as.person('Corrado Gini'),
+  journal        = 'The Economic Journal',
+  year           = '1921',
+  volume         = '31',
+  number         = '121',
+  pages          = '124--126',
+  doi            = '10.2307/2223319',
+
+  textVersion    =
+  paste('Corrado Gini (1921)',
+        'Measurement of Inequality of Incomes.',
+        'The Economic Journal, 31(121):124-126.',
+        'DOI:10.2307/2223319'),
+
+  header         = 'If you retrieved G (Gini) values, please also cite:'
+)
+
+bibentry(bibtype = 'Book',
+  title          = 'Statistical decomposition analysis. With applications in the social and administrative sciences',
+  author         = as.person('Henri Theil'),
+  year           = '1972',
+  city           = 'Amsterdam', 
+  publisher      = 'North-Holland Publishing Company',
+  isbn           = '978-0-444-10378-9',
+
+  textVersion    =
+  paste('Henri Theil (1972)',
+        'Statistical decomposition analysis. With applications in the social and administrative sciences.',
+        'Amsterdam: North-Holland Publishing Company',
+        'ISBN-13:978-1-032-53884-6'),
+        
+  header         = 'If you computed H (Theil) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'A Note on the Measurement of Racial Integration of Schools by Means of Informational Concepts',
+  author         = c(as.person('Henri Theil'),
+                   as.person('Anthony J. Finizza')),
+  journal        = 'Journal of Mathematical Sociology',
+  year           = '1971',
+  volume         = '1',
+  pages          = '187--194',
+  doi            = '10.1080/0022250X.1971.9989795',
+
+  textVersion    =
+  paste('Henri Theil & Anthony J. Finizza (1971)',
+        'A Note on the Measurement of Racial Integration of Schools by Means of Informational Concepts.',
+        'Journal of Mathematical Sociology, 1:187-194.',
+        'DOI:10.1080/0022250X.1971.9989795'),
+
+  header         = 'And (2):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'Spatial Social Polarisation: Using the Index of Concentration at the Extremes Jointly for Income and Race/Ethnicity to Analyse Risk of Hypertension',
+  author         = c(as.person('Justin M. Feldman'),
+                   as.person('Pamela D. Waterman'),
+                   as.person('Brent A. Coull'),
+                   as.person('Nancy Krieger')),
+  journal        = 'Journal of Epidemiology and Community Health',
+  year           = '2015',
+  volume         = '69',
+  issue          = '12',
+  pages          = '1199--207',
+  doi            = '10.1136/jech-2015-205728',
+
+  textVersion    =
+  paste('Justin M. Feldman, Pamela D. Waterman, Brent A. Coull, Nancy Krieger (2015)',
+        'Spatial Social Polarisation: Using the Index of Concentration at the Extremes Jointly for Income and Race/Ethnicity to Analyse Risk of Hypertension',
+        'Journal of Epidemiology and Community Health, 69(12):1199-207.',
+        'DOI:10.1136/jech-2015-205728'),
+
+  header         = 'If you computed ICE (Krieger) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'Public Health Monitoring of Privilege and Deprivation With the Index of Concentration at the Extremes',
+  author         = c(as.person('Nancy Krieger'),
+                   as.person('Pamela D. Waterman'),
+                   as.person('Jasmina Spasojevic'),
+                   as.person('Wenhui Li'),
+                   as.person('Gil Maduro'),
+                   as.person('Gretchen Van Wye')),
+  journal        = 'American Journal of Public Health ',
+  year           = '2016',
+  volume         = '106',
+  issue          = '2',
+  pages          = '256--263',
+  doi            = '10.2105/AJPH.2015.302955',
+
+  textVersion    =
+  paste('Pamela D. Waterman, Jasmina Spasojevic, Wenhui Li, Gil Maduro, & Gretchen Van Wye (2016)',
+        'Public Health Monitoring of Privilege and Deprivation With the Index of Concentration at the Extremes.',
+        'American Journal of Public Health, 106(2):256-263.',
+        'DOI:10.2105/AJPH.2015.302955'),
+
+  header         = 'And (2):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'Measures Matter: The Local Exposure/Isolation (LEx/Is) Metrics and Relationships between Local-Level Segregation and Breast Cancer Survival',
+  author         = c(as.person('Amin Bemanian'),
+                   as.person('Kirsten M.M. Beyer')),
+  journal        = 'Cancer Epidemiology, Biomarkers & Prevention',
+  year           = '2017',
+  volume         = '26',
+  issue          = '4',
+  pages          = '516--524',
+  doi            = '10.1158/1055-9965.EPI-16-0926',
+
+  textVersion    =
+  paste('Amin Bemanian, Kirsten M.M. Beyer (2017)',
+        'Measures Matter: The Local Exposure/Isolation (LEx/Is) Metrics and Relationships between Local-Level Segregation and Breast Cancer Survival.',
+        'Cancer Epidemiology, Biomarkers & Prevention, 26(4):516-524.',
+        'DOI:10.1158/1055-9965.EPI-16-0926'),
+
+  header         = 'If you computed LEx/Is (Bemanian & Beyer) values, please also cite:'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'Social Structure and Anomie',
+  author         = as.person('Robert K. Merton'),
+  journal        = 'American Sociological Review',
+  year           = '1938',
+  volume         = '3',
+  number         = '5',
+  pages          = '672--682',
+  doi            = '10.2307/2084686 ',
+
+  textVersion    =
+  paste('Robert K. Merton (1938)',
+        'Social Structure and Anomie.',
+        'American Sociological Review, 3(5):672-682.',
+        'DOI:10.2307/2084686 '),
+
+  header         = 'If you computed LQ (Sudano) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'Neighborhood Racial Residential Segregation and Changes in Health or Death Among Older Adults',
+  author         = c(as.person('Joseph J. Sudano'),
+                    as.person('Adam Perzynski'),
+                    as.person('David W. Wong'),
+                    as.person('Natalie Colabianchi'),
+                    as.person('David Litaker')),
+  journal        = 'Health & Place',
+  year           = '2013',
+  volume         = '19',
+  pages          = '80--88',
+  doi            = '10.1016/j.healthplace.2012.09.015',
+
+  textVersion    =
+  paste('Joseph J. Sudano, Adam Perzynski, David W. Wong, Natalie Colabianchi, David Litaker (2013)',
+        'Neighborhood Racial Residential Segregation and Changes in Health or Death Among Older Adults.',
+        'Health & Place, 19:80-88.',
+        'DOI:10.1016/j.healthplace.2012.09.015'),
+
+  header         = 'And (2):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'The Development of a Standardized Neighborhood Deprivation Index',
+  author         = c(as.person('Lynne C. Messer'),
+                   as.person('Barbara A. Laraia'),
+                   as.person('Jay S. Kaufman'),
+                   as.person('Janet Eyster'),
+                   as.person('Claudia Holzman'),
+                   as.person('Jennifer Culhane'),
+                   as.person('Irma Elo'),
+                   as.person('Jessica Burke'),
+                   as.person("Patricia O'Campo")),
+  journal        = 'Journal of Urban Health',
+  year           = '2006',
+  volume         = '83',
+  number         = '6',
+  pages          = '1041--1062',
+  doi            = '10.1007/s11524-006-9094-x',
+
+  textVersion    =
+  paste("Lynne C. Messer, Barbara A. Laraia, Jay S. Kaufman, Janet Eyster, Claudia Holzman, Jennifer Culhane, Irma Elo, Jessica Burke, Patricia O'Campo (2006)",
+        'The Development of a Standardized Neighborhood Deprivation Index.',
+        'Journal of Urban Health, 83(6):1041-1062.',
+        'DOI:10.1007/s11524-006-9094-x'),
+
+  header         = 'If you computed NDI (Messer) values, please also cite:'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'Geospatial Analysis of Neighborhood Deprivation Index (NDI) for the United States by County',
+  author         = c(as.person('Marcus A. Andrews'),
+                   as.person('Kosuke Tomura'),
+                   as.person('Sophie E. Claudel'),
+                   as.person('Samantha Xu'),
+                   as.person('Joniqua N. Ceasar'),
+                   as.person('Billy S. Collins'),
+                   as.person('Steven Langerman'),
+                   as.person('Valerie M. Mitchell'),
+                   as.person('Yvonne Baumer'),
+                   as.person('Tiffany M. Powell-Wiley')),
+  journal        = 'Journal of Maps',
+  year           = '2020',
+  volume         = '16',
+  issue          = '1',
+  pages          = '101--112',
+  doi            = '10.1080/17445647.2020.1750066',
+
+  textVersion    =
+  paste('Marcus A. Andrews, Kosuke Tomura, Sophie E. Claudel, Samantha Xu, Joniqua N. Ceasar, Billy S. Collins, Steven Langerman, Valerie M. Mitchell, Yvonne Baumer, Tiffany M. Powell-Wiley (2022)',
+        'Geospatial Analysis of Neighborhood Deprivation Index (NDI) for the United States by County.',
+        'Journal of Maps, 16(1):101-112.',
+        'DOI:10.1080/17445647.2020.1750066'),
+
+  header         = 'If you computed NDI (Powell-Wiley) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'Environmental Data and Methods from the Accumulating Data to Optimally Predict Obesity Treatment (ADOPT) Core Measures Environmental Working Group',
+  author         = c(as.person('Beth A. Slotman'),
+                   as.person('David G Stinchcomb'),
+                   as.person('Tiffany M. Powell-Wiley'),
+                   as.person('Danielle M. Ostendorf'),
+                   as.person('Brian E. Saelens'),
+                   as.person('Amy A. Gorin'),
+                   as.person('Shannon N. Zenk'),
+                   as.person('David Berrigan')),
+  journal        = 'Data in Brief',
+  year           = '2022',
+  volume         = '41',
+  pages          = '108002',
+  doi            = '10.1016/j.dib.2022.108002',
+
+  textVersion    =
+  paste('Beth A. Slotman, David G Stinchcomb, Tiffany M. Powell-Wiley, Danielle M. Ostendorf, Brian E. Saelens, Amy A. Gorin, Shannon N. Zenk, David Berrigan (2022)',
+        'Environmental Data and Methods from the Accumulating Data to Optimally Predict Obesity Treatment (ADOPT) Core Measures Environmental Working Group.',
+        'Data in Brief, 41:108002.',
+        'DOI:10.1016/j.dib.2022.108002'),
+
+  header         = 'And (2):'
 )
 
 bibentry(bibtype = 'Article',
@@ -210,9 +562,9 @@ bibentry(bibtype = 'Article',
   doi            = '10.1086/221609',
 
   textVersion    =
-  paste('Otis D. Duncan, Beverly Duncan (1955).',
+  paste('Otis D. Duncan, Beverly Duncan (1955)',
         'Residential Distribution and Occupational Stratification.',
-        'American Journal of Sociology, 60(5), 493-503.',
+        'American Journal of Sociology, 60(5):493-503.',
         'DOI:10.1086/221609'),
 
   header         = 'If you computed RCE (Duncan & Duncan) values, please also cite (1):'
@@ -230,49 +582,52 @@ bibentry(bibtype = 'Article',
   doi            = '10.1093/sf/67.2.281',
 
   textVersion    =
-  paste('Douglas S. Massey & Nancy A. Denton (1988).',
+  paste('Douglas S. Massey & Nancy A. Denton (1988)',
         'The Dimensions of Residential Segregation.',
-        'Social Forces, 67(1), 281-315.',
+        'Social Forces, 67(1):281-315.',
         'DOI:10.1093/sf/67.2.281'),
 
   header         = 'And (2):'
 )
 
 bibentry(bibtype = 'Article',
-  title          = 'Measurement of Inequality of Incomes',
-  author         = as.person('Corrado Gini'),
-  journal        = 'The Economic Journal',
-  year           = '1921',
-  volume         = '31',
-  number         = '121',
-  pages          = '124--126',
-  doi            = '10.2307/2223319',
+  title          = 'The Dimensions of Residential Segregation',
+  author         = c(as.person('Douglas S. Massey'),
+                   as.person('Nancy A. Denton')),
+  journal        = 'Social Forces',
+  year           = '1988',
+  volume         = '67',
+  issue          = '2',
+  pages          = '281--315',
+  doi            = '10.1093/sf/67.2.281',
 
   textVersion    =
-  paste('Corrado Gini (1921).',
-        'Measurement of Inequality of Incomes.',
-        'The Economic Journal, 31(121), 124-126.',
-        'DOI:10.2307/2223319'),
+  paste('Douglas S. Massey & Nancy A. Denton (1988)',
+        'The Dimensions of Residential Segregation.',
+        'Social Forces, 67(1):281-315.',
+        'DOI:10.1093/sf/67.2.281'),
 
-  header         = 'If you retrieved G (Gini) values, please also cite:'
+  header         = 'If you computed RCL (Massey & Denton) values, please also cite:'
 )
 
 bibentry(bibtype = 'Article',
-  title          = 'Interstate Redistribution of Population, 1850-1940',
-  author         = as.person('Edgar M. Hoover'),
-  journal        = 'Journal of Economic History',
-  year           = '1941',
-  volume         = '1',
-  pages          = '199--205',
-  doi            = '10.2307/2223319',
+  title          = 'The Dimensions of Residential Segregation',
+  author         = c(as.person('Douglas S. Massey'),
+                   as.person('Nancy A. Denton')),
+  journal        = 'Social Forces',
+  year           = '1988',
+  volume         = '67',
+  issue          = '2',
+  pages          = '281--315',
+  doi            = '10.1093/sf/67.2.281',
 
   textVersion    =
-  paste('Edgar M. Hoover (1941).',
-        'Interstate Redistribution of Population, 1850-1940.',
-        'Journal of Economic History, 1, 199-205.',
-        'DOI:10.2307/2223319'),
+  paste('Douglas S. Massey & Nancy A. Denton (1988)',
+        'The Dimensions of Residential Segregation.',
+        'Social Forces, 67(1):281-315.',
+        'DOI:10.1093/sf/67.2.281'),
 
-  header         = 'If you computed DEL (Hoover) values, please also cite (1):'
+  header         = 'If you computed RCO (Massey & Denton) values, please also cite (1):'
 )
 
 bibentry(bibtype = 'Book',
@@ -285,7 +640,7 @@ bibentry(bibtype = 'Book',
   lc             = '60007089',
 
   textVersion    =
-  paste('Otis D. Duncan, Ray P. Cuzzort, & Beverly Duncan (1961).',
+  paste('Otis D. Duncan, Ray P. Cuzzort, & Beverly Duncan (1961)',
         'Statistical Geography: Problems in Analyzing Area Data.',
         'Free Press',
         'LC:60007089'),
@@ -294,66 +649,96 @@ bibentry(bibtype = 'Book',
 )
 
 bibentry(bibtype = 'Article',
-  title          = 'Measures of Segregation',
-  author         = c(as.person('David R. James'),
-                   as.person('Karl K. Taeuber')),
-  journal        = 'Sociological Methodology',
-  year           = '1985',
-  volume         = '15',
-  pages          = '1--32',
-  doi            = '10.2307/270845',
+  title          = 'A Spatial Measure of Neighborhood Level Racial Isolation Applied to Low Birthweight, Preterm Birth, and Birthweight in North Carolina',
+  author         = c(as.person('Rebecca Anthopolos'),
+                   as.person('Sherman A. James'),
+                   as.person('Alan E. Gelfand'),
+                   as.person('Marie Lynn Miranda')),
+  journal        = 'Spatial and Spatio-temporal Epidemiology',
+  year           = '2011',
+  volume         = '2',
+  number         = '4',
+  pages          = '235--246',
+  doi            = '10.1016/j.sste.2011.06.002',
 
   textVersion    =
-  paste('David R. James & Karl K. Taeuber (1954).',
-        'Measures of Segregation.',
-        'Sociological Methodology, 15, 1-32.',
-        'DOI:10.2307/270845'),
+  paste('Rebecca Anthopolos, Sherman A. James, Alan E. Gelfand, Marie Lynn Miranda (2011)',
+        'A Spatial Measure of Neighborhood Level Racial Isolation Applied to Low Birthweight, Preterm Birth, and Birthweight in North Carolina.',
+        'Spatial and Spatio-temporal Epidemiology, 2(4):235-246.',
+        'DOI:10.1016/j.sste.2011.06.002'),
 
-  header         = 'If you computed D (James & Taeuber) values, please also cite:'
+  header         = 'If you computed RI (Anthopolos) values, please also cite:'
 )
 
 bibentry(bibtype = 'Article',
-  title          = 'Spatial social polarisation: using the Index of Concentration at the Extremes jointly for income and race/ethnicity to analyse risk of hypertension',
-  author         = c(as.person('Justin M. Feldman'),
-                   as.person('Pamela D. Waterman'),
-                   as.person('Brent A. Coull'),
-                   as.person('Nancy Krieger')),
-  journal        = 'Journal of Epidemiology and Community Health',
-  year           = '2015',
-  volume         = '69',
-  issue          = '12',
-  pages          = '1199--207',
-  doi            = '10.1136/jech-2015-205728',
-
-  textVersion    =
-  paste('Justin M. Feldman, Pamela D. Waterman, Brent A. Coull, Nancy Krieger (2015).',
-        'Spatial social polarisation: using the Index of Concentration at the Extremes jointly for income and race/ethnicity to analyse risk of hypertension.',
-        'Journal of Epidemiology and Community Health, 69(12), 1199-207.',
-        'DOI:10.1136/jech-2015-205728'),
-
-  header         = 'If you computed ICE (Krieger) values, please also cite (1):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'Public Health Monitoring of Privilege and Deprivation With the Index of Concentration at the Extremes',
-  author         = c(as.person('Nancy Krieger'),
-                   as.person('Pamela D. Waterman'),
-                   as.person('Jasmina Spasojevic'),
-                   as.person('Wenhui Li'),
-                   as.person('Wenhui Li'),
-                   as.person('Gretchen Van Wye')),
-  journal        = 'American Journal of Public Health ',
-  year           = '2016',
-  volume         = '106',
+  title          = 'Segregation and Diversity Measures in Population Distribution',
+  author         = as.person('Michael J. White'),
+  journal        = 'Population Index',
+  year           = '1986',
+  volume         = '52',
   issue          = '2',
-  pages          = '256--263',
-  doi            = '10.2105/AJPH.2015.302955',
+  pages          = '198--221',
+  doi            = '10.2307/3644339',
 
   textVersion    =
-  paste('Beth A. Slotman, David G Stinchcomb, Tiffany M. Powell-Wiley, Danielle M. Ostendorf, Brian E. Saelens, Amy A. Gorin, Shannon N. Zenk, David Berrigan (2016).',
-        'Public Health Monitoring of Privilege and Deprivation With the Index of Concentration at the Extremes.',
-        'American Journal of Public Health, 106(2), 256-263.',
-        'DOI:10.2105/AJPH.2015.302955'),
+  paste('Michael J. White (1986)',
+        'Segregation and Diversity Measures in Population Distribution.',
+        'Population Index, 52(2):198-221.',
+        'DOI:10.2307/3644339'),
+
+  header         = 'If you computed SP (White) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Book',
+  title          = 'Inequality and Heterogeneity: A Primitive Theory of Social Structure',
+  author         = as.person('Peter M. Blau'),
+  year           = '1977',
+  publisher      = 'Free Press',
+  isbn           = '978-0-029-03660-0',
+
+  textVersion    =
+  paste('Peter M. Blau (1977)',
+        'Inequality and Heterogeneity: A Primitive Theory of Social Structure.',
+        'Free Press',
+        'ISBN-13:978-0-029-03660-0'),
+
+  header         = 'And (2):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'A Probability Model for the Measurement of Ecological Segregation',
+  author         = as.person('Wendell Bell'),
+  journal        = 'Social Forces',
+  year           = '1954',
+  volume         = '32',
+  issue          = '4',
+  pages          = '357--364',
+  doi            = '10.2307/2574118',
+
+  textVersion    =
+  paste('Wendell Bell (1954)',
+        'A Probability Model for the Measurement of Ecological Segregation.',
+        'Social Forces, 32(4):357-364.',
+        'DOI:10.2307/2574118'),
+
+  header         = 'If you computed V (White) values, please also cite (1):'
+)
+
+bibentry(bibtype = 'Article',
+  title          = 'Segregation and Diversity Measures in Population Distribution',
+  author         = as.person('Michael J. White'),
+  journal        = 'Population Index',
+  year           = '1986',
+  volume         = '52',
+  issue          = '2',
+  pages          = '198--221',
+  doi            = '10.2307/3644339',
+
+  textVersion    =
+  paste('Michael J. White (1986)',
+        'Segregation and Diversity Measures in Population Distribution.',
+        'Population Index, 52(2):198-221.',
+        'DOI:10.2307/3644339'),
 
   header         = 'And (2):'
 )
@@ -372,7 +757,7 @@ bibentry(bibtype = 'InBook',
   isbn           = '978-1-032-53884-6',
 
   textVersion    =
-  paste('Stanley Lieberson (1981).',
+  paste('Stanley Lieberson (1981)',
         '"An Asymmetrical Approach to Segregation." Pp. 61-82 in',
         'Ethnic Segregation in Cities,',
         'edited by Ceri Peach, Vaughan Robinson, and Susan Smith.',
@@ -394,363 +779,32 @@ bibentry(bibtype = 'Article',
   doi            = '10.2307/2574118',
 
   textVersion    =
-  paste('Wendell Bell (1954).',
+  paste('Wendell Bell (1954)',
         'A Probability Model for the Measurement of Ecological Segregation.',
-        'Social Forces, 32(4), 357-364.',
+        'Social Forces, 32(4):357-364.',
         'DOI:10.2307/2574118'),
 
   header         = 'And (2):'
 )
 
-bibentry(bibtype = 'Article',
-  title          = 'The Dimensions of Residential Segregation',
-  author         = c(as.person('Douglas S. Massey'),
-                   as.person('Nancy A. Denton')),
-  journal        = 'Social Forces',
-  year           = '1988',
-  volume         = '67',
-  issue          = '2',
-  pages          = '281--315',
-  doi            = '10.1093/sf/67.2.281',
-
-  textVersion    =
-  paste('Douglas S. Massey & Nancy A. Denton (1988).',
-        'The Dimensions of Residential Segregation.',
-        'Social Forces, 67(1), 281-315.',
-        'DOI:10.1093/sf/67.2.281'),
-
-  header         = 'If you computed ACL (Massey & Denton) values, please also cite:'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'The Dimensions of Residential Segregation',
-  author         = c(as.person('Douglas S. Massey'),
-                   as.person('Nancy A. Denton')),
-  journal        = 'Social Forces',
-  year           = '1988',
-  volume         = '67',
-  issue          = '2',
-  pages          = '281--315',
-  doi            = '10.1093/sf/67.2.281',
-
-  textVersion    =
-  paste('Douglas S. Massey & Nancy A. Denton (1988).',
-        'The Dimensions of Residential Segregation.',
-        'Social Forces, 67(1), 281-315.',
-        'DOI:10.1093/sf/67.2.281'),
-
-  header         = 'If you computed ACO (Massey & Denton) values, please also cite (1):'
-)
-
 bibentry(bibtype = 'Book',
-  title          = 'Statistical Geography: Problems in Analyzing Area Data',
-  author         = c(as.person('Otis D. Duncan'),
-                    as.person('Ray P. Cuzzort'),
-                    as.person('Beverly Duncan')),
-  year           = '1961',
-  publisher      = 'Free Press',
-  lc             = '60007089',
+  title          = 'The Social Areas of Los Angeles: Analysis and Typology',
+  author         = c(as.person('Eshref Shevky'),
+                   as.person('Marilyn Williams')),
+  year           = '1949',
+  edition        = '1st edition',
+  city           = 'Los Angeles', 
+  publisher      = 'John Randolph Haynes and Dora Haynes Foundation',
+  isbn           = '978-0-837-15637-8',
 
   textVersion    =
-  paste('Otis D. Duncan, Ray P. Cuzzort, & Beverly Duncan (1961).',
-        'Statistical Geography: Problems in Analyzing Area Data.',
-        'Free Press',
-        'LC:60007089'),
+  paste('Eshref Shevky, Marilyn Williams (1949)',
+        'The Social Areas of Los Angeles: Analysis and Typology.',
+        '1st Ed.',
+        'Los Angeles:John Randolph Haynes and Dora Haynes Foundation.',
+        'ISBN-13:978-0-837-15637-8'),
 
-  header         = 'And (2):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'A Distance-Decay Based Interaction Index to Measure Residential Segregation',
-  author         = as.person('Barrie S. Morgan'),
-  journal        = 'Area',
-  year           = '1983',
-  volume         = '15',
-  issue          = '4',
-  pages          = '211--217',
-  url            = 'https://www.jstor.org/stable/20001935',
-
-  textVersion    =
-  paste('Barrie S. Morgan (1983).',
-        'A Distance-Decay Based Interaction Index to Measure Residential Segregation.',
-        'Area, 15(4), 211-217.',
-        'https://www.jstor.org/stable/20001935'),
-
-  header         = 'If you computed DPxy* (Morgan) values, please also cite (1):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'The Dimensions of Residential Segregation',
-  author         = c(as.person('Douglas S. Massey'),
-                   as.person('Nancy A. Denton')),
-  journal        = 'Social Forces',
-  year           = '1988',
-  volume         = '67',
-  issue          = '2',
-  pages          = '281--315',
-  doi            = '10.1093/sf/67.2.281',
-
-  textVersion    =
-  paste('Douglas S. Massey & Nancy A. Denton (1988).',
-        'The Dimensions of Residential Segregation.',
-        'Social Forces, 67(1), 281-315.',
-        'DOI:10.1093/sf/67.2.281'),
-
-  header         = 'And (2):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'A Distance-Decay Based Interaction Index to Measure Residential Segregation',
-  author         = as.person('Barrie S. Morgan'),
-  journal        = 'Area',
-  year           = '1983',
-  volume         = '15',
-  issue          = '4',
-  pages          = '211--217',
-  url            = 'https://www.jstor.org/stable/20001935',
-
-  textVersion    =
-  paste('Barrie S. Morgan (1983).',
-        'A Distance-Decay Based Interaction Index to Measure Residential Segregation.',
-        'Area, 15(4), 211-217.',
-        'https://www.jstor.org/stable/20001935'),
-
-  header         = 'If you computed DPxx* (Morgan) values, please also cite (1):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'The Dimensions of Residential Segregation',
-  author         = c(as.person('Douglas S. Massey'),
-                   as.person('Nancy A. Denton')),
-  journal        = 'Social Forces',
-  year           = '1988',
-  volume         = '67',
-  issue          = '2',
-  pages          = '281--315',
-  doi            = '10.1093/sf/67.2.281',
-
-  textVersion    =
-  paste('Douglas S. Massey & Nancy A. Denton (1988).',
-        'The Dimensions of Residential Segregation.',
-        'Social Forces, 67(1), 281-315.',
-        'DOI:10.1093/sf/67.2.281'),
-
-  header         = 'And (2):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'The Dimensions of Residential Segregation',
-  author         = c(as.person('Douglas S. Massey'),
-                   as.person('Nancy A. Denton')),
-  journal        = 'Social Forces',
-  year           = '1988',
-  volume         = '67',
-  issue          = '2',
-  pages          = '281--315',
-  doi            = '10.1093/sf/67.2.281',
-
-  textVersion    =
-  paste('Douglas S. Massey & Nancy A. Denton (1988).',
-        'The Dimensions of Residential Segregation.',
-        'Social Forces, 67(1), 281-315.',
-        'DOI:10.1093/sf/67.2.281'),
-
-  header         = 'If you computed RCO (Massey & Denton) values, please also cite (1):'
-)
-
-bibentry(bibtype = 'Book',
-  title          = 'Statistical Geography: Problems in Analyzing Area Data',
-  author         = c(as.person('Otis D. Duncan'),
-                    as.person('Ray P. Cuzzort'),
-                    as.person('Beverly Duncan')),
-  year           = '1961',
-  publisher      = 'Free Press',
-  lc             = '60007089',
-
-  textVersion    =
-  paste('Otis D. Duncan, Ray P. Cuzzort, & Beverly Duncan (1961).',
-        'Statistical Geography: Problems in Analyzing Area Data.',
-        'Free Press',
-        'LC:60007089'),
-
-  header         = 'And (2):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'The Dimensions of Residential Segregation',
-  author         = c(as.person('Douglas S. Massey'),
-                   as.person('Nancy A. Denton')),
-  journal        = 'Social Forces',
-  year           = '1988',
-  volume         = '67',
-  issue          = '2',
-  pages          = '281--315',
-  doi            = '10.1093/sf/67.2.281',
-
-  textVersion    =
-  paste('Douglas S. Massey & Nancy A. Denton (1988).',
-        'The Dimensions of Residential Segregation.',
-        'Social Forces, 67(1), 281-315.',
-        'DOI:10.1093/sf/67.2.281'),
-
-  header         = 'If you computed RCL (Massey & Denton) values, please also cite:'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'The development of a standardized neighborhood deprivation index',
-  author         = c(as.person('Lynne C. Messer'),
-                   as.person('Barbara A. Laraia'),
-                   as.person('Jay S. Kaufman'),
-                   as.person('Janet Eyster'),
-                   as.person('Claudia Holzman'),
-                   as.person('Jennifer Culhane'),
-                   as.person('Irma Elo'),
-                   as.person('Jessica Burke'),
-                   as.person("Patricia O'Campo")),
-  journal        = 'Journal of Urban Health',
-  year           = '2006',
-  volume         = '83',
-  number         = '6',
-  pages          = '1041--1062',
-  doi            = '10.1007/s11524-006-9094-x',
-
-  textVersion    =
-  paste("Lynne C. Messer, Barbara A. Laraia, Jay S. Kaufman, Janet Eyster, Claudia Holzman, Jennifer Culhane, Irma Elo, Jessica Burke, Patricia O'Campo (2006).",
-        'The development of a standardized neighborhood deprivation index.',
-        'Journal of Urban Health, 83(6), 1041-1062.',
-        'DOI:10.1007/s11524-006-9094-x'),
-
-  header         = 'If you computed NDI (Messer) values, please also cite:'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'Geospatial analysis of neighborhood deprivation index (NDI) for the United States by county',
-  author         = c(as.person('Marcus A. Andrews'),
-                   as.person('Kosuke Tomura'),
-                   as.person('Sophie E. Claudel'),
-                   as.person('Samantha Xu'),
-                   as.person('Joniqua N. Ceasar'),
-                   as.person('Billy S. Collins'),
-                   as.person('Steven Langerman'),
-                   as.person('Valerie M. Mitchell'),
-                   as.person('Yvonne Baumer'),
-                   as.person('Tiffany M. Powell-Wiley')),
-  journal        = 'Journal of Maps',
-  year           = '2020',
-  volume         = '16',
-  issue          = '1',
-  pages          = '101--112',
-  doi            = '10.1080/17445647.2020.1750066',
-
-  textVersion    =
-  paste('Marcus A. Andrews, Kosuke Tomura, Sophie E. Claudel, Samantha Xu, Joniqua N. Ceasar, Billy S. Collins, Steven Langerman, Valerie M. Mitchell, Yvonne Baumer, Tiffany M. Powell-Wiley (2022).',
-        'Geospatial analysis of neighborhood deprivation index (NDI) for the United States by county.',
-        'Journal of Maps, 16(1), 101-112.',
-        'DOI:10.1080/17445647.2020.1750066'),
-
-  header         = 'If you computed NDI (Powell-Wiley) values, please also cite (1):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'Environmental data and methods from the Accumulating Data to Optimally Predict Obesity Treatment (ADOPT) core measures environmental working group',
-  author         = c(as.person('Beth A. Slotman'),
-                   as.person('David G Stinchcomb'),
-                   as.person('Tiffany M. Powell-Wiley'),
-                   as.person('Danielle M. Ostendorf'),
-                   as.person('Brian E. Saelens'),
-                   as.person('Amy A. Gorin'),
-                   as.person('Shannon N. Zenk'),
-                   as.person('David Berrigan')),
-  journal        = 'Data in Brief',
-  year           = '2022',
-  volume         = '41',
-  pages          = '108002',
-  doi            = '10.1016/j.dib.2022.108002',
-
-  textVersion    =
-  paste('Beth A. Slotman, David G Stinchcomb, Tiffany M. Powell-Wiley, Danielle M. Ostendorf, Brian E. Saelens, Amy A. Gorin, Shannon N. Zenk, David Berrigan (2022).',
-        'Environmental data and methods from the Accumulating Data to Optimally Predict Obesity Treatment (ADOPT) core measures environmental working group.',
-        'Data in Brief, 41, 108002.',
-        'DOI:10.1016/j.dib.2022.108002'),
-
-  header         = 'And (2):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'Social Structure and Anomie',
-  author         = as.person('Robert K. Merton'),
-  journal        = 'American Sociological Review',
-  year           = '1938',
-  volume         = '3',
-  number         = '5',
-  pages          = '672--682',
-  doi            = '10.2307/2084686 ',
-
-  textVersion    =
-  paste('Robert K. Merton (1938).',
-        'Social Structure and Anomie.',
-        'American Sociological Review, 3(5), 672-682.',
-        'DOI:10.2307/2084686 '),
-
-  header         = 'If you computed LQ (Sudano) values, please also cite (1):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'Neighborhood racial residential segregation and changes in health or death among older adults',
-  author         = c(as.person('Joseph J. Sudano'),
-                    as.person('Adam Perzynski'),
-                    as.person('David W. Wong'),
-                    as.person('Natalie Colabianchi'),
-                    as.person('David Litaker')),
-  journal        = 'Health & Place',
-  year           = '2013',
-  volume         = '19',
-  pages          = '80--88',
-  doi            = '10.1016/j.healthplace.2012.09.015',
-
-  textVersion    =
-  paste('Joseph J. Sudano, Adam Perzynski, David W. Wong, Natalie Colabianchi, David Litaker (2013).',
-        'Neighborhood racial residential segregation and changes in health or death among older adults.',
-        'Health & Place, 19, 80-88.',
-        'DOI:10.1016/j.healthplace.2012.09.015'),
-
-  header         = 'And (2):'
-)
-
-bibentry(bibtype = 'Book',
-  title          = 'Statistical decomposition analysis. With applications in the social and administrative sciences',
-  author         = as.person('Henri Theil'),
-  year           = '1972',
-  city           = 'Amsterdam', 
-  publisher      = 'North-Holland Publishing Company',
-  isbn           = '978-0-444-10378-9',
-
-  textVersion    =
-  paste('Henri Theil (1972).',
-        'Statistical decomposition analysis. With applications in the social and administrative sciences.',
-        'Amsterdam: North-Holland Publishing Company',
-        'ISBN-13:978-1-032-53884-6'),
-        
-  header         = 'If you computed H (Theil) values, please also cite (1):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'A note on the measurement of racial integration of schools by means of informational concepts',
-  author         = c(as.person('Henri Theil'),
-                   as.person('Anthony J. Finizza')),
-  journal        = 'Journal of Mathematical Sociology',
-  year           = '1971',
-  volume         = '1',
-  pages          = '187--194',
-  doi            = '10.1080/0022250X.1971.9989795',
-
-  textVersion    =
-  paste('Henri Theil & Anthony J. Finizza (1971).',
-        'A note on the measurement of racial integration of schools by means of informational concepts.',
-        'Journal of Mathematical Sociology, 1, 187-194.',
-        'DOI:10.1080/0022250X.1971.9989795'),
-
-  header         = 'And (2):'
+  header         = 'If you computed xPy* (Bell) values, please also cite (1):'
 )
 
 bibentry(bibtype = 'Article',
@@ -764,64 +818,10 @@ bibentry(bibtype = 'Article',
   doi            = '10.2307/2574118',
 
   textVersion    =
-  paste('Wendell Bell (1954).',
+  paste('Wendell Bell (1954)',
         'A Probability Model for the Measurement of Ecological Segregation.',
-        'Social Forces, 32(4), 357-364.',
+        'Social Forces, 32(4):357-364.',
         'DOI:10.2307/2574118'),
-
-  header         = 'If you computed V (White) values, please also cite (1):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'Segregation and Diversity Measures in Population Distribution',
-  author         = as.person('Michael J. White'),
-  journal        = 'Population Index',
-  year           = '1986',
-  volume         = '52',
-  issue          = '2',
-  pages          = '198--221',
-  doi            = '10.2307/3644339',
-
-  textVersion    =
-  paste('Michael J. White (1986).',
-        'Segregation and Diversity Measures in Population Distribution.',
-        'Population Index, 52(2), 198-221.',
-        'DOI:10.2307/3644339'),
-
-  header         = 'And (2):'
-)
-
-bibentry(bibtype = 'Article',
-  title          = 'Segregation and Diversity Measures in Population Distribution',
-  author         = as.person('Michael J. White'),
-  journal        = 'Population Index',
-  year           = '1986',
-  volume         = '52',
-  issue          = '2',
-  pages          = '198--221',
-  doi            = '10.2307/3644339',
-
-  textVersion    =
-  paste('Michael J. White (1986).',
-        'Segregation and Diversity Measures in Population Distribution.',
-        'Population Index, 52(2), 198-221.',
-        'DOI:10.2307/3644339'),
-
-  header         = 'If you computed SP (White) values, please also cite (1):'
-)
-
-bibentry(bibtype = 'Book',
-  title          = 'Inequality and Heterogeneity: A Primitive Theory of Social Structure',
-  author         = as.person('Peter M. Blau'),
-  year           = '1977',
-  publisher      = 'Free Press',
-  isbn           = '978-0-029-03660-0',
-
-  textVersion    =
-  paste('Peter M. Blau (1977).',
-        'Inequality and Heterogeneity: A Primitive Theory of Social Structure.',
-        'Free Press',
-        'ISBN-13:978-0-029-03660-0'),
 
   header         = 'And (2):'
 )

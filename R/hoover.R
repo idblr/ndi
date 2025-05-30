@@ -50,6 +50,14 @@
 #' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{DEL}.}
 #' }
 #' 
+#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+#' @seealso Absolute Concentration: \code{\link{massey_duncan}}
+#' @seealso Relative Concentration: \code{\link{denton_cuzzort}}
+#' 
+#' @references Hoover, EM (1941) Interstate Redistribution of Population, 1850-1940. \emph{Journal of Economic History}, 1:199-205. \doi{10.2307/2223319}
+#' @references Duncan, OD, Cuzzort, RP, & Duncan, B (1961) \emph{Statistical Geography: Problems in Analyzing Area Data}. Free Press. LC:60007089
+#' @references Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
+#' 
 #' @import dplyr
 #' @importFrom sf st_drop_geometry st_within
 #' @importFrom stats complete.cases
@@ -60,8 +68,6 @@
 #' @importFrom utils stack
 #' @export
 #' 
-#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
-#'
 #' @examples
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.

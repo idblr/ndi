@@ -51,6 +51,11 @@
 #' \item{\code{missing}}{An object of class 'tbl' of the count and proportion of missingness for each census variable used to compute \emph{D}.}
 #' }
 #'
+#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+#' @seealso One-group evenness indices: \code{\link{atkinson}}, \code{\link{gini}}, \code{\link{james_taeuber}}, \code{\link{sudano}}, \code{\link{theil}}
+#' 
+#' @references Duncan, OD, & Duncan, B (1955) Residential Distribution and Occupational Stratification. \emph{American Journal of Sociology}, 60(5):493-503. \doi{10.2307/2088328}
+#'
 #' @import dplyr
 #' @importFrom sf st_drop_geometry st_within
 #' @importFrom stats complete.cases
@@ -60,9 +65,7 @@
 #' @importFrom tigris combined_statistical_areas core_based_statistical_areas metro_divisions places
 #' @importFrom utils stack
 #' @export
-#'
-#' @seealso \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
-#'
+#' 
 #' @examples
 #' \dontrun{
 #' # Wrapped in \dontrun{} because these examples require a Census API key.

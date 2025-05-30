@@ -76,12 +76,14 @@ test_that('white_blau throws error with invalid arguments', {
 test_that('white_blau works', {
   skip_if(Sys.getenv('CENSUS_API_KEY') == '')
   
-  expect_silent(white_blau(
-    state = 'DC',
-    year = 2020,
-    subgroup = c('NHoLB', 'HoLB'),
-    subgroup_ref = c('NHoLW', 'HoLW')
-  ))
+  expect_silent(
+    white_blau(
+      state = 'DC',
+      year = 2020,
+      subgroup = c('NHoLB', 'HoLB'),
+      subgroup_ref = c('NHoLW', 'HoLW')
+    )
+  )
   
   expect_silent(
     white_blau(
@@ -93,12 +95,14 @@ test_that('white_blau works', {
     )
   )
   
-  expect_silent(white_blau(
-    state = 'DC',
-    year = 2020,
-    subgroup = c('NHoLB', 'HoLB'),
-    subgroup_ref = c('NHoLW', 'HoLW'),
-    quiet = TRUE
-  ))
+  expect_silent(
+    white_blau(
+      state = 'DC',
+      year = 2020,
+      subgroup = c('NHoLB', 'HoLB'),
+      subgroup_ref = c('NHoLW', 'HoLW'),
+      quiet = TRUE
+    )
+  )
   
 })

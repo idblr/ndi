@@ -62,11 +62,13 @@ test_that('theil throws error with invalid arguments', {
 test_that('theil works', {
   skip_if(Sys.getenv('CENSUS_API_KEY') == '')
   
-  expect_silent(theil(
-    state = 'DC',
-    year = 2020,
-    subgroup = c('NHoLB', 'HoLB'),
-  ))
+  expect_silent(
+    theil(
+      state = 'DC',
+      year = 2020,
+      subgroup = c('NHoLB', 'HoLB'),
+    )
+  )
   
   expect_silent(
     theil(
@@ -77,11 +79,13 @@ test_that('theil works', {
     )
   )
   
-  expect_silent(theil(
-    state = 'DC',
-    year = 2020,
-    subgroup = c('NHoLB', 'HoLB'),
-    quiet = TRUE
-  ))
+  expect_silent(
+    theil(
+      state = 'DC',
+      year = 2020,
+      subgroup = c('NHoLB', 'HoLB'),
+      quiet = TRUE
+    )
+  )
   
 })

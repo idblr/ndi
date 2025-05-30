@@ -76,12 +76,14 @@ test_that('denton throws error with invalid arguments', {
 test_that('denton works', {
   skip_if(Sys.getenv('CENSUS_API_KEY') == '')
   
-  expect_silent(denton(
-    state = 'DC',
-    year = 2020,
-    subgroup = c('NHoLB', 'HoLB'),
-    subgroup_ref = c('NHoLW', 'HoLW')
-  ))
+  expect_silent(
+    denton(
+      state = 'DC',
+      year = 2020,
+      subgroup = c('NHoLB', 'HoLB'),
+      subgroup_ref = c('NHoLW', 'HoLW')
+    )
+  )
   
   expect_silent(
     denton(
@@ -93,12 +95,14 @@ test_that('denton works', {
     )
   )
   
-  expect_silent(denton(
-    state = 'DC',
-    year = 2020,
-    subgroup = c('NHoLB', 'HoLB'),
-    subgroup_ref = c('NHoLW', 'HoLW'),
-    quiet = TRUE
-  ))
+  expect_silent(
+    denton(
+      state = 'DC',
+      year = 2020,
+      subgroup = c('NHoLB', 'HoLB'),
+      subgroup_ref = c('NHoLW', 'HoLW'),
+      quiet = TRUE
+    )
+  )
   
 })

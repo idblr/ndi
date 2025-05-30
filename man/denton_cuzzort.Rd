@@ -96,6 +96,15 @@ Larger geographical units available include states \code{geo_large = 'state'}, c
 }
 
 }
+\references{
+Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
+
+Duncan, OD, Cuzzort, RP, & Duncan, B (1961) \emph{Statistical Geography: Problems in Analyzing Area Data}. Free Press. LC:60007089
+}
 \seealso{
 \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+
+Absolute Concentration: \code{\link{massey_duncan}}
+
+Delta: \code{\link{hoover}}
 }

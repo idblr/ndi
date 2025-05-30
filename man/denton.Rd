@@ -101,6 +101,13 @@ Larger geographical units available include states \code{geo_large = 'state'}, c
 }
 
 }
+\references{
+Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
+}
 \seealso{
 \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+
+Absolute Clustering: \code{\link{massey}}
+
+Proximity measures: \code{\link{morgan_massey}}, \code{\link{morgan_denton}}, \code{\link{white_blau}}
 }

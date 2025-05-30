@@ -101,6 +101,19 @@ Larger geographical units available include states \code{geo_large = 'state'}, c
 }
 
 }
+\references{
+White, MJ (1986) Segregation and Diversity Measures in Population Distribution. \emph{Population Index}, 52(2):198-221. \doi{10.2307/3644339}
+
+Blau, PM (1977) \emph{Inequality and Heterogeneity: A Primitive Theory of Social Structure}. Free Press. ISBN-13:978-0-029-03660-0
+
+Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
+}
 \seealso{
 \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+
+Other proximity measures: \code{\link{morgan_denton}}, \code{\link{morgan_massey}}
+
+Relative Clustering: \code{\link{denton}}
+
+Absolute Clustering: \code{\link{massey}}
 }

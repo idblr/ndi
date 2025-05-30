@@ -92,6 +92,17 @@ Larger geographical units available include states \code{geo_large = 'state'}, c
 }
 
 }
+\references{
+Lieberson, S (1981). "An Asymmetrical Approach to Segregation." Pp. 61-82 in \emph{Ethnic Segregation in Cities}, edited by Peach, C, Robinson, V, & Smith, S. 1st Ed. London:Croom Helm. ISBN-13:978-1-032-53884-6
+
+Bell, W (1954) A probability model for the measurement of ecological segregation. \emph{Social Forces}, 32(4):357-364. \doi{10.2307/2574118}
+
+Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
+}
 \seealso{
 \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+
+Other isolation indices: \code{\link{anthopolos}}, \code{\link{bemanian_beyer}}, \code{\link{morgan_massey}}, \code{\link{white}}
+
+Interaction indices: \code{\link{bell}}, \code{\link{morgan_denton}}
 }
