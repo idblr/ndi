@@ -55,10 +55,11 @@
 #' @import dplyr
 #' @importFrom MASS ginv
 #' @importFrom psych alpha principal
-#' @importFrom stats complete.cases cor cov2cor loadings median promax quantile sd
+#' @importFrom stats complete.cases cor cov2cor loadings median promax sd
 #' @importFrom stringr str_trim
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
+#' @importFrom Hmisc wtd.quantile
 #' @export
 #'
 #' @examples
@@ -350,9 +351,10 @@ powell_wiley <- function(geo = 'tract',
   NDIQuint <- ndi_data_NDI %>%
     dplyr::mutate(
       NDIQuint = cut(
-        NDI * log(TotalPop),
-        breaks = stats::quantile(
-          NDI * log(TotalPop),
+        NDI,
+        breaks = Hmisc::wtd.quantile(
+          NDI,
+          weights = TotalPop,
           probs = c(0, 0.2, 0.4, 0.6, 0.8, 1),
           na.rm = TRUE
         ),
