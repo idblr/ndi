@@ -64,7 +64,7 @@ The function uses the \code{\link[tidycensus]{get_acs}} function to obtain U.S. 
 
 Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify the referent for standardizing the \emph{NDI} (Powell-Wiley) values. For example, if all U.S. states are specified for the \code{state} argument, then the output would be a U.S.-standardized index. Please note: the \emph{NDI} (Powell-Wiley) values will not exactly match (but will highly correlate with) those found in Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} because the two studies used a different statistical platform (i.e., SPSS and SAS, respectively) that intrinsically calculate the principal component analysis differently from R.
 
-The categorical \emph{NDI} (Powell-Wiley) values are population-weighted quintiles of the continuous \emph{NDI} (Powell-Wiley) values.
+The categorical \emph{NDI} (Powell-Wiley) values are population-weighted quintiles of the continuous \emph{NDI} (Powell-Wiley) values. NOTE: As of version 0.1.6, population-weighted quintiles are computed using a weighted quantile function \code{\link[Hmisc]{wtd.quantile}} where values are calculated NDI and weights are Total Population instead of previously using \code{\link[stats]{quantile}} of the product of the calculated NDI and natural logarithm transformed total population.
 
 Check if the proportion of variance explained by the first principal component is high (more than 0.5).
 

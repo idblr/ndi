@@ -32,6 +32,7 @@
 
 #### Bug Fixes
 * Fixed NOTE in CRAN checks to provide package anchors for Rd \link{} targets not in the package itself and the base packages  within 'ndi-package.Rd'
+* Updated population-weighted quantile method from `stats::quantile` to `Hmisc::wtd.quantile` in `powell_wiley()` thanks to a contribution (#32) by [Hunter Miller](https://github.com/huntermills707)
 * `bell()` function computes the Interaction Index (Bell) not the Isolation Index as previously documented. Updated documentation throughout.
 * Fixed bug in `bell()`, `bemanian_beyer()`, `duncan()`, `sudano()`, and `white()` functions when a smaller geography contains n=0 total population, will assign a value of zero (0) in the internal calculation instead of NA
 * Fixed bug in `atkinson()` function to properly compute the income Atkinson Index
