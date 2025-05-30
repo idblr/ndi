@@ -3,7 +3,7 @@ bibentry(bibtype = 'manual',
   author         = as.person('Ian D. Buller'),
   publisher      = 'The Comprehensive R Archive Network',
   year           = '2025',
-  number         = '0.1.6.9015.',
+  number         = '0.1.6.9016.',
   doi            = '10.32614/CRAN.package.ndi',
   url            = 'https://cran.r-project.org/package=ndi',
   

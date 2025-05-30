@@ -26,7 +26,7 @@
   * Fixed bug in `atkinson()` function to properly compute the income Atkinson Index
   * Renamed *AI* as *A*, *DI* as *D*, *Gini* as *G*, and *II* as _xPy\*_ to align with the definitions from [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). The output for `atkinson()` now produces `a` instead of `ai`. The output for `duncan()` now produces `d` instead of `ai`. The output for `gini()` now produces `g` instead of `gini`. The output for `bell()` now produces `xPy_star` instead of `II`. The internal functions `ai_fun()`, `di_fun()` and `ii_fun()` were renamed `a_fun()`, `ddd_fun()` and `xpy_star_fun()`, respectively.
   * Output of racial or ethnic residential segregation indices is now rounded to four significant digits
-  * `tigris` and `units` are now Imports
+  * `Hmisc`, `tigris`, and `units` are now Imports
   * Reformatted functions for consistent internal structure
   * 'package.R' deprecated. Replaced with 'ndi-package.R' and reordered the contents
   * Consolidated DESCRIPTION

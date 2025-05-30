@@ -1,6 +1,6 @@
 # ndi (development version)
 
-## ndi v0.1.6.9015
+## ndi v0.1.6.9016
 
 ### New Features
 
@@ -40,7 +40,7 @@
 * Output of racial or ethnic residential segregation indices is now rounded to four significant digits
 
 #### New Dependencies
-* `tigris` and `units` are now Imports
+* `Hmisc`, `tigris`, and `units` are now Imports
 
 #### Updated Documentation
 * Split up vignette into three separate vignettes: 'ndi1', 'ndi2', and 'ndi3' for the *NDI*, racial or ethnic residential segregation, and additional socioeconomic disparity indices, respectively
