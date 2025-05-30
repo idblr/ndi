@@ -97,6 +97,8 @@ Note: The computation differs from Massey & Denton (1988) \doi{10.1093/sf/67.2.2
 \references{
 Theil, H (1972) \emph{Statistical decomposition analysis: with applications in the social and administrative}. Amsterdam: North-Holland Publishing Company. ISBN-13:978-1-032-53884-6
 
+Theil, H, & Finizza, AJ (1971) A Note on the Measurement of Racial Integration of Schools by Means of Informational Concepts. \emph{Journal of Mathematical Sociology}, 1:187-194. \doi{10.1080/0022250X.1971.9989795}
+
 Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
 }
 \seealso{

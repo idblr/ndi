@@ -6,13 +6,13 @@
 [![CRAN status](https://r-pkg.org/badges/version/ndi)](https://cran.r-project.org/package=ndi)
 [![CRAN version](https://r-pkg.org/badges/version-ago/ndi)](https://cran.r-project.org/package=ndi)
 [![CRAN RStudio mirror downloads total](https://cranlogs.r-pkg.org/badges/grand-total/ndi?color=blue)](https://r-pkg.org/pkg/ndi)
-[![CRAN RStudio mirror downloads monthly ](https://cranlogs.r-pkg.org/badges/ndi)](https://r-pkg.org:443/pkg/ndi)
+[![CRAN RStudio mirror downloads monthly](https://cranlogs.r-pkg.org/badges/ndi)](https://r-pkg.org:443/pkg/ndi)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/license/apache-2-0)
 ![GitHub last commit](https://img.shields.io/github/last-commit/idblr/ndi)
 [![DOI](https://zenodo.org/badge/521439746.svg)](https://zenodo.org/badge/latestdoi/521439746)
 <!-- badges: end -->
 
-**Date repository last updated**: 2024-09-05
+**Date repository last updated**: 2025-05-30
 
 ### Overview
 

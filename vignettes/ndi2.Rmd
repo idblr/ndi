@@ -102,7 +102,7 @@ The [*ndi*](https://CRAN.R-project.org/package=ndi) package can use data from th
 
 #### Compute Dissimilarity Index (*D*)
 
-Compute the racial or ethnic *D* values (2006-2010 5-year ACS) for census tracts within counties of Pennsylvania. This metric is based on [James & Taeuber (1985)](https://doi.org/10.2307/270845). *D* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *D* can range in value from 0 to 1 and represents the proportion of racial or ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
+Compute the racial or ethnic *D* values (2006-2010 5-year ACS) for census tracts within counties of Pennsylvania. This metric is based on [James & Taeuber (1985)](https://doi.org/10.2307/270845). *D* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical units to larger ones within which the smaller geographical units are located. *D* can range in value from 0 to 1 and represents the proportion of racial or ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
 
 ```{r james_taeuber_prep, results = 'hide'}
 james_taeuber2010PA <- james_taeuber(
@@ -149,7 +149,7 @@ ggplot() +
 
 #### The racial or ethnic Gini Index (*G*)
 
-Compute the racial or ethnic Gini Index (*G*) values (2006-2010 5-year ACS) for census tracts within counties of Massachusetts. This metric is based on [Gini (1921)](https://doi.org/10.2307/2223319). *G* is a measure of the evenness of racial or ethnic residential populations when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *G* can range in value from 0 to 1 and the mean absolute difference between a selected subgroup proportions weighted across all pairs of geographic units, expressed as a proportion of the maximum weighted difference.
+Compute the racial or ethnic Gini Index (*G*) values (2006-2010 5-year ACS) for census tracts within counties of Massachusetts. This metric is based on [Gini (1921)](https://doi.org/10.2307/2223319). *G* is a measure of the evenness of racial or ethnic residential populations when comparing smaller geographical units to larger ones within which the smaller geographical units are located. *G* can range in value from 0 to 1 and the mean absolute difference between a selected subgroup proportions weighted across all pairs of geographic units, expressed as a proportion of the maximum weighted difference.
 
 ```{r g_re_prep, results = 'hide'}
 gini2010MA <- gini(
@@ -198,7 +198,7 @@ ggplot() +
 
 #### Compute Entropy (*H*)
 
-Compute racial or ethnic *H* (2010-2014 5-year ACS) for census tracts within metropolitan divisions of Pennsylvania. This metric is based on Theil (1972; ISBN:978-0-444-10378-9) and [Theil & Finizza (1971)](https://doi.org/110.1080/0022250X.1971.9989795). *H* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *H* can range in value from 0 to 1 and represents the (weighted) average deviation of each smaller geographical unit from the larger geographical unit's "entropy" or racial and ethnic diversity, which is greatest when each group is equally represented in the larger geographical unit. *H* varies between 0, when all smaller geographical units have the same racial or ethnic composition as the larger geographical area (i.e., maximum integration), to a high of 1, when all smaller geographical units contain one group only (maximum segregation).
+Compute racial or ethnic *H* (2010-2014 5-year ACS) for census tracts within metropolitan divisions of Pennsylvania. This metric is based on Theil (1972; ISBN:978-0-444-10378-9) and [Theil & Finizza (1971)](https://doi.org/110.1080/0022250X.1971.9989795). *H* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical units to larger ones within which the smaller geographical units are located. *H* can range in value from 0 to 1 and represents the (weighted) average deviation of each smaller geographical unit from the larger geographical unit's "entropy" or racial and ethnic diversity, which is greatest when each group is equally represented in the larger geographical unit. *H* varies between 0, when all smaller geographical units have the same racial or ethnic composition as the larger geographical area (i.e., maximum integration), to a high of 1, when all smaller geographical units contain one group only (maximum segregation).
 
 ```{r theil_prep, results = 'hide'}
 theil2014PA <- theil(
@@ -247,7 +247,7 @@ ggplot() +
 
 #### Compute Atkinson Index (*A*)
 
-Compute the racial or ethnic *A* values (2017-2021 5-year ACS) for census block groups within counties of Kentucky. This metric is based on [Atkinson (1970)](https://doi.org/10.2307/2088328) that assessed the distribution of income within 12 counties but has since been adapted to study racial or ethnic segregation (see [James & Taeuber 1985](https://doi.org/10.2307/270845)). *A* is a measure of the inequality and, in the context of residential race or ethnicity, segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *A* can range in value from 0 to 1 and smaller values of the index indicate lower levels of inequality (e.g., less segregation).
+Compute the racial or ethnic *A* values (2017-2021 5-year ACS) for census block groups within counties of Kentucky. This metric is based on [Atkinson (1970)](https://doi.org/10.2307/2088328) that assessed the distribution of income within 12 counties but has since been adapted to study racial or ethnic segregation (see [James & Taeuber 1985](https://doi.org/10.2307/270845)). *A* is a measure of the inequality and, in the context of residential race or ethnicity, segregation when comparing smaller geographical units to larger ones within which the smaller geographical units are located. *A* can range in value from 0 to 1 and smaller values of the index indicate lower levels of inequality (e.g., less segregation).
 
 *A* is sensitive to the choice of `epsilon` argument or the shape parameter that determines how to weight the increments to inequality (segregation) contributed by different proportions of the Lorenz curve. A user must explicitly decide how heavily to weight smaller geographical units at different points on the Lorenz curve (i.e., whether the index should take greater account of differences among areas of over- or under-representation). The `epsilon` argument must have values between 0 and 1.0. For `0 <= epsilon < 0.5` or less 'inequality-averse,' smaller geographical units with a subgroup proportion smaller than the subgroup proportion of the larger geographical unit contribute more to inequality ('over-representation'). For `0.5 < epsilon <= 1.0` or more 'inequality-averse,' smaller geographical units with a subgroup proportion larger than the subgroup proportion of the larger geographical unit contribute more to inequality ('under-representation'). If `epsilon = 0.5` (the default), units of over- and under-representation contribute equally to the index. See Section 2.3 of [Saint-Jacques et al. (2020)](https://doi.org/10.48550/arXiv.2002.05819) for one method to select `epsilon`. We choose `epsilon = 0.67` in the example below:
 
@@ -295,7 +295,7 @@ ggplot() +
 
 #### Compute Dissimilarity Index (*D*)
 
-Compute the racial or ethnic *D* values (2006-2010 5-year ACS) for census tracts with counties of Pennsylvania. This metric is based on [Duncan & Duncan (1955a)](https://doi.org/10.2307/2088328) that assessed the racial or ethnic isolation of students that identify as non-Hispanic or Latino, Black or African American alone compared to students that identify as non-Hispanic or Latino, white alone between schools and school districts. *D* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. *D* can range in value from 0 to 1 and represents the proportion of racial or ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
+Compute the racial or ethnic *D* values (2006-2010 5-year ACS) for census tracts with counties of Pennsylvania. This metric is based on [Duncan & Duncan (1955a)](https://doi.org/10.2307/2088328) that assessed the racial or ethnic isolation of students that identify as non-Hispanic or Latino, Black or African American alone compared to students that identify as non-Hispanic or Latino, white alone between schools and school districts. *D* is a measure of the evenness of racial or ethnic residential segregation when comparing smaller geographical units to larger ones within which the smaller geographical units are located. *D* can range in value from 0 to 1 and represents the proportion of racial or ethnic subgroup members that would have to change their area of residence to achieve an even distribution within the larger geographical area under conditions of maximum segregation.
 
 ```{r duncan_prep, results = 'hide'}
 duncan2010PA <- duncan(
@@ -388,7 +388,7 @@ ggplot() +
 
 #### Compute Interaction Index (_xPy\*_)
 
-Compute the racial or ethnic _xPy\*_ values (2017-2021 5-year ACS) for census tracts within counties of Ohio. This metric is based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and adapted by [Bell (1954)](https://doi.org/10.2307/2574118). _xPy\*_ is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. _xPy\*_ can range in value from 0 to 1.
+Compute the racial or ethnic _xPy\*_ values (2017-2021 5-year ACS) for census tracts within counties of Ohio. This metric is based on Shevky & Williams (1949; ISBN-13:978-0-837-15637-8) and adapted by [Bell (1954)](https://doi.org/10.2307/2574118). _xPy\*_ is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation) when comparing smaller geographical units to larger ones within which the smaller geographical units are located. _xPy\*_ can range in value from 0 to 1.
 
 ```{r bell_prep, results = 'hide'}
 bell2021OH <- bell(
@@ -434,7 +434,7 @@ ggplot() +
 
 #### Compute Isolation Index (_xPx\*_)
 
-Compute the racial or ethnic _xPx\*_ values (2015-2019 5-year ACS) for census block groups within census tracts of Delaware. This metric is based on [Bell (1954)](https://doi.org/10.2307/2574118) and adapted by Lieberson (1981; ISBN-13:978-1-032-53884-6). _xPx\*_ is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation) when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. _xPx\*_ can range in value from 0 to 1 with higher values signifying higher probability of interaction (less isolation).
+Compute the racial or ethnic _xPx\*_ values (2015-2019 5-year ACS) for census block groups within census tracts of Delaware. This metric is based on [Bell (1954)](https://doi.org/10.2307/2574118) and adapted by Lieberson (1981; ISBN-13:978-1-032-53884-6). _xPx\*_ is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation) when comparing smaller geographical units to larger ones within which the smaller geographical units are located. _xPx\*_ can range in value from 0 to 1 with higher values signifying higher probability of interaction (less isolation).
 
 ```{r lieberson_prep, results = 'hide'}
 lieberson2021DE <- lieberson(
@@ -479,7 +479,7 @@ ggplot() +
 
 #### Compute Correlation Ratio (*V*)
 
-Compute the racial or ethnic *V* values (2017-2021 5-year ACS) for census tracts within counties of South Carolina. This metric is based on [Bell (1954)](https://doi.org/10.2307/2574118) and adapted by [White (1986)](https://doi.org/10.2307/3644339). *V* removes the asymmetry from the Isolation Index by controlling for the effect of population composition when comparing smaller geographical areas to larger ones within which the smaller geographical areas are located. The Isolation Index is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation). *V* can range in value from 0 to Inf.
+Compute the racial or ethnic *V* values (2017-2021 5-year ACS) for census tracts within counties of South Carolina. This metric is based on [Bell (1954)](https://doi.org/10.2307/2574118) and adapted by [White (1986)](https://doi.org/10.2307/3644339). *V* removes the asymmetry from the Isolation Index by controlling for the effect of population composition when comparing smaller geographical units to larger ones within which the smaller geographical units are located. The Isolation Index is some measure of the probability that a member of one subgroup(s) will meet or interact with a member of another subgroup(s) with higher values signifying higher probability of interaction (less isolation). *V* can range in value from 0 to Inf.
 
 ```{r white_prep, results = 'hide'}
 white2021SC <- white(
@@ -1016,7 +1016,7 @@ ggplot() +
 
 #### Compute an index of spatial proximity (*SP*)
 
-Compute an index of spatial proximity (2010-2014 5-year ACS) for census tracts within combined statistical areas of Georgia. This metric is based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0) that designed the metric to identify racial or ethnic enclaves. *SP* is a measure of clustering of racial or ethnic populations within smaller geographical areas that are located within larger geographical areas. *SP* can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering between subgroup and referent group members. A value greater than 1 indicates subgroup members live nearer to one another than to referent subgroup members. A value less than 1 indicates subgroup live nearer to and referent subgroup members than to their own subgroup members.
+Compute an index of spatial proximity (2010-2014 5-year ACS) for census tracts within combined statistical areas of Georgia. This metric is based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0) that designed the metric to identify racial or ethnic enclaves. *SP* is a measure of clustering of racial or ethnic populations within smaller geographical units that are located within larger geographical units. *SP* can range in value from 0 to Inf and represents the degree to which an area is a racial or ethnic enclave. A value of 1 indicates there is no differential clustering between subgroup and referent group members. A value greater than 1 indicates subgroup members live nearer to one another than to referent subgroup members. A value less than 1 indicates subgroup live nearer to and referent subgroup members than to their own subgroup members.
 
 ```{r white_blau_prep, results = 'hide'}
 whiteblau2014GA <- white_blau(
@@ -1028,7 +1028,7 @@ whiteblau2014GA <- white_blau(
   subgroup_ref = 'NHoLW'
 )
 
-# Obtain the 2014 Combined Statistical Areas from the 'tigris' package
+# Obtain the 2014 combined statistical areas from the 'tigris' package
 csa2014 <- combined_statistical_areas(year = 2014, cb = TRUE)
 # Obtain the 2014 state from the 'tigris' package
 state2014 <- states(year = 2014, cb = TRUE)

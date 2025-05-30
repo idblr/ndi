@@ -55,7 +55,6 @@
 #' @seealso One-group evenness indices: \code{\link{atkinson}}, \code{\link{gini}}, \code{\link{james_taeuber}}, \code{\link{sudano}}, \code{\link{theil}}
 #' 
 #' @references Duncan, OD, & Duncan, B (1955) Residential Distribution and Occupational Stratification. \emph{American Journal of Sociology}, 60(5):493-503. \doi{10.2307/2088328}
-#' @references Massey, DS, & Denton, NA (1988) The Dimensions of Residential Segregation. \emph{Social Forces}, 67(1):281-315. \doi{10.1093/sf/67.2.281}
 #'
 #' @import dplyr
 #' @importFrom sf st_drop_geometry st_within

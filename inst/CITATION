@@ -2,17 +2,17 @@ bibentry(bibtype = 'manual',
   title          = 'ndi: Neighborhood Deprivation Indices',
   author         = as.person('Ian D. Buller'),
   publisher      = 'The Comprehensive R Archive Network',
-  year           = '2024',
+  year           = '2025',
   number         = '0.1.6.9015.',
-  doi            = '10.5281/zenodo.6989030',
+  doi            = '10.32614/CRAN.package.ndi',
   url            = 'https://cran.r-project.org/package=ndi',
   
   textVersion    = 
-  paste('Ian D. Buller (2024)',
+  paste('Ian D. Buller (2025)',
         'ndi: Neighborhood Deprivation Indices.',
         'The Comprehensive R Archive Network.',
         'v0.1.6.9015.',
-        'DOI:10.5281/zenodo.6989030',
+        'DOI:10.32614/CRAN.package.ndi',
         'Accessed by: https://cran.r-project.org/package=ndi'),
         
   header         = 'To cite ndi in publications, please use the following and include the version number and DOI:'

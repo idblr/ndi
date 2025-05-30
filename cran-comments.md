@@ -20,6 +20,7 @@
   * Added `crs` argument to `anthopolos()`, `bravo()`, and `white_blau()` functions to provide spatial projection of the distance-based metrics
   * The `gini()` function now computes the aspatial racial or ethnic Gini Index (*G*) based on [Gini (1921)](https://doi.org/10.2307/2223319) as the main outcome. Arguments `geo_large`, `geo_small`, `subgroup`, and `omit_NAs` were added and argument `geo` was deprecated. The `gini()` function still retrieves the original output of the aspatial income Gini Index (*G*) at each smaller geography and is moved from the `g` output to `g_data` output.
   * Specifying census block groups in `geo` or `geo_small` arguments is now `'block group'` or `'cbg'` to match internal `get_acs()` function from the [tidycensus](https://CRAN.R-project.org/package=tidycensus) package
+  * Fixed NOTE in CRAN checks to provide package anchors for Rd \link{} targets not in the package itself and the base packages  within 'ndi-package.Rd'
   * `bell()` function computes the Interaction Index (Bell) not the Isolation Index as previously documented. Updated documentation throughout.
   * Fixed bug in `bell()`, `bemanian_beyer()`, `duncan()`, `sudano()`, and `white()` functions when a smaller geography contains n=0 total population, will assign a value of zero (0) in the internal calculation instead of NA
   * Fixed bug in `atkinson()` function to properly compute the income Atkinson Index

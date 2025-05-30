@@ -70,4 +70,6 @@ Waterman, PD, Spasojevic, J, Li, W, Maduro, G, & Wye, GV (2016) Public Health Mo
 }
 \seealso{
 \code{\link[tidycensus]{get_acs}} for additional arguments for geographic extent selection (i.e., \code{state} and \code{county}).
+
+Other concentration metrics: \code{\link{denton_cuzzort}}, \code{\link{hoover}}, \code{\link{massey_duncan}}
 }
