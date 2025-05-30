@@ -94,6 +94,7 @@
 
 #' @import dplyr
 #' @importFrom car logit
+#' @importFrom Hmisc wtd.quantile
 #' @importFrom MASS ginv
 #' @importFrom Matrix sparseMatrix
 #' @importFrom psych alpha principal
