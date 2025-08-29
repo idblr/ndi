@@ -9,10 +9,10 @@
 [![CRAN RStudio mirror downloads monthly](https://cranlogs.r-pkg.org/badges/ndi)](https://r-pkg.org:443/pkg/ndi)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/license/apache-2-0)
 ![GitHub last commit](https://img.shields.io/github/last-commit/idblr/ndi)
-[![DOI](https://zenodo.org/badge/521439746.svg)](https://zenodo.org/badge/latestdoi/521439746)
+[![](https://img.shields.io/badge/DOI-10.32614/CRAN.package.ndi-1f57b6?style=flat&link=https://doi.org/10.32614/CRAN.package.ndi)](https://doi.org/10.32614/CRAN.package.ndi)
 <!-- badges: end -->
 
-**Date repository last updated**: 2025-05-30
+**Date repository last updated**: 2025-08-29
 
 ### Overview
 
