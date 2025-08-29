@@ -31,7 +31,7 @@
 #'
 #' Use the internal \code{state} and \code{county} arguments within the \code{\link[tidycensus]{get_acs}} function to specify the referent for standardizing the \emph{NDI} (Powell-Wiley) values. For example, if all U.S. states are specified for the \code{state} argument, then the output would be a U.S.-standardized index. Please note: the \emph{NDI} (Powell-Wiley) values will not exactly match (but will highly correlate with) those found in Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} and Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} because the two studies used a different statistical platform (i.e., SPSS and SAS, respectively) that intrinsically calculate the principal component analysis differently from R.
 #'
-#' The categorical \emph{NDI} (Powell-Wiley) values are population-weighted quintiles of the continuous \emph{NDI} (Powell-Wiley) values.
+#' The categorical \emph{NDI} (Powell-Wiley) values are population-weighted quintiles of the continuous \emph{NDI} (Powell-Wiley) values. NOTE: As of version 0.2.0, population-weighted quintiles are computed using a weighted quantile function \code{\link[Hmisc]{wtd.quantile}} where values are calculated NDI and weights are Total Population instead of previously using \code{\link[stats]{quantile}} of the product of the calculated NDI and natural logarithm transformed total population.
 #'
 #' Check if the proportion of variance explained by the first principal component is high (more than 0.5).
 #'
@@ -53,9 +53,10 @@
 #' @references Slotman, BA, Stinchcomb, DG, Powell-Wiley, TM, Ostendorf, DM, Saelens, BE, Gorin, AA, Zenk, SN, & Berrigan, D (2022) Environmental Data and Methods from the Accumulating Data to Optimally Predict Obesity Treatment (ADOPT) Core Measures Environmental Working Group. \emph{Data in Brief}, 41:108002. \doi{10.1016/j.dib.2022.108002}
 #' 
 #' @import dplyr
+#' @importFrom Hmisc wtd.quantile
 #' @importFrom MASS ginv
 #' @importFrom psych alpha principal
-#' @importFrom stats complete.cases cor cov2cor loadings median promax quantile sd
+#' @importFrom stats complete.cases cor cov2cor loadings median promax sd
 #' @importFrom stringr str_trim
 #' @importFrom tidycensus get_acs
 #' @importFrom tidyr pivot_longer separate
@@ -350,9 +351,10 @@ powell_wiley <- function(geo = 'tract',
   NDIQuint <- ndi_data_NDI %>%
     dplyr::mutate(
       NDIQuint = cut(
-        NDI * log(TotalPop),
-        breaks = stats::quantile(
-          NDI * log(TotalPop),
+        NDI,
+        breaks = Hmisc::wtd.quantile(
+          NDI,
+          weights = TotalPop,
           probs = c(0, 0.2, 0.4, 0.6, 0.8, 1),
           na.rm = TRUE
         ),

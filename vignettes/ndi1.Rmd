@@ -70,7 +70,7 @@ A third output from the `messer()` function is a tibble containing a breakdown o
 messer2010GA$missing
 ```
 
-We can visualize the *NDI* (Messer) values geographically by linking them to spatial information from the [*tigris*]([*tidycensus*](https://CRAN.R-project.org/package=tigris) package and plotting with the [*ggplot2*]([*tidycensus*](https://CRAN.R-project.org/package=ggplot2) package suite.
+We can visualize the *NDI* (Messer) values geographically by linking them to spatial information from the [*tigris*](https://CRAN.R-project.org/package=tigris) package and plotting with the [*ggplot2*](https://CRAN.R-project.org/package=ggplot2) package suite.
 
 ```{r messer_prep, results = 'hide'}
 # Obtain the 2010 counties from the 'tigris' package
@@ -102,7 +102,7 @@ ggplot() +
     data = county2010GA,
     fill = 'transparent',
     color = 'white',
-    size = 0.2
+    size = 0.10
   ) +
   theme_minimal() +
   scale_fill_viridis_c() +
@@ -135,7 +135,7 @@ ggplot() +
     data = county2010GA,
     fill = 'transparent',
     color = 'white',
-    size = 0.2
+    size = 0.10
   ) +
   theme_minimal() +
   scale_fill_viridis_d(guide = guide_legend(reverse = TRUE), na.value = 'grey80') +
@@ -163,7 +163,7 @@ ggplot() +
   geom_sf(
     data = GA2010messer_county,
     aes(fill = NDI),
-    size = 0.20,
+    size = 0.10,
     color = 'white'
   ) +
   theme_minimal() +
@@ -190,7 +190,7 @@ ggplot() +
   geom_sf(
     data = GA2010messer_county,
     aes(fill = NDIQuartNA),
-    size = 0.20,
+    size = 0.10,
     color = 'white'
   ) +
   theme_minimal() +
@@ -256,7 +256,7 @@ A fourth output from the `powell_wiley()` function is a character string or nume
 powell_wiley2020DMVW$cronbach
 ```
 
-We can visualize the *NDI* (Powell-Wiley) values geographically by linking them to spatial information from the [*tigris*]([*tidycensus*](https://CRAN.R-project.org/package=tigris) package and plotting with the [*ggplot2*]([*tidycensus*](https://CRAN.R-project.org/package=ggplot2) package suite.
+We can visualize the *NDI* (Powell-Wiley) values geographically by linking them to spatial information from the [*tigris*](https://CRAN.R-project.org/package=tigris) package and plotting with the [*ggplot2*](https://CRAN.R-project.org/package=ggplot2) package suite.
 
 ```{r powell_wiley_prep, results = 'hide'}
 # Obtain the 2020 counties from the 'tigris' package
@@ -346,7 +346,7 @@ ggplot() +
   geom_sf(
     data = DMVW2020pw_county,
     aes(fill = NDI),
-    size = 0.20,
+    size = 0.10,
     color = 'white'
   ) +
   theme_minimal() +
@@ -373,7 +373,7 @@ ggplot() +
   geom_sf(
     data = DMVW2020pw_county,
     aes(fill = NDIQuint),
-    size = 0.20,
+    size = 0.10,
     color = 'white'
   ) +
   theme_minimal() +
@@ -416,7 +416,7 @@ ggplot() +
   geom_sf(
     data = DC2020pw,
     aes(fill = NDI_nonimp),
-    size = 0.2,
+    size = 0.10,
     color = 'white'
   ) +
   theme_minimal() +
@@ -431,7 +431,7 @@ ggplot() +
   geom_sf(
     data = DC2020pw,
     aes(fill = NDI_imp),
-    size = 0.2,
+    size = 0.10,
     color = 'white'
   ) +
   theme_minimal() +
@@ -458,7 +458,7 @@ ggplot() +
   geom_sf(
     data = DC2020pw,
     aes(fill = NDIQuintNA_nonimp),
-    size = 0.2,
+    size = 0.10,
     color = 'white'
   ) +
   theme_minimal() +
@@ -484,7 +484,7 @@ ggplot() +
   geom_sf(
     data = DC2020pw,
     aes(fill = NDIQuintNA_imp),
-    size = 0.2,
+    size = 0.10,
     color = 'white'
   ) +
   theme_minimal() +

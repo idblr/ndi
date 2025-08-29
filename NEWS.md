@@ -1,6 +1,6 @@
 # ndi (development version)
 
-## ndi v0.1.6.9015
+## ndi v0.2.0
 
 ### New Features
 
@@ -31,7 +31,8 @@
 ### Updates
 
 #### Bug Fixes
-* Fixed NOTE in CRAN checks to provide package anchors for Rd \link{} targets not in the package itself and the base packages  within 'ndi-package.Rd'
+* Fixed NOTE in CRAN checks to provide package anchors for Rd `\link{}` targets not in the package itself and the base packages  within 'ndi-package.Rd'
+* Updated population-weighted quantile method from `stats::quantile` to `Hmisc::wtd.quantile` in `powell_wiley()` thanks to a contribution (#32) by [Hunter Miller](https://github.com/huntermills707)
 * `bell()` function computes the Interaction Index (Bell) not the Isolation Index as previously documented. Updated documentation throughout.
 * Fixed bug in `bell()`, `bemanian_beyer()`, `duncan()`, `sudano()`, and `white()` functions when a smaller geography contains n=0 total population, will assign a value of zero (0) in the internal calculation instead of NA
 * Fixed bug in `atkinson()` function to properly compute the income Atkinson Index
@@ -40,7 +41,7 @@
 * Output of racial or ethnic residential segregation indices is now rounded to four significant digits
 
 #### New Dependencies
-* `tigris` and `units` are now Imports
+* `Hmisc`, `tigris`, and `units` are now Imports
 
 #### Updated Documentation
 * Split up vignette into three separate vignettes: 'ndi1', 'ndi2', and 'ndi3' for the *NDI*, racial or ethnic residential segregation, and additional socioeconomic disparity indices, respectively

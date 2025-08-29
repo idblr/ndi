@@ -83,17 +83,18 @@
 #' @name ndi-package
 #' @aliases ndi-package ndi
 #' 
-#' @section Dependencies: The 'ndi' package relies heavily upon \code{\link[tidycensus]{tidycensus}} to retrieve data from the U.S. Census Bureau American Community Survey five-year estimates and the \code{\link[psych]{psych}} for computing the neighborhood deprivation indices. The \code{\link{messer}} function builds upon code developed by Hruska et al. (2022) \doi{10.17605/OSF.IO/M2SAV} by fictionalizing, adding the percent of households earning <$30,000 per year to the \emph{NDI} computation, and providing the option for computing the ACS-5 2006-2010 \emph{NDI} values. There is no code companion to compute \emph{NDI} included in Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} or Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002}, but the package author worked directly with the Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} authors to replicate their SAS code in \strong{R}. The indices of racial or ethnic residential segregation rely heavily on the \code{\link[sf]{sf}} and \code{\link[tigris]{tigris}} packages to assign the smaller geographical units within larger geographical units and, occasionally, perform geospatial projection for distance-based metrics. The computation of \emph{RI} and \emph{EI} also relies on the \code{\link[Matrix]{Matrix}} package to compute the geospatial adjacency matrix between census geographies. Internal function to calculate \emph{AI} using the Hölder mean is based on \code{\link[DescTools]{Atkinson}} function.
+#' @section Dependencies: The 'ndi' package relies heavily upon \code{\link[tidycensus]{tidycensus-package}} to retrieve data from the U.S. Census Bureau American Community Survey five-year estimates and the \code{\link[psych]{psych-package}} for computing the neighborhood deprivation indices. The \code{\link{messer}} function builds upon code developed by Hruska et al. (2022) \doi{10.17605/OSF.IO/M2SAV} by fictionalizing, adding the percent of households earning <$30,000 per year to the \emph{NDI} computation, and providing the option for computing the ACS-5 2006-2010 \emph{NDI} values. There is no code companion to compute \emph{NDI} included in Andrews et al. (2020) \doi{10.1080/17445647.2020.1750066} or Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002}, but the package author worked directly with the Slotman et al. (2022) \doi{10.1016/j.dib.2022.108002} authors to replicate their SAS code in \strong{R}. The indices of racial or ethnic residential segregation rely heavily on the \code{\link[sf]{sf-package}} and \code{\link[tigris]{tigris-package}} packages to assign the smaller geographical units within larger geographical units and, occasionally, perform geospatial projection for distance-based metrics. The computation of \emph{RI} and \emph{EI} also relies on the \code{\link[Matrix]{sparseMatrix}} function to compute the geospatial adjacency matrix between census geographies. Internal function to calculate \emph{AI} using the Hölder mean is based on \code{\link[DescTools]{Atkinson}} function.
 #' 
 #' @author Ian D. Buller\cr \emph{DLH, LLC (formerly DLH Corporation and Social & Scientific Systems, Inc.), Bethesda, Maryland, USA (current); Occupational and Environmental Epidemiology Branch, Division of Cancer Epidemiology and Genetics, National Cancer Institute, National Institutes of Health, Rockville, Maryland, USA (original).} \cr
 #' 
 #' Maintainer: I.D.B. \email{ian.buller@@alumni.emory.edu}
 #'
 #' @keywords internal
-'_PACKAGE'
+"_PACKAGE"
 
 #' @import dplyr
 #' @importFrom car logit
+#' @importFrom Hmisc wtd.quantile
 #' @importFrom MASS ginv
 #' @importFrom Matrix sparseMatrix
 #' @importFrom psych alpha principal
