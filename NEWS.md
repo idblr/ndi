@@ -1,5 +1,13 @@
 # ndi (development version)
 
+## ndi v0.2.1
+
+### New Features
+* None
+
+### Updates
+* Fixed broken URLs in 'theil.Rd', 'ndi-package.Rd', 'ndi2.html', README, and NEWS
+
 ## ndi v0.2.0
 
 ### New Features
@@ -9,7 +17,7 @@
 * Added `hoover()` function to compute the aspatial racial or ethnic Delta (*DEL*) based on [Hoover (1941)](https://doi.org/10.1017/S0022050700052980) and Duncan, Cuzzort, & Duncan (1961; LC:60007089)
 * Added `james_taeuber()` function to compute the aspatial racial or ethnic Dissimilarity Index (*D*) based on [James & Taeuber (1985)](https://doi.org/10.2307/270845)
 * Added `lieberson()` function to compute the aspatial racial or ethnic Isolation Index (_xPx\*_) based on Lieberson (1981; ISBN-13:978-1-032-53884-6) and and [Bell (1954)](https://doi.org/10.2307/2574118)
-* Added `theil()` function the aspatial racial or ethnic Entropy (*H*) based on Theil (1972; ISBN:978-0-444-10378-9) and [Theil & Finizza (1971)](https://doi.org/110.1080/0022250X.1971.9989795)
+* Added `theil()` function the aspatial racial or ethnic Entropy (*H*) based on Theil (1972; ISBN:978-0-444-10378-9) and [Theil & Finizza (1971)](https://doi.org/10.1080/0022250X.1971.9989795)
 * Added `white_blau()` function to compute an index of spatial proximity (*SP*) based on [White (1986)](https://doi.org/10.2307/3644339) and Blau (1977; ISBN-13:978-0-029-03660-0)
 * Thank you for the feature suggestions above, [Symielle Gaston](https://orcid.org/0000-0001-9495-1592)
 * Added `denton()` function to compute the aspatial racial or ethnic Relative Clustering (*RCL*) based on [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281)
