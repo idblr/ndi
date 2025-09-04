@@ -679,10 +679,10 @@ a proportion of the maximum weighted difference.</p>
 <h4>Compute Entropy (<em>H</em>)</h4>
 <p>Compute racial or ethnic <em>H</em> (2010-2014 5-year ACS) for census
 tracts within metropolitan divisions of Pennsylvania. This metric is
-based on Theil (1972; <a href="ISBN:978-0-444-10378-9" class="uri">ISBN:978-0-444-10378-9</a>) and <a href="https://doi.org/110.1080/0022250X.1971.9989795">Theil &amp;
-Finizza (1971)</a>. <em>H</em> is a measure of the evenness of racial or
-ethnic residential segregation when comparing smaller geographical units
-to larger ones within which the smaller geographical units are located.
+based on Theil (1972; <a href="ISBN:978-0-444-10378-9" class="uri">ISBN:978-0-444-10378-9</a>) and <a href="https://doi.org/10.1080/0022250X.1971.9989795">Theil &amp; Finizza
+(1971)</a>. <em>H</em> is a measure of the evenness of racial or ethnic
+residential segregation when comparing smaller geographical units to
+larger ones within which the smaller geographical units are located.
 <em>H</em> can range in value from 0 to 1 and represents the (weighted)
 average deviation of each smaller geographical unit from the larger
 geographical unit’s “entropy” or racial and ethnic diversity, which is
@@ -1528,10 +1528,10 @@ the degree of centralization of the referent racial or ethnic
 population.</p>
 <p>Note: The original metric used the location of the central business
 district (CBD) to compute the metric, but the U.S. Census Bureau has not
-defined CBDs for U.S. cities since the <a href="http://www.census.gov/geo/www/cbd.html">1982 Census of Retail
-Trade</a>. Therefore, this function uses the the centroids of each
-larger geographical unit as the ‘centre’, but may not represent the
-current CBD.</p>
+defined CBDs for U.S. cities since the <a href="https://www.census.gov/data/tables/1982/econ/arts/annual-report.html">1982
+Census of Retail Trade</a>. Therefore, this function uses the the
+centroids of each larger geographical unit as the ‘centre’, but may not
+represent the current CBD.</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>duncan_duncan2017CT <span class="ot">&lt;-</span> <span class="fu">duncan_duncan</span>(</span>
 <span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a>  <span class="at">geo_large =</span> <span class="st">&#39;place&#39;</span>,</span>
 <span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a>  <span class="at">geo_small =</span> <span class="st">&#39;cbg&#39;</span>,</span>
