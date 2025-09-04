@@ -12,7 +12,7 @@
 
 <meta name="author" content="Ian D. Buller (GitHub: @idblr)" />
 
-<meta name="date" content="2025-08-29" />
+<meta name="date" content="2025-09-04" />
 
 <title>2. Racial or Ethnic Residential Segregation Indices</title>
 
@@ -341,7 +341,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">2. Racial or Ethnic Residential Segregation
 Indices</h1>
 <h4 class="author">Ian D. Buller (GitHub: <span class="citation">@idblr</span>)</h4>
-<h4 class="date">2025-08-29</h4>
+<h4 class="date">2025-09-04</h4>
 
 
 
@@ -372,8 +372,8 @@ Dissimilarity Index (<em>D</em>) based on <a href="https://doi.org/10.2307/27084
 (<em>G</em>) based on <a href="https://doi.org/10.2307/2223319">Gini
 (1921)</a></li>
 <li><code>theil()</code> function that computes Entropy (<em>H</em>)
-based on Theil (1972; <a href="ISBN:978-0-444-10378-9" class="uri">ISBN:978-0-444-10378-9</a>) and <a href="https://doi.org/110.1080/0022250X.1971.9989795">Theil &amp;
-Finizza (1971)</a></li>
+based on Theil (1972; <a href="ISBN:978-0-444-10378-9" class="uri">ISBN:978-0-444-10378-9</a>) and <a href="https://doi.org/10.1080/0022250X.1971.9989795">Theil &amp; Finizza
+(1971)</a></li>
 <li><code>atkinson()</code> function that computes the Atkinson Index
 (<em>A</em>) based on <a href="https://doi.org/10.1016/0022-0531(70)90039-6">Atkinson
 (1970)</a></li>
@@ -1452,10 +1452,10 @@ possible (all racial or ethnic subgroup members live in the largest of
 the smaller geographical units).</p>
 <p>Note: The original metric used the location of the central business
 district (CBD) to compute the metric, but the U.S. Census Bureau has not
-defined CBDs for U.S. cities since the <a href="http://www.census.gov/geo/www/cbd.html">1982 Census of Retail
-Trade</a>. Therefore, this function uses the the centroids of each
-larger geographical unit as the ‘centre’, but may not represent the
-current CBD.</p>
+defined CBDs for U.S. cities since the <a href="https://www.census.gov/data/tables/1982/econ/arts/annual-report.html">1982
+Census of Retail Trade</a>. Therefore, this function uses the the
+centroids of each larger geographical unit as the ‘centre’, but may not
+represent the current CBD.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>duncan_cuzzort2017CT <span class="ot">&lt;-</span> <span class="fu">duncan_cuzzort</span>(</span>
 <span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>  <span class="at">geo_large =</span> <span class="st">&#39;place&#39;</span>,</span>
 <span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>  <span class="at">geo_small =</span> <span class="st">&#39;cbg&#39;</span>,</span>

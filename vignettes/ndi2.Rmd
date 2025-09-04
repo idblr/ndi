@@ -41,7 +41,7 @@ Since version v0.1.1, the [*ndi*](https://CRAN.R-project.org/package=ndi) packag
 
   * `james_taeuber()` function that computes the Dissimilarity Index (*D*) based on [James & Taeuber (1985)](https://doi.org/10.2307/270845)
   * `gini()` function that computes the Gini Index (*G*) based on [Gini (1921)](https://doi.org/10.2307/2223319) 
-  * `theil()` function that computes Entropy (*H*) based on Theil (1972; ISBN:978-0-444-10378-9) and [Theil & Finizza (1971)](https://doi.org/110.1080/0022250X.1971.9989795)
+  * `theil()` function that computes Entropy (*H*) based on Theil (1972; ISBN:978-0-444-10378-9) and [Theil & Finizza (1971)](https://doi.org/10.1080/0022250X.1971.9989795)
   * `atkinson()` function that computes the Atkinson Index (*A*) based on [Atkinson (1970)](https://doi.org/10.1016/0022-0531(70)90039-6)
   * `duncan()` function that computes the Dissimilarity Index (*D*) based on [Duncan & Duncan (1955a)](https://doi.org/10.2307/2088328)
   * `sudano()` function that computes the Location Quotient (*LQ*) based on [Merton (1939)](https://doi.org/10.2307/2084686) and [Sudano et al. (2013)](https://doi.org/10.1016/j.healthplace.2012.09.015)
@@ -848,7 +848,7 @@ ggplot() +
 
 Compute the racial or ethnic *ACE* values (2013-2017 5-year ACS) for census block groups within census-designated places of Connecticut. This metric is based on Duncan, Cuzzort, & Duncan (1961; LC:60007089) and [Massey & Denton (1988)](https://doi.org/10.1093/sf/67.2.281). *ACE* is a measure of the degree to which racial or ethnic populations within smaller geographical units are located near the center of a larger geographical unit. *ACE* is a measure of concentration of racial or ethnic populations within smaller geographical units that are located within larger geographical units. *ACE* can range from 0 to 1 and represents the relative amount of physical space occupied by a racial or ethnic subgroup in a larger geographical unit. A value of 1 indicates that a racial or ethnic subgroup has achieved the maximum spatial concentration possible (all racial or ethnic subgroup members live in the smallest of the smaller geographical units). A value of 0 indicates the maximum deconcentration possible (all racial or ethnic subgroup members live in the largest of the smaller geographical units).
 
-Note: The original metric used the location of the central business district (CBD) to compute the metric, but the U.S. Census Bureau has not defined CBDs for U.S. cities since the [1982 Census of Retail Trade](http://www.census.gov/geo/www/cbd.html). Therefore, this function uses the the centroids of each larger geographical unit as the 'centre', but may not represent the current CBD. 
+Note: The original metric used the location of the central business district (CBD) to compute the metric, but the U.S. Census Bureau has not defined CBDs for U.S. cities since the [1982 Census of Retail Trade](https://www.census.gov/data/tables/1982/econ/arts/annual-report.html). Therefore, this function uses the the centroids of each larger geographical unit as the 'centre', but may not represent the current CBD. 
 
 ```{r duncan_cuzzort_prep, results = 'hide'}
 duncan_cuzzort2017CT <- duncan_cuzzort(
