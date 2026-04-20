@@ -77,6 +77,11 @@ jobs:
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
         
+        # ubuntu-latest (devel) error with SETLENGTH in rlang.so
+      - name: Reinstall rlang
+        run: install.packages("rlang", type = "source")
+        shell: Rscript {0}
+        
       # - name: "[Custom block] [MacOS] Install units with configuration"
       #   if: runner.os == 'macOS'
       #   run: |
