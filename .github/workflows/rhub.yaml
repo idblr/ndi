@@ -37,9 +37,7 @@ jobs:
       with:
         config: ${{ github.event.inputs.config }}
       id: rhub-setup
-    - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
+    - uses: actions/setup-node@v6
 
   linux-containers:
     needs: setup
