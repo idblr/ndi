@@ -30,10 +30,8 @@ jobs:
     outputs:
       containers: ${{ steps.rhub-setup.outputs.containers }}
       platforms: ${{ steps.rhub-setup.outputs.platforms }}
-      
-  env:
-    FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
     # NO NEED TO CHECKOUT HERE
     - uses: r-hub/actions/setup@v1

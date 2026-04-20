@@ -71,15 +71,15 @@ jobs:
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
-      - name: Install dependencies
-        run: |
-          remotes::install_deps(dependencies = TRUE, build = FALSE)
-          remotes::install_cran("rcmdcheck")
-        shell: Rscript {0}
-        
-        # ubuntu-latest (devel) error with SETLENGTH in rlang.so
+      # ubuntu-latest (devel) error with SETLENGTH in rlang.so
       - name: Reinstall rlang
         run: install.packages("rlang", type = "source")
+        shell: Rscript {0}
+        
+      - name: Install dependencies
+        run: |
+          remotes::install_deps(dependencies = TRUE)
+          remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
         
       # - name: "[Custom block] [MacOS] Install units with configuration"
