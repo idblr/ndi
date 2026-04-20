@@ -33,10 +33,13 @@ jobs:
 
     steps:
     # NO NEED TO CHECKOUT HERE
-    - uses: r-hub/actions/setup@v1
+    - uses: r-hub/actions/setup@v2
       with:
         config: ${{ github.event.inputs.config }}
       id: rhub-setup
+    - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
 
   linux-containers:
     needs: setup
@@ -51,12 +54,12 @@ jobs:
       image: ${{ matrix.config.container }}
 
     steps:
-      - uses: r-hub/actions/checkout@v1
+      - uses: r-hub/actions/checkout@v6
       - uses: r-hub/actions/platform-info@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
-      - uses: r-hub/actions/setup-deps@v1
+      - uses: r-hub/actions/setup-deps@v2
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
@@ -76,8 +79,8 @@ jobs:
         config: ${{ fromJson(needs.setup.outputs.platforms) }}
 
     steps:
-      - uses: r-hub/actions/checkout@v1
-      - uses: r-hub/actions/setup-r@v1
+      - uses: r-hub/actions/checkout@v6
+      - uses: r-hub/actions/setup-r@v2
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
@@ -85,7 +88,7 @@ jobs:
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
-      - uses: r-hub/actions/setup-deps@v1
+      - uses: r-hub/actions/setup-deps@v2
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}

@@ -73,7 +73,7 @@ test_that('atkinson throws error with invalid arguments', {
 test_that('atkinson works', {
   skip_if(Sys.getenv('CENSUS_API_KEY') == '')
   
-  expect_silent(
+  expect_no_error(
     atkinson(
       state = 'DC',
       year = 2020,
@@ -81,7 +81,7 @@ test_that('atkinson works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     atkinson(
       state = 'DC',
       year = 2020,
@@ -90,7 +90,7 @@ test_that('atkinson works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     atkinson(
       state = 'DC',
       year = 2020,
@@ -99,7 +99,7 @@ test_that('atkinson works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     atkinson(
       state = 'DC',
       year = 2020,

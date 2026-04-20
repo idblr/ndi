@@ -76,7 +76,7 @@ test_that('duncan throws error with invalid arguments', {
 test_that('duncan works', {
   skip_if(Sys.getenv('CENSUS_API_KEY') == '')
   
-  expect_silent(
+  expect_no_error(
     duncan(
       state = 'DC',
       year = 2020,
@@ -85,7 +85,7 @@ test_that('duncan works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     duncan(
       state = 'DC',
       year = 2020,
@@ -95,7 +95,7 @@ test_that('duncan works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     duncan(
       state = 'DC',
       year = 2020,

@@ -1,5 +1,14 @@
 # ndi (development version)
 
+## ndi v0.2.2
+
+### New Features
+* None
+
+### Updates
+* Updated `expect_silent()` tests to `expect_no_error()` based on issue (#37) raise by [Roger Bivand](https://github.com/rsbivand) which was misleading for reverse dependency checks
+* Fixed typo in CITATION and 'powell_wiley.Rd'
+
 ## ndi v0.2.1
 
 ### New Features

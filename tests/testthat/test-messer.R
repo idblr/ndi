@@ -78,7 +78,7 @@ test_that('messer works', {
   )
   )
   
-  expect_silent(
+  expect_no_error(
     messer(
     state = 'DC',
     year = 2020,
@@ -86,7 +86,7 @@ test_that('messer works', {
   )
   )
   
-  expect_silent(
+  expect_no_error(
     messer(
     state = 'DC',
     year = 2020,

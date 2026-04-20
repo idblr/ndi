@@ -62,7 +62,7 @@ test_that('white throws error with invalid arguments', {
 test_that('white works', {
   skip_if(Sys.getenv('CENSUS_API_KEY') == '')
   
-  expect_silent(
+  expect_no_error(
     white(
       state = 'DC',
       year = 2020,
@@ -70,7 +70,7 @@ test_that('white works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     white(
       state = 'DC',
       year = 2020,
@@ -79,7 +79,7 @@ test_that('white works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     white(
       state = 'DC',
       year = 2020,

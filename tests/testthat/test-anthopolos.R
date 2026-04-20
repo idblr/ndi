@@ -53,7 +53,7 @@ test_that('anthopolos throws error with invalid arguments', {
 test_that('anthopolos works', {
   skip_if(Sys.getenv('CENSUS_API_KEY') == '')
   
-  expect_output(
+  expect_no_error(
     anthopolos(
       state = 'DC',
       year = 2020,
@@ -61,7 +61,7 @@ test_that('anthopolos works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     anthopolos(
       state = 'DC',
       year = 2020,
@@ -70,7 +70,7 @@ test_that('anthopolos works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     anthopolos(
       state = 'DC',
       year = 2020,

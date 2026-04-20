@@ -62,7 +62,7 @@ test_that('james_taeuber throws error with invalid arguments', {
 test_that('james_taeuber works', {
   skip_if(Sys.getenv('CENSUS_API_KEY') == '')
   
-  expect_silent(
+  expect_no_error(
     james_taeuber(
       state = 'DC',
       year = 2020,
@@ -70,7 +70,7 @@ test_that('james_taeuber works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     james_taeuber(
       state = 'DC',
       year = 2020,
@@ -79,7 +79,7 @@ test_that('james_taeuber works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     james_taeuber(
       state = 'DC',
       year = 2020,

@@ -76,7 +76,7 @@ test_that('denton_cuzzort throws error with invalid arguments', {
 test_that('denton_cuzzort works', {
   skip_if(Sys.getenv('CENSUS_API_KEY') == '')
   
-  expect_silent(
+  expect_no_error(
     denton_cuzzort(
       state = 'DC',
       year = 2020,
@@ -85,7 +85,7 @@ test_that('denton_cuzzort works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     denton_cuzzort(
       state = 'DC',
       year = 2020,
@@ -95,7 +95,7 @@ test_that('denton_cuzzort works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     denton_cuzzort(
       state = 'DC',
       year = 2020,
