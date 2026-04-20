@@ -14,12 +14,14 @@
 * R-CMD-check on GitHub
   * macos-latest (release)
   * windows-latest (release)
-  * ubuntu-latest (devel)
+  ~* ubuntu-latest (devel)~ Note: rlang installation error
   * ubuntu-latest (release)
   * ubuntu-latest (oldrel-1)
 * Rhub v2
   * macos-15 on GitHub, ASAN + UBSAN on macOS (`m1-san`)
   * macos-latest on GitHub (`macos-arm64`)
+  ~* Fedora Linux 44 (Container Image) (`gcc16`)~ # Note: 'DescTools' installation error
+  ~* Fedora Linux 42 (Container Image) (`gcc-asan`)~ # Note: 'DescTools' installation error
   * Fedora Linux 40 (Container Image) (`gcc14`)
   * Ubuntu 22.04.5 LTS (`ubuntu-clang`)
   * Ubuntu 22.04.5 LTS (`ubuntu-gcc12`)
