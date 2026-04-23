@@ -50,12 +50,14 @@ jobs:
     steps:
       - uses: r-hub/actions/checkout@v1
       
-        # FIX: Install Rcpp from GitHub to handle R-devel changes
-      - name: Install Rcpp fix for R-devel
-        if: contains(matrix.config.label, 'devel') # Only runs on devel
+      - name: Install Rcpp fix for R-devel 
+        if: contains(matrix.config.label, 'devel')
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
         run: |
           Rscript -e "install.packages('remotes')"
-          Rscript -e "remotes::install_github('RcppCore/Rcpp')"
+          Rscript -e "remotes::install_github('RcppCore/Rcpp', upgrade = 'never', auth_token = Sys.getenv('GITHUB_PAT'))"
+          Rscript -e "install.packages('DescTools', repos = 'https://cloud.r-project.org')"
         shell: bash
       
       - uses: r-hub/actions/platform-info@v1
@@ -80,19 +82,20 @@ jobs:
 
     steps:
       - uses: r-hub/actions/checkout@v1
-      
       - uses: r-hub/actions/setup-r@v1
         with:
           job-config: ${{ matrix.config.job-config }}
           
-      # FIX: Install Rcpp from GitHub to handle R-devel changes
       - name: Install Rcpp fix for R-devel
-        if: contains(matrix.config.label, 'devel') # Only runs on devel/Fedora-devel
+        if: contains(matrix.config.label, 'devel')
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
         run: |
           Rscript -e "install.packages('remotes')"
-          Rscript -e "remotes::install_github('RcppCore/Rcpp')"
+          Rscript -e "remotes::install_github('RcppCore/Rcpp', upgrade = 'never', auth_token = Sys.getenv('GITHUB_PAT'))"
+          Rscript -e "install.packages('DescTools', repos = 'https://cloud.r-project.org')"
         shell: bash
-        
+          
       - uses: r-hub/actions/platform-info@v1
         with:
           job-config: ${{ matrix.config.job-config }}
