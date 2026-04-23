@@ -60,17 +60,19 @@ jobs:
           job-config: ${{ matrix.config.job-config }}
 
       - name: Force Rcpp fix and DescTools build
-        if: always() && contains(matrix.config.label, 'devel')
+        if: always() && (contains(matrix.config.label, 'devel') || contains(matrix.config.label, 'R-devel'))
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+          PKG_CPPFLAGS: "-Wno-error=implicit-function-declaration -Wno-error=strict-prototypes"
+          MAKEFLAGS: "-j1"
         run: |
           Rscript -e "install.packages('remotes')"
           Rscript -e "remotes::install_github('RcppCore/Rcpp', upgrade = 'never', auth_token = Sys.getenv('GITHUB_PAT'))"
-          Rscript -e "install.packages('DescTools', type = 'source', repos = 'https://cloud.r-project.org')"
+          Rscript -e "install.packages('DescTools', type = 'source', repos = 'https://cloud.r-project.org', INSTALL_opts = '--no-staged-install')"
         shell: bash
         
       - name: Resume remaining dependencies
-        if: always() && contains(matrix.config.label, 'devel')
+        if: always() && (contains(matrix.config.label, 'devel') || contains(matrix.config.label, 'R-devel'))
         run: |
           Rscript -e "pak::local_install_dev_deps(upgrade = FALSE)"
         shell: bash
@@ -107,17 +109,19 @@ jobs:
           job-config: ${{ matrix.config.job-config }}
 
       - name: Force Rcpp fix and DescTools build
-        if: always() && contains(matrix.config.label, 'devel')
+        if: always() && (contains(matrix.config.label, 'devel') || contains(matrix.config.label, 'R-devel'))
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+          PKG_CPPFLAGS: "-Wno-error=implicit-function-declaration -Wno-error=strict-prototypes"
+          MAKEFLAGS: "-j1"
         run: |
           Rscript -e "install.packages('remotes')"
           Rscript -e "remotes::install_github('RcppCore/Rcpp', upgrade = 'never', auth_token = Sys.getenv('GITHUB_PAT'))"
-          Rscript -e "install.packages('DescTools', type = 'source', repos = 'https://cloud.r-project.org')"
+          Rscript -e "install.packages('DescTools', type = 'source', repos = 'https://cloud.r-project.org', INSTALL_opts = '--no-staged-install')"
         shell: bash
         
       - name: Resume remaining dependencies
-        if: always() && contains(matrix.config.label, 'devel')
+        if: always() && (contains(matrix.config.label, 'devel') || contains(matrix.config.label, 'R-devel'))
         run: |
           Rscript -e "pak::local_install_dev_deps(upgrade = FALSE)"
         shell: bash
