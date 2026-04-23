@@ -68,7 +68,7 @@ test_that('gini works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     gini(
       state = 'DC',
       year = 2020,
@@ -77,7 +77,7 @@ test_that('gini works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     gini(
       state = 'DC',
       year = 2020,

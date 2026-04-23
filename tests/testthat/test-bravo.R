@@ -61,7 +61,7 @@ test_that('bravo works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     bravo(
       state = 'DC',
       year = 2020,
@@ -70,7 +70,7 @@ test_that('bravo works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     bravo(
       state = 'DC',
       year = 2020,

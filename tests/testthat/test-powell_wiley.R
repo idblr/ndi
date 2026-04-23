@@ -78,7 +78,7 @@ test_that('powell_wiley works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     powell_wiley(
       state = 'DC',
       year = 2020,
@@ -86,7 +86,7 @@ test_that('powell_wiley works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     powell_wiley(
       state = 'DC',
       year = 2020,

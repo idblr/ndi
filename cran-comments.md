@@ -1,30 +1,38 @@
-## This is the eighth resubmission
+## This is the ninth resubmission
 
 * Actions taken since previous submission:
-  * Fixed broken URLs in 'theil.Rd', 'ndi-package.Rd', 'ndi2.html', README, and NEWS
+  * Updated `expect_silent()` tests to `expect_no_error()` based on issue (#37) raise by [Roger Bivand](https://github.com/rsbivand) which was misleading for reverse dependency checks
 
-* Words that throw a NOTE by DEBIAN and WINDOWS pre-tests as possibly misspelled but are OK: "geospatial" 
-* The win-builder oldrelease throws a NOTE that "Author field differs from that derived from Authors@R". The behavior is OK because ORCID has different formatting but same information
+* The win-builder oldrelease may throw a NOTE that "Author field differs from that derived from Authors@R". The behavior is OK because ORCID has different formatting but same information.
   
 * Some tests and examples for `anthopolos()`, `atkinson()`, `bell()`, `bemanian_beyer()`, `bravo()`, `denton()`, `denton_cuzzort()`, `duncan()`, `duncan_cuzzort()`, `duncan_duncan()`, `gini()`, `hoover()`, `james_taeuber()`, `krieger()`, `lieberson()`, `massey()`, `massey_duncan()`, `messer()`, `powell_wiley()`, `sudano()`, `theil()`, `white()`, and `white_blau()` functions require a Census API key so they are skipped if NULL or not run
 
 ## Test environments
-* local Windows install, R 4.5.1
+* local Windows install, R 4.5.3
 * win-builder, (devel, release, oldrelease)
 * R-CMD-check on GitHub
+  * macos-latest (devel)
   * macos-latest (release)
+  * macos-latest (oldrel)
+  * windows-latest (devel)
   * windows-latest (release)
+  * windows-latest (oldrel)
   * ubuntu-latest (devel)
   * ubuntu-latest (release)
-  * ubuntu-latest (oldrel-1)
+  * ubuntu-latest (oldrel)
 * Rhub v2
   * macos-15 on GitHub, ASAN + UBSAN on macOS (`m1-san`)
-  * macos-13 on GitHub(`macos`)
-  * Fedora Linux 40 (Container Image) (`gcc-asan`)
+  * macos-latest on GitHub (`macos-arm64`)
+  * Fedora Linux 44 (Container Image) (`gcc16`)
+  * Fedora Linux 42 (Container Image) (`gcc-asan`)
+  * Fedora Linux 40 (Container Image) (`gcc14`)
   * Ubuntu 22.04.5 LTS (`ubuntu-clang`)
   * Ubuntu 22.04.5 LTS (`ubuntu-gcc12`)
 
 ## R CMD check results
+0 error | 0 warnings | 0 notes
+
+## Rhub v2 results
 0 errors | 0 warnings | 0 notes
 
 ## Submitted by Maintainer

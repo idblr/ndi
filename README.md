@@ -12,7 +12,7 @@
 [![](https://img.shields.io/badge/DOI-10.32614/CRAN.package.ndi-1f57b6?style=flat&link=https://doi.org/10.32614/CRAN.package.ndi)](https://doi.org/10.32614/CRAN.package.ndi)
 <!-- badges: end -->
 
-**Date repository last updated**: 2025-09-04
+**Date repository last updated**: 2026-04-23
 
 ### Overview
 
@@ -1778,7 +1778,7 @@ ggsave(file.path('man', 'figures', 'sp.png'), height = 7, width = 7)
 
 ### Funding
 
-This package was originally developed while the author was a postdoctoral fellow supported by the [Cancer Prevention Fellowship Program](https://cpfp.cancer.gov) at the [National Cancer Institute](https://www.cancer.gov). Any modifications since December 05, 2022 were made while the author was an employee of [DLH, LLC](https://www.dlhcorp.com) (formerly Social & Scientific Systems, Inc. and DLH Corporation).
+This package was originally developed while the author was a postdoctoral fellow supported by the [Cancer Prevention Fellowship Program](https://prevention.cancer.gov/research-areas/networks-consortia-programs/cpfp) at the [National Cancer Institute](https://www.cancer.gov). Any modifications since December 05, 2022 were made while the author was an employee of [DLH, LLC](https://www.dlhcorp.com) (formerly Social & Scientific Systems, Inc. and DLH Corporation).
 
 ### Acknowledgments
 

@@ -60,7 +60,7 @@ test_that('sudano throws error with invalid arguments', {
 test_that('sudano works', {
   skip_if(Sys.getenv('CENSUS_API_KEY') == '')
   
-  expect_silent(
+  expect_no_error(
     sudano(
       state = 'DC',
       year = 2020,
@@ -68,7 +68,7 @@ test_that('sudano works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     sudano(
       state = 'DC',
       year = 2020,
@@ -77,7 +77,7 @@ test_that('sudano works', {
     )
   )
   
-  expect_silent(
+  expect_no_error(
     sudano(
       state = 'DC',
       year = 2020,

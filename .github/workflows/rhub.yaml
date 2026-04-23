@@ -13,30 +13,27 @@ on:
   workflow_dispatch:
     inputs:
       config:
-        description: 'A comma separated list of R-hub platforms to use.'
+        description: 'R-hub platforms (e.g., linux, windows, macos)'
         type: string
         default: 'linux,windows,macos'
       name:
-        description: 'Run name. You can leave this empty now.'
+        description: 'Optional run name'
         type: string
       id:
-        description: 'Unique ID. You can leave this empty now.'
+        description: 'Optional Unique ID'
         type: string
 
 jobs:
-
   setup:
     runs-on: ubuntu-latest
     outputs:
       containers: ${{ steps.rhub-setup.outputs.containers }}
       platforms: ${{ steps.rhub-setup.outputs.platforms }}
-
     steps:
-    # NO NEED TO CHECKOUT HERE
-    - uses: r-hub/actions/setup@v1
-      with:
-        config: ${{ github.event.inputs.config }}
-      id: rhub-setup
+      - uses: r-hub/actions/setup@v1
+        with:
+          config: ${{ github.event.inputs.config }}
+        id: rhub-setup
 
   linux-containers:
     needs: setup
@@ -54,15 +51,35 @@ jobs:
       - uses: r-hub/actions/checkout@v1
       - uses: r-hub/actions/platform-info@v1
         with:
-          token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
-      - uses: r-hub/actions/setup-deps@v1
+          
+      - name: Install dependencies (automated)
+        uses: r-hub/actions/setup-deps@v1
+        continue-on-error: true 
         with:
-          token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
+
+      - name: Force Rcpp fix and DescTools build
+        if: always() && (contains(matrix.config.label, 'devel') || contains(matrix.config.label, 'R-devel') || contains(matrix.config.label, 'gcc'))
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+          PKG_CPPFLAGS: "-Wno-error=implicit-function-declaration -Wno-error=strict-prototypes"
+          MAKEFLAGS: "-j1"
+        run: |
+          Rscript -e "install.packages('remotes')"
+          Rscript -e "remotes::install_github('RcppCore/Rcpp', upgrade = 'never', auth_token = Sys.getenv('GITHUB_PAT'))"
+          Rscript -e "install.packages('DescTools', type = 'source', repos = 'https://cloud.r-project.org', INSTALL_opts = '--no-staged-install')"
+        shell: bash
+        
+      - name: Resume remaining dependencies
+        if: always() && (contains(matrix.config.label, 'devel') || contains(matrix.config.label, 'R-devel') || contains(matrix.config.label, 'gcc'))
+        run: |
+          Rscript -e "pak::local_install_dev_deps(upgrade = FALSE)"
+        shell: bash
+          
       - uses: r-hub/actions/run-check@v1
+        if: always()
         with:
-          token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
 
   other-platforms:
@@ -80,16 +97,36 @@ jobs:
       - uses: r-hub/actions/setup-r@v1
         with:
           job-config: ${{ matrix.config.job-config }}
-          token: ${{ secrets.RHUB_TOKEN }}
+          
       - uses: r-hub/actions/platform-info@v1
         with:
-          token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
-      - uses: r-hub/actions/setup-deps@v1
+
+      - name: Install dependencies (automated)
+        uses: r-hub/actions/setup-deps@v1
+        continue-on-error: true
         with:
           job-config: ${{ matrix.config.job-config }}
-          token: ${{ secrets.RHUB_TOKEN }}
+
+      - name: Force Rcpp fix and DescTools build
+        if: always() && (contains(matrix.config.label, 'devel') || contains(matrix.config.label, 'R-devel'))
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+          PKG_CPPFLAGS: "-Wno-error=implicit-function-declaration -Wno-error=strict-prototypes"
+          MAKEFLAGS: "-j1"
+        run: |
+          Rscript -e "install.packages('remotes')"
+          Rscript -e "remotes::install_github('RcppCore/Rcpp', upgrade = 'never', auth_token = Sys.getenv('GITHUB_PAT'))"
+          Rscript -e "install.packages('DescTools', type = 'source', repos = 'https://cloud.r-project.org', INSTALL_opts = '--no-staged-install')"
+        shell: bash
+        
+      - name: Resume remaining dependencies
+        if: always() && (contains(matrix.config.label, 'devel') || contains(matrix.config.label, 'R-devel'))
+        run: |
+          Rscript -e "pak::local_install_dev_deps(upgrade = FALSE)"
+        shell: bash
+          
       - uses: r-hub/actions/run-check@v1
+        if: always()
         with:
           job-config: ${{ matrix.config.job-config }}
-          token: ${{ secrets.RHUB_TOKEN }}
