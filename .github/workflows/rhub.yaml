@@ -60,7 +60,7 @@ jobs:
           job-config: ${{ matrix.config.job-config }}
 
       - name: Force Rcpp fix and DescTools build
-        if: always() && (contains(matrix.config.label, 'devel') || contains(matrix.config.label, 'R-devel'))
+        if: always() && (contains(matrix.config.label, 'devel') || contains(matrix.config.label, 'R-devel') || contains(matrix.config.label, 'gcc'))
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
           PKG_CPPFLAGS: "-Wno-error=implicit-function-declaration -Wno-error=strict-prototypes"
@@ -72,7 +72,7 @@ jobs:
         shell: bash
         
       - name: Resume remaining dependencies
-        if: always() && (contains(matrix.config.label, 'devel') || contains(matrix.config.label, 'R-devel'))
+        if: always() && (contains(matrix.config.label, 'devel') || contains(matrix.config.label, 'R-devel') || contains(matrix.config.label, 'gcc'))
         run: |
           Rscript -e "pak::local_install_dev_deps(upgrade = FALSE)"
         shell: bash
