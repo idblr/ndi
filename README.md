@@ -12,7 +12,7 @@
 [![](https://img.shields.io/badge/DOI-10.32614/CRAN.package.ndi-1f57b6?style=flat&link=https://doi.org/10.32614/CRAN.package.ndi)](https://doi.org/10.32614/CRAN.package.ndi)
 <!-- badges: end -->
 
-**Date repository last updated**: 2026-04-20
+**Date repository last updated**: 2026-04-23
 
 ### Overview
 

@@ -47,9 +47,7 @@ jobs:
             any::sessioninfo
             
       - name: Session info
-        run: |
-          options(width = 100)
-          sessioninfo::session_info(installed.packages()[, "Package"], include_base = TRUE)
+        run: sessioninfo::session_info()
         shell: Rscript {0}
      
       - uses: r-lib/actions/check-r-package@v2
