@@ -53,14 +53,14 @@ jobs:
         with:
           job-config: ${{ matrix.config.job-config }}
           
-      - name: Install dependencies
+      - name: Install dependencies (automated)
         uses: r-hub/actions/setup-deps@v1
         continue-on-error: true 
         with:
           job-config: ${{ matrix.config.job-config }}
 
       - name: Force Rcpp fix and DescTools build
-        if: contains(matrix.config.label, 'devel')
+        if: always() && contains(matrix.config.label, 'devel')
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -68,8 +68,15 @@ jobs:
           Rscript -e "remotes::install_github('RcppCore/Rcpp', upgrade = 'never', auth_token = Sys.getenv('GITHUB_PAT'))"
           Rscript -e "install.packages('DescTools', type = 'source', repos = 'https://cloud.r-project.org')"
         shell: bash
+        
+      - name: Resume remaining dependencies
+        if: always() && contains(matrix.config.label, 'devel')
+        run: |
+          Rscript -e "pak::local_install_dev_deps(upgrade = FALSE)"
+        shell: bash
           
       - uses: r-hub/actions/run-check@v1
+        if: always()
         with:
           job-config: ${{ matrix.config.job-config }}
 
@@ -93,13 +100,14 @@ jobs:
         with:
           job-config: ${{ matrix.config.job-config }}
 
-      - uses: r-hub/actions/setup-deps@v1
+      - name: Install dependencies (automated)
+        uses: r-hub/actions/setup-deps@v1
         continue-on-error: true
         with:
           job-config: ${{ matrix.config.job-config }}
 
       - name: Force Rcpp fix and DescTools build
-        if: contains(matrix.config.label, 'devel')
+        if: always() && contains(matrix.config.label, 'devel')
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -107,7 +115,14 @@ jobs:
           Rscript -e "remotes::install_github('RcppCore/Rcpp', upgrade = 'never', auth_token = Sys.getenv('GITHUB_PAT'))"
           Rscript -e "install.packages('DescTools', type = 'source', repos = 'https://cloud.r-project.org')"
         shell: bash
+        
+      - name: Resume remaining dependencies
+        if: always() && contains(matrix.config.label, 'devel')
+        run: |
+          Rscript -e "pak::local_install_dev_deps(upgrade = FALSE)"
+        shell: bash
           
       - uses: r-hub/actions/run-check@v1
+        if: always()
         with:
           job-config: ${{ matrix.config.job-config }}
